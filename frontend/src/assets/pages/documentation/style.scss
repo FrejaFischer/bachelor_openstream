@@ -1,0 +1,402 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+/* Ensure full-height context */
+html,
+body {
+  height: 100%;
+}
+
+.documentation-title {
+  color: $secondary;
+  font-weight: 600;
+  border-color: $lighter-gray !important;
+}
+
+/* Documentation wrapper for main content */
+.documentation-wrapper {
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Search Functionality */
+.toc-search {
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $darker-gray;
+    font-size: 1.2rem;
+    z-index: 2;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+    border: 1px solid $light-gray;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    background-color: $white;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 0.2rem rgba($neutral-blue, 0.25);
+    }
+  }
+
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: $white;
+    border: 1px solid $gray;
+    border-top: none;
+    border-radius: 0 0 0.375rem 0.375rem;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+
+    .search-result-item {
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      border-bottom: 1px solid $lightest-gray;
+
+      &:hover {
+        background-color: $lightest-gray;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .result-title {
+        font-weight: 600;
+        color: $primary;
+        font-size: 0.875rem;
+      }
+
+      .result-context {
+        font-size: 0.75rem;
+        color: $darker-gray;
+        margin-top: 0.25rem;
+      }
+    }
+  }
+}
+
+/* Table of Contents */
+.section-header {
+  border-color: $lighter-gray !important;
+}
+
+.toc-content {
+  .toc-chapter {
+    margin-bottom: 0.5rem;
+
+    .chapter-link {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      color: $dark;
+      text-decoration: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: $lightest-gray;
+        color: $primary;
+      }
+
+      &.active {
+        background-color: $primary;
+        color: $white;
+      }
+    }
+
+    .chapter-sections {
+      margin-left: 1rem;
+      margin-top: 0.25rem;
+      display: none;
+
+      &.show {
+        display: block;
+      }
+
+      .section-link {
+        display: block;
+        padding: 0.25rem 0.5rem;
+        color: $darker-gray;
+        text-decoration: none;
+        font-size: 0.875rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: $lightest-gray;
+          color: $primary;
+        }
+
+        &.active {
+          color: $primary;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+/* Documentation Content Wrapper */
+.documentation-wrapper {
+  background-color: $lightest-gray;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Loading Overlay */
+.doc-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba($lightest-gray, 0.902);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.5s ease;
+
+  .doc-loading-content {
+    text-align: center;
+
+    .fw-bold {
+      font-size: 1.25rem;
+      color: $dark;
+    }
+  }
+
+  &.hidden {
+    opacity: 0%;
+    pointer-events: none;
+  }
+}
+
+/* Documentation Container (Markdown Content) */
+.documentation-container {
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 2.5rem;
+  padding-bottom: 100vh; /* Add 3/4 viewport height of extra scroll space */
+  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
+  background-color: $white;
+  box-shadow: 0 0 0 1px rgba($black, 0.1);
+
+  /* GitHub Markdown Styles */
+  color: $darkest-gray;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  h1 {
+    font-size: 2em;
+    border-bottom: 1px solid $lighter-gray;
+    padding-bottom: 0.3em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid $lighter-gray;
+    padding-bottom: 0.3em;
+  }
+
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1em;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+
+  ul,
+  ol {
+    padding-left: 2em;
+    margin-bottom: 16px;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  code {
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: rgba($darkest-gray, 0.05);
+    border-radius: 3px;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: $lighter-gray;
+    border-radius: 6px;
+    margin-bottom: 16px;
+
+    code {
+      display: inline;
+      max-width: auto;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0;
+    }
+  }
+
+  blockquote {
+    padding: 0 1em;
+    color: $darker-gray;
+    border-left: 0.25em solid $light-gray;
+    margin-bottom: 16px;
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    width: 100%;
+
+    th,
+    td {
+      padding: 6px 13px;
+      border: 1px solid $light-gray;
+    }
+
+    th {
+      font-weight: 600;
+      background-color: $lighter-gray;
+    }
+
+    tr:nth-child(2n) {
+      background-color: $lighter-gray;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 16px 0;
+  }
+
+  hr {
+    height: 0.25em;
+    padding: 0;
+    margin: 24px 0;
+    background-color: $lighter-gray;
+    border: 0;
+  }
+}
+
+/* Next Chapter Navigation */
+.next-chapter-nav {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+
+  #next-chapter-btn {
+    background-color: $primary;
+    border-color: $primary;
+    color: $white;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba($neutral-blue, 0.3);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: darken($primary, 10%);
+      border-color: darken($primary, 10%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba($neutral-blue, 0.4);
+    }
+
+    .material-symbols-outlined {
+      margin-left: 0.5rem;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #sidebar {
+    min-width: 100%;
+    max-width: 100%;
+    max-height: 40vh;
+  }
+
+  .documentation-container {
+    padding: 1.5rem;
+    padding-bottom: 75vh; /* Maintain extra scroll space on mobile */
+  }
+
+  .next-chapter-nav {
+    bottom: 1rem;
+    right: 1rem;
+
+    #next-chapter-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+
+      .material-symbols-outlined {
+        font-size: 1rem;
+        margin-left: 0.25rem;
+      }
+    }
+  }
+}

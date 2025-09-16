@@ -1,0 +1,55 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Documentation" script-src="/src/assets/pages/documentation/main.js" }}
+    {{> pages/documentation/navbar_documentation }}
+    {{#> base/containers/main-container }}
+
+        {{#> base/containers/sidebar-and-content-container pageTitle="Documentation" showGoBackButton=true }}
+            <!-- Sidebar -->
+            {{#*inline "sidebarContent"}}
+                <!-- Search -->
+                <div class="toc-search mt-1 position-relative w-100">
+                    <span class="material-symbols-outlined search-icon">search</span>
+                    <input type="text" id="doc-search" placeholder="Search documentation..." class="search-input ps-5">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+
+                <!-- Table of Contents -->
+                <div class="d-flex align-items-center justify-content-between pt-3 pb-2 section-header border-bottom">
+                    <h4><strong>{% trans "Table of Contents" %}</strong></h4>
+                </div>
+
+                <div class="toc-content mt-3"></div>
+            {{/inline}}
+
+            <!-- Main Content Area -->
+            {{#*inline "mainContent"}}
+                <div class="documentation-wrapper h-100">
+                    <!-- Loading Overlay -->
+                    <div id="loading-overlay" class="doc-loading-overlay">
+                        <div class="doc-loading-content">
+                            <div class="spinner-border text-primary mb-3" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="fw-bold">Loading Documentation...</div>
+                        </div>
+                    </div>
+
+                    <!-- Documentation Content -->
+                    <div class="documentation-container markdown-body">
+                        <!-- Chapter content will be loaded here dynamically -->
+                    </div>
+
+                    <!-- Next Chapter Navigation -->
+                    <div class="next-chapter-nav">
+                        <button id="next-chapter-btn" class="btn btn-primary" style="display: none;">
+                            Next Chapter: <span id="next-chapter-title"></span>
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            {{/inline}}
+        {{/base/containers/sidebar-and-content-container}}
+
+    {{/base/containers/main-container}}
+{{/base/containers/html-container}}

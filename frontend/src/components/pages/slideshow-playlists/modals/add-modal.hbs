@@ -1,0 +1,20 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="addModal" classHeader="bg-primary text-white" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Select a Slideshow"}}
+        {{> base/modal/modal-header-close dark=true }}
+    {{/inline}}
+
+        {{#*inline "body"}}
+        {{> base/form/label for="slideshow-select" text="Choose a Slideshow:"}}
+        {{#> base/form/dropdown id="slideshow-select"}}
+            {{> base/form/dropdown-option value="" text="Select a slideshow" disabled=true selected=true}}
+        {{/base/form/dropdown}}
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Close"}}
+        {{> base/modal/modal-footer-save id="save-slideshow-btn" btn-text="Save changes"}}
+    {{/inline}}
+{{/base/modal/modal}}

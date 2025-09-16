@@ -1,0 +1,90 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="modal fade"
+     id="mediaListModal"
+     tabindex="-1"
+     aria-labelledby="mediaListLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex align-items-center">
+                    <h3 class="modal-title me-3" id="mediaListLabel">{% trans 'Insert Image' %}</h3>
+                    <button id="uploadNewMediaBtn" class="btn btn-primary btn-sm">
+                        <span class="material-symbols-outlined me-1">upload</span>
+                        {% trans 'Upload' %} <span id="fileTypeName">{% trans 'Image' %}</span>
+                    </button>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Background Pattern Toggle Group -->
+                    <div class="control-group">
+                        <span class="control-label">{% trans 'Background:' %}</span>
+                        <div class="btn-group btn-group-sm"
+                             role="group"
+                             id="backgroundPatternToggle">
+                            <input type="radio"
+                                   class="btn-check"
+                                   name="backgroundPattern"
+                                   id="lightPattern"
+                                   autocomplete="off"
+                                   checked>
+                            <label class="btn btn-outline-secondary" for="lightPattern">
+                                <span class="material-symbols-outlined">light_mode</span>
+                            </label>
+                            <input type="radio"
+                                   class="btn-check"
+                                   name="backgroundPattern"
+                                   id="darkPattern"
+                                   autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="darkPattern">
+                                <span class="material-symbols-outlined">dark_mode</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Vertical Divider -->
+                    <div class="header-divider"></div>
+                    <!-- Filter Toggle Group -->
+                    <div class="control-group">
+                        <button id="filterToggleBtn"
+                                class="btn btn-outline-primary btn-sm"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#filterCollapse"
+                                aria-expanded="true"
+                                aria-controls="filterCollapse">
+                            <span class="material-symbols-outlined me-1">tune</span>
+                            <span id="filterToggleText">{% trans 'Filters' %}</span>
+                            <span class="material-symbols-outlined ms-1" id="filterToggleIcon">expand_less</span>
+                        </button>
+                    </div>
+                    <!-- Close Button -->
+                    <button type="button"
+                            class="btn-close ms-2"
+                            data-bs-dismiss="modal"
+                            aria-label="{% trans 'Close' %}"></button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="collapse show border-bottom mb-3" id="filterCollapse">
+                    <form id="mediaFilterForm" class="d-flex gap-0 align-items-center">
+                        <div id="media-owner-wrapper" class=""></div>
+                        <div id="media-category-wrapper" class=""></div>
+                        <div id="extension-select-wrapper" class=""></div>
+                        <div id="media-filter-tags-wrapper" class="filter-dropdown me-3"></div>
+                        <div class="search-input-wrapper flex-fill">
+                            <input type="text"
+                                   class="form-control search-input"
+                                   id="titleSearchInput"
+                                   placeholder="🔎 Search by Title">
+                        </div>
+                    </form>
+                </div>
+                <div id="imageGrid" class="d-flex flex-wrap gap-2 checkerboard-light"></div>
+                <div id="media-pagination-wrapper"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans 'Cancel' %}</button>
+            </div>
+        </div>
+    </div>
+</div>

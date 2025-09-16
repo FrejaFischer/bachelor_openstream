@@ -1,0 +1,25 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="slideshowCreatedModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Slideshow Created!"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <p>
+            {% trans "Your slideshow" %} <strong>"<span id="slideshowCreatedNameSpan"></span>"</strong>
+            {% trans "has been created." %}
+        </p>
+        <p>{% trans "What would you like to do next?" %}</p>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="stayInManageContentBtn">
+            {% trans "Stay Here" %}
+        </button>
+        {{#> base/modal/modal-footer-save id="openSlideshowBtn" }}
+            {% trans "Open Slideshow" %}
+        {{/base/modal/modal-footer-save}}
+    {{/inline}}
+{{/base/modal/modal}}

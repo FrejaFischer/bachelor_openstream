@@ -1,0 +1,319 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+.info-box {
+  height: 135px;
+}
+
+#welcome-message {
+  font-family: "Lucida Sans Unicode", serif;
+}
+
+/* Simplified Dashboard styles moved from the template */
+.dashboard-container {
+  height: 100%;
+  background-color: $secondary-accent;
+}
+
+.dashboard-title {
+  color: $secondary;
+}
+
+.dashboard-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dashboard-section-header {
+  font-weight: 400;
+}
+
+/* Layout: main + sidebar */
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-sidebar {
+  flex-basis: 35rem;
+  flex-shrink: 0;
+  padding: 1.5rem;
+  padding-top: 1.5rem;
+  background-color: $secondary-accent-hover;
+  overflow: auto;
+}
+
+/* Make dashboard title slightly bolder */
+.dashboard-title {
+  font-weight: 600;
+}
+
+/* Top row: two equal columns */
+.dashboard-top-row {
+  display: flex;
+  align-items: stretch;
+}
+
+/* Each card fills its column and keeps header/content/footer layout */
+.dashboard-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-radius: 0.5rem;
+  background: $white;
+  box-shadow: 1px 1px 20px 10px rgba($secondary-accent, 0.2);
+}
+
+.dashboard-card-title {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: $secondary;
+}
+
+.dashboard-card-scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 0.25rem;
+}
+
+.dashboard-card-row {
+  display: flex;
+  padding: 0.5rem;
+  flex-direction: column;
+  background: $secondary-accent-lighter;
+}
+
+.dashboard-card-row-details {
+  display: flex;
+  padding: 0.1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-body-text {
+  color: $black;
+  font-family: Figtree;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.3125rem;
+}
+
+/* Ensure text can be truncated inside flex children */
+.dashboard-card-row .dashboard-body-text {
+  display: block;
+  min-width: 0; /* allow flex children to shrink properly */
+}
+
+/* Make the body text area grow/shrink inside the row so truncation works */
+.dashboard-card-row-details .dashboard-body-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Title (first line) should ellipsize when too long */
+.dashboard-item-title {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0; /* needed for flexbox truncation */
+}
+
+/* Time / meta on a separate line with smaller styling */
+.dashboard-item-time {
+  display: block;
+  font-size: 0.8rem;
+  color: $darkest-gray;
+  margin-top: 0.125rem;
+}
+
+.icon-22 {
+  font-size: 22px;
+}
+
+.icon-16 {
+  font-size: 1rem;
+}
+
+.text-darkest-gray {
+  color: $darkest-gray;
+}
+
+/* Calendar entries */
+.dashboard-card-row.calendar-entry {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.calendar-entry-left-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* positioning context for local popovers */
+.calendar-entry-left-col {
+  position: relative;
+}
+
+.calendar-entry-right-action {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.calendar-entry-left-col .dashboard-body-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Make the two top columns fill the row equally */
+.dashboard-top-row > .dashboard-cards-container {
+  flex: 1;
+  display: flex;
+  width: 50%;
+}
+
+.dashboard-cards-container .dashboard-card {
+  width: 100%;
+}
+
+/* Top/bottom wrapper and bottom card sizing */
+.dashboard-top-bottom-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.dashboard-top-row {
+  flex: 1 1 50%;
+  min-height: 0;
+}
+
+.dashboard-bottom {
+  flex: 1 1 50%;
+  min-height: 0;
+}
+
+/* Playback schedule: make the two columns stretch and have independently scrollable lists */
+.dashboard-bottom .dashboard-card-scrollable-content {
+  display: flex; /* place the two columns side-by-side */
+  align-items: stretch;
+  min-height: 0; /* allow children to shrink for proper scrolling */
+}
+
+.dashboard-bottom .dashboard-card-scrollable-content > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* required so child lists can scroll inside flex items */
+}
+
+#now-playing-list,
+#upcoming-list {
+  flex: 1 1 auto;
+  min-height: 0; /* allow overflow to work inside flex */
+  overflow-y: auto;
+}
+
+/* Buttons and icons accessibility tweaks */
+.material-symbols-outlined[aria-hidden="true"] {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.dashboard-btn-outline {
+  border: 1.5px solid $secondary-light;
+}
+
+/* Utilities added for dashboard template */
+.full-width-video {
+  width: 100%;
+  height: auto;
+  border-radius: 0.25rem;
+}
+
+.sidebar-title {
+  font-weight: 400;
+  color: $secondary;
+}
+
+.help-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+}
+
+.help-list a {
+  color: $secondary;
+  text-decoration: underline;
+}
+
+.subheading {
+  font-size: 0.9rem;
+  color: $secondary;
+}
+
+.small-text {
+  font-size: 0.8rem;
+}
+
+.strong-text {
+  font-weight: 500;
+}
+
+.btn-text {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+/* Now playing more badge & popover */
+.now-playing-more {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+.now-playing-popover {
+  position: fixed; /* fixed so it escapes any overflow:hidden ancestors */
+  background: $white;
+  border: 1px solid rgba($black, 0.08);
+  box-shadow: 0 8px 24px rgba($black, 0.12);
+  padding: 0.5rem;
+  z-index: 9999; /* high so it's above most UI */
+  min-width: 160px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  border-radius: 0.25rem;
+}
+
+.now-playing-popover-row {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  color: $black;
+}
+
+.now-playing-popover-row + .now-playing-popover-row {
+  border-top: 1px solid rgba($black, 0.04);
+}
+
+.d-none {
+  display: none !important;
+}

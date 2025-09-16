@@ -1,0 +1,15 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+.sidebar-section {
+  border-bottom: 0.5px solid lightgrey;
+}
+
+div.active {
+  background-color: $secondary-accent-hover;
+}
+
+#slideshow-playlist-table tbody tr {
+  cursor: grab;
+}

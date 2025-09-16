@@ -1,0 +1,216 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+#userListContainer .list-group-item.active {
+  background-color: rgba($neutral-blue, 0.7);
+  border-color: rgba($neutral-blue, 0.53);
+  color: $white;
+}
+
+/* Hidden elements (initially) */
+#add-suborg-btn,
+#suborgDropdownContainer,
+#suborgRoleContainer,
+#branchDropdownContainer,
+#branchSelectManage,
+#selectedUserDetails,
+#deleteUserBtn,
+#manageUsersDropdown {
+  display: none;
+}
+
+/* Modal body minimum height */
+#manageUsersModal .modal-body {
+  min-height: 500px;
+}
+
+/* User list container in manage users modal */
+#manageUsersModal .col-3.border-end {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Suborg membership container border */
+#addSuborgMembershipContainer {
+  border-color: $light-gray;
+}
+
+/* Delete icon alignment */
+#deleteUserBtn .material-symbols-outlined {
+  vertical-align: middle;
+}
+
+.toast-container-custom {
+  z-index: 1110;
+}
+
+#userDropdown:hover {
+  background-color: rgba($white, 0.1);
+}
+
+#userDropdown .material-symbols-outlined {
+  font-size: 1.2rem;
+}
+
+.material-symbols-outlined {
+  vertical-align: middle;
+}
+
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+
+  /* Ensure consistent height for all small buttons */
+  min-height: 31px;
+  line-height: 1.5;
+}
+
+/* Admin buttons container alignment */
+#admin-buttons {
+  align-items: center;
+}
+
+/* Ensure all admin buttons have consistent styling */
+#admin-buttons .btn {
+  min-height: 31px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Fix dropdown toggle button specific styling */
+#admin-buttons .dropdown-toggle::after {
+  margin-left: 0.5rem;
+}
+
+/* Ensure material icons are properly aligned */
+#admin-buttons .material-symbols-outlined {
+  font-size: 1rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Enhanced prompt modal styling */
+#customPromptModal .modal-header.bg-warning {
+  border-bottom: 2px solid $error-red;
+}
+
+#customPromptModal .modal-header .modal-title {
+  color: $orange;
+}
+
+.confirmation-text-box {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: $error-red;
+  background-color: $lightest-gray !important;
+  border: 2px solid $error-red !important;
+  border-radius: 6px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 2px 4px rgba($error-red, 0.1);
+}
+
+#confirmationRequirement {
+  border-left: 4px solid $error-red;
+}
+
+#confirmationRequirement .material-symbols-outlined {
+  color: $error-red;
+}
+
+#customPromptInput {
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  border: 2px solid $gray;
+  transition: border-color 0.3s ease;
+}
+
+#customPromptInput:focus {
+  border-color: $error-red;
+  box-shadow: 0 0 0 0.2rem rgba($error-red, 0.25);
+}
+
+#customPromptInput.is-valid {
+  border-color: $success-green;
+  box-shadow: 0 0 0 0.2rem rgba($success-green, 0.25);
+}
+
+#customPromptInput.is-invalid {
+  border-color: $error-red;
+  box-shadow: 0 0 0 0.2rem rgba($error-red, 0.25);
+}
+
+/* Disabled state for the confirm button */
+#customPromptOkBtn:disabled {
+  opacity: 50%;
+  cursor: not-allowed;
+}
+
+/* Add some animation to the confirmation requirement box */
+@keyframes pulse-border {
+  0% {
+    border-color: $error-red;
+  }
+
+  50% {
+    border-color: $orange;
+  }
+
+  100% {
+    border-color: $error-red;
+  }
+}
+
+.confirmation-text-box.highlight {
+  animation: pulse-border 2s infinite;
+}
+
+/* Edit and delete button styling for suborgs and branches */
+.btn-outline-secondary {
+  border-color: $darker-gray;
+  color: $darker-gray;
+}
+
+.btn-outline-secondary:hover {
+  background-color: $darker-gray;
+  border-color: $darker-gray;
+  color: $white;
+}
+
+.btn-outline-danger {
+  border-color: $error-red;
+  color: $error-red;
+}
+
+.btn-outline-danger:hover {
+  background-color: $error-red;
+  border-color: $error-red;
+  color: $white;
+}
+
+/* Ensure consistent spacing for action buttons */
+.btn + .btn {
+  margin-left: 0.25rem;
+}
+
+/* Modal input field styling */
+#editSuborgNameInput,
+#editBranchNameInput {
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+#editSuborgNameInput:focus,
+#editBranchNameInput:focus {
+  border-color: $neutral-blue;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba($neutral-blue, 0.25);
+}

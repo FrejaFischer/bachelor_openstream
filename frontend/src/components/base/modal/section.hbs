@@ -1,0 +1,12 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#if title}}
+<div class="modal-section mb-4">
+    <h6 class="section-title text-muted mb-3">{{title}}</h6>
+{{/if}}
+    <div class="section-content{{#unless title}} mb-3{{/unless}}">
+        {{> @partial-block}}
+    </div>
+{{#if title}}
+</div>
+{{/if}}

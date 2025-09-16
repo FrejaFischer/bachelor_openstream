@@ -1,0 +1,34 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="deleteWayfindingSystemModal" }}
+    {{#*inline "header"}}
+        <div class="bg-warning d-flex justify-content-between align-items-center w-100 p-3">
+            {{> base/modal/modal-title class="mb-0" content="<span class=\"material-symbols-outlined me-2\">warning</span>Confirm Delete Wayfinding System"}}
+            {{> base/modal/modal-header-close}}
+        </div>
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <div id="deleteWayfindingSystemMessage" class="mb-3">
+            <p>Are you sure you want to delete the wayfinding system <strong id="wayfindingSystemToDeleteName"></strong>?</p>
+        </div>
+        {{> base/modal/confirmation-prompt textBoxId="deleteWayfindingSystemTextToType"}}
+        <form id="delete-wayfinding-system-form">
+            <div class="mb-3">
+                {{> base/form/label for="deleteWayfindingSystemInput" text="Type here:"}}
+                {{> base/form/input type="text" id="deleteWayfindingSystemInput" placeholder="Type the confirmation text above..." required=true}}
+                {{> base/form/invalid-feedback id="deleteWayfindingSystemError" text="The text you entered does not match the required confirmation text."}}
+            </div>
+            {{> base/form/input type="hidden" id="deleteWayfindingSystemId"}}
+            {{> base/form/input type="hidden" id="deleteWayfindingSystemName"}}
+        </form>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close id="deleteWayfindingSystemCancelBtn" btn-text="Cancel"}}
+        <button type="button" class="btn btn-danger" id="confirmDeleteWayfindingSystemButton" disabled>
+            <span class="material-symbols-outlined me-1">delete</span>
+            Confirm Delete
+        </button>
+    {{/inline}}
+{{/base/modal/modal}}

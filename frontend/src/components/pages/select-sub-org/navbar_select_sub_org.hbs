@@ -1,0 +1,14 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/navbar/navbar_base }}
+
+  {{#*inline "nav-links"}}
+    {{> base/navbar/nav_link href="/select-sub-org" icon="fork_right" title="Branches"}}
+    {{> base/navbar/nav_link href="/documentation" icon="library_books" title="Documentation"}}
+    {{/inline}}
+
+  {{#*inline "user-actions"}}
+    {{> base/navbar/user-dropdown }}
+    {{/inline}}
+
+{{/ base/navbar/navbar_base }}

@@ -1,0 +1,27 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<form id="categoryForm">
+    {{#> base/modal/modal id="categoryModal" }}
+        {{#*inline "header"}}
+            {{> base/modal/modal-title title="Edit Category"}}
+            {{> base/modal/modal-header-close}}
+    {{/inline}}
+        
+        {{#*inline "body"}}
+            {{> base/form/label for="categorySelect" text="Category"}}
+            <div class="d-flex">
+                <select class="form-select category-select" id="categorySelect">
+                    <!-- (No Category) + categories inserted by JS -->
+                </select>
+            </div>
+    {{/inline}}
+        
+        {{#*inline "footer"}}
+            {{> base/modal/modal-footer-close btn-text="Cancel"}}
+            <button type="submit" class="btn btn-primary">
+                <span class="material-symbols-outlined me-1">save</span>
+                {% trans "Save Changes" %}
+            </button>
+    {{/inline}}
+{{/base/modal/modal}}
+</form>

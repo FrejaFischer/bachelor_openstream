@@ -1,0 +1,231 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+/* Table container styling for smooth appearance and rounded corners */
+.table-responsive {
+  overflow: hidden;
+  background-color: $white;
+}
+
+/* Table cell vertical alignment */
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* Modal enhancements for smooth appearance */
+.modal-content {
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+/* Smooth modal dialog transition */
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: translate(0, 0);
+}
+
+/* Additional spacing for container */
+.container {
+  margin-top: 2rem;
+}
+
+/* Headings and text styling */
+h1 {
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.filters-sidebar {
+  flex: 0 0 250px;
+  border: 1px solid $light-gray;
+  padding: 1rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Scroll wrapper for the table - keeps the header visible while body scrolls */
+.table-scroll {
+  overflow: auto;
+}
+
+/* A small indicator for sortable columns */
+th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+th.sortable:hover {
+  background-color: $light-gray;
+}
+
+.sort-indicator {
+  margin-left: 4px;
+  font-size: 0.9em;
+  color: $darker-gray;
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+}
+
+/* Make the table header sticky so it doesn't scroll with the body */
+#manage-content-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5; /* sit above the tbody rows */
+  background: $white;
+  backdrop-filter: blur(4px);
+}
+
+/* Small shadow to separate header from rows when scrolling */
+#manage-content-table thead th::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  box-shadow: 0 1px 0 rgba($black, 0.06);
+}
+
+td span,
+td i {
+  vertical-align: middle;
+}
+
+td i {
+  font-size: $h5-font-size !important;
+}
+
+.material-symbols-outlined {
+  vertical-align: middle;
+}
+
+/* Styles for editTagsContainer */
+#editTagsContainer {
+  max-height: 300px;
+}
+
+/* Create slideshow tags container */
+#createSlideshowTagsContainer {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* Create slideshow aspect ratio selection */
+.create-resolution-option {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  padding: 8px 12px;
+  min-width: 60px;
+  height: 40px;
+  font-size: 0.9rem;
+}
+
+.create-resolution-option:hover {
+  background-color: $secondary-accent-hover !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba($black, 0.1);
+}
+
+.create-resolution-option.active {
+  border: 2px solid $neutral-blue !important;
+  background-color: $lightest-gray !important;
+  color: $neutral-blue;
+}
+
+/* Landscape create ratios */
+.create-resolution-option[data-ratio="16:9"] {
+  width: 80px;
+  height: 45px;
+}
+
+.create-resolution-option[data-ratio="4:3"] {
+  width: 60px;
+  height: 45px;
+}
+
+.create-resolution-option[data-ratio="21:9"] {
+  width: 105px;
+  height: 45px;
+}
+
+.create-resolution-option[data-ratio="1.85:1"] {
+  width: 92px;
+  height: 50px;
+}
+
+.create-resolution-option[data-ratio="2.39:1"] {
+  width: 119px;
+  height: 50px;
+}
+
+/* Portrait create ratios */
+.create-resolution-option[data-ratio="9:16"] {
+  width: 45px;
+  height: 80px;
+}
+
+.create-resolution-option[data-ratio="3:4"] {
+  width: 45px;
+  height: 60px;
+}
+
+.create-resolution-option[data-ratio="9:21"] {
+  width: 45px;
+  height: 105px;
+}
+
+.create-resolution-option[data-ratio="1:1.85"] {
+  width: 50px;
+  height: 92px;
+}
+
+.create-resolution-option[data-ratio="1:2.39"] {
+  width: 50px;
+  height: 119px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: $darker-gray;
+  pointer-events: none;
+}
+
+/* Search input */
+#searchInput {
+  display: flex !important;
+  flex: 1;
+}
+
+/* Relevancy checkbox */
+#orderByMatching {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Table border radius */
+.rounded-table {
+  border-radius: 50px;
+}
+
+/* Category select styles */
+.category-select {
+  flex: 1;
+  margin-right: 5px;
+}

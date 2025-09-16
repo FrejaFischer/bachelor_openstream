@@ -1,0 +1,65 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="manageUsersModal" size="modal-xl" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Manage Existing Users"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <div class="row">
+            <!-- LEFT: List of users in this org -->
+            <div class="col-3 border-end">
+                <div class="list-group" id="userListContainer">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            <!-- RIGHT: Selected user's details + suborg memberships -->
+            <div class="col-9" id="selectedUserDetails">
+                <h5>{% trans "User Details" %}</h5>
+                <p>
+                    <strong>{% trans "Username" %}:</strong> <span id="detailUsername"></span>
+                </p>
+                <p>
+                    <strong>{% trans "Email" %}:</strong> <span id="detailEmail"></span>
+                </p>
+                <hr>
+                <h5>{% trans "Suborganisation Memberships" %}</h5>
+                <div id="membershipListContainer" class="mb-3">
+                    <!-- Populated by JS -->
+                </div>
+                <div id="addSuborgMembershipContainer" class="border-top pt-2">
+                    <label class="form-label fw-bold">Add New Suborg Membership:</label>
+                    <div class="input-group mb-2">
+                        {{#> base/form/dropdown id="suborgSelectManage"}}
+                            {{> base/form/dropdown-option value="" text="Select a Suborganisation" disabled=true selected=true}}
+                            <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+                        {{#> base/form/dropdown id="suborgRoleManage"}}
+                            {{> base/form/dropdown-option value="" text="Select a Role" disabled=true selected=true}}
+                            {{> base/form/dropdown-option value="employee" text="Employee"}}
+                            {{> base/form/dropdown-option value="suborg_admin" text="Suborg Admin"}}
+        {{/base/form/dropdown}}
+                        <!-- New branch dropdown for employees -->
+                        {{#> base/form/dropdown id="branchSelectManage"}}
+                            {{> base/form/dropdown-option value="" text="Select a Branch" disabled=true selected=true}}
+        {{/base/form/dropdown}}
+                        <button class="btn btn-primary d-flex align-items-center" id="addSuborgMembershipBtn">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="mt-3">
+                    <button class="btn btn-danger btn-sm d-flex align-items-center" id="deleteUserBtn">
+                        <span class="material-symbols-outlined">delete_forever</span>&nbsp;{% trans "Delete User" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        <!-- This modal doesn't need footer buttons as actions are in the body -->
+    {{/inline}}
+{{/base/modal/modal}}

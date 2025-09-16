@@ -1,0 +1,90 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="slideActivationModal" ariaLabelledby="slideActivationModalLabel" size="modal-lg" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Slide Activation Settings" id="slideActivationModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <form id="slide-activation-form">
+            {{> base/form/input type="hidden" id="activationModalSlideIndex"}}
+
+            <div class="mb-3">
+                {{> base/form/checkbox id="activationEnabledSwitch" text="Enable Activation/Deactivation Dates" switch=true}}
+            </div>
+
+            <div id="activationDateFields">
+                <div class="mb-3">
+                    {{> base/form/label text="Activation Type"}}
+                    <div class="form-check">
+                        {{> base/form/radio name="activationType" id="oneTimeActivation" value="oneTime" text="One-time activation (specific dates)" checked=true}}
+                    </div>
+                    <div class="form-check">
+                        {{> base/form/radio name="activationType" id="recurringActivation" value="recurring" text="Recurring weekly activation"}}
+                    </div>
+                </div>
+
+                <div id="oneTimeFields">
+                    <div class="mb-3">
+                        {{> base/form/label for="activationDateInput" text="Activation Date (inclusive):"}}
+                        {{> base/form/input type="date" id="activationDateInput"}}
+                    </div>
+                    <div class="mb-3">
+                        {{> base/form/label for="deactivationDateInput" text="Deactivation Date (inclusive):"}}
+                        {{> base/form/input type="date" id="deactivationDateInput"}}
+                        <div class="form-text">Leave blank for no end date.</div>
+                    </div>
+                </div>
+
+                <div id="recurringFields" style="display: none;">
+                    <div class="mb-3">
+                        {{> base/form/label text="Weekly Recurring Intervals"}}
+                        <div class="mb-2 p-2 bg-light border rounded">
+                            <div class="row g-1 align-items-center">
+                                <div class="col-auto">
+                                    <span class="text-muted small">Every</span>
+                                </div>
+                                <div class="col-auto">
+                                    {{#> base/form/dropdown id="newIntervalDay"}}
+                                        {{> base/form/dropdown-option value="1" text="Monday"}}
+                                        {{> base/form/dropdown-option value="2" text="Tuesday"}}
+                                        {{> base/form/dropdown-option value="3" text="Wednesday"}}
+                                        {{> base/form/dropdown-option value="4" text="Thursday"}}
+                                        {{> base/form/dropdown-option value="5" text="Friday"}}
+                                        {{> base/form/dropdown-option value="6" text="Saturday"}}
+                                        {{> base/form/dropdown-option value="0" text="Sunday"}}
+                                    {{/base/form/dropdown}}
+                                </div>
+                                <div class="col-auto">
+                                    <span class="text-muted small">from</span>
+                                </div>
+                                <div class="col-auto">
+                                    {{> base/form/input type="time" id="newIntervalStartTime" extraClass="form-control-sm"}}
+                                </div>
+                                <div class="col-auto">
+                                    <span class="text-muted small">to</span>
+                                </div>
+                                <div class="col-auto">
+                                    {{> base/form/input type="time" id="newIntervalEndTime" extraClass="form-control-sm"}}
+                                </div>
+                                <div class="col-auto">
+                                    {{> base/buttons/icon-button type="button" id="addIntervalBtn" variant="primary" size="sm" icon="add"}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="intervalsList" class="border rounded p-2" style="min-height: 80px; max-height: 400px; overflow-y: auto">
+                            <!-- Intervals will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type="button" id="saveActivationSettingsBtn" variant="primary" text="Save Changes"}}
+    {{/inline}}
+{{/base/modal/modal}}

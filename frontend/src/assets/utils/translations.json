@@ -1,0 +1,2720 @@
+{
+  "Go Back": {
+    "da": "Gå Tilbage"
+  },
+  "Update User Information": {
+    "da": "Opdater Brugerinformation"
+  },
+  "Username:": {
+    "da": "Brugernavn:"
+  },
+  "Email:": {
+    "da": "E-mail:"
+  },
+  "First Name:": {
+    "da": "Fornavn:"
+  },
+  "Last Name:": {
+    "da": "Efternavn:"
+  },
+  "Language Preference:": {
+    "da": "Sprogpræference:"
+  },
+  "Dansk": {
+    "da": "Dansk"
+  },
+  "Svenska": {
+    "da": "Svenska"
+  },
+  "English": {
+    "da": "Engelsk"
+  },
+  "Save Changes": {
+    "da": "Gem Ændringer"
+  },
+  "Change Password": {
+    "da": "Skift Adgangskode"
+  },
+  "Old Password:": {
+    "da": "Gammel Adgangskode:"
+  },
+  "New Password:": {
+    "da": "Ny Adgangskode:"
+  },
+  "Confirm New Password:": {
+    "da": "Bekræft Ny Adgangskode:"
+  },
+  "Add Playlist": {
+    "da": "Tilføj Afspilningsliste"
+  },
+  "Editing:": {
+    "da": "Redigerer:"
+  },
+  "Rename Playlist": {
+    "da": "Omdøb Afspilningsliste"
+  },
+  "Add content to Playlist": {
+    "da": "Tilføj indhold til Afspilningsliste"
+  },
+  "No Playlist selected. Please add or select a playlist.": {
+    "da": "Ingen Afspilningsliste valgt. Tilføj eller vælg en afspilningsliste."
+  },
+  "Please select a Slideshow Playlist to edit": {
+    "da": "Vælg en Slideshow Afspilningsliste at redigere"
+  },
+  "Slideshow": {
+    "da": "Slideshow"
+  },
+  "Position": {
+    "da": "Position"
+  },
+  "Actions": {
+    "da": "Handlinger"
+  },
+  "Add New Slideshow Playlist": {
+    "da": "Tilføj Ny Slideshow Afspilningsliste"
+  },
+  "Playlist Name": {
+    "da": "Afspilningsliste Navn"
+  },
+  "Please provide a playlist name.": {
+    "da": "Angiv et afspilningsliste navn."
+  },
+  "Cancel": {
+    "da": "Annuller"
+  },
+  "Rename Slideshow Playlist": {
+    "da": "Omdøb Slideshow Afspilningsliste"
+  },
+  "New Playlist Name": {
+    "da": "Nyt Afspilningsliste Navn"
+  },
+  "Please provide a new playlist name.": {
+    "da": "Angiv et nyt afspilningsliste navn."
+  },
+  "Rename": {
+    "da": "Omdøb"
+  },
+  "Confirmation Required": {
+    "da": "Bekræftelse Påkrævet"
+  },
+  "Confirm": {
+    "da": "Bekræft"
+  },
+  "Select a Slideshow": {
+    "da": "Vælg en Slideshow"
+  },
+  "Choose a Slideshow:": {
+    "da": "Vælg en Slideshow:"
+  },
+  "Select a slideshow": {
+    "da": "Vælg en slideshow"
+  },
+  "Close": {
+    "da": "Luk"
+  },
+  "Save changes": {
+    "da": "Gem ændringer"
+  },
+  "Add Suborg": {
+    "da": "Tilføj Underorganisation"
+  },
+  "Manage Users": {
+    "da": "Administrer Brugere"
+  },
+  "Add User": {
+    "da": "Tilføj Bruger"
+  },
+  "Manage Existing Users": {
+    "da": "Administrer Eksisterende Brugere"
+  },
+  "Sign Out": {
+    "da": "Log Ud"
+  },
+  "Select Organization": {
+    "da": "Vælg Organisation"
+  },
+  "Error": {
+    "da": "Fejl"
+  },
+  "No Organizations Found": {
+    "da": "Ingen Organisationer Fundet"
+  },
+  "Search wayfinding systems...": {
+    "da": "Søg wayfinding systemer..."
+  },
+  "Name": {
+    "da": "Navn"
+  },
+  "Created": {
+    "da": "Oprettet"
+  },
+  "Last Updated": {
+    "da": "Sidst Opdateret"
+  },
+  "No wayfinding systems found": {
+    "da": "Ingen wayfinding systemer fundet"
+  },
+  "Media Management": {
+    "da": "Medieadministration"
+  },
+  "Upload New Media": {
+    "da": "Upload Ny Medie"
+  },
+  "Title": {
+    "da": "Titel"
+  },
+  "Search by Title": {
+    "da": "Søg efter Titel"
+  },
+  "Manage Fonts": {
+    "da": "Administrer Skrifttyper"
+  },
+  "Manage custom fonts for your organization. These fonts will be available across all branches.": {
+    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle filialer."
+  },
+  "You must be an organization admin to add or modify fonts.": {
+    "da": "Du skal være organisationsadministrator for at tilføje eller ændre skrifttyper."
+  },
+  "Custom Fonts": {
+    "da": "Brugerdefinerede Skrifttyper"
+  },
+  "Add Font": {
+    "da": "Tilføj Skrifttype"
+  },
+  "Loading...": {
+    "da": "Indlæser..."
+  },
+  "Font Name": {
+    "da": "Skrifttype Navn"
+  },
+  "Example": {
+    "da": "Eksempel"
+  },
+  "No custom fonts found. Add a new font to get started.": {
+    "da": "Ingen brugerdefinerede skrifttyper fundet. Tilføj en ny skrifttype for at komme i gang."
+  },
+  "Add Display Group": {
+    "da": "Tilføj Skærmgruppe"
+  },
+  "Register Screen": {
+    "da": "Registrer Skærm"
+  },
+  "Expand All": {
+    "da": "Udvid Alle"
+  },
+  "Select All": {
+    "da": "Vælg Alle"
+  },
+  "Search name, category, or tags...": {
+    "da": "Søg navn, kategori eller tags..."
+  },
+  "Sort by relevancy on search": {
+    "da": "Sorter efter relevans på søgning"
+  },
+  "Mode": {
+    "da": "Tilstand"
+  },
+  "Category": {
+    "da": "Kategori"
+  },
+  "Tags": {
+    "da": "Tags"
+  },
+  "No\n            slideshows found": {
+    "da": "Ingen slideshows fundet"
+  },
+  "Manage Color Scheme": {
+    "da": "Administrer Farveskema"
+  },
+  "Add Color": {
+    "da": "Tilføj Farve"
+  },
+  "You must be an organization admin to view or modify colors.": {
+    "da": "Du skal være organisationsadministrator for at se eller ændre farver."
+  },
+  "Preview": {
+    "da": "Forhåndsvisning"
+  },
+  "Type": {
+    "da": "Type"
+  },
+  "Hex Value": {
+    "da": "Hex Værdi"
+  },
+  "Primary": {
+    "da": "Primær"
+  },
+  "Secondary": {
+    "da": "Sekundær"
+  },
+  "Manage Categories and Tags": {
+    "da": "Administrer Kategorier og Tags"
+  },
+  "Add, edit, or delete tags and categories for your organisation": {
+    "da": "Tilføj, rediger eller slet tags og kategorier for din organisation"
+  },
+  "Categories": {
+    "da": "Kategorier"
+  },
+  "Add Category": {
+    "da": "Tilføj Kategori"
+  },
+  "Search categories...": {
+    "da": "Søg kategorier..."
+  },
+  "No categories found. Use the Add Category button to create your first category.": {
+    "da": "Ingen kategorier fundet. Brug Tilføj Kategori knappen for at oprette din første kategori."
+  },
+  "Add Tag": {
+    "da": "Tilføj Tag"
+  },
+  "Search tags...": {
+    "da": "Søg tags..."
+  },
+  "No tags found. Use the Add Tag button to create your first tag.": {
+    "da": "Ingen tags fundet. Brug Tilføj Tag knappen for at oprette dit første tag."
+  },
+  "Recently edited content": {
+    "da": "Nyligt redigeret indhold"
+  },
+  "Create new content": {
+    "da": "Opret nyt indhold"
+  },
+  "Go to content": {
+    "da": "Gå til indhold"
+  },
+  "Recently edited playlists": {
+    "da": "Nyligt redigerede afspilningslister"
+  },
+  "Create new playlist": {
+    "da": "Opret ny afspilningsliste"
+  },
+  "Go to playlists": {
+    "da": "Gå til afspilningslister"
+  },
+  "Playback schedule": {
+    "da": "Afspilningsplan"
+  },
+  "Now playing": {
+    "da": "Spiller nu"
+  },
+  "Scheduled": {
+    "da": "Planlagt"
+  },
+  "Go to manage displays": {
+    "da": "Gå til administrer skærme"
+  },
+  "Watch: Getting started": {
+    "da": "Se: Kom i gang"
+  },
+  "Your browser does not support the video tag.": {
+    "da": "Din browser understøtter ikke video tagget."
+  },
+  "Help": {
+    "da": "Hjælp"
+  },
+  "How do I create content?": {
+    "da": "Hvordan opretter jeg indhold?"
+  },
+  "How do I connect a display to OpenStream?": {
+    "da": "Hvordan forbinder jeg en skærm til OpenStream?"
+  },
+  "How do I assign content to a display?": {
+    "da": "Hvordan tildeler jeg indhold til en skærm?"
+  },
+  "What is a playlist?": {
+    "da": "Hvad er en afspilningsliste?"
+  },
+  "How do I create scheduled content for a display group?": {
+    "da": "Hvordan opretter jeg planlagt indhold for en skærmgruppe?"
+  },
+  "How do I create weekly recurring content for a display group?": {
+    "da": "Hvordan opretter jeg ugentligt tilbagevendende indhold for en skærmgruppe?"
+  },
+  "Screen Registration": {
+    "da": "Skærmregistrering"
+  },
+  "Initializing screen registration...": {
+    "da": "Initialiserer skærmregistrering..."
+  },
+  "Screen ID:": {
+    "da": "Skærm ID:"
+  },
+  "Leave this page open. Your screen will automatically update once it is assigned to a group.": {
+    "da": "Lad denne side være åben. Din skærm opdateres automatisk når den tildeles en gruppe."
+  },
+  "An error occurred during registration.": {
+    "da": "En fejl opstod under registrering."
+  },
+  "Retry": {
+    "da": "Prøv igen"
+  },
+  "Invalid JSON response": {
+    "da": "Ugyldigt JSON svar"
+  },
+  "Confirm Delete": {
+    "da": "Bekræft Slet"
+  },
+  "Delete": {
+    "da": "Slet"
+  },
+  "Unable to insert the delete modal. #main-content not found": {
+    "da": "Kan ikke indsætte slet modal. #main-content ikke fundet"
+  },
+  "Are you sure you want to delete": {
+    "da": "Er du sikker på at du vil slette"
+  },
+  "This action cannot be undone.": {
+    "da": "Denne handling kan ikke fortrydes."
+  },
+  "of": {
+    "da": "af"
+  },
+  "item selected": {
+    "da": "element valgt"
+  },
+  "items selected": {
+    "da": "elementer valgt"
+  },
+  "Select": {
+    "da": "Vælg"
+  },
+  "Select all": {
+    "da": "Vælg alle"
+  },
+  "User Settings": {
+    "da": "Brugerindstillinger"
+  },
+  "Change Organisation": {
+    "da": "Skift Organisation"
+  },
+  " Play Slideshow": {
+    "da": " Afspil Slideshow"
+  },
+  "Change Preview Aspect Ratio": {
+    "da": "Skift Forhåndsvisning Aspect Ratio"
+  },
+  " Undo": {
+    "da": " Fortryd"
+  },
+  " Redo": {
+    "da": " Gentag"
+  },
+  "Background": {
+    "da": "Baggrund"
+  },
+  " Change Background Color For Slide": {
+    "da": " Skift Baggrundsfarve For Slide"
+  },
+  "Background Image Settings": {
+    "da": "Baggrundsbillede Indstillinger"
+  },
+  "Add Elements": {
+    "da": "Tilføj Elementer"
+  },
+  " Add Image": {
+    "da": " Tilføj Billede"
+  },
+  " Add Textbox": {
+    "da": " Tilføj Tekstboks"
+  },
+  " Add Video": {
+    "da": " Tilføj Video"
+  },
+  " Add Dynamic Content, like Widgets or API Integrations": {
+    "da": " Tilføj Dynamisk Indhold, som Widgets eller API Integrationer"
+  },
+  " Embed Website into Slide. WARNING: Only works in Electron.": {
+    "da": " Indlejr Website i Slide. ADVARSEL: Virker kun i Electron."
+  },
+  " Add Shape": {
+    "da": " Tilføj Form"
+  },
+  " Add HTML Element To Slide": {
+    "da": " Tilføj HTML Element Til Slide"
+  },
+  " Add Table": {
+    "da": " Tilføj Tabel"
+  },
+  " Add List": {
+    "da": " Tilføj Liste"
+  },
+  " Add Placeholder for Template Structure": {
+    "da": " Tilføj Pladsholder for Skabelon Struktur"
+  },
+  " Background Color": {
+    "da": " Baggrundsfarve"
+  },
+  " Change Background Color For Selected Element": {
+    "da": " Skift Baggrundsfarve For Valgt Element"
+  },
+  "Background Color": {
+    "da": "Baggrundsfarve"
+  },
+  " Rotate": {
+    "da": " Roter"
+  },
+  " Rotate Selected Element": {
+    "da": " Roter Valgt Element"
+  },
+  "Rotate": {
+    "da": "Roter"
+  },
+  " Border": {
+    "da": " Kant"
+  },
+  " Add Border To Selected Element": {
+    "da": " Tilføj Kant Til Valgt Element"
+  },
+  "Border": {
+    "da": "Kant"
+  },
+  " Box Shadow": {
+    "da": " Boks Skygge"
+  },
+  " Add Boxshadow To Selected Element": {
+    "da": " Tilføj Boksskygge Til Valgt Element"
+  },
+  "Shadow": {
+    "da": "Skygge"
+  },
+  " Padding": {
+    "da": " Polstring"
+  },
+  " Add Padding To Selected Element": {
+    "da": " Tilføj Polstring Til Valgt Element"
+  },
+  "Padding": {
+    "da": "Polstring"
+  },
+  " Offset": {
+    "da": " Forskydning"
+  },
+  " Add Offset To Selected Element": {
+    "da": " Tilføj Forskydning Til Valgt Element"
+  },
+  "Offset": {
+    "da": "Forskydning"
+  },
+  " Scale": {
+    "da": " Skalér"
+  },
+  " Scale Selected Element (Oversize)": {
+    "da": " Skalér Valgt Element (Oversize)"
+  },
+  "Scale": {
+    "da": "Skalér"
+  },
+  " Opacity": {
+    "da": " Gennemsigtighed"
+  },
+  " Change Opacity Settings For Selected Element": {
+    "da": " Skift Gennemsigtighed Indstillinger For Valgt Element"
+  },
+  "Opacity": {
+    "da": "Gennemsigtighed"
+  },
+  " Bring to Front": {
+    "da": " Bring Til Front"
+  },
+  " Bring Selected Element To Front": {
+    "da": " Bring Valgt Element Til Front"
+  },
+  "Bring to front": {
+    "da": "Bring forrest"
+  },
+  " Send to Back": {
+    "da": " Send Bag"
+  },
+  " Send Selected Element To Back": {
+    "da": " Send Valgt Element Til Bag"
+  },
+  "Send To Back": {
+    "da": "Send bagerst"
+  },
+  "Toggle element persistence across all slides": {
+    "da": "Skift element persistens på tværs af alle slides"
+  },
+  "Lock element to prevent movement when template is used": {
+    "da": "Lås element for at forhindre bevægelse når skabelon bruges"
+  },
+  "Add Slide": {
+    "da": "Tilføj Slide"
+  },
+  "Error fetching user data:": {
+    "da": "Fejl ved hentning af brugerdata:"
+  },
+  "An error occurred while fetching user data.": {
+    "da": "En fejl opstod under hentning af brugerdata."
+  },
+  "User information updated successfully!": {
+    "da": "Brugerinformation opdateret succesfuldt!"
+  },
+  "Error updating user info:": {
+    "da": "Fejl ved opdatering af brugerinfo:"
+  },
+  "An error occurred while updating user information.": {
+    "da": "En fejl opstod under opdatering af brugerinformation."
+  },
+  "New passwords do not match.": {
+    "da": "Nye adgangskoder matcher ikke."
+  },
+  "Password changed successfully!": {
+    "da": "Adgangskode ændret succesfuldt!"
+  },
+  "Error changing password:": {
+    "da": "Fejl ved ændring af adgangskode:"
+  },
+  "An error occurred while changing password.": {
+    "da": "En fejl opstod under ændring af adgangskode."
+  },
+  "Failed to fetch slideshow playlists.": {
+    "da": "Kunne ikke hente slideshow afspilningslister."
+  },
+  "Network error occurred, ": {
+    "da": "Netværksfejl opstod, "
+  },
+  "Playlist name cannot be empty.": {
+    "da": "Afspilningsliste navn kan ikke være tomt."
+  },
+  "Failed to create playlist.": {
+    "da": "Kunne ikke oprette afspilningsliste."
+  },
+  "Playlist created!": {
+    "da": "Afspilningsliste oprettet!"
+  },
+  "An unexpected error occurred.": {
+    "da": "En uventet fejl opstod."
+  },
+  "Please select a playlist first.": {
+    "da": "Vælg en afspilningsliste først."
+  },
+  "Failed to rename playlist.": {
+    "da": "Kunne ikke omdøbe afspilningsliste."
+  },
+  "Renamed!": {
+    "da": "Omdøbt!"
+  },
+  "Failed to delete playlist.": {
+    "da": "Kunne ikke slette afspilningsliste."
+  },
+  "Failed to fetch playlist items.": {
+    "da": "Kunne ikke hente afspilningsliste elementer."
+  },
+  "Positions updated successfully.": {
+    "da": "Positioner opdateret succesfuldt."
+  },
+  "Failed to update positions.": {
+    "da": "Kunne ikke opdatere positioner."
+  },
+  "Are you sure you want to delete this item from the playlist?": {
+    "da": "Er du sikker på at du vil slette dette element fra afspilningslisten?"
+  },
+  "Item deleted successfully.": {
+    "da": "Element slettet succesfuldt."
+  },
+  "Failed to delete item.": {
+    "da": "Kunne ikke slette element."
+  },
+  "Failed to fetch slideshows": {
+    "da": "Kunne ikke hente slideshows"
+  },
+  "Slideshow added to playlist.": {
+    "da": "Slideshow tilføjet til afspilningsliste."
+  },
+  "Failed to add slideshow.": {
+    "da": "Kunne ikke tilføje slideshow."
+  },
+  "Unexpected response format: ": {
+    "da": "Uventet svar format: "
+  },
+  "Login failed: ": {
+    "da": "Login fejlede: "
+  },
+  "Password reset failed": {
+    "da": "Adgangskode nulstilling fejlede"
+  },
+  "Error creating suborg: ": {
+    "da": "Fejl ved oprettelse af underorganisation: "
+  },
+  "Please enter a suborg name.": {
+    "da": "Indtast et underorganisation navn."
+  },
+  "Suborganisation created successfully!": {
+    "da": "Underorganisation oprettet succesfuldt!"
+  },
+  "Error creating branch: ": {
+    "da": "Fejl ved oprettelse af filial: "
+  },
+  "No suborg selected for branch creation!": {
+    "da": "Ingen underorganisation valgt for filial oprettelse!"
+  },
+  "Please enter a branch name.": {
+    "da": "Indtast et filial navn."
+  },
+  "Branch created successfully!": {
+    "da": "Filial oprettet succesfuldt!"
+  },
+  "Delete branch": {
+    "da": "Slet filial"
+  },
+  "Failed to fetch org users:": {
+    "da": "Kunne ikke hente organisationsbrugere:"
+  },
+  "Failed to fetch memberships for user": {
+    "da": "Kunne ikke hente medlemskaber for bruger"
+  },
+  "Organisation Admins": {
+    "da": "Organisationsadministratorer"
+  },
+  "Users": {
+    "da": "Brugere"
+  },
+  "No Suborganisation": {
+    "da": "Ingen Underorganisation"
+  },
+  "Remove Access": {
+    "da": "Fjern Adgang"
+  },
+  "Error fetching memberships:": {
+    "da": "Fejl ved hentning af medlemskaber:"
+  },
+  "Failed to remove membership, status:": {
+    "da": "Kunne ikke fjerne medlemskab, status:"
+  },
+  "Error removing membership:": {
+    "da": "Fejl ved fjernelse af medlemskab:"
+  },
+  "Failed to fetch suborganisations": {
+    "da": "Kunne ikke hente underorganisationer"
+  },
+  "Error fetching suborganisations:": {
+    "da": "Fejl ved hentning af underorganisationer:"
+  },
+  "Branch": {
+    "da": "Filial"
+  },
+  "No branches found.": {
+    "da": "Ingen filialer fundet."
+  },
+  "Error creating user: ": {
+    "da": "Fejl ved oprettelse af bruger: "
+  },
+  "Error creating membership: ": {
+    "da": "Fejl ved oprettelse af medlemskab: "
+  },
+  "Error updating suborg: ": {
+    "da": "Fejl ved opdatering af underorganisation: "
+  },
+  "No suborg ID found!": {
+    "da": "Intet underorganisation ID fundet!"
+  },
+  "Suborganisation updated successfully!": {
+    "da": "Underorganisation opdateret succesfuldt!"
+  },
+  "Delete suborg": {
+    "da": "Slet underorganisation"
+  },
+  "Error updating branch: ": {
+    "da": "Fejl ved opdatering af filial: "
+  },
+  "No branch ID found!": {
+    "da": "Intet filial ID fundet!"
+  },
+  "Branch updated successfully!": {
+    "da": "Filial opdateret succesfuldt!"
+  },
+  "Please fill out all required fields.": {
+    "da": "Udfyld alle påkrævede felter."
+  },
+  "No organisation ID in localStorage!": {
+    "da": "Intet organisations ID i localStorage!"
+  },
+  "User created successfully!": {
+    "da": "Bruger oprettet succesfuldt!"
+  },
+  "No user selected.": {
+    "da": "Ingen bruger valgt."
+  },
+  "Please select a branch for the employee.": {
+    "da": "Vælg en filial for medarbejderen."
+  },
+  "No org ID in localStorage!": {
+    "da": "Intet org ID i localStorage!"
+  },
+  "Error deleting branch: ": {
+    "da": "Fejl ved sletning af filial: "
+  },
+  "Branch deleted successfully!": {
+    "da": "Filial slettet succesfuldt!"
+  },
+  "Error deleting user: ": {
+    "da": "Fejl ved sletning af bruger: "
+  },
+  "User deleted successfully!": {
+    "da": "Bruger slettet succesfuldt!"
+  },
+  "Error deleting user:": {
+    "da": "Fejl ved sletning af bruger:"
+  },
+  "Error deleting suborg: ": {
+    "da": "Fejl ved sletning af underorganisation: "
+  },
+  "Suborganisation deleted successfully!": {
+    "da": "Underorganisation slettet succesfuldt!"
+  },
+  "Please enter a name for the wayfinding system": {
+    "da": "Indtast et navn for wayfinding systemet"
+  },
+  "Wayfinding system created successfully": {
+    "da": "Wayfinding system oprettet succesfuldt"
+  },
+  "Failed to create wayfinding system: ": {
+    "da": "Kunne ikke oprette wayfinding system: "
+  },
+  "Please enter a name": {
+    "da": "Indtast et navn"
+  },
+  "Wayfinding system renamed successfully": {
+    "da": "Wayfinding system omdøbt succesfuldt"
+  },
+  "Failed to rename wayfinding system: ": {
+    "da": "Kunne ikke omdøbe wayfinding system: "
+  },
+  "Wayfinding system deleted successfully": {
+    "da": "Wayfinding system slettet succesfuldt"
+  },
+  "Failed to delete wayfinding system: ": {
+    "da": "Kunne ikke slette wayfinding system: "
+  },
+  "Failed to load wayfinding systems": {
+    "da": "Kunne ikke indlæse wayfinding systemer"
+  },
+  "Open Wayfinding System": {
+    "da": "Åbn Wayfinding System"
+  },
+  "Get Display Link": {
+    "da": "Få Skærm Link"
+  },
+  "Failed to get API key for this branch": {
+    "da": "Kunne ikke få API nøgle for denne filial"
+  },
+  "Failed to generate display link": {
+    "da": "Kunne ikke generere skærm link"
+  },
+  "Display Link": {
+    "da": "Skærm Link"
+  },
+  "Use this link to display the wayfinding system on screens/displays:": {
+    "da": "Brug dette link til at vise wayfinding systemet på skærme/displays:"
+  },
+  "Copy": {
+    "da": "Kopiér"
+  },
+  "This link includes the API key and can be used directly on displays without user authentication.": {
+    "da": "Dette link inkluderer API nøglen og kan bruges direkte på displays uden brugerautentificering."
+  },
+  "Link copied to clipboard!": {
+    "da": "Link kopieret til udklipsholder!"
+  },
+  "Organization ID not found. Please refresh the page.": {
+    "da": "Organisations ID ikke fundet. Genindlæs siden."
+  },
+  "Failed to load categories": {
+    "da": "Kunne ikke indlæse kategorier"
+  },
+  "Failed to load tags": {
+    "da": "Kunne ikke indlæse tags"
+  },
+  "Edit Category": {
+    "da": "Rediger Kategori"
+  },
+  "Edit Tag": {
+    "da": "Rediger Tag"
+  },
+  "Category name is required": {
+    "da": "Kategori navn er påkrævet"
+  },
+  "Category updated successfully": {
+    "da": "Kategori opdateret succesfuldt"
+  },
+  "Category created successfully": {
+    "da": "Kategori oprettet succesfuldt"
+  },
+  "Failed to save category": {
+    "da": "Kunne ikke gemme kategori"
+  },
+  "Tag name is required": {
+    "da": "Tag navn er påkrævet"
+  },
+  "Tag updated successfully": {
+    "da": "Tag opdateret succesfuldt"
+  },
+  "Tag created successfully": {
+    "da": "Tag oprettet succesfuldt"
+  },
+  "Failed to save tag": {
+    "da": "Kunne ikke gemme tag"
+  },
+  "Category deleted successfully": {
+    "da": "Kategori slettet succesfuldt"
+  },
+  "Tag deleted successfully": {
+    "da": "Tag slettet succesfuldt"
+  },
+  "Error fetching branches.": {
+    "da": "Fejl ved hentning af filialer."
+  },
+  "Failed to load media files": {
+    "da": "Kunne ikke indlæse mediefiler"
+  },
+  "No media files found": {
+    "da": "Ingen mediefiler fundet"
+  },
+  "Not editable": {
+    "da": "Ikke redigerbar"
+  },
+  "Update Media": {
+    "da": "Opdater Medie"
+  },
+  "Upload Media": {
+    "da": "Upload Medie"
+  },
+  "None": {
+    "da": "Ingen"
+  },
+  "File extensions": {
+    "da": "Fil udvidelser"
+  },
+  "Error fetching tags": {
+    "da": "Fejl ved hentning af tags"
+  },
+  "No tags available": {
+    "da": "Ingen tags tilgængelige"
+  },
+  "Media successfully deleted": {
+    "da": "Medie slettet succesfuldt"
+  },
+  "Failed to delete media": {
+    "da": "Kunne ikke slette medie"
+  },
+  "Please select a file to upload.": {
+    "da": "Vælg en fil at uploade."
+  },
+  "The file must have a name": {
+    "da": "Filen skal have et navn"
+  },
+  "Media successfully uploaded": {
+    "da": "Medie uploadet succesfuldt"
+  },
+  "Media successfully updated": {
+    "da": "Medie opdateret succesfuldt"
+  },
+  "Failed to process media": {
+    "da": "Kunne ikke behandle medie"
+  },
+  "Please select one or more files to upload.": {
+    "da": "Vælg en eller flere filer at uploade."
+  },
+  "Files uploaded successfully": {
+    "da": "Filer uploadet succesfuldt"
+  },
+  "Failed to upload files": {
+    "da": "Kunne ikke uploade filer"
+  },
+  "Failed to load fonts: ": {
+    "da": "Kunne ikke indlæse skrifttyper: "
+  },
+  "Edit": {
+    "da": "Rediger"
+  },
+  "View only": {
+    "da": "Kun visning"
+  },
+  "You must be an organization admin to add fonts": {
+    "da": "Du skal være organisationsadministrator for at tilføje skrifttyper"
+  },
+  "You must be an organization admin to edit fonts": {
+    "da": "Du skal være organisationsadministrator for at redigere skrifttyper"
+  },
+  "Please fill in all required fields": {
+    "da": "Udfyld alle påkrævede felter"
+  },
+  "Font added successfully": {
+    "da": "Skrifttype tilføjet succesfuldt"
+  },
+  "Failed to add font: ": {
+    "da": "Kunne ikke tilføje skrifttype: "
+  },
+  "Font updated successfully": {
+    "da": "Skrifttype opdateret succesfuldt"
+  },
+  "Failed to update font: ": {
+    "da": "Kunne ikke opdatere skrifttype: "
+  },
+  "Font deleted successfully": {
+    "da": "Skrifttype slettet succesfuldt"
+  },
+  "Failed to delete font: ": {
+    "da": "Kunne ikke slette skrifttype: "
+  },
+  "Failed to fetch API key.": {
+    "da": "Kunne ikke hente API nøgle."
+  },
+  "Error fetching registration URL.": {
+    "da": "Fejl ved hentning af registrerings URL."
+  },
+  "Are you sure you want to delete this display?": {
+    "da": "Er du sikker på at du vil slette denne skærm?"
+  },
+  "Please select a default slideshow playlist...": {
+    "da": "Vælg en standard slideshow afspilningsliste..."
+  },
+  "Select a default slideshow": {
+    "da": "Vælg en standard slideshow"
+  },
+  "Select a default slideshow playlist": {
+    "da": "Vælg en standard slideshow afspilningsliste"
+  },
+  "Group name cannot be empty!": {
+    "da": "Gruppenavn kan ikke være tomt!"
+  },
+  "Please select a default slideshow.": {
+    "da": "Vælg en standard slideshow."
+  },
+  "Please select a default playlist.": {
+    "da": "Vælg en standard afspilningsliste."
+  },
+  "Are you sure you want to delete this group?": {
+    "da": "Er du sikker på at du vil slette denne gruppe?"
+  },
+  "Group deleted": {
+    "da": "Gruppe slettet"
+  },
+  "Success": {
+    "da": "Succes"
+  },
+  "Failed to copy URL.": {
+    "da": "Kunne ikke kopiere URL."
+  },
+  "Display name cannot be empty!": {
+    "da": "Skærmnavn kan ikke være tomt!"
+  },
+  "Please enter a group name.": {
+    "da": "Indtast et gruppenavn."
+  },
+  "Please select a slideshow.": {
+    "da": "Vælg en slideshow."
+  },
+  "Please select a playlist.": {
+    "da": "Vælg en afspilningsliste."
+  },
+  "Inactive Displays": {
+    "da": "Inaktive Skærme"
+  },
+  "Select a slideshow playlist": {
+    "da": "Vælg en slideshow afspilningsliste"
+  },
+  "Select Content": {
+    "da": "Vælg Indhold"
+  },
+  "Select a playlist": {
+    "da": "Vælg en afspilningsliste"
+  },
+  "Default: ": {
+    "da": "Standard: "
+  },
+  "Week ": {
+    "da": "Uge "
+  },
+  "Today": {
+    "da": "I dag"
+  },
+  "Add a one-time scheduled event": {
+    "da": "Tilføj en engangs planlagt begivenhed"
+  },
+  "Add a repeating weekly event": {
+    "da": "Tilføj en gentagende ugentlig begivenhed"
+  },
+  "Calendar View": {
+    "da": "Kalender Visning"
+  },
+  "List View": {
+    "da": "Liste Visning"
+  },
+  "Scheduled Events": {
+    "da": "Planlagte Begivenheder"
+  },
+  "Add Scheduled Content": {
+    "da": "Tilføj Planlagt Indhold"
+  },
+  "Add Recurring Content": {
+    "da": "Tilføj Tilbagevendende Indhold"
+  },
+  "No scheduled events found": {
+    "da": "Ingen planlagte begivenheder fundet"
+  },
+  "continues": {
+    "da": "fortsætter"
+  },
+  "ends": {
+    "da": "slutter"
+  },
+  "All day": {
+    "da": "Hele dagen"
+  },
+  "Starts": {
+    "da": "Starter"
+  },
+  "Ends": {
+    "da": "Slutter"
+  },
+  "Continues": {
+    "da": "Fortsætter"
+  },
+  "Unknown Group": {
+    "da": "Ukendt Gruppe"
+  },
+  "Recurring Event": {
+    "da": "Tilbagevendende Begivenhed"
+  },
+  "Scheduled Content": {
+    "da": "Planlagt Indhold"
+  },
+  "Please fill in Group, Start, and End time!": {
+    "da": "Udfyld Gruppe, Start og Slut tid!"
+  },
+  "Select Content.": {
+    "da": "Vælg Indhold."
+  },
+  "Are you sure you want to delete this scheduled content?": {
+    "da": "Er du sikker på at du vil slette dette planlagte indhold?"
+  },
+  "Please fill in Group and Active From date!": {
+    "da": "Udfyld Gruppe og Aktiv Fra dato!"
+  },
+  "Recurring event created successfully!": {
+    "da": "Tilbagevendende begivenhed oprettet succesfuldt!"
+  },
+  "Recurring event updated successfully!": {
+    "da": "Tilbagevendende begivenhed opdateret succesfuldt!"
+  },
+  "Are you sure you want to delete this recurring event?": {
+    "da": "Er du sikker på at du vil slette denne tilbagevendende begivenhed?"
+  },
+  "Recurring event deleted successfully!": {
+    "da": "Tilbagevendende begivenhed slettet succesfuldt!"
+  },
+  "No groups found to toggle": {
+    "da": "Ingen grupper fundet at skifte"
+  },
+  "No valid group IDs found": {
+    "da": "Ingen gyldige gruppe ID'er fundet"
+  },
+  "(No Category)": {
+    "da": "(Ingen Kategori)"
+  },
+  "Please provide a slideshow name.": {
+    "da": "Angiv et slideshow navn."
+  },
+  "Please select an aspect ratio.": {
+    "da": "Vælg et aspect ratio."
+  },
+  "Failed to create slideshow.": {
+    "da": "Kunne ikke oprette slideshow."
+  },
+  "Slideshow created!": {
+    "da": "Slideshow oprettet!"
+  },
+  "Interactive": {
+    "da": "Interaktiv"
+  },
+  "and": {
+    "da": "og"
+  },
+  "more": {
+    "da": "mere"
+  },
+  "No matching content found": {
+    "da": "Intet matchende indhold fundet"
+  },
+  "Edit Name": {
+    "da": "Rediger Navn"
+  },
+  "(None)": {
+    "da": "(Ingen)"
+  },
+  "Edit Tags": {
+    "da": "Rediger Tags"
+  },
+  "Slideshow duplicated!": {
+    "da": "Slideshow duplikeret!"
+  },
+  "Slideshow deleted!": {
+    "da": "Slideshow slettet!"
+  },
+  "Updated slideshow!": {
+    "da": "Slideshow opdateret!"
+  },
+  "No tags found": {
+    "da": "Ingen tags fundet"
+  },
+  "No matching tags": {
+    "da": "Ingen matchende tags"
+  },
+  "Failed to load colors: ": {
+    "da": "Kunne ikke indlæse farver: "
+  },
+  "Save": {
+    "da": "Gem"
+  },
+  "Edit Color": {
+    "da": "Rediger Farve"
+  },
+  "Color updated successfully": {
+    "da": "Farve opdateret succesfuldt"
+  },
+  "Color added successfully": {
+    "da": "Farve tilføjet succesfuldt"
+  },
+  "Failed to save color: ": {
+    "da": "Kunne ikke gemme farve: "
+  },
+  "Color deleted successfully": {
+    "da": "Farve slettet succesfuldt"
+  },
+  "Failed to delete color: ": {
+    "da": "Kunne ikke slette farve: "
+  },
+  "No active displays right now.": {
+    "da": "Ingen aktive skærme lige nu."
+  },
+  "All screens": {
+    "da": "Alle skærme"
+  },
+  "Change view": {
+    "da": "Skift visning"
+  },
+  "Unknown content": {
+    "da": "Ukendt indhold"
+  },
+  "No recently edited content.": {
+    "da": "Intet nyligt redigeret indhold."
+  },
+  "Open": {
+    "da": "Åbn"
+  },
+  "No recently edited playlists.": {
+    "da": "Ingen nyligt redigerede afspilningslister."
+  },
+  "No scheduled displays found.": {
+    "da": "Ingen planlagte skærme fundet."
+  },
+  "Error initializing template editor page:": {
+    "da": "Fejl ved initialisering af skabelon editor side:"
+  },
+  "Preview container not found for ResizeObserver.": {
+    "da": "Forhåndsvisningscontainer ikke fundet for ResizeObserver."
+  },
+  "API key is required.": {
+    "da": "API nøgle er påkrævet."
+  },
+  "To confirm, type the following text exactly:": {
+    "da": "For at bekræfte, skriv følgende tekst præcist:"
+  },
+  "Type here:": {
+    "da": "Skriv her:"
+  },
+  "Type the confirmation text above...": {
+    "da": "Skriv bekræftelsesteksten ovenfor..."
+  },
+  "The text you entered does not match the required confirmation text.": {
+    "da": "Teksten du indtastede matcher ikke den påkrævede bekræftelsestekst."
+  },
+  "User Details": {
+    "da": "Bruger Detaljer"
+  },
+  "Username": {
+    "da": "Brugernavn"
+  },
+  "Email": {
+    "da": "E-mail"
+  },
+  "Suborganisation Memberships": {
+    "da": "Underorganisation Medlemskaber"
+  },
+  "Add New Suborg Membership:": {
+    "da": "Tilføj Nyt Underorganisation Medlemskab:"
+  },
+  "Select a Suborganisation": {
+    "da": "Vælg en Underorganisation"
+  },
+  "Select a Role": {
+    "da": "Vælg en Rolle"
+  },
+  "Employee": {
+    "da": "Medarbejder"
+  },
+  "Suborg Admin": {
+    "da": "Underorganisation Admin"
+  },
+  "Select a Branch": {
+    "da": "Vælg en Filial"
+  },
+  "Delete User": {
+    "da": "Slet Bruger"
+  },
+  "Suborganisation Name:": {
+    "da": "Underorganisation Navn:"
+  },
+  "Enter suborg name...": {
+    "da": "Indtast underorganisation navn..."
+  },
+  "Branch Name:": {
+    "da": "Filial Navn:"
+  },
+  "Enter branch name...": {
+    "da": "Indtast filial navn..."
+  },
+  "Confirm Delete User": {
+    "da": "Bekræft Slet Bruger"
+  },
+  "Confirm Delete Suborganisation": {
+    "da": "Bekræft Slet Underorganisation"
+  },
+  "Confirm Delete Branch": {
+    "da": "Bekræft Slet Filial"
+  },
+  "Role": {
+    "da": "Rolle"
+  },
+  "Organisation Admin": {
+    "da": "Organisations Admin"
+  },
+  "Suborganisation Admin": {
+    "da": "Underorganisation Admin"
+  },
+  "Suborganisation": {
+    "da": "Underorganisation"
+  },
+  "Select Branch": {
+    "da": "Vælg Filial"
+  },
+  "First Name": {
+    "da": "Fornavn"
+  },
+  "Last Name": {
+    "da": "Efternavn"
+  },
+  "Password": {
+    "da": "Adgangskode"
+  },
+  "Language": {
+    "da": "Sprog"
+  },
+  "Create User": {
+    "da": "Opret Bruger"
+  },
+  "New Name": {
+    "da": "Nyt Navn"
+  },
+  "Warning!": {
+    "da": "Advarsel!"
+  },
+  "This action cannot be undone. All wayfinding data, maps, and configurations will be permanently deleted.": {
+    "da": "Denne handling kan ikke fortrydes. Alle wayfinding data, kort og konfigurationer vil blive permanent slettet."
+  },
+  "Are you sure you want to delete the wayfinding system": {
+    "da": "Er du sikker på at du vil slette wayfinding systemet"
+  },
+  "Delete Wayfinding System": {
+    "da": "Slet Wayfinding System"
+  },
+  "Enter wayfinding system name...": {
+    "da": "Indtast wayfinding system navn..."
+  },
+  "Description": {
+    "da": "Beskrivelse"
+  },
+  "Optional": {
+    "da": "Valgfri"
+  },
+  "Brief description of the wayfinding system...": {
+    "da": "Kort beskrivelse af wayfinding systemet..."
+  },
+  "What is a Wayfinding System?": {
+    "da": "Hvad er et Wayfinding System?"
+  },
+  "Create Wayfinding System": {
+    "da": "Opret Wayfinding System"
+  },
+  "Tag Name": {
+    "da": "Tag Navn"
+  },
+  "Category Name": {
+    "da": "Kategori Navn"
+  },
+  "Edit Font": {
+    "da": "Rediger Skrifttype"
+  },
+  "Font URL": {
+    "da": "Skrifttype URL"
+  },
+  "URL to the font file (e.g., WOFF2, TTF, Google Fonts URL)": {
+    "da": "URL til skrifttype filen (f.eks., WOFF2, TTF, Google Fonts URL)"
+  },
+  "Update Font": {
+    "da": "Opdater Skrifttype"
+  },
+  "Are you sure you want to delete this font?": {
+    "da": "Er du sikker på at du vil slette denne skrifttype?"
+  },
+  "Add New Font": {
+    "da": "Tilføj Ny Skrifttype"
+  },
+  "Edit Scheduled Content": {
+    "da": "Rediger Planlagt Indhold"
+  },
+  "Combine with Default Content": {
+    "da": "Kombinér med Standard Indhold"
+  },
+  "If enabled, slides from this playlist will be added alongside the default content. If disabled, only this playlist will show.": {
+    "da": "Hvis aktiveret, slides fra denne afspilningsliste vil blive tilføjet sammen med standard indholdet. Hvis deaktiveret, vil kun denne afspilningsliste vises."
+  },
+  "Group": {
+    "da": "Gruppe"
+  },
+  "Content Type": {
+    "da": "Indhold Type"
+  },
+  "Slideshow / Interactive Content": {
+    "da": "Slideshow / Interaktivt Indhold"
+  },
+  "Slideshow Playlist": {
+    "da": "Slideshow Afspilningsliste"
+  },
+  "Playlist": {
+    "da": "Afspilningsliste"
+  },
+  "Start Date": {
+    "da": "Start Dato"
+  },
+  "Time": {
+    "da": "Tid"
+  },
+  "End Date": {
+    "da": "Slut Dato"
+  },
+  "Update": {
+    "da": "Opdater"
+  },
+  "Edit Recurring Scheduled Content": {
+    "da": "Rediger Tilbagevendende Planlagt Indhold"
+  },
+  "Day of Week": {
+    "da": "Ugedag"
+  },
+  "Monday": {
+    "da": "Mandag"
+  },
+  "Tuesday": {
+    "da": "Tirsdag"
+  },
+  "Wednesday": {
+    "da": "Onsdag"
+  },
+  "Thursday": {
+    "da": "Torsdag"
+  },
+  "Friday": {
+    "da": "Fredag"
+  },
+  "Saturday": {
+    "da": "Lørdag"
+  },
+  "Sunday": {
+    "da": "Søndag"
+  },
+  "Start Time": {
+    "da": "Start Tid"
+  },
+  "optional, defaults to 00:00": {
+    "da": "valgfri, standard til 00:00"
+  },
+  "End Time": {
+    "da": "Slut Tid"
+  },
+  "optional, defaults to 23:59": {
+    "da": "valgfri, standard til 23:59"
+  },
+  "Active From": {
+    "da": "Aktiv Fra"
+  },
+  "Active Until": {
+    "da": "Aktiv Indtil"
+  },
+  "optional": {
+    "da": "valgfri"
+  },
+  "Edit Group": {
+    "da": "Rediger Gruppe"
+  },
+  "Group Name": {
+    "da": "Gruppenavn"
+  },
+  "Default Content Type": {
+    "da": "Standard Indhold Type"
+  },
+  "Default Slideshow": {
+    "da": "Standard Slideshow"
+  },
+  "Default Playlist": {
+    "da": "Standard Afspilningsliste"
+  },
+  "Select a default playlist": {
+    "da": "Vælg en standard afspilningsliste"
+  },
+  "Delete Group": {
+    "da": "Slet Gruppe"
+  },
+  "Edit Display": {
+    "da": "Rediger Skærm"
+  },
+  "Display Name": {
+    "da": "Skærmnavn"
+  },
+  "Display URL": {
+    "da": "Skærm URL"
+  },
+  "Copied!": {
+    "da": "Kopieret!"
+  },
+  "Delete Display": {
+    "da": "Slet Skærm"
+  },
+  "Screen Registration URL": {
+    "da": "Skærm Registrerings URL"
+  },
+  "Open this URL on the Display you want to register:": {
+    "da": "Åbn denne URL på Skærmen du vil registrere:"
+  },
+  "Confirm Action": {
+    "da": "Bekræft Handling"
+  },
+  "Are you sure?": {
+    "da": "Er du sikker?"
+  },
+  "Description (optional)": {
+    "da": "Beskrivelse (valgfri)"
+  },
+  "Add Recurring Scheduled Content": {
+    "da": "Tilføj Tilbagevendende Planlagt Indhold"
+  },
+  "Add Group": {
+    "da": "Tilføj Gruppe"
+  },
+  "Enter group name": {
+    "da": "Indtast gruppenavn"
+  },
+  "Add Display": {
+    "da": "Tilføj Skærm"
+  },
+  "Enter display name": {
+    "da": "Indtast skærmnavn"
+  },
+  "Select Group": {
+    "da": "Vælg Gruppe"
+  },
+  "Your slideshow": {
+    "da": "Din slideshow"
+  },
+  "has been created.": {
+    "da": "er blevet oprettet."
+  },
+  "What would you like to do next?": {
+    "da": "Hvad vil du gerne gøre næste?"
+  },
+  "Stay Here": {
+    "da": "Bliv Her"
+  },
+  "Open Slideshow": {
+    "da": "Åbn Slideshow"
+  },
+  "Interactive Mode": {
+    "da": "Interaktiv Tilstand"
+  },
+  "allows the content to be used with interactive devices (e.g. touch screens). It becomes possible to switch between slides by clicking on the elements.": {
+    "da": "tillader indholdet at blive brugt med interaktive enheder (f.eks. touch skærme). Det bliver muligt at skifte mellem slides ved at klikke på elementerne."
+  },
+  "Note:": {
+    "da": "Bemærk:"
+  },
+  "This also has the effect of removing automatic changing between slides and makes the content unable to be part of a playlist": {
+    "da": "Dette har også effekten af at fjerne automatisk skift mellem slides og gør indholdet ude af stand til at være del af en afspilningsliste"
+  },
+  "Only use this mode if you want the content to be used with interactive devices.": {
+    "da": "Brug kun denne tilstand hvis du vil have indholdet brugt med interaktive enheder."
+  },
+  "You are unable to change the selected mode after creation.": {
+    "da": "Du kan ikke ændre den valgte tilstand efter oprettelse."
+  },
+  "Aspect Ratio": {
+    "da": "Aspect Ratio"
+  },
+  "Choose the aspect ratio for your slideshow content. This determines the display dimensions.": {
+    "da": "Vælg aspect ratio for dit slideshow indhold. Dette bestemmer display dimensionerne."
+  },
+  "Landscape": {
+    "da": "Landskab"
+  },
+  "Portrait": {
+    "da": "Portræt"
+  },
+  "Create": {
+    "da": "Opret"
+  },
+  "Delete Color": {
+    "da": "Slet Farve"
+  },
+  "Unpin Element": {
+    "da": "Frigør Element"
+  },
+  "Important:": {
+    "da": "Vigtigt:"
+  },
+  "When you unpin this element, it will only be visible on the slide where it was originally created.": {
+    "da": "Når du frigør dette element, vil det kun være synligt på slide hvor det oprindeligt blev oprettet."
+  },
+  "This element was created on:": {
+    "da": "Dette element blev oprettet på:"
+  },
+  "Slide Name": {
+    "da": "Slide Navn"
+  },
+  "Slide #": {
+    "da": "Slide #"
+  },
+  "Are you sure you want to unpin this element?": {
+    "da": "Er du sikker på at du vil frigøre dette element?"
+  },
+  "Unpin": {
+    "da": "Frigør"
+  },
+  "Add Slide Menu": {
+    "da": "Tilføj Slide Menu"
+  },
+  "Template Slide": {
+    "da": "Skabelon Slide"
+  },
+  "Blank Slide": {
+    "da": "Tom Slide"
+  },
+  "e.g. Welcome Slide": {
+    "da": "f.eks. Velkomst Slide"
+  },
+  "Duration (seconds)": {
+    "da": "Varighed (sekunder)"
+  },
+  "Select a template to create a new slide from": {
+    "da": "Vælg en skabelon at oprette en ny slide fra"
+  },
+  "Showing templates compatible with aspect ratio:": {
+    "da": "Viser skabeloner kompatible med aspect ratio:"
+  },
+  "🔎 Search by name, category or tags...": {
+    "da": "🔎 Søg efter navn, kategori eller tags..."
+  },
+  "No templates found": {
+    "da": "Ingen skabeloner fundet"
+  },
+  "Enter name and duration for the slide": {
+    "da": "Indtast navn og varighed for slide"
+  },
+  "Enter slide name": {
+    "da": "Indtast slide navn"
+  },
+  "Add Dynamic Content": {
+    "da": "Tilføj Dynamisk Indhold"
+  },
+  "Filter by Category": {
+    "da": "Filtrér efter Kategori"
+  },
+  "Search by Name...": {
+    "da": "Søg efter Navn..."
+  },
+  "Search": {
+    "da": "Søg"
+  },
+  "Action": {
+    "da": "Handling"
+  },
+  "Slide Activation Settings": {
+    "da": "Slide Aktivering Indstillinger"
+  },
+  "Enable Activation/Deactivation Dates": {
+    "da": "Aktivér Aktivering/Deaktivering Datoer"
+  },
+  "Activation Type": {
+    "da": "Aktivering Type"
+  },
+  "One-time activation (specific dates)": {
+    "da": "Engangs aktivering (specifikke datoer)"
+  },
+  "Recurring weekly activation": {
+    "da": "Tilbagevendende ugentlig aktivering"
+  },
+  "Activation Date (inclusive):": {
+    "da": "Aktivering Dato (inklusiv):"
+  },
+  "Deactivation Date (inclusive):": {
+    "da": "Deaktivering Dato (inklusiv):"
+  },
+  "Leave blank for no end date.": {
+    "da": "Lad stå tomt for ingen slut dato."
+  },
+  "Weekly Recurring Intervals": {
+    "da": "Ugentlige Tilbagevendende Intervaller"
+  },
+  "Every": {
+    "da": "Hver"
+  },
+  "from": {
+    "da": "fra"
+  },
+  "to": {
+    "da": "til"
+  },
+  "Save Slide as Template": {
+    "da": "Gem Slide som Skabelon"
+  },
+  "Template Name": {
+    "da": "Skabelon Navn"
+  },
+  "Category (optional)": {
+    "da": "Kategori (valgfri)"
+  },
+  "-- None --": {
+    "da": "-- Ingen --"
+  },
+  "Tags (optional)": {
+    "da": "Tags (valgfri)"
+  },
+  "Select tags...": {
+    "da": "Vælg tags..."
+  },
+  "Suitable Aspect Ratios": {
+    "da": "Egnede Aspect Ratios"
+  },
+  "Select aspect ratios this template is designed to work with. This helps users find templates appropriate for their display size.": {
+    "da": "Vælg aspect ratios denne skabelon er designet til at arbejde med. Dette hjælper brugere med at finde skabeloner passende til deres display størrelse."
+  },
+  "Show Grid": {
+    "da": "Vis Gitter"
+  },
+  "Confirm Background Image Removal": {
+    "da": "Bekræft Baggrundsbillede Fjernelse"
+  },
+  "Are you sure you want to remove the background image?": {
+    "da": "Er du sikker på at du vil fjerne baggrundsbilledet?"
+  },
+  "Remove": {
+    "da": "Fjern"
+  },
+  "Uploading...": {
+    "da": "Uploader..."
+  },
+  "Upload Image": {
+    "da": "Upload Billede"
+  },
+  "Select File": {
+    "da": "Vælg Fil"
+  },
+  "Select files": {
+    "da": "Vælg filer"
+  },
+  "Accepted types: PNG, JPEG, JPG, SVG, PDF, GIF, WebP, MP4, WebM": {
+    "da": "Accepterede typer: PNG, JPEG, JPG, SVG, PDF, GIF, WebP, MP4, WebM"
+  },
+  "Selected Files": {
+    "da": "Valgte Filer"
+  },
+  "File Name": {
+    "da": "Fil Navn"
+  },
+  "File name": {
+    "da": "Fil navn"
+  },
+  "Unable to modify file names when uploading multiple files at once": {
+    "da": "Kan ikke ændre filnavne når der uploades flere filer på én gang"
+  },
+  "Enter file name": {
+    "da": "Indtast fil navn"
+  },
+  "Category select": {
+    "da": "Kategori vælg"
+  },
+  "Select a category...": {
+    "da": "Vælg en kategori..."
+  },
+  "Insert Image": {
+    "da": "Indsæt Billede"
+  },
+  "Upload": {
+    "da": "Upload"
+  },
+  "Image": {
+    "da": "Billede"
+  },
+  "Background:": {
+    "da": "Baggrund:"
+  },
+  "Filters": {
+    "da": "Filtre"
+  },
+  "HTML Element Editor": {
+    "da": "HTML Element Editor"
+  },
+  "Update Preview": {
+    "da": "Opdater Forhåndsvisning"
+  },
+  "Embed Website": {
+    "da": "Indlejr Website"
+  },
+  "Website URL": {
+    "da": "Website URL"
+  },
+  "Select Website From List": {
+    "da": "Vælg Website Fra Liste"
+  },
+  "Choose from the existing URLs below or enter a new one above.": {
+    "da": "Vælg fra de eksisterende URLs nedenfor eller indtast en ny ovenfor."
+  },
+  "Embed": {
+    "da": "Indlejr"
+  },
+  "Background Image Options": {
+    "da": "Baggrundsbillede Indstillinger"
+  },
+  "Background Image": {
+    "da": "Baggrundsbillede"
+  },
+  "Change Background Image": {
+    "da": "Skift Baggrundsbillede"
+  },
+  "Select a different image for the slide background": {
+    "da": "Vælg et andet billede for slide baggrunden"
+  },
+  "Sizing & Repeat": {
+    "da": "Størrelse & Gentag"
+  },
+  "Contain": {
+    "da": "Indehold"
+  },
+  "Original Size": {
+    "da": "Original Størrelse"
+  },
+  "Stretch": {
+    "da": "Stræk"
+  },
+  "Repeat": {
+    "da": "Gentag"
+  },
+  "Top Left": {
+    "da": "Øverst Venstre"
+  },
+  "Center": {
+    "da": "Center"
+  },
+  "Top Right": {
+    "da": "Øverst Højre"
+  },
+  "Bottom Left": {
+    "da": "Nederst Venstre"
+  },
+  "Bottom Right": {
+    "da": "Nederst Højre"
+  },
+  "Remove Background": {
+    "da": "Fjern Baggrund"
+  },
+  "Remove Background Image": {
+    "da": "Fjern Baggrundsbillede"
+  },
+  "Textbox": {
+    "da": "Tekstboks"
+  },
+  "Line Height": {
+    "da": "Linje Højde"
+  },
+  "Change Text Color": {
+    "da": "Skift Tekstfarve"
+  },
+  "Text Color": {
+    "da": "Tekstfarve"
+  },
+  "Bold": {
+    "da": "Fed"
+  },
+  "Make Text Bold": {
+    "da": "Gør Tekst Fed"
+  },
+  "Italic": {
+    "da": "Kursiv"
+  },
+  "Make Text Italic": {
+    "da": "Gør Tekst Kursiv"
+  },
+  "Underline": {
+    "da": "Understreg"
+  },
+  "Underline Text": {
+    "da": "Understreg Tekst"
+  },
+  "Align Left": {
+    "da": "Juster Venstre"
+  },
+  "Align Text Left": {
+    "da": "Juster Tekst Venstre"
+  },
+  "Align Center": {
+    "da": "Juster Center"
+  },
+  "Align Text Center": {
+    "da": "Juster Tekst Center"
+  },
+  "Align Right": {
+    "da": "Juster Højre"
+  },
+  "Align Text Right": {
+    "da": "Juster Tekst Højre"
+  },
+  "Align Top": {
+    "da": "Juster Øverst"
+  },
+  "Align Middle": {
+    "da": "Juster Midten"
+  },
+  "Align Bottom": {
+    "da": "Juster Nederst"
+  },
+  "Video": {
+    "da": "Video"
+  },
+  "Change": {
+    "da": "Skift"
+  },
+  "Volume": {
+    "da": "Lydstyrke"
+  },
+  "Horizontal Align": {
+    "da": "Horisontal Juster"
+  },
+  "Vertical Align": {
+    "da": "Vertikal Juster"
+  },
+  "Table": {
+    "da": "Tabel"
+  },
+  "Table Structure & Layout": {
+    "da": "Tabel Struktur & Layout"
+  },
+  "Structure": {
+    "da": "Struktur"
+  },
+  "Typography & Fonts": {
+    "da": "Typografi & Skrifttyper"
+  },
+  "Typography": {
+    "da": "Typografi"
+  },
+  "Table Colors": {
+    "da": "Tabel Farver"
+  },
+  "Colors": {
+    "da": "Farver"
+  },
+  "Auto": {
+    "da": "Auto"
+  },
+  "Even": {
+    "da": "Lige"
+  },
+  "Placeholder": {
+    "da": "Pladsholder"
+  },
+  "Change element type": {
+    "da": "Skift element type"
+  },
+  "List": {
+    "da": "Liste"
+  },
+  "List Structure & Content": {
+    "da": "Liste Struktur & Indhold"
+  },
+  "Bullet (•)": {
+    "da": "Punkt (•)"
+  },
+  "Circle (○)": {
+    "da": "Cirkel (○)"
+  },
+  "Square (■)": {
+    "da": "Firkant (■)"
+  },
+  "Numbers (1, 2, 3)": {
+    "da": "Numre (1, 2, 3)"
+  },
+  "Letters (a, b, c)": {
+    "da": "Bogstaver (a, b, c)"
+  },
+  "Letters (A, B, C)": {
+    "da": "Bogstaver (A, B, C)"
+  },
+  "Roman (i, ii, iii)": {
+    "da": "Romansk (i, ii, iii)"
+  },
+  "Roman (I, II, III)": {
+    "da": "Romansk (I, II, III)"
+  },
+  "Enter one item per line": {
+    "da": "Indtast et element per linje"
+  },
+  "Sizing": {
+    "da": "Størrelse"
+  },
+  "Original": {
+    "da": "Original"
+  },
+  "HTML Element": {
+    "da": "HTML Element"
+  },
+  "Edit HTML": {
+    "da": "Rediger HTML"
+  },
+  "Website": {
+    "da": "Website"
+  },
+  "Dynamic Content": {
+    "da": "Dynamisk Indhold"
+  },
+  "Change Dynamic Content": {
+    "da": "Skift Dynamisk Indhold"
+  },
+  "Please select a slide first!": {
+    "da": "Vælg en slide først!"
+  },
+  "Failed to load custom fonts.": {
+    "da": "Kunne ikke indlæse brugerdefinerede skrifttyper."
+  },
+  "Failed to load custom colors.": {
+    "da": "Kunne ikke indlæse brugerdefinerede farver."
+  },
+  "Remove Color": {
+    "da": "Fjern Farve"
+  },
+  "aspect ratio": {
+    "da": "aspect ratio"
+  },
+  "s": {
+    "da": "s"
+  },
+  "selected": {
+    "da": "valgt"
+  },
+  "No aspect ratios selected yet": {
+    "da": "Ingen aspect ratios valgt endnu"
+  },
+  "No slide index provided.": {
+    "da": "Intet slide indeks angivet."
+  },
+  "New Blank Template": {
+    "da": "Ny Tom Skabelon"
+  },
+  "Template": {
+    "da": "Skabelon"
+  },
+  "Create New Blank Template": {
+    "da": "Opret Ny Tom Skabelon"
+  },
+  "Save Template": {
+    "da": "Gem Skabelon"
+  },
+  "Cannot edit template: Invalid template data.": {
+    "da": "Kan ikke redigere skabelon: Ugyldig skabelon data."
+  },
+  "Edit Template Details": {
+    "da": "Rediger Skabelon Detaljer"
+  },
+  "Tags selected": {
+    "da": "Tags valgt"
+  },
+  "Please enter a template name.": {
+    "da": "Indtast et skabelon navn."
+  },
+  "Failed to update template metadata: ": {
+    "da": "Kunne ikke opdatere skabelon metadata: "
+  },
+  "Template details updated successfully.": {
+    "da": "Skabelon detaljer opdateret succesfuldt."
+  },
+  "Error: ": {
+    "da": "Fejl: "
+  },
+  "Failed to save template: ": {
+    "da": "Kunne ikke gemme skabelon: "
+  },
+  "Template saved: ": {
+    "da": "Skabelon gemt: "
+  },
+  "No images found": {
+    "da": "Ingen billeder fundet"
+  },
+  "No videos found": {
+    "da": "Ingen videoer fundet"
+  },
+  "Insert": {
+    "da": "Indsæt"
+  },
+  "No branches available": {
+    "da": "Ingen filialer tilgængelige"
+  },
+  "Uploaded by": {
+    "da": "Uploadet af"
+  },
+  "Media succesfully deleted": {
+    "da": "Medie slettet succesfuldt"
+  },
+  "Media succesfully": {
+    "da": "Medie succesfuldt"
+  },
+  "created": {
+    "da": "oprettet"
+  },
+  "updated": {
+    "da": "opdateret"
+  },
+  "Remove file": {
+    "da": "Fjern fil"
+  },
+  "Hide Filters": {
+    "da": "Skjul Filtre"
+  },
+  "Show Filters": {
+    "da": "Vis Filtre"
+  },
+  "Please enter some dynamic content (HTML).": {
+    "da": "Indtast noget dynamisk indhold (HTML)."
+  },
+  "(none)": {
+    "da": "(ingen)"
+  },
+  "No form available.": {
+    "da": "Ingen formular tilgængelig."
+  },
+  "Yes": {
+    "da": "Ja"
+  },
+  "Double click to edit text": {
+    "da": "Dobbeltklik for at redigere tekst"
+  },
+  "Header": {
+    "da": "Header"
+  },
+  "Row": {
+    "da": "Række"
+  },
+  "Col": {
+    "da": "Kol"
+  },
+  "Invalid table dimensions. Rows: 1-20, Cols: 1-10": {
+    "da": "Ugyldige tabel dimensioner. Rækker: 1-20, Kolonner: 1-10"
+  },
+  "Structure & Layout": {
+    "da": "Struktur & Layout"
+  },
+  "Number of Rows:": {
+    "da": "Antal Rækker:"
+  },
+  "Number of Columns:": {
+    "da": "Antal Kolonner:"
+  },
+  "Cell Sizing:": {
+    "da": "Celle Størrelse:"
+  },
+  "Header Font Size:": {
+    "da": "Header Skrifttype Størrelse:"
+  },
+  "Header Font Family:": {
+    "da": "Header Skrifttype Familie:"
+  },
+  "Row Font Size:": {
+    "da": "Række Skrifttype Størrelse:"
+  },
+  "Row Font Family:": {
+    "da": "Række Skrifttype Familie:"
+  },
+  "Transparent": {
+    "da": "Gennemsigtig"
+  },
+  "Choose Color": {
+    "da": "Vælg Farve"
+  },
+  "Selecting": {
+    "da": "Vælger"
+  },
+  "Font Color": {
+    "da": "Skrifttype Farve"
+  },
+  "Header Background": {
+    "da": "Header Baggrund"
+  },
+  "Header Font": {
+    "da": "Header Skrifttype"
+  },
+  "Header Colors": {
+    "da": "Header Farver"
+  },
+  "Striped Background": {
+    "da": "Stribet Baggrund"
+  },
+  "Striped Font": {
+    "da": "Stribet Skrifttype"
+  },
+  "Striped Rows": {
+    "da": "Stribede Rækker"
+  },
+  "Border Color": {
+    "da": "Kant Farve"
+  },
+  "Border Thickness": {
+    "da": "Kant Tykkelse"
+  },
+  "Bordered Table": {
+    "da": "Kantet Tabel"
+  },
+  "Shape": {
+    "da": "Form"
+  },
+  "Change Shape": {
+    "da": "Skift Form"
+  },
+  "Fill": {
+    "da": "Fyld"
+  },
+  "Change Fill Color": {
+    "da": "Skift Fyld Farve"
+  },
+  "Outline": {
+    "da": "Omrids"
+  },
+  "Change Outline Color": {
+    "da": "Skift Omrids Farve"
+  },
+  "Select Element Type": {
+    "da": "Vælg Element Type"
+  },
+  "Failed to convert placeholder to element type": {
+    "da": "Kunne ikke konvertere pladsholder til element type"
+  },
+  "Add new item": {
+    "da": "Tilføj nyt element"
+  },
+  "Indent left": {
+    "da": "Indryk venstre"
+  },
+  "Indent right": {
+    "da": "Indryk højre"
+  },
+  "List Structure": {
+    "da": "Liste Struktur"
+  },
+  "List Type:": {
+    "da": "Liste Type:"
+  },
+  "Font Size:": {
+    "da": "Skrifttype Størrelse:"
+  },
+  "Font Family:": {
+    "da": "Skrifttype Familie:"
+  },
+  "Line Height:": {
+    "da": "Linje Højde:"
+  },
+  "Item Spacing:": {
+    "da": "Element Mellemrum:"
+  },
+  "Font Color:": {
+    "da": "Skrifttype Farve:"
+  },
+  "Please select an image element first!": {
+    "da": "Vælg et billede element først!"
+  },
+  "Are you sure you want to remove the website from the list?": {
+    "da": "Er du sikker på at du vil fjerne websitet fra listen?"
+  },
+  "No": {
+    "da": "Nej"
+  },
+  "No embed website element selected for update!": {
+    "da": "Intet indlejret website element valgt for opdatering!"
+  },
+  "When using the native version of OpenStream (as the actual digital signage screens should), this website will be shown:": {
+    "da": "Når du bruger den native version af OpenStream (som de faktiske digitale skærme skal), vil dette website blive vist:"
+  },
+  "If you wish to preview embedded websites in the editor, you need to install the desktop version of OpenStream. Please read the documentation for more information.": {
+    "da": "Hvis du ønsker at forhåndsvise indlejrede websites i editoren, skal du installere desktop versionen af OpenStream. Læs dokumentationen for mere information."
+  },
+  "Please enter a URL.": {
+    "da": "Indtast en URL."
+  },
+  "Invalid URL": {
+    "da": "Ugyldig URL"
+  },
+  "Please select an embed website element to update first!": {
+    "da": "Vælg et indlejret website element at opdatere først!"
+  },
+  "Please enter a valid URL.": {
+    "da": "Indtast en gyldig URL."
+  },
+  "Website URL updated successfully!": {
+    "da": "Website URL opdateret succesfuldt!"
+  },
+  "Please select an element first!": {
+    "da": "Vælg et element først!"
+  },
+  "Scale Element": {
+    "da": "Skalér Element"
+  },
+  "Unknown Slide": {
+    "da": "Ukendt Slide"
+  },
+  "Element is pinned to all slides. Click to unpin.": {
+    "da": "Element er fastgjort til alle slides. Klik for at frigøre."
+  },
+  "Pin this element to appear on all slides.": {
+    "da": "Fastgør dette element til at vises på alle slides."
+  },
+  "Set Padding (%)": {
+    "da": "Sæt Polstring (%)"
+  },
+  "Background Opacity:": {
+    "da": "Baggrund Uigennemsigtighed:"
+  },
+  "Element Opacity:": {
+    "da": "Element Uigennemsigtighed:"
+  },
+  "Set Offset (%)": {
+    "da": "Sæt Forskydning (%)"
+  },
+  "Horizontal: ": {
+    "da": "Horisontal: "
+  },
+  "Vertical: ": {
+    "da": "Vertikal: "
+  },
+  "Unlock element movement and resizing": {
+    "da": "Lås element bevægelse og størrelsesændring op"
+  },
+  "Thickness (px): ": {
+    "da": "Tykkelse (px): "
+  },
+  "Round Corners": {
+    "da": "Runde Hjørner"
+  },
+  "Remove Border": {
+    "da": "Fjern Kant"
+  },
+  "Apply": {
+    "da": "Anvend"
+  },
+  "Organisation ID is missing. Cannot fetch templates.": {
+    "da": "Organisations ID mangler. Kan ikke hente skabeloner."
+  },
+  "Error loading templates.": {
+    "da": "Fejl ved indlæsning af skabeloner."
+  },
+  "Error: Cannot save template. Original template ID is missing.": {
+    "da": "Fejl: Kan ikke gemme skabelon. Original skabelon ID mangler."
+  },
+  "Template auto-save error: ": {
+    "da": "Skabelon auto-gem fejl: "
+  },
+  "Manage Templates": {
+    "da": "Administrer Skabeloner"
+  },
+  "Cannot duplicate: Template ID is missing.": {
+    "da": "Kan ikke duplikere: Skabelon ID mangler."
+  },
+  "Organisation ID is missing. Cannot duplicate template.": {
+    "da": "Organisations ID mangler. Kan ikke duplikere skabelon."
+  },
+  "Copy of ": {
+    "da": "Kopi af "
+  },
+  "Template duplicated successfully.": {
+    "da": "Skabelon duplikeret succesfuldt."
+  },
+  "Cannot delete: Template ID is missing.": {
+    "da": "Kan ikke slette: Skabelon ID mangler."
+  },
+  "Template deleted successfully.": {
+    "da": "Skabelon slettet succesfuldt."
+  },
+  "Exit": {
+    "da": "Afslut"
+  },
+  "Size": {
+    "da": "Størrelse"
+  },
+  "No active slides": {
+    "da": "Ingen aktive slides"
+  },
+  "Slide": {
+    "da": "Slide"
+  },
+  "Next in": {
+    "da": "Næste om"
+  },
+  "Interactive Preview": {
+    "da": "Interaktiv Forhåndsvisning"
+  },
+  "Emulated Size": {
+    "da": "Emuleret Størrelse"
+  },
+  "No Active Slides": {
+    "da": "Ingen Aktive Slides"
+  },
+  "Slideshow Mode": {
+    "da": "Slideshow Tilstand"
+  },
+  "No slides available. Please add a slide to get started.": {
+    "da": "Ingen slides tilgængelige. Tilføj en slide for at komme i gang."
+  },
+  "Auto-save error: ": {
+    "da": "Auto-gem fejl: "
+  },
+  "Auto-save failed. Status: ": {
+    "da": "Auto-gem fejlede. Status: "
+  },
+  "Saving...": {
+    "da": "Gemmer..."
+  },
+  "Duplicate Template": {
+    "da": "Duplikér Skabelon"
+  },
+  "Duplicate Slide": {
+    "da": "Duplikér Slide"
+  },
+  "Delete Template": {
+    "da": "Slet Skabelon"
+  },
+  "Delete Slide": {
+    "da": "Slet Slide"
+  },
+  "Are you sure you want to delete this template?": {
+    "da": "Er du sikker på at du vil slette denne skabelon?"
+  },
+  "Are you sure you want to delete this slide?": {
+    "da": "Er du sikker på at du vil slette denne slide?"
+  },
+  "Please enter a valid slide name.": {
+    "da": "Indtast et gyldigt slide navn."
+  },
+  "Angiv varighed for slide i sekunder": {
+    "da": "Angiv varighed for slide i sekunder"
+  },
+  "Please enter a valid duration.": {
+    "da": "Indtast en gyldig varighed."
+  },
+  "Advanced Slide Planning": {
+    "da": "Avanceret Slide Planlægning"
+  },
+  "Error: Cannot delete template. Template ID is missing.": {
+    "da": "Fejl: Kan ikke slette skabelon. Skabelon ID mangler."
+  },
+  "Template deleted and list refreshed.": {
+    "da": "Skabelon slettet og liste opdateret."
+  },
+  "Add Page": {
+    "da": "Tilføj Side"
+  },
+  "Preview Interactive Content": {
+    "da": "Forhåndsvis Interaktivt Indhold"
+  },
+  "Error: Cannot duplicate template. Template ID is missing.": {
+    "da": "Fejl: Kan ikke duplikere skabelon. Skabelon ID mangler."
+  },
+  "No slides available.": {
+    "da": "Ingen slides tilgængelige."
+  },
+  "Template Manager": {
+    "da": "Skabelon Manager"
+  },
+  "No API Key or Authorization token found.": {
+    "da": "Ingen API Nøgle eller Autorisation token fundet."
+  },
+  "Open page by clicking ..": {
+    "da": "Åbn side ved at klikke .."
+  },
+  "Please select an element to duplicate.": {
+    "da": "Vælg et element at duplikere."
+  },
+  "Change to:": {
+    "da": "Skift til:"
+  },
+  "Failed to convert element type": {
+    "da": "Kunne ikke konvertere element type"
+  },
+  "Copy Element": {
+    "da": "Kopiér Element"
+  },
+  "Change Element Type": {
+    "da": "Skift Element Type"
+  },
+  "Delete Element": {
+    "da": "Slet Element"
+  },
+  "Duplicate Element": {
+    "da": "Duplikér Element"
+  },
+  "Paste Element": {
+    "da": "Indsæt Element"
+  },
+  "No element has been copied.": {
+    "da": "Intet element er blevet kopieret."
+  },
+  "Show All": {
+    "da": "Vis Alle"
+  },
+  "Please fill out slide name and duration correctly.": {
+    "da": "Udfyld slide navn og varighed korrekt."
+  },
+  "Please select a template from the list.": {
+    "da": "Vælg en skabelon fra listen."
+  },
+  " (From Template)": {
+    "da": " (Fra Skabelon)"
+  },
+  "Branches": {
+    "da": "Afdelinger"
+  },
+  "Documentation": {
+    "da": "Dokumentation"
+  },
+  "title": {
+    "da": "titel"
+  },
+  "Color Scheme": {
+    "da": "Farveskema"
+  },
+  "Fonts": {
+    "da": "Skrifttyper"
+  },
+  "Categories & Tags": {
+    "da": "Kategorier & Tags"
+  },
+  "Templates": {
+    "da": "Skabeloner"
+  },
+  "Media Files": {
+    "da": "Mediefiler"
+  },
+  "Dashboard": {
+    "da": "Dashboard"
+  },
+  "Content": {
+    "da": "Indhold"
+  },
+  "Playlists": {
+    "da": "Afspilningslister"
+  },
+  "Wayfinding": {
+    "da": "Wayfinding"
+  },
+  "Manage Displays": {
+    "da": "Administrer Skærme"
+  },
+  "{{title}}": {
+    "da": "{{titel}}"
+  },
+  "description": {
+    "da": "beskrivelse"
+  },
+  "Edit Suborganisation": {
+    "da": "Rediger Underorganisation"
+  },
+  "Update Suborganisation": {
+    "da": "Opdater Underorganisation"
+  },
+  "Edit Branch": {
+    "da": "Rediger Afdeling"
+  },
+  "Update Branch": {
+    "da": "Opdater Afdeling"
+  },
+  "OK": {
+    "da": "OK"
+  },
+  "Alert": {
+    "da": "Advarsel"
+  },
+  "Add New User": {
+    "da": "Tilføj Ny Bruger"
+  },
+  "Add New Suborganisation": {
+    "da": "Tilføj Ny Underorganisation"
+  },
+  "Create Suborganisation": {
+    "da": "Opret Underorganisation"
+  },
+  "Add New Branch": {
+    "da": "Tilføj Ny Afdeling"
+  },
+  "Create Branch": {
+    "da": "Opret Afdeling"
+  },
+  "Rename Wayfinding System": {
+    "da": "Omdøb Wayfinding System"
+  },
+  "Slideshow Created!": {
+    "da": "Slideshow Oprettet!"
+  },
+  "Rename Slideshow": {
+    "da": "Omdøb Slideshow"
+  },
+  "Create Slideshow": {
+    "da": "Opret Slideshow"
+  },
+  "uSER sETTINGS": {
+    "da": "Brugerindstillinger"
+  },
+  "Slideshow Playlists": {
+    "da": "Slideshow Afspilningslister"
+  },
+  "Sign In": {
+    "da": "Log Ind"
+  },
+  "Select Suborganisation": {
+    "da": "Vælg Underorganisation"
+  },
+  "Select Organisation": {
+    "da": "Vælg Organisation"
+  },
+  "Content Engine": {
+    "da": "Indholdsmotor"
+  },
+  "Edit Content": {
+    "da": "Rediger Indhold"
+  },
+  "Manage Wayfinding Systems": {
+    "da": "Administrer Wayfinding Systemer"
+  },
+  "Edit Templates": {
+    "da": "Rediger Skabeloner"
+  },
+  "Manage Content": {
+    "da": "Administrer Indhold"
+  },
+  "Administrer Indhold": {
+    "da": "Administrer Indhold"
+  },
+  "Manage Tags and Categories": {
+    "da": "Administrer Tags og Kategorier"
+  },
+  "WinKAS Bookings Slide": {
+    "da": "WinKAS Bookings Slide"
+  },
+  "WinKAS Booking Configuration Form": {
+    "da": "WinKAS Booking Konfigurationsformular"
+  },
+  "Speed Admin Schedule Slide": {
+    "da": "Speed Admin Schedule Slide"
+  },
+  "Speed Admin Configuration Form": {
+    "da": "Speed Admin Konfigurationsformular"
+  },
+  "News Ticker Widget": {
+    "da": "Nyhedsticker Widget"
+  },
+  "Newsticker Configuration Form": {
+    "da": "Nyhedsticker Konfigurationsformular"
+  },
+  "News Feed with Image": {
+    "da": "Nyhedsfeed med Billede"
+  },
+  "News Feed with Image Configuration": {
+    "da": "Nyhedsfeed med Billede Konfiguration"
+  },
+  "KMD Foreningsportalen Slide": {
+    "da": "KMD Foreningsportalen Slide"
+  },
+  "KMD Foreningsportalen Configuration Form": {
+    "da": "KMD Foreningsportalen Konfigurationsformular"
+  },
+  "Frontdesk LTK Borgerservice Configuration Form": {
+    "da": "Frontdesk LTK Borgerservice Konfigurationsformular"
+  },
+  "Dream Broker Video Player": {
+    "da": "Dream Broker Videoafspiller"
+  },
+  "Dreambroker Video Configuration": {
+    "da": "Dreambroker Video Konfiguration"
+  },
+  "DR Channel Stream": {
+    "da": "DR Kanal Stream"
+  },
+  "DR Channel Stream Configuration": {
+    "da": "DR Kanal Stream Konfiguration"
+  },
+  "DDB Events Slide": {
+    "da": "DDB Events Slide"
+  },
+  "DDB Events Configuration Form": {
+    "da": "DDB Events Konfigurationsformular"
+  },
+  "Clock Widget": {
+    "da": "Ur Widget"
+  },
+  "Clock Widget Configuration": {
+    "da": "Ur Widget Konfiguration"
+  },
+  "Duplicate": {
+    "da": "Dupliker"
+  },
+  "Please select a video element first!": {
+    "da": "Vælg venligst et videoelement først!"
+  },
+  "Add Content": {
+    "da": "Tilføj indhold"
+  },
+  "Filter by Categories": {
+    "da": "Filtrer efter kategorier"
+  },
+  "Filter by Mode": {
+    "da": "Filtrer efter tilstand"
+  },
+  "No slideshows found": {
+    "da": "Ingen slideshows fundet"
+  },
+  "Table of Contents": {
+    "da": "Indholdsfortegnelse"
+  },
+  "Add Branch": {
+    "da": "Tilføj afdeling"
+  },
+  "Global Settings": {
+    "da": "Globale indstillinger"
+  },
+  "{{btn-text}}": {
+    "da": ""
+  },
+  "{{#if message}}{{message}}{{else}}To confirm, type the following text exactly:{{/if}}": {
+    "da": ""
+  },
+  "{{text}}": {
+    "da": ""
+  },
+  "{{placeholder}}": {
+    "da": ""
+  }
+}

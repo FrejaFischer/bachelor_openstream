@@ -1,0 +1,173 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+// DDB Events Slide Type Styles
+// Inherits from main.scss and adds slide-specific styling
+
+@import "../../scss/main";
+
+// Override body styles for slide display
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background-color: $white;
+  color: $darkest-gray;
+}
+
+// Carousel container styles
+#carouselContainer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.carousel {
+  width: 100vw;
+  height: 100vh;
+}
+
+// Carousel item layouts
+.carousel-item.vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.carousel-item {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-item .row {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.carousel-item .col-image,
+.carousel-item .col-info {
+  padding: 20px;
+}
+
+.carousel-item.vertical .col-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $lighter-gray;
+  overflow: hidden;
+}
+
+// Image styles
+.col-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $lighter-gray;
+  overflow: hidden;
+}
+
+* {
+  color: $black;
+}
+
+.col-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  margin: 1rem;
+}
+
+// Info panel styles
+.col-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $white;
+  overflow-y: auto;
+  position: relative;
+}
+
+// Event text styles
+.event-title {
+  font-size: 5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.event-description {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.event-date,
+.event-location,
+.event-address,
+.event-tags {
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+.event-body {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+// QR code positioning
+.event-qr {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  margin: 0;
+  z-index: 100;
+}
+
+// Vertical layout specific styles
+.vertical-layout-bottom {
+  background-color: rgba($white, 0.9);
+  padding: 20px;
+  display: flex;
+  z-index: 90;
+  width: 98%;
+}
+
+.vertical-layout-text {
+  flex: 1;
+}
+
+.vertical-layout-qr {
+  margin-left: 20px;
+  display: flex;
+  align-items: flex-end;
+}
+
+// Scrollbar styles
+.col-info::-webkit-scrollbar {
+  width: 6px;
+}
+
+.col-info::-webkit-scrollbar-track {
+  background: $light-gray;
+}
+
+.col-info::-webkit-scrollbar-thumb {
+  background: $gray;
+}
+
+.col-info::-webkit-scrollbar-thumb:hover {
+  background: $dark-gray;
+}
+
+// Hide carousel controls
+.carousel-control-prev,
+.carousel-control-next {
+  visibility: hidden;
+}

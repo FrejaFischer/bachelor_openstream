@@ -1,0 +1,149 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wayfinding Map Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/assets/pages/wayfinding/style.css">
+    <style>
+        /* Editor-only: hide the map title overlay (we show floor titles in the sidebar instead) */
+        .hide-map-title #map-title {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="hide-map-title">
+    {{> pages/wayfinding/loading-navbar }}
+    <div id="main-container">
+        <!-- Left Sidebar for Floors -->
+        <div id="floors-sidebar" style="height: calc(100vh - 3.5rem); display: flex; flex-direction: column; padding-bottom: 0;" class="sidebar sidebar-full-height">
+            <h2 class="text-lg font-semibold text-gray-700">Floors</h2>
+            <div id="floors-menu-btns" class="my-3 py-3">
+                <button id="add-floor-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-opacity-50 transition-colors">+ Add Floor</button>
+                <button id="draw-path-btn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors">+ Add Path</button>
+            </div>
+            <div style="flex: 1; overflow: scroll; " id="floors-list"></div>
+        </div>
+
+        {{> pages/wayfinding/wayfinding-map }}
+
+        <!-- Right Sidebar Container -->
+        <div id="right-sidebar-container">
+            <div style="height: calc(100% - 12rem);" class="grid grid-cols-2 gap-6">
+                <div id="screens-sidebar" class="sidebar">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-lg font-semibold text-gray-700">Registered Screens</h2>
+                        <button id="add-screen-btn" class="w-7 h-7 bg-red-500 text-white rounded-full hover:bg-red-600 flex items-center justify-center text-xl font-bold pb-1" title="Add Screen">+</button>
+                    </div>
+                    <ul id="screens-list" style="height: calc(100vh - 21.5rem); overflow: scroll;">
+                        <li class="text-gray-500">No screens added yet.</li>
+                    </ul>
+                </div>
+                <div id="pois-sidebar" class="sidebar">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-lg font-semibold text-gray-700">Points of Interest</h2>
+                        <button id="add-poi-btn" class="w-7 h-7 bg-blue-500 text-white rounded-full hover:bg-blue-600 flex items-center justify-center text-xl font-bold pb-1" title="Add POI">+</button>
+                    </div>
+                    <ul id="pois-list" style="height: calc(100vh - 21.5rem); overflow: scroll;">
+                        <li class="text-gray-500">No POIs added yet.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="task-list-container" class="sidebar mt-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-lg font-semibold text-gray-700">Task List</h2>
+                </div>
+                <ul id="tasks-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="toast"></div>
+
+    <!-- Auto-save indicator -->
+    <div id="auto-save-indicator" class="fixed top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-md text-sm opacity-0 transition-opacity duration-300 z-50">
+        Auto-saving...
+    </div>
+
+    <!-- Modals -->
+    <div id="custom-prompt-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div id="custom-prompt" class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
+            <h3 id="prompt-title" class="text-lg font-semibold mb-4">Enter Name</h3>
+            <div id="prompt-type-container" class="mb-4">
+                <label for="prompt-type-select" class="block text-sm font-medium text-gray-700 mb-1">POI Type</label>
+                <select id="prompt-type-select" class="w-full p-2 border border-gray-300 rounded-md">
+                    <option value="Normal">Normal</option>
+                    <option value="Stairs">Stairs</option>
+                    <option value="Elevator">Elevator</option>
+                    <option value="Toilet">Toilet</option>
+                    <option value="Entrance/Exit">Entrance/Exit</option>
+                </select>
+            </div>
+            <input type="text" id="prompt-input" class="w-full p-2 border border-gray-300 rounded-md mb-4" placeholder="Leave blank to use the selected POI type as the name (e.g. 'Toilet')">
+            <div id="prompt-image-container" class="mb-4" style="display:none;">
+                <label for="prompt-image-url" class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                <input type="text" id="prompt-image-url" class="w-full p-2 border border-gray-300 rounded-md" placeholder="https://example.com/floor.png">
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="prompt-cancel-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Cancel</button>
+                <button id="prompt-confirm-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="path-continue-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
+            <h3 class="text-lg font-semibold mb-4">Continue path at...</h3>
+            <div id="path-continue-list" class="max-h-64 overflow-y-auto mb-4"></div>
+            <div class="flex justify-end space-x-3">
+                <button id="path-continue-cancel-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Modal -->
+    <div id="save-modal-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+            <h3 class="text-lg font-semibold mb-4">Save Wayfinding Data</h3>
+            <textarea id="save-json-textarea" class="w-full h-96 p-2 border border-gray-300 rounded-md mb-4 font-mono text-sm" readonly></textarea>
+            <div class="flex justify-end space-x-3">
+                <button id="save-copy-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Copy JSON</button>
+                <button id="save-download-btn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Download File</button>
+                <button id="save-close-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Modal -->
+    <div id="load-modal-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+            <h3 class="text-lg font-semibold mb-4">Load Wayfinding Data</h3>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upload JSON File</label>
+                <input type="file" id="load-file-input" accept=".json" class="w-full p-2 border border-gray-300 rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Or Paste JSON Data</label>
+                <textarea id="load-json-textarea" class="w-full h-64 p-2 border border-gray-300 rounded-md font-mono text-sm" placeholder="Paste your JSON data here..."></textarea>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="load-confirm-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Load Data</button>
+                <button id="load-close-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/pages/wayfinding/editor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+version = 1
+SPDX-PackageName = "OpenStream"
+SPDX-PackageSupplier = "Magenta ApS <info@magenta.dk>"
+
+[[annotations]]
+path = [
+    "**poetry.lock",
+    "**.xml",
+    "**.rst",
+    "**.odt",
+    "**.pdf",
+    "**.md",
+    "**.docx",
+    "**.png",
+    "**.html",
+    "**.svg",
+    "**.ico",
+    "**.xlsx",
+    "**.mp4",
+    "**.env"
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Magenta ApS <info@magenta.dk>"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = "**.json"
+SPDX-FileCopyrightText = "2025 Magenta ApS <info@magenta.dk>"
+SPDX-License-Identifier = "AGPL-3.0-only"

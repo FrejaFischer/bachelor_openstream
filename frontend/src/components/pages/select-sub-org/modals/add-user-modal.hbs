@@ -1,0 +1,95 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="addUserModal" size="modal-lg" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Add New User"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <form id="add-user-form">
+            <!-- Role Selection (Primary) -->
+            <div class="row mb-3">
+                <label for="userRoleSelect" class="col-sm-3 col-form-label">Role</label>
+                <div class="col-sm-9">
+                    {{#> base/form/dropdown id="userRoleSelect"}}
+                        {{> base/form/dropdown-option value="" text="Select a Role" disabled=true selected=true}}
+                        {{> base/form/dropdown-option value="org_admin" text="Organisation Admin"}}
+                        {{> base/form/dropdown-option value="suborg_admin" text="Suborganisation Admin"}}
+                        {{> base/form/dropdown-option value="employee" text="Employee"}}
+        {{/base/form/dropdown}}
+                </div>
+            </div>
+            <!-- Suborganisation Selection (shown for suborg_admin and employee) -->
+            <div class="row mb-3" id="suborgDropdownContainer" style="display: none;">
+                <label for="suborgSelect" class="col-sm-3 col-form-label">Suborganisation</label>
+                <div class="col-sm-9">
+                    {{#> base/form/dropdown id="suborgSelect"}}
+                        {{> base/form/dropdown-option value="" text="Select a Suborganisation" disabled=true selected=true}}
+                        <!-- Populated by JS -->
+        {{/base/form/dropdown}}
+                </div>
+            </div>
+            <!-- Branch Selection (shown only for employee) -->
+            <div class="row mb-3" id="branchDropdownContainer" style="display: none;">
+                <label for="branchSelect" class="col-sm-3 col-form-label">Select Branch</label>
+                <div class="col-sm-9">
+                    {{#> base/form/dropdown id="branchSelect"}}
+                        {{> base/form/dropdown-option value="" text="Select a Branch" disabled=true selected=true}}
+                        <!-- Populated by JS -->
+        {{/base/form/dropdown}}
+                </div>
+            </div>
+            <hr />
+            <!-- 2) New user fields -->
+            <div class="row mb-3">
+                <label for="newUserUsername" class="col-sm-3 col-form-label">Username:</label>
+                <div class="col-sm-9">
+                    {{> base/form/input type="text" id="newUserUsername" required=true}}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="userEmailInput" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    {{> base/form/input type="email" id="userEmailInput" required=true}}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="userFirstNameInput" class="col-sm-3 col-form-label">First Name</label>
+                <div class="col-sm-9">
+                    {{> base/form/input type="text" id="userFirstNameInput" required=true}}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="userLastNameInput" class="col-sm-3 col-form-label">Last Name</label>
+                <div class="col-sm-9">
+                    {{> base/form/input type="text" id="userLastNameInput" required=true}}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="userPasswordInput" class="col-sm-3 col-form-label">Password</label>
+                <div class="col-sm-9">
+                    {{> base/form/input type="password" id="userPasswordInput" required=true}}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="userLanguageSelect" class="col-sm-3 col-form-label">Language</label>
+                <div class="col-sm-9">
+                    {{#> base/form/dropdown id="userLanguageSelect"}}
+                        {{> base/form/dropdown-option value="en" text="English"}}
+                        {{> base/form/dropdown-option value="da" text="Danish"}}
+                        {{> base/form/dropdown-option value="sv" text="Swedish"}}
+        {{/base/form/dropdown}}
+                </div>
+            </div>
+        </form>
+        <hr />
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Close"}}
+        {{#> base/modal/modal-footer-save id="submitAddNewUserBtn" disabled=true tooltip="Please fill out all required fields"}}
+            <span class="material-symbols-outlined">person_add</span>&nbsp;&nbsp;Create User
+        {{/base/modal/modal-footer-save}}
+    {{/inline}}
+{{/base/modal/modal}}

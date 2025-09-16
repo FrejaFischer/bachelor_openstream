@@ -1,0 +1,66 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+/* Video Background */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  width: auto;
+  height: auto;
+  z-index: -2;
+  object-fit: cover;
+}
+
+/* Gradient Overlay (Dark at top, white at bottom) */
+#video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  /* Adjust the colors and opacities as needed */
+  background: linear-gradient(to bottom, rgba($black, 0.5), rgba($white, 0.74));
+  z-index: -1;
+}
+
+/* Page Styles */
+body {
+  background: transparent;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter, sans-serif;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  border: none;
+  border-radius: 8px;
+  background-color: rgba($white, 0.85);
+
+  @extend .shadow-xl;
+}
+
+.card .card-body {
+  padding: 2rem;
+}
+
+.card .card-title {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}

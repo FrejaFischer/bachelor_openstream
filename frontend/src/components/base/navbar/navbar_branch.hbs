@@ -1,0 +1,19 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/navbar/navbar_base }}
+  {{#*inline "nav-links"}}
+    {{> base/navbar/nav_link href="/dashboard" icon="dashboard" title="Dashboard"}}
+    {{> base/navbar/nav_link href="/manage-content" icon="slideshow" title="Content"}}
+    {{> base/navbar/nav_link href="/slideshow-playlists" icon="view_agenda" title="Playlists"}}
+    {{> base/navbar/nav_link href="/manage-wayfinding-systems" icon="map" title="Wayfinding"}}
+    {{> base/navbar/nav_link href="/manage-displays" icon="tv" title="Manage Displays"}}
+    {{> base/navbar/nav_link href="/documentation" icon="library_books" title="Documentation"}}
+    {{/inline}}
+
+  {{#*inline "user-actions"}}
+    {{> base/navbar/branch-switcher }}
+    {{> base/navbar/user-dropdown }}
+    {{/inline}}
+
+
+{{/ base/navbar/navbar_base }}

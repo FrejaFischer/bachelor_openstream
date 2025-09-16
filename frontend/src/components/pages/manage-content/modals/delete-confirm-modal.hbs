@@ -1,0 +1,34 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="deleteConfirmModal" }}
+    {{#*inline "header"}}
+        <div class="bg-warning d-flex justify-content-between align-items-center w-100 p-3">
+            {{> base/modal/modal-title class="mb-0" content="<span class=\"material-symbols-outlined me-2\">warning</span>Confirm Delete Slideshow"}}
+            {{> base/modal/modal-header-close}}
+        </div>
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <div id="deleteConfirmMessage" class="mb-3">
+            <p>Are you sure you want to delete the slideshow <strong id="slideshowToDeleteName"></strong>?</p>
+        </div>
+        {{> base/modal/confirmation-prompt textBoxId="deleteSlideshowTextToType"}}
+        <form id="delete-slideshow-form">
+            <div class="mb-3">
+                {{> base/form/label for="deleteSlideshowInput" text="Type here:"}}
+                {{> base/form/input type="text" id="deleteSlideshowInput" placeholder="Type the confirmation text above..." required=true}}
+                {{> base/form/invalid-feedback id="deleteSlideshowError" text="The text you entered does not match the required confirmation text."}}
+            </div>
+            {{> base/form/input type="hidden" id="deleteSlideshowId"}}
+            {{> base/form/input type="hidden" id="deleteSlideshowName"}}
+        </form>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close id="deleteSlideshowCancelBtn" btn-text="Cancel"}}
+        <button type="button" class="btn btn-danger" id="confirmDeleteSlideshowButton" disabled>
+            <span class="material-symbols-outlined me-1">delete</span>
+            Confirm Delete
+        </button>
+    {{/inline}}
+{{/base/modal/modal}}

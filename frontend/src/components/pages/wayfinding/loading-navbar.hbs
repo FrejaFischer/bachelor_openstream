@@ -1,0 +1,21 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{!-- Loading Navbar partial
+     Usage: include with `{{> wayfinding/loading-navbar}}` in your templates.
+     Contains minimal markup and buttons used by the wayfinding editor.
+--}}
+<nav style="height: 3.5rem; background-color: #f8fafc; display: flex; background:rgba(0, 0, 0, 0.87); color: white; align-items: center; padding: 0 1rem;">
+    <div style="display:flex;align-items:center;gap:1rem;">
+        <button id="back-to-management-btn" class="text-sm px-3 py-1 rounded hover:bg-gray-700 transition-colors" style="background:transparent;color:white;border:1px solid rgba(255,255,255,0.3);" title="Back to Wayfinding Management">
+            ← Back
+        </button>
+        <div style="display:flex;flex-direction:column;gap:0;">
+            <span class="text-sm font-medium">OpenStream Wayfinding (BETA)</span>
+            <span id="wayfinding-system-name" class="text-xs text-gray-300" style="opacity: 0.8;">Loading system...</span>
+        </div>
+    </div>
+    <div style="margin-left:auto; display:flex; gap:1rem; align-items:center;">
+        <span class="text-xs text-gray-300" style="opacity: 0.7;">Auto-save enabled</span>
+        <span id="username-display" class="text-white"></span>
+    </div>
+</nav>

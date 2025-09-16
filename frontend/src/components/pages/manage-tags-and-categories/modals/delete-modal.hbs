@@ -1,0 +1,20 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="delete-confirm-modal" ariaLabelledby="deleteConfirmModalLabel" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Confirm Delete" id="deleteConfirmModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <p>{% trans "Are you sure you want to delete" %} <strong id="delete-item-name"></strong>?</p>
+        <div class="alert alert-danger mt-3">
+            <span class="material-symbols-outlined">warning</span> {% trans "This action cannot be undone." %}
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='confirm-delete-btn' variant='danger' icon='delete' text='Delete' }}
+    {{/inline}}
+{{/base/modal/modal}}

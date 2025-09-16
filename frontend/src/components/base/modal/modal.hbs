@@ -1,0 +1,18 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="modal fade" id="{{id}}" tabindex="-1" aria-hidden="true"{{#if ariaLabelledby}} aria-labelledby="{{ariaLabelledby}}"{{/if}}>
+  <div class="modal-dialog {{size}}">
+    <div class="modal-content">
+        <div class="modal-header {{classHeader}}">
+            {{> header }}
+        </div>
+        <div class="modal-body" {{#if bodyId}} id="{{bodyId}}"{{/if}}>
+            {{> body }}
+        </div>
+        <div class="modal-footer">
+            {{> footer }}
+        </div>
+    </div>
+  </div>
+</div>
+

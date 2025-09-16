@@ -1,0 +1,106 @@
+# SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Docker compose file used only for development in OpenStream
+x-env-openstream: &env-openstream ./dev-environment/backend/openstream.env
+x-env-keycloak: &env-keycloak ./dev-environment/keycloak/keycloak.env
+x-env-frontend: &env-frontend ./dev-environment/frontend/frontend.env
+
+x-common-networks: &common-networks
+  - openstream_net
+
+networks:
+  openstream_net:
+
+volumes:
+  openstream_db:
+
+services:
+  openstream:
+    container_name: openstream
+    build:
+      context: ./backend
+      dockerfile: docker/Dockerfile
+      target: development
+      args:
+        INSTALL_DEV_DEPS: "true"
+    image: openstreamadminsite
+    pull_policy: never
+    env_file:
+      - *env-openstream
+      - .env
+    networks: *common-networks
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend/openstream/project:/app/project:Z
+      - ./backend/openstream/app:/app/app:Z
+      - ./backend/openstream/sso:/app/sso:Z
+      - ./backend/openstream/osauth:/app/osauth:Z
+      - ./backend/locale:/app/locale:Z
+      - ./dev-environment/backend/fixtures:/app/fixtures:Z
+    depends_on:
+      - db
+
+  db:
+    container_name: openstream-db
+    # Specify docker repo for Podman compatibility
+    image: docker.io/library/postgres:17
+    env_file:
+      - *env-openstream
+      - *env-keycloak
+    networks: *common-networks
+    volumes:
+      - openstream_db:/var/lib/postgresql/data:Z
+      - ./dev-environment/backend/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh:ro,Z
+
+  cron:
+    container_name: openstream-cron
+    image: openstreamadminsite
+    pull_policy: never
+    env_file:
+      - *env-openstream
+    networks: *common-networks
+    volumes:
+      - ./backend/openstream/project:/app/project:Z
+      - ./backend/openstream/app:/app/app:Z
+      - ./backend/openstream/sso:/app/sso:Z
+    entrypoint: [ "/usr/local/bin/supercronic", "/crontab" ]
+    depends_on:
+      - openstream
+
+  keycloak:
+    container_name: openstream-keycloak
+    image: docker.io/magentaaps/openstream-keycloak:0.2.5
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev", "--import-realm"]
+    env_file:
+      - *env-keycloak
+    networks: *common-networks
+    ports:
+      - 8080:8080
+    volumes:
+      - ./dev-environment/keycloak/realms:/opt/keycloak/data/import
+    depends_on:
+      - db
+
+  frontend:
+    container_name: openstream-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: ${DEPLOYMENT_MODE:-development}
+    image: openstreamadminsite-frontend
+    pull_policy: never
+    env_file:
+      - *env-frontend
+    networks: *common-networks
+    ports:
+      - "5173:5173"  # Development port
+      - "4173:80"    # Production port (nginx internal port 80)
+    volumes:
+      # Only mount source code in development mode
+      - ./frontend/src:/app/src:Z
+      - ./frontend/public:/app/public:Z
+      - ./frontend/vite.config.js:/app/vite.config.js:Z
+    depends_on:
+      - openstream

@@ -1,0 +1,47 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.sort-indicator {
+  font-size: 1rem !important;
+  margin-left: 0.25rem;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  background-color: rgba($black, 0.05);
+}
+
+.table-scroll {
+  max-height: 70vh;
+}
+
+.btn-group .btn {
+  border-radius: 0.25rem !important;
+  margin-right: 0.25rem;
+}
+
+.btn-group .btn:last-child {
+  margin-right: 0;
+}
+
+.section-buttons {
+  margin-bottom: 1rem;
+}
+
+.section-buttons .btn {
+  width: 100%;
+}

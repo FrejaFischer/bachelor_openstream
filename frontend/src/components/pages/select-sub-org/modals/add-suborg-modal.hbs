@@ -1,0 +1,23 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="addSuborgModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Add New Suborganisation"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <form id="add-suborg-form">
+            <div class="mb-3">
+                {{> base/form/label for="suborgNameInput" text="Suborganisation Name"}}
+                {{> base/form/input type="text" id="suborgNameInput" placeholder="Enter suborg name..." required=true}}
+                {{> base/form/invalid-feedback text="Please provide a suborganisation name."}}
+            </div>
+        </form>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Close"}}
+        {{> base/modal/modal-footer-save id="submitAddSuborgBtn" btn-text="Create Suborganisation"}}
+    {{/inline}}
+{{/base/modal/modal}}

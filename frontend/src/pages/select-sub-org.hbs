@@ -1,0 +1,72 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Select Suborganisation" script-src="/src/assets/pages/select-sub-org/main.js" }}
+    <!-- Navigation bar -->
+    {{> pages/select-sub-org/navbar_select_sub_org }}
+
+    {{#> base/containers/main-container }}
+        <div class="container mt-4">
+            <!-- Organization name and admin buttons on the same line -->
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1 class="fw-bold" id="org-name">
+                    <!-- Will be inserted by JS -->>
+                </h1>
+                <!-- Admin-only buttons row (org_admin) -->
+                <div id="admin-buttons" class="d-flex align-items-center">
+                    <button id="add-suborg-btn" class="btn btn-secondary btn-sm d-flex align-items-center justify-content-center">
+                        <span class="material-symbols-outlined">add</span>&nbsp;{% trans "Add Suborg" %}
+                    </button>
+                    <!-- Manage Users Dropdown -->
+                    <div class="dropdown ms-2">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle d-flex align-items-center" type="button" id="manageUsersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="material-symbols-outlined me-2">manage_accounts</span>{% trans "Manage Users" %}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="manageUsersDropdown">
+                            <li>
+                                <button class="dropdown-item" id="add-user-btn">
+                                    <span class="material-symbols-outlined me-2">person_add</span>{% trans "Add User" %}
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" id="manage-users-btn">
+                                    <span class="material-symbols-outlined me-2">people</span>{% trans "Manage Existing Users"
+                            %}
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Add Suborg (org_admin only) -->
+                </div>
+            </div>
+            <!-- Heading for Sub Organisations -->
+            <!-- Cards Layout for Suborgs and Branches -->
+            <div id="suborgAccordion">
+                <!-- Dynamic suborganisation cards inserted here -->
+            </div>
+        </div>
+    {{/base/containers/main-container}}
+
+    <!-- ### MODALS ###-->
+    <!-- Modal: Add New User to Org -->
+    {{> pages/select-sub-org/modals/add-user-modal }}
+    <!-- Modal: Manage Existing Users -->
+    {{> pages/select-sub-org/modals/manage-users-modal }}
+    <!-- Modal: Add Suborg -->
+    {{> pages/select-sub-org/modals/add-suborg-modal }}
+    <!-- Modal: Add Branch -->
+    {{> pages/select-sub-org/modals/add-branch-modal }}
+    <!-- Modal: Edit Suborg -->
+    {{> pages/select-sub-org/modals/edit-suborg-modal }}
+    <!-- Modal: Edit Branch -->
+    {{> pages/select-sub-org/modals/edit-branch-modal }}
+    <!-- Modal: Delete Suborg -->
+    {{> pages/select-sub-org/modals/delete-suborg-modal }}
+    <!-- Modal: Delete Branch -->
+    {{> pages/select-sub-org/modals/delete-branch-modal }}
+    <!-- Modal: Delete User -->
+    {{> pages/select-sub-org/modals/delete-user-modal }}
+    <!-- ALERT MODAL -->
+    {{> pages/select-sub-org/modals/alert-modal }}
+    <!-- CONFIRM MODAL -->
+    {{> pages/select-sub-org/modals/confirm-modal }}
+{{/base/containers/html-container}}

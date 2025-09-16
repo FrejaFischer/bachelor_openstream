@@ -1,0 +1,150 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="top-panel w-100">
+    <div class="top-panel-options">
+        <div class="top-options-container general-settings px-4 py-2 d-flex">
+            <div id="settings-and-play-btn-container">
+                <span id="slideshow-mode-text" class="small"></span>
+                <div class="d-flex align-items-center gap-3">
+                    <button data-bs-toggle="tooltip" data-bs-title='{% trans " Play Slideshow" %}' id="playBtn"
+                        class="btn btn-primary btn-sm d-flex align-items-center">
+                        <i class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">play_arrow</i>
+                    </button>
+                    <button type="button" class="btn btn-tertiary btn-sm d-flex align-items-center"
+                        data-bs-toggle="modal" data-bs-target="#resolutionModal">
+                        <i data-bs-toggle="tooltip" data-bs-title='{% trans "Change Preview Aspect Ratio" %}' class="material-symbols-outlined">aspect_ratio</i>
+                    </button>
+                </div>
+            </div>
+            <div class="vr"></div>
+            <div id="last-changed-container">
+                <div class="autosave-info">
+                    <span class="text-muted small d-flex align-items-center">
+                        <i class="material-symbols-outlined text-secondary">sync</i>
+                    </span>
+                </div>
+            </div>
+            <div class="vr"></div>
+            <div id="undo-redo-container">
+                <div class="d-flex">
+                    <button type="button" class="btn btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans " Undo" %}' id="undoBtn">
+                        <i class="material-symbols-outlined">undo</i>
+                    </button>
+                    <button type="button" class="btn btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans " Redo" %}' id="redoBtn">
+                        <i class="material-symbols-outlined">redo</i>
+                    </button>
+                </div>
+            </div>
+            <div class="vr"></div>
+            <div id="element-options-container" class="d-flex align-items-center ">
+                <div>
+                    <span id="slide-background-options" class="small">{% trans "Background" %}</span>
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans " Change Background Color For Slide" %}' data-type="change-background-color">
+                            <i class="material-symbols-outlined">format_color_fill</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="change-slide-background-image" data-bs-toggle="tooltip" data-bs-title='{% trans "Background Image Settings" %}'>
+                            <i class="material-symbols-outlined">wallpaper_slideshow</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="vr"></div>
+            <div id="add-elements-container" class="d-flex align-items-center">
+                <div>
+                    <span id="add-elements-text" class="small">{% trans "Add Elements" %}</span>
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Image" %}' data-type="image">
+                            <i class="material-symbols-outlined">image</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="textbox" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Textbox" %}'>
+                            <i class="material-symbols-outlined">text_fields</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="video" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Video" %}'>
+                            <i class="material-symbols-outlined">videocam</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="dynamic-element" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Dynamic Content, like Widgets or API Integrations" %}'>
+                            <i class="material-symbols-outlined">dynamic_feed</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="embed-website" data-bs-toggle="tooltip" data-bs-title='{% trans " Embed Website into Slide. WARNING: Only works in Electron." %}'>
+                            <i class="material-symbols-outlined">language</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="shapes" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Shape" %}'>
+                            <i class="material-symbols-outlined">interests</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="html-element" data-bs-toggle="tooltip" data-bs-title='{% trans " Add HTML Element To Slide" %}'>
+                            <i id="add-html-element" class="material-symbols-outlined">code</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="table" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Table" %}'>
+                            <i class="material-symbols-outlined">table</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center" data-type="list" data-bs-toggle="tooltip" data-bs-title='{% trans " Add List" %}'>
+                            <i class="material-symbols-outlined">format_list_bulleted</i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm d-flex align-items-center d-none" data-type="placeholder" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Placeholder for Template Structure" %}'>
+                            <i class="material-symbols-outlined">crop_free</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toolbar-general-container" class="w-100">
+        <div class="toolbar-general h-100 w-100 px-4 d-flex align-items-center gap-3" style="visibility: hidden;">
+            <button id="selected-element-background-color" class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" title='{% trans " Background Color" %}' data-bs-title='{% trans " Change Background Color For Selected Element" %}'>
+                {% trans "Background Color" %}
+            </button>
+            <button class="btn btn-secondary btn-sm d-flex align-items-center" title='{% trans " Rotate" %}' id="rotate-btn" data-bs-toggle="tooltip" data-bs-title='{% trans " Rotate Selected Element" %}'>{% trans "Rotate" %}</button>
+            <button class="btn btn-secondary btn-sm d-flex align-items-center" title='{% trans " Border" %}' id="selected-element-border" data-bs-toggle="tooltip" data-bs-title='{% trans " Add Border To Selected Element" %}'>
+                {% trans "Border" %}
+            </button>
+            <button class="btn btn-secondary btn-sm d-flex align-items-center" id="selected-element-boxshadow" title='{% trans " Box Shadow" %}' data-bs-toggle="tooltip" data-bs-title='{% trans " Add Boxshadow To Selected Element" %}'>
+                {% trans "Shadow" %}
+            </button>
+            <button id="selected-element-padding" class="btn btn-secondary btn-sm d-flex align-items-center" title='{% trans " Padding" %}' data-bs-toggle="tooltip" data-bs-title='{% trans " Add Padding To Selected Element" %}'>
+                {% trans "Padding" %}
+            </button>
+            <button id="selected-element-offset" class="btn btn-secondary btn-sm d-flex align-items-center" title='{% trans " Offset" %}' data-bs-toggle="tooltip" data-bs-title='{% trans " Add Offset To Selected Element" %}'>
+                {% trans "Offset" %}
+            </button>
+            <button id="selected-element-scale" class="btn btn-secondary btn-sm d-flex align-items-center" title='{% trans " Scale" %}' data-bs-toggle="tooltip" data-bs-title='{% trans " Scale Selected Element (Oversize)" %}'>
+                {% trans "Scale" %}
+            </button>
+            <button type="button" title='{% trans " Opacity" %}' class="btn btn-secondary btn-sm d-flex align-items-center" id="opacityBtn" data-bs-toggle="tooltip" data-bs-title='{% trans " Change Opacity Settings For Selected Element" %}'>
+                {% trans "Opacity" %}
+            </button>
+            <button class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" title='{% trans " Bring to Front" %}' id="bring-to-front-btn" data-bs-title='{% trans " Bring Selected Element To Front" %}'>
+                {% trans "Bring to front" %}
+            </button>
+            <button class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" title='{% trans " Send to Back" %}' id="send-to-back-btn" data-bs-title='{% trans " Send Selected Element To Back" %}'>
+                {% trans "Send To Back" %}
+            </button>
+            <div class="vr"></div>
+            <button id="persist-element-btn" class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans "Toggle element persistence across all slides" %}'>
+                <span class="material-symbols-outlined">push_pin</span>
+            </button>
+            <button id="lock-element-btn" class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans "Lock element to prevent movement when template is used" %}'>
+                <span class="material-symbols-outlined">lock</span>
+            </button>
+            <select id="elementLinkDropdown" class="form-select form-select-sm"></select>
+        </div>
+    </div>
+    <div id="selected-element-toolbar">
+        <div class="toolbar-container">
+            <div class="selected-element-options h-100 w-100">
+            <!-- Element Type Toolbars -->
+            {{> base/content-engine/element-type-toolbars/dynamic-content-toolbar }}
+            {{> base/content-engine/element-type-toolbars/image-toolbar }}
+            {{> base/content-engine/element-type-toolbars/shape-element-toolbar }}
+            {{> base/content-engine/element-type-toolbars/wysiwyg-toolbar }}
+            {{> base/content-engine/element-type-toolbars/embed-website-toolbar }}
+            {{> base/content-engine/element-type-toolbars/list-toolbar }}
+            {{> base/content-engine/element-type-toolbars/table-toolbar }}
+            {{> base/content-engine/element-type-toolbars/html-element-toolbar }}
+            {{> base/content-engine/element-type-toolbars/placeholder-toolbar }}
+            {{> base/content-engine/element-type-toolbars/video-toolbar }}
+            </div>
+        </div>
+    </div>
+</div>
+

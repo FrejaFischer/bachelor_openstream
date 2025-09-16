@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+# SPDX-License-Identifier: AGPL-3.0-only
+repos:
+  - repo: local
+    hooks:
+      # Black for Python
+      - id: black
+        name: Black
+        entry: black
+        language: system
+        types: [python]
+
+
+      # djLint for Django Templates
+      - id: djlint
+        name: djLint
+        entry: djlint --reformat
+        language: system
+        types: [html]
+
+      # Prettier for JavaScript and CSS
+      - id: prettier
+        name: Prettier
+        entry: npx prettier --write
+        language: node
+        files: ^app/static/js_and_css/.*\.(js|css)$

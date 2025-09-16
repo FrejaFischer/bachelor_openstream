@@ -1,0 +1,266 @@
+// SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+// SPDX-License-Identifier: AGPL-3.0-only
+import "./style.scss";
+import {
+  translateHTML,
+  fetchUserLangugage,
+  gettext,
+} from "../../utils/locales";
+import {
+  queryParams,
+  selectedSubOrgID,
+  parentOrgID,
+  updateNavbarBranchName,
+  updateNavbarUsername,
+  makeActiveInNav,
+  initSignOutButton,
+} from "../../utils/utils.js";
+import { initAddSlide } from "./modules/core/addSlide.js";
+import { initContextMenu } from "./modules/core/contextMenu.js";
+import { initDeleteElement } from "./modules/core/deleteElement.js";
+import { initDuplicateElement } from "./modules/core/duplicateElement.js";
+import {
+  initSlideshowPlayerMode,
+  scaleAllSlides,
+} from "./modules/core/renderSlide.js";
+import {
+  fetchSlideshow,
+  initAutoSave,
+} from "./modules/core/slideshowDataManager.js";
+import { initTemplateEditor } from "./modules/core/templateDataManager.js";
+import { initUndoRedo } from "./modules/core/undoRedo.js";
+import { initVirtualPreviewResolution } from "./modules/core/virutalPreviewResolution.js";
+import { initSelectedElementBackgroundColor } from "./modules/element_formatting/backgroundColor.js";
+import { initSelectedElementBorder } from "./modules/element_formatting/border.js";
+import { initBoxShadow } from "./modules/element_formatting/boxShadow.js";
+import { initBringToFrontBack } from "./modules/element_formatting/bringFrontBack.js";
+import { initSelectedElementOffset } from "./modules/element_formatting/offset.js";
+import { initOpacity } from "./modules/element_formatting/opacity.js";
+import { initSelectedElementPadding } from "./modules/element_formatting/padding.js";
+import { initRotate } from "./modules/element_formatting/rotate.js";
+import { initSelectedElementScale } from "./modules/element_formatting/scale.js";
+import { initPersistElement } from "./modules/element_formatting/persistElement.js";
+import { initLockElement } from "./modules/element_formatting/lockElement.js";
+import { initEmbedWebsite } from "./modules/elements/embedWebsiteElement.js";
+import { initHtmlElement } from "./modules/elements/htmlElement.js";
+import { addIframe, initIframe } from "./modules/elements/iframeElement.js";
+import { initImageElement } from "./modules/elements/imageElement.js";
+import { initShape } from "./modules/elements/shapeElement.js";
+import { initTableElement } from "./modules/elements/tableElement.js";
+import { initListElement } from "./modules/elements/listElement.js";
+import { initTextbox } from "./modules/elements/textbox.js";
+import { initVideoElement } from "./modules/elements/videoElement.js";
+import { initPlaceholderElement } from "./modules/elements/placeholderElement.js";
+import { openSaveAsTemplateModal } from "./modules/modals/templatesModal.js";
+import {
+  initActivationModal,
+  openActivationModal,
+} from "./modules/modals/activationModal.js";
+import { initSlideBackgroundColor } from "./modules/slide_formatting/backgroundColor.js";
+import { initSlideBackgroundImage } from "./modules/slide_formatting/backgroundImage.js";
+import {
+  initMediaAlignment,
+  initMuteButtons,
+} from "./modules/utils/mediaElementUtils.js";
+import { initSlideshowPlayer } from "./modules/core/slideshowPlayer.js";
+import { fetchAndInitializeFonts } from "./modules/utils/fontUtils.js";
+import { syncGridConfigWithCSS } from "./modules/config/gridConfig.js";
+import { initStatusBar } from "./modules/utils/statusBar.js";
+import { initZoomController } from "./modules/utils/zoomController.js";
+import * as bootstrap from "bootstrap";
+
+await fetchAndInitializeFonts();
+(async () => {
+  await fetchUserLangugage();
+  translateHTML();
+})();
+
+updateNavbarUsername();
+updateNavbarBranchName();
+
+// Sync grid configuration with CSS custom properties
+syncGridConfigWithCSS();
+
+// Initialize status bar
+initStatusBar();
+
+// Initialize zoom controller
+initZoomController();
+
+const initCommonEditorFeatures = () => {
+  initTextbox();
+  initUndoRedo();
+  initSlideBackgroundColor();
+  initDeleteElement();
+  initImageElement();
+  initVideoElement();
+  initEmbedWebsite();
+  initSelectedElementBackgroundColor();
+  initSelectedElementBorder();
+  initOpacity();
+  initBringToFrontBack();
+  initBoxShadow();
+  initRotate();
+  initDuplicateElement();
+  initVirtualPreviewResolution();
+  initSelectedElementPadding();
+  initSelectedElementOffset();
+  initSelectedElementScale();
+  initContextMenu();
+  initSlideBackgroundImage();
+  initIframe();
+  initMediaAlignment();
+  initMuteButtons();
+  initShape();
+  initHtmlElement();
+  initTableElement();
+  initListElement();
+  // Only initialize activation modal if the modal element exists
+  if (document.getElementById("slideActivationModal")) {
+    initActivationModal();
+  }
+  initPersistElement();
+  initLockElement();
+  initPlaceholderElement();
+};
+
+if (queryParams.mode === "edit") {
+  makeActiveInNav("/manage-content");
+  initSlideshowPlayer();
+  const navbar = document.getElementById("navbar");
+  if (navbar) {
+    navbar.style.display = "block";
+  }
+  //document.querySelector(".sidebar").classList.remove("d-none");
+  const topPanel = document.querySelector(".top-panel");
+  if (topPanel) {
+    topPanel.classList.remove("d-none");
+  }
+  await fetchSlideshow(queryParams.id)
+    .then(() => {
+      initAutoSave(queryParams.id);
+    })
+    .catch((err) => console.error(err));
+  initAddSlide();
+  initCommonEditorFeatures();
+}
+
+if (queryParams.mode === "template_editor") {
+  makeActiveInNav("/manage-templates?mode=template_editor");
+  const navbar = document.getElementById("navbar");
+  if (navbar) {
+    navbar.style.display = "block";
+  }
+  //document.querySelector(".sidebar").classList.remove("d-none");
+  const topPanel = document.querySelector(".top-panel");
+  if (topPanel) {
+    topPanel.classList.remove("d-none");
+  }
+  //document.getElementById("change-slideshow-btn").classList.add("d-none");
+  const persistElementBtn = document.getElementById("persist-element-btn");
+  if (persistElementBtn) {
+    persistElementBtn.classList.add("d-none");
+  }
+  const orgId = selectedSubOrgID || parentOrgID;
+
+  if (orgId) {
+    await initTemplateEditor(orgId).catch((err) =>
+      console.error(gettext("Error initializing template editor page:"), err),
+    );
+    initCommonEditorFeatures();
+    const playBtn = document.getElementById("playBtn");
+    if (playBtn) {
+      playBtn.style.display = "none";
+      playBtn.className = "d-none";
+    }
+
+    const addSlideBtn = document.getElementById("addSlideBtn");
+    if (addSlideBtn) {
+      addSlideBtn.style.display = "none";
+    }
+    const elementLinkDropdown = document.getElementById("elementLinkDropdown");
+    if (elementLinkDropdown) {
+      elementLinkDropdown.style.display = "none";
+    }
+
+    const addTemplateBtn = document.createElement("div");
+    addTemplateBtn.innerHTML = `<button class="btn btn-primary" id="addTemplateBtn">${gettext(
+      "+ Add Template",
+    )}</button>`;
+
+    addTemplateBtn.addEventListener("click", () => {
+      openSaveAsTemplateModal(null, true);
+    });
+
+    const sectionButtons = document.querySelector(".section-buttons");
+    if (sectionButtons) {
+      sectionButtons.appendChild(addTemplateBtn);
+    }
+    const addSlideBtnToRemove = document.querySelector("#addSlideBtn");
+    if (addSlideBtnToRemove) {
+      addSlideBtnToRemove.remove();
+    }
+  } else {
+    console.error(
+      gettext(
+        "Organisation ID (selectedSubOrgID or parentOrgID) not found. Cannot initialize template editor.",
+      ),
+    );
+    const previewContainer = document.querySelector(".preview-container");
+    if (previewContainer) {
+      previewContainer.innerHTML = `<p class="text-danger text-center mt-5">${gettext(
+        "Error: Organisation ID is missing. Cannot load template editor.",
+      )}</p>`;
+    }
+  }
+}
+
+if (queryParams.mode === "slideshow-player") {
+  document.querySelector(".preview-container").classList.add("player-mode");
+  initSlideshowPlayerMode();
+}
+
+if (queryParams.mode !== "template_editor") {
+  const sideNavLink = document.querySelector('a[href="/manage-content/"]');
+  if (sideNavLink) sideNavLink.classList.add("active");
+} else {
+  const sideNavLink = document.querySelector(
+    'a[href="/edit-slideshow/?mode=template_editor"]',
+  );
+  if (sideNavLink) sideNavLink.classList.add("active");
+}
+
+function generalInit() {
+  window.openActivationModal = openActivationModal;
+
+  window.addIframe = addIframe;
+
+  const container = document.querySelector(".preview-container");
+
+  const resizeObserver = new ResizeObserver(() => {
+    scaleAllSlides();
+  });
+
+  if (container) {
+    resizeObserver.observe(container);
+  } else {
+    console.warn(gettext("Preview container not found for ResizeObserver."));
+  }
+
+  setTimeout(() => {
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]',
+    );
+    window.tooltipList = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl),
+    );
+  }, 2000);
+}
+
+const signOutBtn = document.getElementById("signOutBtn");
+if (signOutBtn) {
+  signOutBtn.addEventListener("click", signOut);
+}
+
+initSignOutButton();
+generalInit();

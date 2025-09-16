@@ -1,0 +1,29 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<form id="createWayfindingSystemForm">
+    {{#> base/modal/modal id="createWayfindingSystemModal" }}
+        {{#*inline "header"}}
+            {{> base/modal/modal-title title="Create Wayfinding System"}}
+            {{> base/modal/modal-header-close}}
+    {{/inline}}
+        {{#*inline "body"}}
+            <!-- NAME -->
+            <div class="mb-3">
+                {{> base/form/label for="createWayfindingSystemName" text="Name"}}
+                {{> base/form/input type="text" id="createWayfindingSystemName" placeholder="Enter wayfinding system name..." required=true}}
+            </div>
+            <!-- DESCRIPTION -->
+            <div class="mb-3">
+                {{> base/form/label for="createWayfindingSystemDescription" text="Description"}}
+                <textarea class="form-control" id="createWayfindingSystemDescription" placeholder="Brief description of the wayfinding system..."></textarea>
+            </div>
+    {{/inline}}
+        {{#*inline "footer"}}
+            {{> base/modal/modal-footer-close btn-text="Cancel"}}
+            <button type="submit" class="btn btn-primary">
+                <span class="material-symbols-outlined me-1">add</span>
+                Create Wayfinding System
+            </button>
+    {{/inline}}
+{{/base/modal/modal}}
+</form>

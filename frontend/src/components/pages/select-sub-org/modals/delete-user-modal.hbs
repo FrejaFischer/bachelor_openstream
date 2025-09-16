@@ -1,0 +1,29 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="deleteUserModal" }}
+    {{#*inline "header"}}
+        <div class="bg-warning d-flex justify-content-between align-items-center w-100 p-3">
+            {{> base/modal/modal-title class="mb-0" content="<span class=\"material-symbols-outlined me-2\">warning</span>{% trans \"Confirm Delete User\" %}"}}
+            {{> base/modal/modal-header-close}}
+        </div>
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <div id="deleteUserMessage" class="mb-3"></div>
+        {{> base/modal/confirmation-prompt textBoxId="deleteUserTextToType"}}
+        <form id="delete-user-form">
+            <div class="mb-3">
+                {{> base/form/label for="deleteUserInput" text="Type here:"}}
+                {{> base/form/input type="text" id="deleteUserInput" placeholder="Type the confirmation text above..." required=true}}
+                {{> base/form/invalid-feedback id="deleteUserError" text="The text you entered does not match the required confirmation text."}}
+            </div>
+            {{> base/form/input type="hidden" id="deleteUserId"}}
+            {{> base/form/input type="hidden" id="deleteUserName"}}
+        </form>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close id="deleteUserCancelBtn" btn-text="Cancel"}}
+        <button type="button" class="btn btn-danger" id="deleteUserConfirmBtn" disabled>{% trans "Confirm Delete" %}</button>
+    {{/inline}}
+{{/base/modal/modal}}

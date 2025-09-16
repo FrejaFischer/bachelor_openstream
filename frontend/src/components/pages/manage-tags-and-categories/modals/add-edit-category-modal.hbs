@@ -1,0 +1,23 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="category-modal" ariaLabelledby="categoryModalLabel" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Add Category" id="categoryModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <form id="category-form">
+            <input type="hidden" id="category-id">
+            <div class="mb-3">
+                {{> base/form/label for="category-name" text='Category Name'}}
+                {{> base/form/input type="text" id="category-name" required=true}}
+            </div>
+        </form>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='save-category-btn' variant='primary' icon='save' text='Save' }}
+    {{/inline}}
+{{/base/modal/modal}}

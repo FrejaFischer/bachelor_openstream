@@ -1,0 +1,9 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="alert alert-danger mb-3">
+    <div class="d-flex align-items-center mb-2">
+        <span class="material-symbols-outlined me-2">keyboard</span>
+        <strong>{% trans "{{#if message}}{{message}}{{else}}To confirm, type the following text exactly:{{/if}}" %}</strong>
+    </div>
+    <div class="confirmation-text-box p-2 bg-light border rounded" id="{{textBoxId}}"></div>
+</div>

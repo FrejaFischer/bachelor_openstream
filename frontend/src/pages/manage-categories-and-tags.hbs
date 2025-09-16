@@ -1,0 +1,75 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Manage Tags and Categories" script-src="/src/assets/pages/manage-tags-and-categories/main.js" }}
+    {{> base/navbar/navbar_global_settings }}
+    {{#> base/containers/main-container }}
+
+        <div class="manage-tags-categories-container">
+            <div class="page-header bg-dark text-light p-3 mb-4">
+                <h2>{% trans "Manage Categories and Tags" %}</h2>
+                <p class="mb-0">{% trans "Add, edit, or delete tags and categories for your organisation" %}</p>
+            </div>
+            <div class="row mx-2">
+                <!-- Categories Section -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">{% trans "Categories" %}</h3>
+                            <button class="btn btn-light" id="add-category-btn">
+                                <span class="material-symbols-outlined">add</span> {% trans "Add Category" %}
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-container mb-3">
+                                <input type="text" class="form-control" id="category-search" placeholder='{% trans "Search categories..." %}'>
+                            </div>
+                            <div id="categories-container" class="list-container">
+                                <!-- Categories will be populated by JS -->
+                                <div class="text-center py-5" id="categories-loading">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">{% trans "Loading..." %}</span>
+                                    </div>
+                                </div>
+                                <div class="alert alert-info d-none" id="no-categories-alert">
+                                    {% trans "No categories found. Use the Add Category button to create your first category." %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tags Section -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">{% trans "Tags" %}</h3>
+                            <button class="btn btn-light" id="add-tag-btn">
+                                <span class="material-symbols-outlined">add</span> {% trans "Add Tag" %}
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-container mb-3">
+                                <input type="text" class="form-control" id="tag-search" placeholder='{% trans "Search tags..." %}'>
+                            </div>
+                            <div id="tags-container" class="list-container">
+                                <!-- Tags will be populated by JS -->
+                                <div class="text-center py-5" id="tags-loading">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">{% trans "Loading..." %}</span>
+                                    </div>
+                                </div>
+                                <div class="alert alert-info d-none" id="no-tags-alert">
+                                    {% trans "No tags found. Use the Add Tag button to create your first tag." %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{> pages/manage-tags-and-categories/modals/add-edit-category-modal }}
+        {{> pages/manage-tags-and-categories/modals/add-edit-tag-modal }}
+        {{> pages/manage-tags-and-categories/modals/delete-modal }}
+
+    {{/base/containers/main-container}}
+{{/base/containers/html-container}}

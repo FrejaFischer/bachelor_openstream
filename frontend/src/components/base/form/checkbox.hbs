@@ -1,0 +1,14 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="form-check {{#if switch}}form-switch{{/if}}">
+    <input type="checkbox"
+           class="form-check-input {{#if extraClass}}{{extraClass}}{{/if}} {{#if class}}{{class}}{{/if}}"
+           id="{{id}}"
+           {{#if name}}name="{{name}}"{{/if}}
+           {{#if value}}value="{{value}}"{{/if}}
+           {{#if checked}}checked{{/if}}
+           {{#if required}}required{{/if}}>
+    <label for="{{id}}" class="form-check-label {{#if bold}}fw-bold{{/if}}">{% trans "{{text}}" %}</label>
+    {{#if small}}<small class="form-text text-muted">{% trans "{{small}}" %}</small>{{/if}}
+    {{#if warningId}}<div id="{{warningId}}"></div>{{/if}}
+</div>

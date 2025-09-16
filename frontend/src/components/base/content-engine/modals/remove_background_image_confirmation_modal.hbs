@@ -1,0 +1,19 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="removeBgImageConfirmModal" ariaLabelledby="removeBgImageConfirmModalLabel" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Confirm Background Image Removal" id="removeBgImageConfirmModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <div class="mb-2">
+            <p>{% trans "Are you sure you want to remove the background image?" %}</p>
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='confirmRemoveBgImage' variant='danger' icon='delete' text="Remove"}}
+    {{/inline}}
+{{/base/modal/modal}}

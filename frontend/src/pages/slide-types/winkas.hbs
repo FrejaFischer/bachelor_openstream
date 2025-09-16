@@ -1,0 +1,21 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="WinKAS Bookings Slide" script-src="/src/assets/slide-types/winkas/main.js" }}
+
+    <div id="wrapper">
+        <div id="header">
+            <div class="location-name-container">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="location-name" id="location-title">Loading...</span>
+            </div>
+            <div id="current-time" class="time-display"></div>
+        </div>
+
+        <div id="booking-body">
+            <div class="booking-carousel" id="booking-carousel">
+                <!-- Booking pages will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+
+{{/ base/containers/html-container }}

@@ -1,0 +1,67 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Manage Displays" script-src="/src/assets/pages/manage-displays/main.js" }}
+    {{> base/navbar/navbar_branch }}
+    {{#> base/containers/main-container }}
+
+        {{#> base/containers/sidebar-and-content-container pageTitle="Manage Displays" }}
+            <!-- Sidebar -->
+            {{#*inline "sidebarContent"}}
+                <div class="sidebar d-flex flex-column pt-1">
+                    <div class="sidebar-section">
+                        <div class="section-buttons">
+                            <button class="btn btn-primary btn-sm" id="open-add-group-modal-btn">
+                                <span class="material-symbols-outlined">add</span>
+                                <span>{% trans "Add Display Group" %}</span>
+                            </button>
+                            <button class="my-2 btn btn-secondary btn-sm" id="copy-api-key-btn">
+                                <span class="material-symbols-outlined">add</span>
+                                <span>{% trans "Register Screen" %}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Toggle Controls: Expand/Collapse and Check/Uncheck -->
+                    <div class="sidebar-section groups-controls d-flex gap-3">
+                        <div class="d-flex align-items-center gap-1">
+                            <label class="fs-large" for="toggleExpand">{% trans "Expand All" %}</label>
+                            <input class="form-check-input large-checkbox" type="checkbox" checked id="toggleExpand">
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                            <label class="fs-large" for="toggleCheckAll">{% trans "Select All" %}</label>
+                            <input class="form-check-input large-checkbox" type="checkbox" checked id="toggleCheckAll">
+                        </div>
+                    </div>
+                    <!-- Groups Container -->
+                    <div class="sidebar-section flex-grow-1 overflow-y-auto" id="groupsContainer">
+                        <!-- Filled dynamically by JS -->
+                    </div>
+                </div>
+            {{/inline}}
+
+            <!-- Main Content Area -->
+            {{#*inline "mainContent"}}
+                <section id="calendar" class="h-100 w-100 m-0 overflow-auto flex-grow-1 shadow-sm p-4">
+                </section>
+            {{/inline}}
+
+
+        {{/base/containers/sidebar-and-content-container}}
+    {{/base/containers/main-container}}
+    {{> pages/manage-displays/modals/confirm_action_modal }}
+    <!-- Modal: Add Group-->
+    {{> pages/manage-displays/modals/add_group_modal }}
+    <!-- Modal: Copy Registration URL-->
+    {{> pages/manage-displays/modals/copy_registration_url }}
+    <!-- Modal: Edit Group-->
+    {{> pages/manage-displays/modals/edit_group_modal }}
+    <!-- Modal: Edit Display -->
+    {{> pages/manage-displays/modals/edit_display_modal }}
+    <!-- Modal: Add Scheduled Content -->
+    {{> pages/manage-displays/modals/add_scheduled_content_modal }}
+    <!-- Modal: Edit Scheduled Content -->
+    {{> pages/manage-displays/modals/edit_scheduled_content_modal }}
+    <!-- Modal: Add Recurring Scheduled Content -->
+    {{> pages/manage-displays/modals/add_recurring_scheduled_content_modal }}
+    <!-- Modal: Edit Recurring Scheduled Content -->
+    {{> pages/manage-displays/modals/edit_recurring_scheduled_content_modal }}
+{{/base/containers/html-container}}

@@ -1,0 +1,59 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="editScheduledModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Edit Scheduled Content"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <input type="hidden" id="editEventId">
+        {{> base/form/checkbox id="editCombineWithDefaultToggle" text="Combine with Default Content" small="If enabled, slides from this playlist will be added alongside the default content. If disabled, only this playlist will show." switch="true"}}
+        <!-- Group Selection -->
+        <div class="mb-3">
+            {{> base/form/label for="editScheduledGroup" text="Group"}}
+            {{#> base/form/dropdown id="editScheduledGroup"}}
+                <!-- Populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        <!-- Content Type Toggle -->
+        <div class="mb-3">
+            {{> base/form/label text="Content Type"}}
+            <div>
+                {{> base/form/radio name="editScheduledContentType" id="editScheduledSlideshowRadio" value="slideshow" text="Slideshow / Interactive Content"}}
+                {{> base/form/radio name="editScheduledContentType" id="editScheduledPlaylistRadio" value="playlist" text="Slideshow Playlist"}}
+            </div>
+        </div>
+        <!-- Dropdown for Scheduled Slideshow -->
+        <div class="mb-3 hidden-container" id="editScheduledSlideshowContainer">
+            {{> base/form/label for="editScheduledSlideshowSelect" text="Slideshow"}}
+            {{#> base/form/dropdown id="editScheduledSlideshowSelect"}}
+                {{> base/form/dropdown-option value="" text="Select a slideshow" disabled="true" selected="true"}}
+                <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        <!-- Dropdown for Scheduled Playlist -->
+        <div class="mb-3 hidden-container" id="editScheduledPlaylistContainer">
+            {{> base/form/label for="editScheduledPlaylistSelect" text="Playlist"}}
+            {{#> base/form/dropdown id="editScheduledPlaylistSelect"}}
+                {{> base/form/dropdown-option value="" text="Select a playlist" disabled="true" selected="true"}}
+                <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        {{> base/form/input-pair
+            leftId="editScheduledStart"
+            leftType="datetime-local"
+            leftLabel="Start Date & Time"
+            rightId="editScheduledEnd"
+            rightType="datetime-local"
+            rightLabel="End Date & Time"}}
+        <div class="mb-3">
+            {{> base/form/label for="editScheduledDescription" text="Description"}}
+            <textarea id="editScheduledDescription" class="form-control"></textarea>
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-delete-save deleteId="deleteScheduledContentBtn" deleteText="Delete" saveId="updateScheduledContentBtn" saveText="Update" cancelText="Cancel"}}
+    {{/inline}}
+{{/base/modal/modal}}

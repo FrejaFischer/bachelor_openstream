@@ -1,0 +1,23 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="tag-modal" ariaLabelledby="tagModalLabel" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Add Tag" id="tagModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <form id="tag-form">
+            <input type="hidden" id="tag-id">
+            <div class="mb-3">
+                {{> base/form/label for="tag-name" text='Tag Name'}}
+                {{> base/form/input type="text" id="tag-name" required=true}}
+            </div>
+        </form>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='save-tag-btn' variant='primary' icon='save' text='Save' }}
+    {{/inline}}
+{{/base/modal/modal}}

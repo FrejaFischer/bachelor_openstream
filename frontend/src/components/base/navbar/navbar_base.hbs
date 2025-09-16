@@ -1,0 +1,17 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<nav id="navbar" class="navbar navbar-light slim-navbar shadow">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <ul class="navbar-nav d-flex flex-row align-items-center">
+            <li class="nav-item me-4 d-flex align-items-center">
+               <a href="/select-sub-org"><img src="/openstream_logo_light.svg"
+                     class="rounded openstream-logo"
+                     alt="Openstream Logo" /></a> 
+            </li>
+            {{> nav-links }}
+        </ul>
+        <div class="d-flex align-items-center">
+            {{> user-actions }}
+        </div>
+    </div>
+</nav> 

@@ -1,0 +1,29 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="deleteSuborgModal" }}
+    {{#*inline "header"}}
+        <div class="bg-warning d-flex justify-content-between align-items-center w-100 p-3">
+            {{> base/modal/modal-title class="mb-0" content="<span class=\"material-symbols-outlined me-2\">warning</span>{% trans \"Confirm Delete Suborganisation\" %}"}}
+            {{> base/modal/modal-header-close}}
+        </div>
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <div id="deleteSuborgMessage" class="mb-3"></div>
+        {{> base/modal/confirmation-prompt textBoxId="deleteSuborgTextToType"}}
+        <form id="delete-suborg-form">
+            <div class="mb-3">
+                {{> base/form/label for="deleteSuborgInput" text="Type here:"}}
+                {{> base/form/input type="text" id="deleteSuborgInput" placeholder="Type the confirmation text above..." required=true}}
+                {{> base/form/invalid-feedback id="deleteSuborgError" text="The text you entered does not match the required confirmation text."}}
+            </div>
+            {{> base/form/input type="hidden" id="deleteSuborgId"}}
+            {{> base/form/input type="hidden" id="deleteSuborgName"}}
+        </form>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close id="deleteSuborgCancelBtn" btn-text="Cancel"}}
+        <button type="button" class="btn btn-danger" id="deleteSuborgConfirmBtn" disabled>{% trans "Confirm Delete" %}</button>
+    {{/inline}}
+{{/base/modal/modal}}

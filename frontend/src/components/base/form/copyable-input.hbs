@@ -1,0 +1,12 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="input-group mb-3{{#if containerClass}} {{containerClass}}{{/if}}"{{#if containerId}} id="{{containerId}}"{{/if}}>
+    <input type="text"
+           class="form-control{{#if inputClass}} {{inputClass}}{{/if}}"
+           id="{{inputId}}"
+           {{#if value}}value="{{value}}"{{/if}}
+           readonly>
+    {{> base/buttons/icon-button type="button" icon=icon id=buttonId class=buttonClass}}
+</div>
+<div id="{{notificationId}}"
+     class="notification-text text-success">{{notificationText}}</div>

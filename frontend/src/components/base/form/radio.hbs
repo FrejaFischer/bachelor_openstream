@@ -1,0 +1,7 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="form-check">
+    <input type="radio" name="{{name}}" id="{{id}}" value="{{value}}" {{#if checked}}checked{{/if}} {{#if
+        required}}required{{/if}}>
+    <label for="{{id}}" class="form-check-label">{% trans "{{text}}" %}</label>
+</div>

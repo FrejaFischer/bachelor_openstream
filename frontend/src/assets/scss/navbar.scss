@@ -1,0 +1,48 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+.navbar {
+  background-color: $secondary !important;
+  height: 3.5rem;
+}
+
+.navbar-text {
+  color: $white;
+}
+
+/* Base navbar styling to match main template */
+.slim-navbar {
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px $dark-gray;
+  background-color: $secondary !important;
+}
+
+.nav-link span {
+  font-size: $h6-font-size;
+}
+
+.nav-link.active {
+  background-color: $secondary-tab !important;
+}
+
+/* User dropdown styling to match base template buttons */
+#userDropdown {
+  border: none;
+  background: transparent;
+  color: $white;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item .material-symbols-outlined {
+  font-size: 1.1rem;
+}
+
+.openstream-logo {
+  height: 1.5rem;
+}

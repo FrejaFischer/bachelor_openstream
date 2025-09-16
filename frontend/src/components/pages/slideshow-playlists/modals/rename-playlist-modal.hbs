@@ -1,0 +1,23 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="renamePlaylistModal"}}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Rename Slideshow Playlist"}}
+        {{> base/modal/modal-header-close }}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <form id="rename-playlist-form">
+            <div class="mb-3">
+                {{> base/form/label for="rename-playlist-name" text="New Playlist Name"}}
+                {{> base/form/input id="rename-playlist-name" type="text" required=true}}
+                {{> base/form/invalid-feedback text="Please provide a new playlist name." }}
+            </div>
+        </form>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/modal/modal-footer-save id="submit-rename-playlist-btn" btn-text="Rename"}}
+    {{/inline}}
+{{/base/modal/modal}}

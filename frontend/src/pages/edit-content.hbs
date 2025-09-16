@@ -1,0 +1,40 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<!-- HTML Wrapper -->
+{{#> base/containers/html-container title="Content Engine" script-src="/src/assets/pages/content-engine/main.js" }}
+    <!-- Navbar -->
+    {{> base/navbar/navbar_branch }}
+    <!-- Main Container -->
+    {{#> base/containers/main-container }}
+        <!-- Sidebar and Content Container -->
+        {{#> base/containers/sidebar-and-content-container pageTitleId="contentEngineTitle" pageTitle="Edit Content" showGoBackButton=true }}
+            <!-- Sidebar -->
+            {{#*inline "sidebarContent"}}
+                {{> base/content-engine/sidebar-content }}
+            {{/inline}}
+            <!-- Main Content -->
+            {{#*inline "mainContent"}}
+                <!-- Flex container for top-menu and canvas -->
+                {{#> base/content-engine/top-menu-and-canvas-container }}
+                    <!-- Top Menu -->
+                    {{> base/content-engine/top-menu }}
+                    <!-- Slide Canvas -->
+                    {{> base/content-engine/slide-canvas }}
+                {{/base/content-engine/top-menu-and-canvas-container}}
+            {{/inline}}
+        {{/base/containers/sidebar-and-content-container}}
+    {{/base/containers/main-container}}
+    <!-- Modals -->
+    {{> base/content-engine/modals/background_image_options_modal }}
+    {{> base/content-engine/modals/embed_website_modal }}
+    {{> base/content-engine/modals/html_element_modal }}
+    {{> base/content-engine/modals/media_list_modal }}
+    {{> base/content-engine/modals/media_submit_modal }}
+    {{> base/content-engine/modals/remove_background_image_confirmation_modal }}
+    {{> base/content-engine/modals/resolution_modal }}
+    {{> base/content-engine/modals/save_as_template_modal }}
+    {{> base/content-engine/modals/slide_activation_modal }}
+    {{> base/content-engine/modals/slide_type_modal }}
+    {{> base/content-engine/modals/unified_slide_modal }}
+    {{> base/content-engine/modals/unpin_confirmation_modal }}
+{{/base/containers/html-container}}

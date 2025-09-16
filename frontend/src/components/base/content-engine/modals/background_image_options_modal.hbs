@@ -1,0 +1,82 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="backgroundImageOptionsModal" ariaLabelledby="backgroundImageOptionsModalLabel" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Background Image Options" id="backgroundImageOptionsModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <!-- Change Background Image Section -->
+        <div class="mb-4">
+            <h6 class="fw-bold mb-3">
+                <i class="material-symbols-outlined me-1">image</i>
+                {% trans "Background Image" %}
+            </h6>
+            {{> base/buttons/icon-button type='button' id='bgOption-changeImage' variant='primary' class='w-100 mb-2' icon='photo_library' text='{% trans "Change Background Image" %}'}}
+            <small class="text-muted">{% trans "Select a different image for the slide background" %}</small>
+        </div>
+        <hr>
+        <!-- Sizing Options -->
+        <div class="mb-4">
+            <h6 class="fw-bold mb-3">
+                <i class="material-symbols-outlined me-1">aspect_ratio</i>
+                {% trans "Sizing & Repeat" %}
+            </h6>
+            <div class="row g-2">
+                <div class="col-6">
+                    {{> base/buttons/icon-button type='button' id='bgOption-contain' class='w-100 bg-option-btn' variant='outline-primary' data-option='contain' icon='fit_screen' text='{% trans "Contain" %}'}}
+                </div>
+                <div class="col-6">
+                    {{> base/buttons/icon-button type='button' id='bgOption-original' class='w-100 bg-option-btn' variant='outline-primary' data-option='auto' icon='photo_size_select_actual' text='{% trans "Original Size" %}'}}
+                </div>
+                <div class="col-6">
+                    {{> base/buttons/icon-button type='button' id='bgOption-stretch' class='w-100 bg-option-btn' variant='outline-primary' data-option='100% 100%' icon='open_in_full' text='{% trans "Stretch" %}'}}
+                </div>
+                <div class="col-6">
+                    {{> base/buttons/icon-button type='button' id='bgOption-repeat' class='w-100 bg-option-btn' variant='outline-primary' data-option='repeat' icon='grid_view' text='{% trans "Repeat" %}'}}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- Position Options -->
+        <div class="mb-4">
+            <h6 class="fw-bold mb-3">
+                <i class="material-symbols-outlined me-1">center_focus_strong</i>
+                {% trans "Position" %}
+            </h6>
+            <div class="row g-2">
+                <div class="col-4">
+                    {{> base/buttons/icon-button type='button' class='w-100 bg-position-btn h-100' variant='outline-secondary' data-position='top left' icon='north_west' text='{% trans "Top Left" %}'}}
+                </div>
+                <div class="col-4">
+                    {{> base/buttons/icon-button type='button' class='w-100 bg-position-btn h-100' variant='outline-secondary' data-position='center' icon='center_focus_strong' text='{% trans "Center" %}'}}
+                </div>
+                <div class="col-4">
+                    {{> base/buttons/icon-button type='button' class='w-100 bg-position-btn h-100' variant='outline-secondary' data-position='top right' icon='north_east' text='{% trans "Top Right" %}'}}
+                </div>
+                <div class="col-4">
+                    {{> base/buttons/icon-button type='button' class='w-100 bg-position-btn h-100' variant='outline-secondary' data-position='bottom left' icon='south_west' text='{% trans "Bottom Left" %}'}}
+                </div>
+                <div class="col-4">
+                    <!-- Empty space for better visual balance -->
+                </div>
+                <div class="col-4">
+                    {{> base/buttons/icon-button type='button' class='w-100 bg-position-btn' variant='outline-secondary' data-position='bottom right' icon='south_east' text='{% trans "Bottom Right" %}'}}
+                </div>
+            </div>
+        </div>
+        <!-- Remove Background Option -->
+        <div class="border-top pt-3">
+            <h6 class="fw-bold mb-3">
+                <i class="material-symbols-outlined me-1">delete</i>
+                {% trans "Remove Background" %}
+            </h6>
+            {{> base/buttons/icon-button type='button' id='bgOption-remove' class='w-100' variant='outline-danger' icon='no_photography' text='{% trans "Remove Background Image" %}'}}
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+    {{> base/buttons/icon-button type='button' variant='secondary' data-bs-dismiss='modal' icon='close' text='{% trans "Close" %}'}}
+    {{/inline}}
+{{/base/modal/modal}}

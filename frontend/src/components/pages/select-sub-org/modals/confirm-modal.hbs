@@ -1,0 +1,17 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="customConfirmModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Confirm"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <div id="customConfirmMessage"></div>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close id="customConfirmCancelBtn" btn-text="Cancel"}}
+        {{> base/modal/modal-footer-save id="customConfirmOkBtn" btn-text="OK"}}
+    {{/inline}}
+{{/base/modal/modal}}

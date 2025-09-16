@@ -1,0 +1,85 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="editRecurringScheduledModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Edit Recurring Scheduled Content"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <input type="hidden" id="editRecurringEventId">
+        {{> base/form/checkbox id="editRecurringCombineWithDefaultToggle" text="Combine with Default Content" small="If enabled, slides from this playlist will be added alongside the default content. If disabled, only this playlist will show." switch="true" warningId="editRecurringToggleWarning"}}
+        <!-- Group Selection -->
+        <div class="mb-3">
+            {{> base/form/label for="editRecurringScheduledGroup" text="Group"}}
+            {{#> base/form/dropdown id="editRecurringScheduledGroup"}}
+                <!-- Populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        <!-- Content Type Toggle -->
+        <div class="mb-3">
+            {{> base/form/label for="editRecurringScheduledSlideshowRadio" text="Content Type"}}
+            <div>
+                {{> base/form/radio name="editRecurringScheduledContentType" id="editRecurringScheduledSlideshowRadio" value="slideshow" text="Slideshow / Interactive Content"}}
+                {{> base/form/radio name="editRecurringScheduledContentType" id="editRecurringScheduledPlaylistRadio" value="playlist" text="Slideshow Playlist"}}
+            </div>
+        </div>
+        <!-- Dropdown for Scheduled Slideshow -->
+        <div class="mb-3 hidden-container"
+             id="editRecurringScheduledSlideshowContainer">
+            {{> base/form/label for="editRecurringScheduledSlideshowSelect" text="Slideshow"}}
+            {{#> base/form/dropdown id="editRecurringScheduledSlideshowSelect"}}
+                {{> base/form/dropdown-option value="" text="Select a slideshow" disabled="true" selected="true"}}
+                <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        <!-- Dropdown for Scheduled Playlist -->
+        <div class="mb-3 hidden-container"
+             id="editRecurringScheduledPlaylistContainer">
+                {{> base/form/label for="editRecurringScheduledPlaylistSelect" text="Playlist"}}
+                {{#> base/form/dropdown id="editRecurringScheduledPlaylistSelect"}}
+                    {{> base/form/dropdown-option value="" text="Select a playlist" disabled="true" selected="true"}}
+                    <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+            </div>
+        <!-- Weekday Selection -->
+        <div class="mb-3">
+            {{> base/form/label for="editRecurringWeekday" text="Day of Week"}}
+            {{#> base/form/dropdown id="editRecurringWeekday"}}
+                {{> base/form/dropdown-option value="0" text="Monday"}}
+                {{> base/form/dropdown-option value="1" text="Tuesday"}}
+                {{> base/form/dropdown-option value="2" text="Wednesday"}}
+                {{> base/form/dropdown-option value="3" text="Thursday"}}
+                {{> base/form/dropdown-option value="4" text="Friday"}}
+                {{> base/form/dropdown-option value="5" text="Saturday"}}
+                {{> base/form/dropdown-option value="6" text="Sunday"}}
+        {{/base/form/dropdown}}
+        </div>
+            {{> base/form/input-pair leftId="editRecurringStartTime"
+                leftType="time"
+                leftLabel="Start Time"
+                leftSmall="optional, defaults to 00:00"
+                leftPlaceholder="00:00"
+                rightId="editRecurringEndTime"
+                rightType="time"
+                rightLabel="End Time"
+                rightSmall="optional, defaults to 23:59"
+                rightPlaceholder="23:59"}}
+            {{> base/form/input-pair
+                leftId="editRecurringActiveFrom"
+                leftType="date"
+                leftLabel="Active From"
+                rightId="editRecurringActiveUntil"
+                rightType="date"
+                rightLabel="Active Until"
+                rightSmall="optional"}}
+        <div class="mb-3">
+            {{> base/form/label for="editRecurringScheduledDescription" text="Description"}}
+            <textarea id="editRecurringScheduledDescription" class="form-control"></textarea>
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-delete-save deleteId="deleteRecurringScheduledContentBtn" deleteText="Delete" saveId="updateRecurringScheduledContentBtn" saveText="Update" cancelText="Cancel"}}
+    {{/inline}}
+{{/base/modal/modal}}

@@ -1,0 +1,13 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/navbar/navbar_base }}
+
+  {{#*inline "nav-links"}}
+    {{> base/navbar/nav_link href="/user-settings" icon="manage_accounts" title="User Settings"}}
+    {{/inline}}
+
+      {{#*inline "user-actions"}}
+        {{> base/navbar/user-dropdown }}
+    {{/inline}}
+
+{{/ base/navbar/navbar_base }}

@@ -1,0 +1,27 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="website-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
+    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Website" %}</span>
+    <div class="vr m-2"></div>
+    <input id="change-website-input"
+           name="change-website"
+           type="url"
+           placeholder="https://example.com"
+           class="w-25 form-control py-1 gap-2 rounded mx-3"
+           style="font-size: var(--fs-small)">
+    <button id="update-change-website-btn" class="btn btn-tertiary btn-sm me-2">{% trans "Update" %}</button>
+    <div class="vr m-1"></div>
+    <span class="ms-2">{% trans "Volume" %}</span>
+    <div class="d-flex align-items-center gap-2 rounded ms-3">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm">
+                <input type="radio" name="websiteVolume" value="false" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">volume_up</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="websiteVolume" value="true" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">volume_off</i>
+            </label>
+        </div>
+    </div>
+</div>

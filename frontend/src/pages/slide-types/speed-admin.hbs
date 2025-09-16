@@ -1,0 +1,33 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Speed Admin Schedule Slide" script-src="/src/assets/slide-types/speed-admin/main.js" }}
+
+    <div id="wrapper" class="container-fluid">
+        <div id="header">
+            <span class="location-name">
+                <span class="material-symbols-outlined">school</span>
+                <span id="location_name">Loading...</span>
+            </span>
+            <span id="formatted-date-header"></span>
+        </div>
+
+        <div id="overview">
+            <div id="school-lessons-overview">
+                <h2 id="table-description">Ingen aktiviteter i dag</h2>
+                <table id="activity-table" class="table table-hover" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Titel</th>
+                            <th scope="col">Lokale</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">Slut</th>
+                            <th scope="col">Undervisere</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-entries"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{{/ base/containers/html-container }}

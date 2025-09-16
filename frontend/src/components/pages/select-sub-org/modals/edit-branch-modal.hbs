@@ -1,0 +1,24 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="editBranchModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Edit Branch"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <form id="edit-branch-form">
+            <div class="mb-3">
+                {{> base/form/label for="editBranchNameInput" text="Branch Name"}}
+                {{> base/form/input type="text" id="editBranchNameInput" placeholder="Enter branch name..." required=true}}
+                {{> base/form/invalid-feedback text="Please provide a branch name."}}
+            </div>
+            {{> base/form/input type="hidden" id="editBranchId"}}
+        </form>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Close"}}
+        {{> base/modal/modal-footer-save id="submitEditBranchBtn" btn-text="Update Branch"}}
+    {{/inline}}
+{{/base/modal/modal}}

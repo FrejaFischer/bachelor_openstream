@@ -1,0 +1,35 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="dropdown">
+    <button class="btn btn-sm d-flex align-items-center text-white"
+            type="button"
+            id="userDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+        <span class="material-symbols-outlined me-2">account_circle</span>
+        <span id="navbar-username" style="font-size: 0.9rem;" class="navbar-text"></span>
+        <span class="material-symbols-outlined ms-2">arrow_drop_down</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="userDropdown">
+        <li>
+            <a class="dropdown-item" href="/user-settings">
+                <span class="material-symbols-outlined me-2">settings</span>{% trans "User Settings" %}
+            </a>
+        </li>
+        <hr class="dropdown-divider">
+        <li>
+            <a class="dropdown-item" href="/select-organisation">
+                <span class="material-symbols-outlined me-2">swap_horiz</span>{% trans "Change Organisation" %}
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        <li>
+            <button class="dropdown-item" id="sign-out-btn">
+                <span class="material-symbols-outlined me-2">logout</span>{% trans "Sign Out" %}
+            </button>
+        </li>
+    </ul>
+</div>

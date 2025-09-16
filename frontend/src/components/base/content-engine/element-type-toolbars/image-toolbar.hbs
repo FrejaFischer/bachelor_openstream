@@ -1,0 +1,67 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="image-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
+    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Image" %}</span>
+    <div class="vr m-2"></div>
+    <button id="change-image"
+            class="btn btn-tertiary btn-sm d-flex align-items-center py-1 gap-2 rounded mx-3">
+        {% trans "Change" %}
+    </button>
+    <div class="vr m-2"></div>
+    <!-- Horizontal Align Image Options -->
+    <div class="d-flex align-items-center gap-2 rounded mx-3">
+        <span class="mx-2">{% trans "Horizontal Align" %}</span>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm ">
+                <input type="radio" name="imageHAlign" value="left" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_back</i>
+            </label>
+            <label class="btn btn-sm ">
+                <input type="radio" name="imageHAlign" value="center" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">filter_tilt_shift</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="imageHAlign" value="right" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_forward</i>
+            </label>
+        </div>
+    </div>
+    <div class="vr m-2"></div>
+    <!-- Vertical Align Image Options -->
+    <div class="d-flex align-items-center gap-2 rounded mx-3">
+        <span class="ms-2">{% trans "Vertical Align" %}</span>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm">
+                <input type="radio" name="imageVAlign" value="top" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_upward</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="imageVAlign" value="center" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">filter_tilt_shift</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="imageVAlign" value="bottom" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_downward</i>
+            </label>
+        </div>
+    </div>
+    <div class="vr m-2"></div>
+    <span class="ms-2">{% trans "Sizing" %}</span>
+    <!-- Image Size Options -->
+    <div class="d-flex align-items-center gap-2 rounded ms-3">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm no-wrap">
+                <input type="radio" name="imageSize" value="scaled" autocomplete="off">
+                &nbsp;{% trans "Scale" %}
+            </label>
+            <label class="btn btn-sm no-wrap">
+                <input type="radio" name="imageSize" value="stretch" autocomplete="off">
+                &nbsp;{% trans "Stretch" %}
+            </label>
+            <label class="btn btn-sm no-wrap">
+                <input type="radio" name="imageSize" value="original" autocomplete="off">
+                &nbsp;{% trans "Original" %}
+            </label>
+        </div>
+    </div>
+</div>

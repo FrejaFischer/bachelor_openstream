@@ -1,0 +1,93 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Manage Wayfinding Systems" script-src="/src/assets/pages/manage-wayfinding-systems/main.js" }}
+    {{> base/navbar/navbar_branch }}
+    {{#> base/containers/main-container }}
+
+        {{#> base/containers/sidebar-and-content-container pageTitle="Manage Wayfinding Systems" }}
+            <!-- Sidebar -->
+            {{#*inline "sidebarContent"}}
+                <div class="pt-1 section-buttons">
+                    <button class="btn btn-primary btn-sm" id="create-wayfinding-button">
+                        <span style="font-size: 1.3rem !important" class="material-symbols-outlined">add</span>
+                        <span>Add Wayfinding System</span>
+                    </button>
+                    <hr>
+                </div>
+                <div>
+                    <span class="fw-bold fs-medium">Information</span>
+                    <p class="text-muted small">
+                        Wayfinding systems help visitors navigate through your organization's spaces.
+                        Create, manage, and configure wayfinding displays for different locations.
+                    </p>
+                    <div class="alert alert-info">
+                        <div class="d-flex align-items-start">
+                            <span class="material-symbols-outlined me-2 text-info">info</span>
+                            <div>
+                                <strong>Setting up a wayfinding display:</strong>
+                                <ol class="small mt-2 mb-0">
+                                    <li>Click the link button <button class="btn btn-outline-info btn-sm" title="Get Display Link">
+                                            <span class="material-symbols-outlined">link</span>
+                                        </button> to get your display URL</li>
+                                    <li>Open this URL on your wayfinding screen device</li>
+                                    <li>Select which location view the screen should display</li>
+                                </ol>
+                                <p class="small text-muted mt-2 mb-0">
+                                    <strong>Note:</strong> Wayfinding displays are different from regular digital signage screens and require separate setup.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/inline}}
+
+            <!-- Main Content Area -->
+            {{#*inline "mainContent"}}
+                <div class="table-container p-3">
+                    <div class="d-flex mb-3 py-2">
+                        <!-- Search Field -->
+                        <div class="position-relative w-100">
+                            <i class="material-symbols-outlined search-icon text-darkest-gray">search</i>
+                            <input type="text" id="searchInput" style="border-radius: 3.125rem" class="form-control ps-5 " placeholder="{% trans 'Search wayfinding systems...' %}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="rounded table-scroll mb-2" style="box-shadow: rgba(72, 99, 115, 0.12) 1px 1px 10px 5px;
+                        flex: 1;
+                        overflow: auto">
+                        <table style="border-radius: 0.75rem !important;
+                              background: var(--white, #FFF);
+                              --bs-table-striped-bg: #00000008" class="table table-striped" id="wayfinding-systems-table">
+                            <thead>
+                                <tr>
+                                    <th id="th-name" class="sortable fs-medium semibold">
+                                        {% trans "Name" %}<span class="material-symbols-outlined sort-indicator" id="sortIndicatorName"></span>
+                                    </th>
+                                    <th id="th-created" class="sortable fs-medium semibold">
+                                        {% trans "Created" %}<span class="material-symbols-outlined sort-indicator" id="sortIndicatorCreated"></span>
+                                    </th>
+                                    <th id="th-updated" class="sortable fs-medium semibold">
+                                        {% trans "Last Updated" %}<span class="material-symbols-outlined sort-indicator" id="sortIndicatorUpdated"></span>
+                                    </th>
+                                    <th class="fs-medium semibold" style="width: 18rem">{% trans "Actions" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dynamically generated by JS-->
+                            </tbody>
+                        </table>
+                        <div id="emptyListAlert" class="alert alert-primary text-center mx-3 d-none fs-3" role="alert">
+                            {% trans "No wayfinding systems found" %}</div>
+                    </div>
+                </div>
+            {{/inline}}
+        {{/base/containers/sidebar-and-content-container}}
+
+        <!-- ## MODALS ## -->
+        <!-- Rename Wayfinding System Modal -->
+        {{> pages/manage-wayfinding-systems/modals/rename-modal }}
+        <!-- Create Wayfinding System Modal -->
+        {{> pages/manage-wayfinding-systems/modals/create-wayfinding-system-modal }}
+        <!-- Delete Confirmation Modal -->
+        {{> pages/manage-wayfinding-systems/modals/delete-confirm-modal }}
+    {{/base/containers/main-container}}
+{{/base/containers/html-container}}

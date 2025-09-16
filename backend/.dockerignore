@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+# SPDX-License-Identifier: AGPL-3.0-only
+.git
+doc/
+.dockerignore
+compose-prod.yaml
+docker/Dockerfile
+dev-environment/media/
+dev-environment/uploads/
+# Environments
+.env
+.venv
+env/
+venv/
+python-env/
+
+# Also ignore common dev/build artifacts to shrink Docker build context
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+coverage.xml
+htmlcov/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Env files
+.env.*
+
+# Django app data (top-level only)
+/media/
+/uploads/
+
+# Compiled locale files
+**/*.mo

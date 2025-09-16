@@ -1,0 +1,17 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="confirmModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Confirm Action"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <p id="confirmModalMessage">{% trans "Are you sure?" %}</p>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type="button" variant="danger" icon="check" text="Confirm" id="confirmOkButton"}}
+    {{/inline}}
+{{/base/modal/modal}}

@@ -1,0 +1,21 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Dream Broker Video Player" script-src="/src/assets/slide-types/dreambroker/main.js" }}
+
+    <style>
+        /* Full-screen video styling */
+        #fullscreen-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: black;
+        }
+    </style>
+
+    <!-- Full-screen video element -->
+    <video id="fullscreen-video" autoplay></video>
+
+{{/ base/containers/html-container }}

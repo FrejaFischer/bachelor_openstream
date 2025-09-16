@@ -1,0 +1,325 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/assets/pages/wayfinding/style.css">
+    <style>
+        /* Small utility and reset tweaks */
+        html,
+        body {
+            height: 100%;
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+
+        /* Points on map (unchanged behavior) */
+        .point.screen {
+            visibility: hidden;
+        }
+
+        .point {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0.3rem;
+        }
+
+        /* Main layout sizing
+              Only the top-level container uses the viewport unit.
+              Children rely on flex / 100% heights so they respond to the parent. */
+        #main-container {
+            height: 100vh;
+            overflow: hidden;
+            gap: 1rem;
+            display: flex;
+            align-items: stretch;
+        }
+
+        /* map container and view wrappers fill the parent's height */
+        #map-container {
+            height: 100%;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        #map-views-wrapper,
+        #map-views-wrapper .multi-floor-container {
+            height: 100%;
+            max-height: 100%;
+        }
+
+        #map-views-wrapper .multi-floor-container>div {
+            height: 100%;
+            max-height: 100%;
+        }
+
+        #map-views-wrapper .multi-floor-container [data-floor-id] {
+            background: white;
+        }
+
+        /* Polished sidebar: spacing, background and scroll behavior */
+        aside#user-sidebar {
+            box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+            background: #ffffff;
+            border-left: 1px solid #eef2f7;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        aside#user-sidebar .sidebar {
+            max-height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* POI list container and search */
+        #pois-search {
+            border-bottom: 1px solid #e6eefc;
+            background: #fbfdff;
+            padding-bottom: 1rem
+        }
+
+        #pois-list {
+            overflow: auto;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            flex: 1;
+            margin-top: 1rem;
+        }
+
+        /* Individual POI item: emphasize name, de-emphasize numeric id */
+        #pois-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color .12s, transform .06s;
+            border: 1px solid #80808079;
+            margin-bottom: 0.35rem;
+            justify-content: space-between;
+        }
+
+        #pois-list li:hover {
+            background: #f8fafc;
+            border-color: #e6eefc;
+            transform: translateY(-1px);
+        }
+
+        #pois-list li.active {
+            background: #0b63d6;
+            color: #ffffff;
+            border-color: rgba(11, 99, 214, 0.9);
+        }
+
+        #pois-list li.active .poi-number {
+            color: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #pois-list li.active .poi-name {
+            color: #ffffff;
+        }
+
+        #pois-list li.active .material-symbols-outlined {
+            color: #ffffff;
+        }
+
+        .poi.point.active {
+            background: #035aac;
+        }
+
+        .poi.point.active span {
+            color: white;
+        }
+
+        .poi-left {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            min-width: 0;
+        }
+
+        .poi-name {
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 0.95rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Light pill for small numeric badges (de-emphasized) */
+        .poi-number {
+            background: #eef2ff;
+            color: #1e40af;
+            font-weight: 700;
+            padding: 0.12rem 0.45rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+        }
+
+        /* Ensure images scale to fit their containers while preserving aspect ratio */
+        #map-views-wrapper img,
+        #map-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Empty state for POI list */
+        #pois-empty {
+            padding: 1rem 0;
+        }
+
+        /* Small responsive tweak: narrow viewports get a slimmer sidebar */
+        @media (max-width: 880px) {
+            aside#user-sidebar {
+                width: 280px !important;
+            }
+        }
+    </style>
+    <style>
+        /* User-facing overrides to prevent map overflow */
+        /* Account for top navbar/header height (match other pages) */
+        #main-container.user-facing {
+            height: calc(100vh) !important;
+            max-height: calc(100vh) !important;
+            display: flex !important;
+            gap: 1rem;
+            align-items: stretch;
+            padding: 1rem;
+        }
+
+        #main-container.user-facing>div,
+        #main-container.user-facing aside {
+            min-height: 0;
+        }
+
+        #map-views-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+        }
+
+        #map-views-wrapper>div {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #map-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        #map-image,
+        #map-views-wrapper img {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        aside#user-sidebar .sidebar {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+        }
+
+        #pois-list {
+            overflow: auto;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+    </style>
+</head>
+
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div id="main-container" class="user-facing" style="display:flex; align-items:stretch;">
+        <!-- map -->
+        <div style="flex:1;">
+            <div id="map-views-wrapper">
+                {{> pages/wayfinding/wayfinding-map }}
+            </div>
+        </div>
+
+        <!-- right sidebar: POIs list only (POV selected via load flow modal) -->
+        <aside id="user-sidebar" style="width:320px;">
+            <div style="display: flex; flex-direction: column;" class="sidebar p-4 rounded">
+                <div class="flex items-start justify-between">
+                    <h2 class="text-lg font-semibold text-gray-700" style="display: flex; justify-content: center; padding: 0; margin-bottom: 0.5rem;">
+                        Welcome to&nbsp;<span id="system-name">Interactive Map</span>
+                    </h2>
+                </div>
+                <div class="flex items-start justify-between">
+                    <h3 class="text-md font-medium text-gray-600" style="display: flex; justify-content: center; padding: 0;">You are here: <span class="material-symbols-outlined text-red-600" style="margin-left: 5px; font-size:28px; border-radius: 50%; font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48; vertical-align: top;">place</span></h3>
+                </div>
+                <hr class="my-3">
+                <div id="pois-search" class="mt-3">
+                    <input type="text" id="poi-search-input" placeholder="🔎 Search ..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <div class="rounded" style="margin-top:0.6rem; display:flex; gap:0.5rem; align-items:center; border: 1px solid lightgrey; padding: 0.3rem">
+                        <label for="poi-type-select" style="font-size:0.85rem; color:#374151; display: flex; align-items: center;">Type<span class="material-symbols-outlined" style="vertical-align: middle;">filter_arrow_right</span></label>
+                        <select id="poi-type-select" class="w-full px-2 py-1 rounded-md bg-white">
+                            <option value="All">All types</option>
+                        </select>
+                    </div>
+                </div>
+                <ul id="pois-list" class="mt-3" style="overflow-y: scroll;"></ul>
+            </div>
+        </aside>
+    </div>
+
+    <!-- POV selection modal shown after loading JSON -->
+    <div id="pov-modal-overlay" class="modal-overlay">
+        <div style="background:white; padding:1rem; width:480px; max-height:80%; overflow:auto; border-radius:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0;">Select POV Screen</h3>
+                <button id="pov-close-btn" style="background:transparent;border:0;font-size:1.2rem;">✕</button>
+            </div>
+            <p class="text-sm text-gray-600">Choose which screen should be used as the point-of-view (POV) for this session.</p>
+            <ul id="pov-screens-list" style="margin-top:0.5rem; list-style:none; padding:0; max-height:52%; overflow:auto;"></ul>
+            <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.75rem;">
+                <button id="pov-confirm-btn" class="btn-primary">Start</button>
+            </div>
+        </div>
+    </div>
+    <!-- Load Modal (required by wayfinding-core's load helpers) -->
+    <div id="load-modal-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+            <h3 class="text-lg font-semibold mb-4">Load Wayfinding Data</h3>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upload JSON File</label>
+                <input type="file" id="load-file-input" accept=".json" class="w-full p-2 border border-gray-300 rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Or Paste JSON Data</label>
+                <textarea id="load-json-textarea" class="w-full h-64 p-2 border border-gray-300 rounded-md font-mono text-sm" placeholder="Paste your JSON data here..."></textarea>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="load-confirm-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Load Data</button>
+                <button id="load-close-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/assets/pages/wayfinding/user-facing.js"></script>
+</body>
+
+</html>

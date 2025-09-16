@@ -1,0 +1,62 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<div class="video-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
+    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Video" %}</span>
+    <div class="vr m-2"></div>
+    <button id="change-video-btn"
+            class="btn btn-tertiary btn-sm d-flex align-items-center py-1 gap-2 rounded mx-3">
+        {% trans "Change" %}
+    </button>
+    <div class="vr m-1"></div>
+    <span class="ms-2">{% trans "Volume" %}</span>
+    <div class="d-flex align-items-center gap-2 rounded ms-3">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm">
+                <input type="radio" name="videoVolume" value="false" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">volume_up</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="videoVolume" value="true" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">volume_off</i>
+            </label>
+        </div>
+    </div>
+    <div class="vr m-1"></div>
+    <!-- Horizontal Align Video Options -->
+    <div class="d-flex align-items-center gap-2 rounded mx-3">
+        <span class="mx-2">{% trans "Horizontal Align" %}</span>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm">
+                <input type="radio" name="videoHAlign" value="left" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_back</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="videoHAlign" value="center" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">filter_tilt_shift</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="videoHAlign" value="right" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_forward</i>
+            </label>
+        </div>
+    </div>
+    <div class="vr m-1"></div>
+    <!-- Vertical Align Video Options -->
+    <div class="d-flex align-items-center gap-2 rounded mx-3">
+        <span class="ms-2">{% trans "Vertical Align" %}</span>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-sm">
+                <input type="radio" name="videoVAlign" value="top" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_upward</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="videoVAlign" value="center" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">filter_tilt_shift</i>
+            </label>
+            <label class="btn btn-sm">
+                <input type="radio" name="videoVAlign" value="bottom" autocomplete="off">
+                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_downward</i>
+            </label>
+        </div>
+    </div>
+</div>

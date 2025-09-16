@@ -1,0 +1,36 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="unpinConfirmationModal" ariaLabelledby="unpinConfirmationModalLabel" size="modal-sm"}}
+    {{#*inline "header"}}
+    {{> base/modal/modal-title title="Unpin Element" id="unpinConfirmationModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <div class="alert alert-warning" role="alert">
+            <i class="material-symbols-outlined me-2">warning</i>
+            <strong>{% trans "Important:" %}</strong> {% trans "When you unpin this element, it will only be visible on the slide where it was originally created." %}
+        </div>
+
+        {{!-- Use form components for consistent markup --}}
+        <div class="mb-3">
+            <p class="mb-2">{% trans "This element was created on:" %}</p>
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h6 class="card-title mb-1">
+                        <i class="material-symbols-outlined me-2" style="font-size: 1.2em; vertical-align: middle">slideshow</i>
+                        <span id="originSlideName">{% trans "Slide Name" %}</span>
+                    </h6>
+                    <small class="text-muted">{% trans "Slide #" %}<span id="originSlideNumber">1</span></small>
+                </div>
+            </div>
+        </div>
+
+        <p class="mt-3 mb-0">{% trans "Are you sure you want to unpin this element?" %}</p>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+    {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='confirmUnpinBtn' variant='warning' icon='push_pin' text='{% trans "Unpin" %}'}}
+    {{/inline}}
+{{/base/modal/modal}}

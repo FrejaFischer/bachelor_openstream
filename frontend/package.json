@@ -1,0 +1,50 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "vite preview --host",
+    "clean": "rm -rf dist",
+  "lint:scss": "stylelint \"src/assets/**/*.scss\"",
+  "lint": "npm run lint:scss",
+    "format-js": "prettier --write \"src/assets/**/*.js\" && node fix-handlebars-indentation.cjs",
+  "format:scss": "prettier --write \"src/assets/**/*.scss\" && stylelint \"src/assets/**/*.scss\" --fix",
+    "format:templates": "node fix-handlebars-indentation.cjs",
+  "format:all": "npm run format-js && npm run format:scss && npm run format:templates",
+    "maketranslations": "node maketranslations.js"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
+    "@vituum/vite-plugin-handlebars": "^1.1.0",
+    "glob": "^11.0.3",
+    "js-beautify": "^1.15.4",
+    "prettier": "^3.6.2",
+    "vite": "^7.1.2",
+  "vituum": "^1.2.0",
+  "stylelint": "^15.0.0",
+  "stylelint-config-standard-scss": "^2.0.0",
+  "stylelint-scss": "^4.0.0"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.10",
+    "@fullcalendar/daygrid": "^6.1.10",
+    "@fullcalendar/interaction": "^6.1.10",
+    "@fullcalendar/list": "^6.1.19",
+    "@fullcalendar/timegrid": "^6.1.10",
+    "@monaco-editor/loader": "^1.5.0",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8",
+    "codemirror": "^5.65.19",
+    "htmx": "^0.0.2",
+    "marked": "^16.2.1",
+    "minisearch": "^7.1.2",
+    "monaco-editor": "^0.52.2",
+    "requirejs": "^2.3.7",
+    "sass": "~1.77.6",
+    "sortablejs": "^1.14.0"
+  }
+}

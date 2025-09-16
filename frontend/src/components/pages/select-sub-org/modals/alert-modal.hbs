@@ -1,0 +1,16 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="customAlertModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Alert"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <div id="customAlertMessage"></div>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-save id="customAlertOkBtn" btn-text="OK"}}
+    {{/inline}}
+{{/base/modal/modal}}

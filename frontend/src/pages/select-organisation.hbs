@@ -1,0 +1,43 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Select Organisation" script-src="/src/assets/pages/select-organisation/main.js" }}
+    <!-- User info and sign out -->
+    <div class="position-absolute top-0 end-0 p-3 d-flex align-items-center gap-3">
+        <span id="username-display" class="text-white"></span>
+        <button id="sign-out-btn" class="btn text-white d-flex align-items-center">
+            <span class="material-symbols-outlined me-2">logout</span>
+            {% trans "Sign Out" %}
+        </button>
+    </div>
+    <div class="container py-5">
+        <!-- Logo -->
+        <div class="w-100 d-flex justify-content-center mb-5">
+            <img src="/openstream_logo_light.svg" class="img-fluid w-25" alt="OpenStream Logo" />
+        </div>
+
+        <!-- Main Card -->
+        <div class="card rounded-3 bg-secondary-accent-light">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4 fw-bold">{% trans "Select Organization" %}</h2>
+                <!-- Error Message -->
+                <div id="error-message" class="d-none alert alert-warning">
+                    <div class="d-flex align-items-center">
+                        <span class="material-symbols-outlined me-2">error</span>
+                        <div>
+                            <strong>{% trans "Error" %}</strong>
+                            <div id="error-text"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Organizations List -->
+                <div id="organisations-list"></div>
+                <!-- Empty State -->
+                <div id="empty-state" class="d-none text-center py-5 text-muted">
+                    <span class="material-symbols-outlined fs-1">business</span>
+                    <h4 class="mt-3">{% trans "No Organizations Found" %}</h4>
+                    <p>{% trans "You don't have access to any organizations. Please contact your administrator." %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/base/containers/html-container}}

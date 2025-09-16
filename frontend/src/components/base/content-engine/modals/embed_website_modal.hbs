@@ -1,0 +1,29 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="embedWebsiteModal" ariaLabelledby="embedWebsiteModalLabel" size="modal-lg" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Embed Website" id="embedWebsiteModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <form id="embed-website-form">
+            <div id="embedWebsiteContainer" class="container-fluid">
+                <div class="row mb-3">
+                    {{> base/form/label for="embedWebsiteUrl" text="Website URL"}}
+                    {{> base/form/input type="url" id="embedWebsiteUrl" placeholder="https://example.com"}}
+                    {{> base/form/invalid-feedback id="embedWebsiteUrlError" text="Please enter a valid URL."}}
+                </div>
+            </div>
+        </form>
+        <hr class="my-3">
+        <h6 class="semibold">{% trans "Select Website From List" %}</h6>
+        <p class="text-muted small mb-3">{% trans "Choose from the existing URLs below or enter a new one above." %}</p>
+        <div id="websiteSelector"></div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='saveEmbedWebsiteBtn' variant='primary' icon='send' text='{% trans "Embed" %}'}}
+    {{/inline}}
+{{/base/modal/modal}}

@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Entries must end with a newline "LF" (Unix) and not "CRLF" (Windows)
+# ADD CRONTAB ENTRIES HERE
+# An empty line is required at the end of this file for a valid cron file.

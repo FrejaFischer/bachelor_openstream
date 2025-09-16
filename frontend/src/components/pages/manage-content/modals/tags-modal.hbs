@@ -1,0 +1,29 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<form id="tagsForm">
+    {{#> base/modal/modal id="tagsModal" }}
+        {{#*inline "header"}}
+            {{> base/modal/modal-title title="Edit Tags"}}
+            {{> base/modal/modal-header-close}}
+    {{/inline}}
+        
+        {{#*inline "body"}}
+            <div class="mb-2">
+                <div class="form-floating"></div>
+                <ul id="contentTagsSuggestions"
+                    class="list-group position-absolute w-75 z-3 border border-info d-none">
+                </ul>
+            </div>
+            <!-- The container where we render the checkboxes -->
+            <div id="tagsCheckboxContainer" class="border rounded"></div>
+    {{/inline}}
+        
+        {{#*inline "footer"}}
+            {{> base/modal/modal-footer-close btn-text="Cancel"}}
+            <button type="submit" class="btn btn-primary">
+                <span class="material-symbols-outlined me-1">save</span>
+                {% trans "Save Changes" %}
+            </button>
+    {{/inline}}
+{{/base/modal/modal}}
+</form>

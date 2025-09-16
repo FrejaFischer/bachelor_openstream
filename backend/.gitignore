@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+# SPDX-License-Identifier: AGPL-3.0-only
+*.mo
+*.pyc
+.idea
+.env
+dev-environment/overrides.env
+dev-environment/dev-settings.env
+dist/
+node_modules/
+staticfiles/
+venv
+**/.venv*
+**/.vscode
+**/compose.override.yaml
+
+
+# NPM related
+.npm
+.eslintcache
+.node_repl_history
+.yarn-integrity
+*.tgz
+.pnp.*
+.yarn/*½
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Local library files (copied from node_modules)
+openstream/app/static/js_and_css/libs/
+.flake8
+.pylintrc
+mypy.ini
+eslint.config.mjs
+eslint.config.mjs
+pyrightconfig.json

@@ -1,0 +1,277 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+// Speed Admin School Schedule Styles
+@import "../../scss/main";
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: transparent;
+  font-size: 1.25rem;
+}
+
+* {
+  font-family: Figtree, sans-serif;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+#header {
+  font-size: 2rem;
+  font-weight: bold;
+  color: $white;
+  background-color: $secondary;
+  padding: 1.5rem 2.6rem;
+  border-radius: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.location-name {
+  word-break: break-word;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  .material-symbols-outlined {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+  }
+}
+
+#formatted-date-header {
+  font-size: 1.6rem;
+  color: $lighter-gray;
+  font-weight: 900;
+  text-align: end;
+  min-width: 15rem;
+}
+
+#overview {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#school-lessons-overview {
+  flex: 1;
+  padding: 1rem 2rem;
+  overflow: auto;
+}
+
+#table-description {
+  color: $white;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+#activity-table {
+  background-color: $darkest-gray;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba($black, 0.3);
+
+  thead {
+    background-color: $secondary;
+  }
+
+  th {
+    color: $white;
+    font-weight: 600;
+    font-size: 1.3rem;
+    padding: 1rem;
+    border: none;
+  }
+
+  td {
+    color: $white;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border-color: $darker-gray;
+  }
+
+  tbody tr:hover {
+    background-color: $darkest-gray;
+  }
+}
+
+.material-symbols-outlined {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: $gray;
+  font-size: 1.5rem;
+
+  .material-symbols-outlined {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 50%;
+    margin-right: 0;
+  }
+}
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: $error-red;
+  font-size: 1.5rem;
+
+  .material-symbols-outlined {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1200px) {
+  #header {
+    font-size: 1.8rem;
+    padding: 1.2rem 2rem;
+
+    #formatted-date-header {
+      font-size: 1.4rem;
+      min-width: 12rem;
+    }
+  }
+
+  #table-description {
+    font-size: 1.6rem;
+  }
+
+  #activity-table {
+    th {
+      font-size: 1.1rem;
+      padding: 0.8rem;
+    }
+
+    td {
+      font-size: 1rem;
+      padding: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  #wrapper {
+    padding: 0.5rem;
+  }
+
+  #header {
+    font-size: 1.5rem;
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+
+    #formatted-date-header {
+      font-size: 1.2rem;
+      min-width: auto;
+    }
+  }
+
+  .location-name {
+    .material-symbols-outlined {
+      font-size: 1.8rem;
+    }
+  }
+
+  #school-lessons-overview {
+    padding: 0.5rem 1rem;
+  }
+
+  #table-description {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  #activity-table {
+    font-size: 0.9rem;
+
+    th,
+    td {
+      padding: 0.6rem 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    // Stack table cells on very small screens
+    @media (max-width: 480px) {
+      thead {
+        display: none;
+      }
+
+      tr {
+        display: block;
+        margin-bottom: 1rem;
+        background-color: $darkest-gray;
+        border-radius: 0.4rem;
+        padding: 1rem;
+      }
+
+      td {
+        display: block;
+        border: none;
+        padding: 0.3rem 0;
+
+        &::before {
+          content: attr(data-label) ": ";
+          font-weight: bold;
+          color: $success-green-light;
+        }
+
+        &:nth-child(1)::before {
+          content: "Titel: ";
+        }
+
+        &:nth-child(2)::before {
+          content: "Lokale: ";
+        }
+
+        &:nth-child(3)::before {
+          content: "Start: ";
+        }
+
+        &:nth-child(4)::before {
+          content: "Slut: ";
+        }
+
+        &:nth-child(5)::before {
+          content: "Undervisere: ";
+        }
+      }
+    }
+  }
+
+  .empty-state,
+  .error-state {
+    font-size: 1.2rem;
+
+    .material-symbols-outlined {
+      font-size: 3rem;
+    }
+  }
+}

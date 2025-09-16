@@ -1,0 +1,29 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="deleteBranchModal" }}
+    {{#*inline "header"}}
+        <div class="bg-warning d-flex justify-content-between align-items-center w-100 p-3">
+            {{> base/modal/modal-title class="mb-0" content="<span class=\"material-symbols-outlined me-2\">warning</span>{% trans \"Confirm Delete Branch\" %}"}}
+            {{> base/modal/modal-header-close}}
+        </div>
+    {{/inline}}
+    
+    {{#*inline "body"}}
+        <div id="deleteBranchMessage" class="mb-3"></div>
+        {{> base/modal/confirmation-prompt textBoxId="deleteBranchTextToType"}}
+        <form id="delete-branch-form">
+            <div class="mb-3">
+                {{> base/form/label for="deleteBranchInput" text="Type here:"}}
+                {{> base/form/input type="text" id="deleteBranchInput" placeholder="Type the confirmation text above..." required=true}}
+                {{> base/form/invalid-feedback id="deleteBranchError" text="The text you entered does not match the required confirmation text."}}
+            </div>
+            {{> base/form/input type="hidden" id="deleteBranchId"}}
+            {{> base/form/input type="hidden" id="deleteBranchName"}}
+        </form>
+    {{/inline}}
+    
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close id="deleteBranchCancelBtn" btn-text="Cancel"}}
+        <button type="button" class="btn btn-danger" id="deleteBranchConfirmBtn" disabled>{% trans "Confirm Delete" %}</button>
+    {{/inline}}
+{{/base/modal/modal}}

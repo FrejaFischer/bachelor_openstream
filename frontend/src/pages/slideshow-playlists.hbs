@@ -1,0 +1,81 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Slideshow Playlists"
+script-src="/src/assets/pages/slideshow-playlists/main.js" }}
+    {{> base/navbar/navbar_branch }}
+    {{#> base/containers/main-container }}
+
+        {{#> base/containers/sidebar-and-content-container pageTitle="Slideshow Playlists" }}
+            <!-- Sidebar -->
+            {{#*inline "sidebarContent"}}
+                <div class="d-flex align-items-center justify-content-between  pb-3 section-header border-bottom flex-wrap" style="border-color: var(--gray)">
+                    <button id="open-add-playlist-btn" class="btn btn-primary btn-sm mt-3">
+                        <span class="fs-extra-large material-symbols-outlined">add</span>
+                        <span>{% trans "Add Playlist" %}</span>
+                    </button>
+                </div>
+                <div class="sidebar-section"></div>
+                <div id="slideshow-playlist-list" class="list-group mt-2"></div>
+            {{/inline}}
+
+            <!-- Main Content Area -->
+            {{#*inline "mainContent"}}
+
+                <div class="p-3 d-flex flex-column h-100">
+                    <div id="info-and-add-btn" class="d-flex mb-3 p-2">
+                        <div id="playlist-selected-view" class="d-none d-flex justify-content-between align-items-center w-100">
+                            <h3 class="fw-normal">
+                                {% trans "Editing:" %}&nbsp;<span class="fw-normal" style="font-size: 1.25rem" id="slideshow-playlist-name"></span>
+                            </h3>
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-secondary shadow-sm btn-sm me-2" id="rename-active-playlist-btn">
+                                    <i class="material-symbols-outlined fs-extra-large">edit</i>{% trans "Rename Playlist" %}
+                                </button>
+                                <button type="button" class="btn btn-primary shadow-sm btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+                                    <i class="material-symbols-outlined fs-extra-large">add</i>{% trans "Add content to Playlist" %}
+                                </button>
+                            </div>
+                        </div>
+                        <div id="no-playlist-selected-view" class="w-100">
+                            <h3 class="fw-normal">{% trans "No Playlist selected. Please add or select a playlist." %}</h3>
+                        </div>
+                    </div>
+
+                    <div id="no-selection" class="text-center text-muted my-5 d-block">
+                        <h3 class="fw-light text-light">{% trans "Please select a Slideshow Playlist to edit" %}</h3>
+                        <hr>
+                    </div>
+
+                    <div id="edit-section" style="box-shadow: 1px 1px 10px 5px rgba(72, 99, 115, 0.12);" class="table-responsive rounded">
+                        <table class="table rounded" id="slideshow-playlist-table">
+                            <thead class="sticky-top bg-white">
+                                <tr>
+                                    <th style="width: 1.5rem;"></th>
+                                    <!-- drag handle column -->
+                                    <th>{% trans "Slideshow" %}</th>
+                                    <th>{% trans "Position" %}</th>
+                                    <th style="width: 7rem">{% trans "Actions" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Slideshow rows will be dynamically inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ### MODALS ###-->
+                <!-- Modal: Add Playlist Modal -->
+                {{> pages/slideshow-playlists/modals/add-playlist-modal }}
+                <!-- Modal: Rename Playlist Modal -->
+                {{> pages/slideshow-playlists/modals/rename-playlist-modal }}
+                <!-- Modal: Confirmation Modal -->
+                {{> pages/slideshow-playlists/modals/confirmation-modal }}
+                <!-- Modal: Add Modal -->
+                {{> pages/slideshow-playlists/modals/add-modal }}
+
+            {{/inline}}
+
+        {{/base/containers/sidebar-and-content-container}}
+    {{/base/containers/main-container}}
+{{/base/containers/html-container}}

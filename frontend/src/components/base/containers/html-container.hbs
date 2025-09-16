@@ -1,0 +1,28 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+    <head>
+        <link rel="icon"
+              type="image/x-icon"
+              href='/favicon.ico'>
+        <meta charset="UTF-8">
+        <meta name="description"
+              content="{{#if description}}{{description}}{{else}}{{site.description}}{{/if}}">
+        <meta name="keywords"
+              content="{{keywords}}">
+        <title>{% trans "{{title}}" %}</title>
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+    {{> @partial-block }}    
+    <script src="{{script-src}}" type="module"></script>
+    </body>
+</html>

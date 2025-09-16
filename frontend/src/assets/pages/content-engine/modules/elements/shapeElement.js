@@ -1,0 +1,564 @@
+// SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+// SPDX-License-Identifier: AGPL-3.0-only
+// shapeElement.js
+import { store } from "../core/slideStore.js";
+import { pushCurrentSlideState } from "../core/undoRedo.js";
+import { loadSlide } from "../core/renderSlide.js";
+import { selectElement } from "../core/elementSelector.js";
+import { getNewZIndex } from "../utils/domUtils.js";
+import { showColorPalette } from "../utils/colorUtils.js";
+import { GridUtils } from "../config/gridConfig.js";
+import { gettext } from "../../../../utils/locales.js";
+import * as bootstrap from "bootstrap";
+/**
+ * Define all available shapes in one place.
+ * Each key corresponds to a shape name, and the value is a function that returns
+ * the inner SVG element string when provided with the common attributes.
+ */
+const shapeMap = {
+  circle: (attrs) => `<circle cx="50" cy="50" r="50" ${attrs}/>`,
+  square: (attrs) => `<rect x="0" y="0" width="100" height="100" ${attrs}/>`,
+  triangle: (attrs) => `<polygon points="50,5 95,95 5,95" ${attrs}/>`,
+  "right-triangle": (attrs) => `<polygon points="5,5 95,50 5,95" ${attrs}/>`,
+  "right-arrow": (attrs) =>
+    `<polygon points="10,35 65,35 65,15 95,50 65,85 65,65 10,65" ${attrs}/>`,
+  "left-arrow": (attrs) =>
+    `<polygon points="90,35 35,35 35,15 5,50 35,85 35,65 90,65" ${attrs}/>`,
+  "up-arrow": (attrs) =>
+    `<polygon points="35,90 35,35 15,35 50,5 85,35 65,35 65,90" ${attrs}/>`,
+  "down-arrow": (attrs) =>
+    `<polygon points="35,10 35,65 15,65 50,95 85,65 65,65 65,10" ${attrs}/>`,
+  diamond: (attrs) => `<polygon points="50,5 95,50 50,95 5,50" ${attrs}/>`,
+  pentagon: (attrs) =>
+    `<polygon points="50,5 95,38 78,95 22,95 5,38" ${attrs}/>`,
+  hexagon: (attrs) =>
+    `<polygon points="30,10 70,10 90,50 70,90 30,90 10,50" ${attrs}/>`,
+  star: (attrs) =>
+    `<polygon points="50,5 61,38 98,38 68,62 79,95 50,75 21,95 32,62 2,38 39,38" ${attrs}/>`,
+  heart: (attrs) =>
+    `<path d="M50,30 C35,10 10,15 10,40 C10,60 30,80 50,95 C70,80 90,60 90,40 C90,15 65,10 50,30 Z" ${attrs}/>`,
+  plus: (attrs) =>
+    `<path d="M40,5 L60,5 L60,40 L95,40 L95,60 L60,60 L60,95 L40,95 L40,60 L5,60 L5,40 L40,40 Z" ${attrs}/>`,
+
+  // New shapes
+  ellipse: (attrs) => `<ellipse cx="50" cy="50" rx="50" ry="30" ${attrs}/>`,
+  parallelogram: (attrs) =>
+    `<polygon points="20,0 100,0 80,100 0,100" ${attrs}/>`,
+  trapezoid: (attrs) => `<polygon points="20,0 80,0 100,100 0,100" ${attrs}/>`,
+  semicircle: (attrs) =>
+    `<path d="M0,50 A50,50 0 0,1 100,50 L100,100 L0,100 Z" ${attrs}/>`,
+  octagon: (attrs) =>
+    `<polygon points="30,0 70,0 100,30 100,70 70,100 30,100 0,70 0,30" ${attrs}/>`,
+  cloud: (attrs) =>
+    `<path d="M20,60 Q10,40 20,20 Q35,5 50,20 Q65,5 80,20 Q90,40 80,60 Q95,75 80,90 Q65,95 50,90 Q35,95 20,90 Q10,75 20,60 Z" ${attrs}/>`,
+};
+
+/**
+ * Returns the inline SVG string for the given shape.
+ *
+ * Parameters:
+ *  - shape: a string key corresponding to a shape in the shapeMap.
+ *  - fill: fill color.
+ *  - stroke: stroke (outline) color.
+ *  - fitMode: "scale" (default) maintains aspect ratio using preserveAspectRatio="xMidYMid meet";
+ *             "stretch" forces the SVG to fill the container with preserveAspectRatio="none".
+ *  - alignment: an object { h: "left" | "center" | "right", v: "top" | "middle" | "bottom" } used when fitMode is "scale".
+ *  - strokeWidth: numeric stroke width.
+ *
+ * When the stroke becomes thicker, the shape is wrapped in a transform that translates and scales it so that the stroke does not overflow.
+ */
+function getShapeSVG(
+  shape,
+  fill,
+  stroke,
+  fitMode = "scale", // "scale" (default) or "stretch"
+  alignment = { h: "center", v: "middle" },
+  strokeWidth = 10,
+  nonScalingStroke = true, // new parameter; default true for slide rendering
+) {
+  // Calculate margin and scale to accommodate the stroke.
+  const margin = strokeWidth / 2;
+  const scale = (100 - strokeWidth) / 100;
+
+  // Compute preserveAspectRatio based on fitMode and alignment.
+  let preserveValue = "";
+  if (fitMode === "stretch") {
+    preserveValue = "none";
+  } else {
+    let xAlign;
+    switch (alignment.h) {
+      case "left":
+        xAlign = "xMin";
+        break;
+      case "right":
+        xAlign = "xMax";
+        break;
+      default:
+        xAlign = "xMid";
+    }
+    let yAlign;
+    switch (alignment.v) {
+      case "top":
+        yAlign = "YMin";
+        break;
+      case "bottom":
+        yAlign = "YMax";
+        break;
+      default:
+        yAlign = "YMid";
+    }
+    preserveValue = `${xAlign}${yAlign} meet`;
+  }
+
+  // Conditionally include the non-scaling stroke attribute.
+  const vectorEffect = nonScalingStroke
+    ? 'vector-effect="non-scaling-stroke"'
+    : "";
+
+  // Prepare common SVG attributes.
+  const commonAttributes = `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" ${vectorEffect}`;
+
+  // Select the shape SVG from the shapeMap or fallback to square.
+  const key = shape.toLowerCase();
+  let shapeElement = "";
+  if (shapeMap[key]) {
+    shapeElement = shapeMap[key](commonAttributes);
+  } else {
+    console.warn(`Unknown shape: "${shape}". Defaulting to square.`);
+    shapeElement = shapeMap["square"](commonAttributes);
+  }
+
+  // Wrap the shape in a transform to keep the stroke inside bounds, but only when not stretching.
+  if (fitMode !== "stretch") {
+    shapeElement = `<g transform="translate(${margin}, ${margin}) scale(${scale})">
+      ${shapeElement}
+  </g>`;
+  }
+
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
+                   style="width:100%; height:100%; display:block; overflow:hidden;" preserveAspectRatio="${preserveValue}">
+                ${shapeElement}
+              </svg>`;
+}
+
+/**
+ * Adds a new shape element to the current slide.
+ * Defaults to a right-arrow with preset properties.
+ */
+function addShapeElement() {
+  if (store.currentSlideIndex < 0) return;
+  pushCurrentSlideState();
+
+  const defaultFill = "#000000";
+  const defaultStroke = "#000000";
+
+  const newShape = {
+    id: store.elementIdCounter++,
+    type: "shape",
+    shape: "right-arrow", // default shape
+    gridX: GridUtils.getCenteredPosition(100, 100).x,
+    gridY: GridUtils.getCenteredPosition(100, 100).y,
+    gridWidth: 100,
+    gridHeight: 100,
+    backgroundColor: "transparent",
+    fill: defaultFill,
+    stroke: defaultStroke,
+    fitMode: "scale",
+    strokeWidth: 10,
+    alignment: { h: "center", v: "middle" },
+    zIndex: getNewZIndex(),
+    originSlideIndex: store.currentSlideIndex, // Track which slide this element was created on
+    isLocked: false, // Initialize lock state
+  };
+
+  store.slides[store.currentSlideIndex].elements.push(newShape);
+  loadSlide(store.slides[store.currentSlideIndex]);
+  const newElDom = document.getElementById("el-" + newShape.id);
+  selectElement(newElDom, newShape);
+}
+
+/**
+ * Renders a shape element on the slide.
+ */
+export function _renderShape(el, container) {
+  // `container` is the wrapper element from `_renderSlideElement`.
+  // It already has id, classes, grid styles, and a resizer.
+  // This function populates it with content specific to a shape element.
+  container.style.width = "100%";
+  container.style.height = "100%";
+
+  const svgContainer = document.createElement("div");
+  svgContainer.style.width = "100%";
+  svgContainer.style.height = "100%";
+  svgContainer.classList.add("shape-svg-container");
+  svgContainer.innerHTML = getShapeSVG(
+    el.shape,
+    el.fill,
+    el.stroke,
+    el.fitMode,
+    el.alignment,
+    el.strokeWidth,
+  );
+
+  // Prepend the svg container. The resizer is already
+  // added by the generic `_renderSlideElement` function.
+  container.prepend(svgContainer);
+}
+
+/**
+ * Initializes the shape element functionality, including setting up the toolbar and the popover.
+ */
+export function initShape() {
+  // Hook up the "Add Shape" button.
+  const shapeTopOption = document.querySelector('[data-type="shapes"]');
+  if (shapeTopOption) {
+    shapeTopOption.addEventListener("click", addShapeElement);
+  }
+
+  // Setup the shape toolbar.
+  const shapeToolbar = document.querySelector(".shape-element-toolbar");
+  if (shapeToolbar) {
+    // Clear any existing content
+    shapeToolbar.innerHTML = "";
+
+    // Remove any background styling and use clean design
+    shapeToolbar.classList.remove(
+      "bg-light",
+      "rounded",
+      "shadow-sm",
+      "justify-content-space-between",
+    );
+    shapeToolbar.classList.add("element-type-toolbar");
+
+    // Create toolbar title
+    const toolbarTitle = document.createElement("span");
+    toolbarTitle.className =
+      "element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2";
+    toolbarTitle.textContent = gettext("Shape");
+    shapeToolbar.appendChild(toolbarTitle);
+    const divider = document.createElement("div");
+    divider.classList.add("vr", "m-2");
+    shapeToolbar.appendChild(divider);
+    // --------- Shape Changer Button ---------
+    const shapeTypePopoverBtn = document.createElement("button");
+    shapeTypePopoverBtn.classList.add(
+      "btn",
+      "btn-tertiary",
+      "d-flex",
+      "align-items-center",
+      "py-1",
+      "gap-2",
+      "rounded",
+      "mx-3",
+      "btn-sm",
+    );
+    shapeTypePopoverBtn.innerHTML = gettext("Change Shape");
+    shapeTypePopoverBtn.title = gettext("Change Shape");
+
+    // Build popover content container.
+    const shapeTypeContent = document.createElement("div");
+    shapeTypeContent.classList.add("d-flex", "gap-2", "flex-wrap", "p-2");
+    const shapeTypes = Object.keys(shapeMap);
+    shapeTypes.forEach((shapeType) => {
+      const btn = document.createElement("button");
+      btn.classList.add(
+        "btn",
+        "btn-outline-secondary",
+        "btn-sm",
+        "shape-type-btn",
+      );
+      btn.style.width = "35px";
+      btn.style.height = "35px";
+      btn.style.padding = "5px";
+      btn.style.overflow = "hidden";
+      btn.style.boxSizing = "border-box";
+      btn.innerHTML = getShapeSVG(
+        shapeType,
+        "#000000",
+        "#000000",
+        "scale",
+        { h: "center", v: "middle" },
+        10,
+        false,
+      );
+      btn.title = shapeType;
+      btn.addEventListener("click", () => {
+        if (
+          window.selectedElementForUpdate &&
+          window.selectedElementForUpdate.element.type === "shape"
+        ) {
+          pushCurrentSlideState();
+          const elementData = window.selectedElementForUpdate.element;
+          elementData.shape = shapeType;
+          const elementDom = window.selectedElementForUpdate.container;
+          const svgContainer = elementDom.querySelector(".shape-svg-container");
+          if (svgContainer) {
+            svgContainer.innerHTML = getShapeSVG(
+              elementData.shape,
+              elementData.fill,
+              elementData.stroke,
+              elementData.fitMode,
+              elementData.alignment,
+              elementData.strokeWidth,
+            );
+          }
+          let popover = bootstrap.Popover.getInstance(shapeTypePopoverBtn);
+          if (popover) {
+            popover.hide();
+          }
+        }
+      });
+      shapeTypeContent.appendChild(btn);
+    });
+
+    new bootstrap.Popover(shapeTypePopoverBtn, {
+      content: shapeTypeContent,
+      html: true,
+      placement: "bottom",
+      trigger: "click",
+      container: "body",
+    });
+
+    shapeToolbar.appendChild(shapeTypePopoverBtn);
+
+    // --------- Vertical Divider ---------
+    const divider1 = document.createElement("div");
+    divider1.classList.add("vr", "m-1");
+    shapeToolbar.appendChild(divider1);
+
+    // --------- Fill Section ---------
+    const fillLabel = document.createElement("span");
+    fillLabel.classList.add("ms-2");
+    fillLabel.textContent = gettext("Fill");
+    shapeToolbar.appendChild(fillLabel);
+
+    const fillContainer = document.createElement("div");
+    fillContainer.classList.add(
+      "d-flex",
+      "align-items-center",
+      "gap-2",
+      "rounded",
+      "ms-3",
+    );
+
+    const fillBtn = document.createElement("button");
+    fillBtn.classList.add("btn", "btn-sm");
+    fillBtn.innerHTML = `<i class="fs-6 material-symbols-outlined">format_color_fill</i>`;
+    fillBtn.title = gettext("Change Fill Color");
+    if (
+      window.selectedElementForUpdate &&
+      window.selectedElementForUpdate.element.fill
+    ) {
+      fillBtn.style.border = `3px solid ${window.selectedElementForUpdate.element.fill}`;
+    }
+    fillBtn.addEventListener("click", () => {
+      if (
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.type === "shape"
+      ) {
+        showColorPalette(fillBtn, (chosenColor) => {
+          if (chosenColor) {
+            pushCurrentSlideState();
+            const elementData = window.selectedElementForUpdate.element;
+            elementData.fill = chosenColor;
+            fillBtn.style.border = `3px solid ${chosenColor}`;
+            const elementDom = window.selectedElementForUpdate.container;
+            const svgContainer = elementDom.querySelector(
+              ".shape-svg-container",
+            );
+            if (svgContainer) {
+              svgContainer.innerHTML = getShapeSVG(
+                elementData.shape,
+                elementData.fill,
+                elementData.stroke,
+                elementData.fitMode,
+                elementData.alignment,
+                elementData.strokeWidth,
+              );
+            }
+          }
+        });
+      }
+    });
+    fillContainer.appendChild(fillBtn);
+    shapeToolbar.appendChild(fillContainer);
+
+    // --------- Vertical Divider ---------
+    const divider2 = document.createElement("div");
+    divider2.classList.add("vr", "m-1");
+    shapeToolbar.appendChild(divider2);
+
+    // --------- Outline Section ---------
+    const outlineLabel = document.createElement("span");
+    outlineLabel.classList.add("ms-2");
+    outlineLabel.textContent = gettext("Outline");
+    shapeToolbar.appendChild(outlineLabel);
+
+    const outlineContainer = document.createElement("div");
+    outlineContainer.classList.add(
+      "d-flex",
+      "align-items-center",
+      "gap-2",
+      "rounded",
+      "ms-3",
+    );
+
+    const outlineBtn = document.createElement("button");
+    outlineBtn.classList.add("btn", "btn-sm");
+    outlineBtn.innerHTML = `<i class="fs-6 material-symbols-outlined">border_color</i>`;
+    outlineBtn.title = gettext("Change Outline Color");
+    if (
+      window.selectedElementForUpdate &&
+      window.selectedElementForUpdate.element.stroke
+    ) {
+      outlineBtn.style.border = `3px solid ${window.selectedElementForUpdate.element.stroke}`;
+    }
+    outlineBtn.addEventListener("click", () => {
+      if (
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.type === "shape"
+      ) {
+        showColorPalette(outlineBtn, (chosenColor) => {
+          if (chosenColor) {
+            pushCurrentSlideState();
+            const elementData = window.selectedElementForUpdate.element;
+            elementData.stroke = chosenColor;
+            outlineBtn.style.border = `3px solid ${chosenColor}`;
+            const elementDom = window.selectedElementForUpdate.container;
+            const svgContainer = elementDom.querySelector(
+              ".shape-svg-container",
+            );
+            if (svgContainer) {
+              svgContainer.innerHTML = getShapeSVG(
+                elementData.shape,
+                elementData.fill,
+                elementData.stroke,
+                elementData.fitMode,
+                elementData.alignment,
+                elementData.strokeWidth,
+              );
+            }
+          }
+        });
+      }
+    });
+    outlineContainer.appendChild(outlineBtn);
+    shapeToolbar.appendChild(outlineContainer);
+
+    // --------- Vertical Divider ---------
+    const divider3 = document.createElement("div");
+    divider3.classList.add("vr", "m-1");
+    shapeToolbar.appendChild(divider3);
+
+    // --------- Sizing Section ---------
+    const sizingLabel = document.createElement("span");
+    sizingLabel.classList.add("ms-2");
+    sizingLabel.textContent = gettext("Sizing");
+    shapeToolbar.appendChild(sizingLabel);
+
+    const sizingContainer = document.createElement("div");
+    sizingContainer.classList.add(
+      "d-flex",
+      "align-items-center",
+      "gap-2",
+      "rounded",
+      "ms-3",
+    );
+
+    const btnGroup = document.createElement("div");
+    btnGroup.classList.add("btn-group", "btn-group-toggle");
+    btnGroup.setAttribute("data-toggle", "buttons");
+
+    const scaleLabel = document.createElement("label");
+    scaleLabel.classList.add("btn", "btn-sm", "no-wrap");
+    scaleLabel.style.border = "none";
+    scaleLabel.style.backgroundColor = "transparent";
+    const scaleRadio = document.createElement("input");
+    scaleRadio.type = "radio";
+    scaleRadio.name = "shapeSize";
+    scaleRadio.value = "scale";
+    scaleRadio.setAttribute("autocomplete", "off");
+    scaleLabel.appendChild(scaleRadio);
+    scaleLabel.insertAdjacentHTML("beforeend", `\u00A0${gettext("Scale")}`);
+
+    const stretchLabel = document.createElement("label");
+    stretchLabel.classList.add("btn", "btn-sm", "no-wrap");
+    stretchLabel.style.border = "none";
+    stretchLabel.style.backgroundColor = "transparent";
+    const stretchRadio = document.createElement("input");
+    stretchRadio.type = "radio";
+    stretchRadio.name = "shapeSize";
+    stretchRadio.value = "stretch";
+    stretchRadio.setAttribute("autocomplete", "off");
+    stretchLabel.appendChild(stretchRadio);
+    stretchLabel.insertAdjacentHTML("beforeend", `\u00A0${gettext("Stretch")}`);
+
+    if (
+      window.selectedElementForUpdate &&
+      window.selectedElementForUpdate.element.fitMode === "stretch"
+    ) {
+      stretchRadio.checked = true;
+      stretchLabel.classList.add("active");
+    } else {
+      scaleRadio.checked = true;
+      scaleLabel.classList.add("active");
+    }
+
+    scaleRadio.addEventListener("change", () => {
+      if (
+        scaleRadio.checked &&
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.type === "shape"
+      ) {
+        pushCurrentSlideState();
+        const elementData = window.selectedElementForUpdate.element;
+        elementData.fitMode = "scale";
+        const elementDom = window.selectedElementForUpdate.container;
+        const svgContainer = elementDom.querySelector(".shape-svg-container");
+        if (svgContainer) {
+          svgContainer.innerHTML = getShapeSVG(
+            elementData.shape,
+            elementData.fill,
+            elementData.stroke,
+            elementData.fitMode,
+            elementData.alignment,
+            elementData.strokeWidth,
+          );
+        }
+        scaleLabel.classList.add("active");
+        stretchLabel.classList.remove("active");
+      }
+    });
+
+    stretchRadio.addEventListener("change", () => {
+      if (
+        stretchRadio.checked &&
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.type === "shape"
+      ) {
+        pushCurrentSlideState();
+        const elementData = window.selectedElementForUpdate.element;
+        elementData.fitMode = "stretch";
+        const elementDom = window.selectedElementForUpdate.container;
+        const svgContainer = elementDom.querySelector(".shape-svg-container");
+        if (svgContainer) {
+          svgContainer.innerHTML = getShapeSVG(
+            elementData.shape,
+            elementData.fill,
+            elementData.stroke,
+            elementData.fitMode,
+            elementData.alignment,
+            elementData.strokeWidth,
+          );
+        }
+        stretchLabel.classList.add("active");
+        scaleLabel.classList.remove("active");
+      }
+    });
+
+    btnGroup.appendChild(scaleLabel);
+    btnGroup.appendChild(stretchLabel);
+    sizingContainer.appendChild(btnGroup);
+    shapeToolbar.appendChild(sizingContainer);
+  }
+}

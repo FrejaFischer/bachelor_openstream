@@ -1,0 +1,47 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="editGroupModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Edit Group"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <!-- Hidden Group ID -->
+        <input type="hidden" id="editGroupId">
+        <!-- Group Name -->
+        <div class="mb-3">
+            {{> base/form/label for="editGroupName" text="Group Name"}}
+            {{> base/form/input type="text" id="editGroupName"}}
+            {{> base/form/invalid-feedback id="editGroupNameFeedback" text="Please enter a valid group name"}}
+        </div>
+        <!-- Content Type Selection -->
+        <div class="mb-3">
+            {{> base/form/label for="editDefaultContentType" text="Default Content Type"}}
+            <div>
+                {{> base/form/radio name="editDefaultContentType" id="editDefaultSlideshow" value="slideshow" text="Slideshow"}}
+                {{> base/form/radio name="editDefaultContentType" id="editDefaultPlaylist" value="playlist" text="Playlist"}}
+            </div>
+        </div>
+        <!-- Container for Default Slideshow -->
+        <div class="mb-3 hidden-container" id="editDefaultSlideshowContainer">
+            {{> base/form/label for="editGroupDefaultSlideshow" text="Default Slideshow"}}
+            {{#> base/form/dropdown id="editGroupDefaultSlideshow"}}
+                {{> base/form/dropdown-option value="" disabled=true selected=true text="Select a default slideshow"}}
+                <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        <!-- Container for Default Playlist -->
+        <div class="mb-3 hidden-container" id="editDefaultPlaylistContainer">
+            {{> base/form/label for="editGroupDefaultPlaylist" text="Default Playlist"}}
+            {{#> base/form/dropdown id="editGroupDefaultPlaylist"}}
+                {{> base/form/dropdown-option value="" disabled=true selected=true text="Select a default playlist"}}
+                <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-delete-save deleteId="deleteGroupBtn" deleteText="Delete Group" saveId="saveGroupChangesBtn" saveText="Save Changes" cancelText="Cancel"}}
+    {{/inline}}
+{{/base/modal/modal}}

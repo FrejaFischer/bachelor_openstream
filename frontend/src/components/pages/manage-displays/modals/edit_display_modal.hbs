@@ -1,0 +1,35 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="editDisplayModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Edit Display"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <input type="hidden" id="editDisplayGroupId">
+        <input type="hidden" id="editDisplayId">
+        <div class="mb-3">
+            {{> base/form/label for="editDisplayName" text="Display Name"}}
+            {{> base/form/input type="text" id="editDisplayName"}}
+            {{> base/form/invalid-feedback id="editDisplayNameFeedback" text="Please enter a valid display name"}}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{% trans "Display URL" %}</label>
+            {{> base/form/copyable-input
+                inputId="editDisplayUrlInput"
+                buttonId="copyUrlBtn"
+                notificationId="copyNotification"
+                inputClass="form-bold-input"
+                buttonClass="custom-btn custom-btn-secondary"
+                containerClass="url-container"
+                containerId="editDisplayUrlContainer"
+                icon="content_copy"
+                notificationText="Copied!"}}
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-delete-save deleteId="deleteDisplayBtn" deleteText="Delete Display" saveId="save-display-changes-btn" saveText="Save Changes" cancelText="Cancel"}}
+    {{/inline}}
+{{/base/modal/modal}}

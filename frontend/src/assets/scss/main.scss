@@ -1,0 +1,74 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "colors";
+@import "font-weights";
+@import "font-sizes";
+@import "border-radius";
+@import "fonts";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+@import "bootstrap";
+@import "navbar";
+@import "main-container";
+@import "sidebar";
+@import "page-title";
+@import "box-shadow";
+
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.btn {
+  border-radius: 0.375rem !important;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1;
+}
+
+.btn-primary {
+  background-color: $primary;
+  color: $white;
+  border: $primary;
+}
+
+.btn-primary:hover {
+  background-color: $primary-hover;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: $black;
+  border: 1.5px solid $secondary-light;
+}
+
+.btn-secondary:hover {
+  background-color: transparent;
+  color: $black;
+  border: 1.5px solid $secondary-hover;
+}
+
+.btn-danger {
+  background-color: $white;
+  color: $black;
+  border: 1.5px solid $error-red;
+}
+
+.btn-danger:hover {
+  background-color: $error-red;
+  color: $white;
+}
+
+.btn-tertiary {
+  background-color: $secondary;
+  color: $white;
+}
+
+.btn-tertiary:hover {
+  background-color: $secondary-hover;
+  color: $white;
+}
+
+.material-symbols-outlined {
+  vertical-align: middle;
+}

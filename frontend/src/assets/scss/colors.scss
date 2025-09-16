@@ -1,0 +1,96 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+$primary: #e00099;
+$secondary: #2c285a;
+$primary-hover: #a2006f;
+
+/* Secondary Colors */
+$secondary-tab: #3e3a65;
+$secondary-hover: #4a467f;
+$secondary-light: #bab8dd;
+$secondary-accent: #dfeff7;
+$secondary-accent-hover: #c8dfec;
+$secondary-accent-lighter: #eff7fb;
+$secondary-accent-light: #fafdff;
+
+/* Neutrals */
+$white: #fff;
+$gray: #cbd3d8;
+$light-gray: #d2dbdf;
+$lighter-gray: #ebf0f2;
+$lightest-gray: #fafafa;
+$black: #000;
+$darkest-gray: #363839;
+$darker-gray: #72787b;
+$dark-gray: #989ea1;
+
+/* Semantic */
+$error-red: #b30021;
+$orange: #d35d08;
+$warning-yellow: #ffc008;
+$success-green: #007f51;
+$turquoise: #00cca7;
+$neutral-blue: #0057d7;
+$cold-purple: #8853d3;
+$purple: #9700b9;
+$error-red-light: #e8b2bc;
+$orange-light: #f2ceb5;
+$warning-yellow-light: #ffecb5;
+$success-green-light: #b2d9cb;
+$turqouise-light: #b2f0e5;
+$neutral-blue-light: #b2cdf3;
+$cold-purple-light: #dbcbf2;
+$purple-light: #e0b2ea;
+
+// Vanilla bootstrap compatibility
+$success: $success-green;
+$info: $turquoise;
+$danger: $error-red;
+$warning: $warning-yellow;
+$light: $lightest-gray;
+$dark: $darkest-gray;
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "primary-hover": $primary-hover,
+  "secondary-tab": $secondary-tab,
+  "secondary-hover": $secondary-hover,
+  "secondary-light": $secondary-light,
+  "secondary-accent": $secondary-accent,
+  "secondary-accent-hover": $secondary-accent-hover,
+  "secondary-accent-lighter": $secondary-accent-lighter,
+  "secondary-accent-light": $secondary-accent-light,
+  "white": $white,
+  "gray": $gray,
+  "light-gray": $light-gray,
+  "lighter-gray": $lighter-gray,
+  "lightest-gray": $lightest-gray,
+  "black": $black,
+  "darkest-gray": $darkest-gray,
+  "darker-gray": $darker-gray,
+  "dark-gray": $dark-gray,
+  "error-red": $error-red,
+  "orange": $orange,
+  "warning-yellow": $warning-yellow,
+  "success-green": $success-green,
+  "turquoise": $turquoise,
+  "neutral-blue": $neutral-blue,
+  "cold-purple": $cold-purple,
+  "purple": $purple,
+  "error-red-light": $error-red-light,
+  "orange-light": $orange-light,
+  "warning-yellow-light": $warning-yellow-light,
+  "success-green-light": $success-green-light,
+  "turqouise-light": $turqouise-light,
+  "neutral-blue-light": $neutral-blue-light,
+  "cold-purple-light": $cold-purple-light,
+  "purple-light": $purple-light,
+
+  // Vanilla bootstrap compatibility
+  "success": $success,
+  "info": $info,
+  "danger": $danger,
+  "warning": $warning,
+  "light": $light,
+  "dark": $dark,
+);

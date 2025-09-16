@@ -1,0 +1,83 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="addRecurringScheduledModal" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Add Recurring Scheduled Content"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        {{> base/form/checkbox id="recurringCombineWithDefaultToggle" text="Combine with Default Content" small="If enabled, slides from this playlist will be added alongside the default content. If disabled, only this playlist will show." switch="true" warningId="recurringToggleWarningCreate"}}
+
+        <div class="mb-3">
+            {{> base/form/label for="recurringScheduledGroup" text="Group"}}
+            {{#> base/form/dropdown id="recurringScheduledGroup"}}
+                <!-- Populated by JS with existing groups -->
+        {{/base/form/dropdown}}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{% trans "Content Type" %}</label>
+            <div>
+                {{> base/form/radio name="recurringScheduledContentType" id="recurringScheduledSlideshow" value="slideshow" text="Slideshow / Interactive Content" checked="true"}}
+                {{> base/form/radio name="recurringScheduledContentType" id="recurringScheduledPlaylist" value="playlist" text="Slideshow Playlist"}}
+            </div>
+        </div>
+        <div class="mb-3" id="recurringScheduledSlideshowContainer">
+            {{> base/form/label for="recurringScheduledSlideshowSelect" text="Slideshow"}}
+            {{#> base/form/dropdown id="recurringScheduledSlideshowSelect"}}
+                {{> base/form/dropdown-option value="" text="Select a slideshow" disabled="true" selected="true"}}
+                <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        <div class="mb-3 hidden-container"
+             id="recurringScheduledPlaylistContainer">
+            {{> base/form/label for="recurringScheduledPlaylistSelect" text="Playlist"}}
+            {{#> base/form/dropdown id="recurringScheduledPlaylistSelect"}}
+                {{> base/form/dropdown-option value="" text="Select a playlist" disabled="true" selected="true"}}
+                <!-- Options populated by JS -->
+        {{/base/form/dropdown}}
+        </div>
+        <div class="mb-3">
+            {{> base/form/label for="recurringWeekday" text="Day of Week"}}
+            {{#> base/form/dropdown id="recurringWeekday"}}
+                {{> base/form/dropdown-option value="0" text="Monday"}}
+                {{> base/form/dropdown-option value="1" text="Tuesday"}}
+                {{> base/form/dropdown-option value="2" text="Wednesday"}}
+                {{> base/form/dropdown-option value="3" text="Thursday"}}
+                {{> base/form/dropdown-option value="4" text="Friday"}}
+                {{> base/form/dropdown-option value="5" text="Saturday"}}
+                {{> base/form/dropdown-option value="6" text="Sunday"}}
+        {{/base/form/dropdown}}
+        </div>
+            {{> base/form/input-pair
+                leftId="recurringStartTime"
+                leftType="time"
+                leftLabel="Start Time"
+                leftSmall="optional, defaults to 00:00"
+                leftPlaceholder="00:00"
+                rightId="recurringEndTime"
+                rightType="time"
+                rightLabel="End Time"
+                rightSmall="optional, defaults to 23:59"
+                rightPlaceholder="23:59"}}
+            {{> base/form/input-pair
+                leftId="recurringActiveFrom"
+                leftType="date"
+                leftLabel="Active From"
+                rightId="recurringActiveUntil"
+                rightType="date"
+                rightLabel="Active Until"
+                rightSmall="optional"}}
+        <div class="mb-3">
+            {{> base/form/label for="recurringScheduledDescription" text="Description (optional)"}}
+            <textarea id="recurringScheduledDescription" class="form-control"></textarea>
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{#> base/modal/modal-footer-save id="save-recurring-scheduled-content-btn"}}
+            {% trans "Save" %}
+        {{/base/modal/modal-footer-save}}
+    {{/inline}}
+{{/base/modal/modal}}

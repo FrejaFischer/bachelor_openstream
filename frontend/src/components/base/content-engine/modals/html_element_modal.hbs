@@ -1,0 +1,44 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="htmlElementModal" ariaLabelledby="htmlElementModalLabel" size="modal-fullscreen"}}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="HTML Element Editor" id="htmlElementModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <div class="p-0 d-flex flex-column h-100">
+            <!-- Top: Code Editors (50%) -->
+            <div class="d-flex flex-grow-0 h-50 border-bottom position-relative">
+                <!-- HTML Editor -->
+                <div id="html-editor" class="d-flex flex-column flex-fill border-end p-2">
+                    {{> base/form/label for="htmlElementHtmlCode" text="HTML" class="fw-bold mb-2"}}
+                    <div id="htmlElementHtmlCode" class="monaco-editor-container form-control flex-fill rounded-0"></div>
+                </div>
+                <!-- CSS Editor -->
+                <div id="css-editor" class="d-flex flex-column flex-fill border-end p-2">
+                    {{> base/form/label for="htmlElementCssCode" text="CSS" class="fw-bold mb-2"}}
+                    <div id="htmlElementCssCode" class="monaco-editor-container form-control flex-fill rounded-0"></div>
+                </div>
+                <!-- JS Editor -->
+                <div id="js-editor" class="d-flex flex-column flex-fill p-2">
+                    {{> base/form/label for="htmlElementJsCode" text="JavaScript" class="fw-bold mb-2"}}
+                    <div id="htmlElementJsCode" class="monaco-editor-container form-control flex-fill rounded-0"></div>
+                </div>
+            </div>
+            <!-- Bottom: Preview (50%) -->
+            <div class="d-flex flex-column flex-grow-0 h-50">
+                <div class="p-2 d-flex justify-content-between align-items-center border-bottom">
+                    {{> base/form/label for="htmlElementPreview" text="Preview" class="fw-bold mb-0"}}
+                    {{> base/buttons/icon-button type='button' id='updatePreviewBtn' variant='outline-primary' size='sm' text='Update Preview' icon='refresh'}}
+                </div>
+                <div id="htmlElementPreview" class="flex-fill border bg-white mx-2 mb-2"></div>
+            </div>
+        </div>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='saveHtmlElementBtn' variant='primary' icon='save' text="Save"}}
+    {{/inline}}
+{{/base/modal/modal}}

@@ -1,0 +1,226 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+/* SPDX-License-Identifier: AGPL-3.0-only */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+}
+.map-panel { position: relative; }
+.map-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 12px;
+    z-index: 9999;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.9));
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    color: #0f172a;
+    pointer-events: none;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+    font-size: 0.95rem;
+}
+
+.map-backdrop {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(15,23,42,0.02), transparent 8%), linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.point {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    z-index: 40;
+    transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms, opacity 180ms ease-in-out;
+}
+
+        #floors-menu-btns {
+            border-bottom: 1px solid lightgrey;
+            border-top: 1px solid lightgrey;
+        }
+
+        #right-sidebar-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #task-list-container {
+            height: 12rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #tasks-list {
+            overflow-y: auto;
+        }
+
+.point.poi { background-color: whitesmoke; border: 2px solid rgba(255,255,255,0.92); }
+
+.point.poi span { color: black;}
+
+.point.screen { background-color: #ef4444; border: 2px solid rgba(255,255,255,0.95); }
+.point:hover { transform: translate(-50%, -50%) scale(1.18); box-shadow: 0 10px 26px rgba(2,6,23,0.18); }
+.point .point-name {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.64);
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: #f8fafc;
+    font-size: 0.7rem;
+    pointer-events: none;
+    box-shadow: 0 6px 12px rgba(2,6,23,0.16);
+}
+.point.name-above .point-name { bottom: auto; top: -36px; }
+        #main-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 584px;
+            gap: 1.5rem;
+            align-items: start;
+            height: calc(100vh - 3.5rem);
+        }
+ #map-container, .map-panel #map-image {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 3.5rem);
+}
+
+#map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+    background: linear-gradient(180deg, #ffffff, #fcfdff);
+}
+        #map-image { display: block; width: 100%; height: 100%; object-fit: contain; }
+        #overlay-wrapper { position: absolute; }
+        #svg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        #map-container.drawing-mode { cursor: crosshair; }
+.path-line {
+    stroke-width: 2px;
+    stroke: blue; /* mint-green */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    filter: drop-shadow(0 6px 12px rgba(4, 120, 87, 0.06));
+    transition: opacity 0.18s ease-in-out, stroke-width 160ms;
+}
+        .path-line-preview { stroke-dasharray: none }
+.toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    padding: 10px 20px; background-color: #2d3748; color: white;
+    border-radius: 9999px; opacity: 0; transition: opacity 0.3s ease-in-out;
+    visibility: hidden; z-index: 100;
+}
+        .toast.show { opacity: 1; visibility: visible; }
+        .sidebar { background-color: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .sidebar-full-height { height: 100%; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar li { padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
+        .sidebar li:last-child { border-bottom: none; }
+        .path-list, .floor-group-list { display: block; padding-left: 1rem; margin-top: 0.5rem; }
+        .path-list.collapsed { display: none; }
+        .screen-toggle { cursor: pointer; transition: transform 0.2s ease; }
+        .screen-toggle.expanded { transform: rotate(90deg); }
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1rem;
+}
+        .modal-overlay.visible { display: flex; }
+        /* modal dialog content inside overlay */
+        .modal-overlay > div,
+        .modal-overlay .modal-content {
+            max-width: 960px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            background: #fff;
+        }
+        .floor-card {
+            border: 2px solid transparent; border-radius: 0.5rem; padding: 0.75rem;
+            margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease-in-out;
+            background-color: #f9fafb;
+        }
+        .floor-card.active { border-color: #3b82f6; background-color: #eff6ff; }
+        .floor-card.dragging { opacity: 0.5; }
+        .floor-card-ghost {
+            opacity: 0.4;
+            background-color: #f3f4f6;
+            border: 2px dashed #3b82f6;
+        }
+        .floor-card-chosen {
+            background-color: #eff6ff;
+        }
+        .floor-card-dragging {
+            transform: rotate(5deg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .floor-card-thumb {
+            width: 100%; height: 100px; object-fit: cover; border-radius: 0.25rem;
+            margin-top: 0.5rem; border: 1px solid #e5e7eb;
+        }
+    /* You are here marker styling and subtle pulse */
+    #you-are-here-marker { z-index: 9998; pointer-events: none; display:flex; align-items:center; justify-content:center; }
+    #you-are-here-marker .material-symbols-outlined { background: white; border-radius: 50%; padding: 2px; box-shadow: 0 6px 18px rgba(2,6,23,0.12); }
+    #you-are-here-marker .you-are-here-label { margin-top: 6px; font-size: 0.75rem; color: #0f172a; background: #ffffff; padding: 4px 8px; border-radius: 9999px; box-shadow: 0 6px 14px rgba(2,6,23,0.06); }
+
+    @keyframes pulse {
+        0% { transform: scale(0.85); opacity: 0.9; }
+        70% { transform: scale(1.6); opacity: 0.06; }
+        100% { transform: scale(1.6); opacity: 0; }
+    }
+    #you-are-here-marker::after {
+        content: '';
+        position: absolute;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: rgba(239,68,68,0.12);
+        z-index: -1;
+        transform: translate(-50%, -50%);
+        animation: pulse 2000ms infinite ease-out;
+    }
+    #map-views-wrapper { width: 100%; }
+    #map-views-wrapper > div { width: 100%; }
+    #map-views-wrapper .path-line { stroke-width: 2px; }
+        .icon-btn {
+            font-size: 20px;
+        }
+    
+    /* fade-in for map images */
+    .map-image-loading { opacity: 0; transition: opacity 380ms ease-in-out; }
+    #map-image { opacity: 1; transition: opacity 380ms ease-in-out; display:block; width:100%; height:100%; object-fit:contain; }
+
+    /* When a path is focused, dim all non-active points inside the map area.
+        Scoped to #map-views-wrapper so the sidebar and other UI aren't affected. */
+    #map-views-wrapper.path-focused .point:not(.active) { opacity: 0.5; }
+    #map-views-wrapper.path-focused .point:not(.active) .point-name { opacity: 0.5; }
+
