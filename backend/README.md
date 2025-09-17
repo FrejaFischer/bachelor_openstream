@@ -122,3 +122,7 @@ docker compose up -d --build
 ```
 
 OBS: To revert back to the default development setup, just delete the `compose.override.yaml` file or comment out all the lines in it.
+
+Note: The production image now runs `manage.py collectstatic --noinput` during container startup (entrypoint) so
+static assets (including the Django admin CSS) are written to `/data/static` and served by WhiteNoise. Also ensure
+`STATIC_URL` is set to begin with a leading slash (`/static/`) so templates generate correct absolute paths.
