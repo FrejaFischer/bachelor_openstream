@@ -64,8 +64,13 @@ RUN echo 'server { \
 # Copy built application from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Copy runtime entrypoint script and make it available in image
+COPY runtime-entrypoint.sh /usr/local/bin/runtime-entrypoint.sh
+RUN chmod +x /usr/local/bin/runtime-entrypoint.sh
+
 # Expose port 4173 (to match Vite preview port)
 EXPOSE 4173
 
-# Start nginx
+# Start via runtime entrypoint which will write runtime-config and then start nginx
+ENTRYPOINT ["/usr/local/bin/runtime-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
