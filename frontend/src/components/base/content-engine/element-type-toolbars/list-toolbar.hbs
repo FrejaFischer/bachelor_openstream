@@ -1,10 +1,7 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div id="list-toolbar"
-     class="list-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "List" %}</span>
-    <div class="vr m-2"></div>
-    <!-- Popover-based toolbar with clean sections -->
+{{#> base/content-engine/element-type-toolbars/element-type-toolbars id="list-toolbar" class="list-toolbar" title="List" }}
+     <!-- Popover-based toolbar with clean sections -->
     <div class="d-flex align-items-center gap-2 w-100">
         <!-- Structure Control Button -->
         <button type="button"
@@ -83,4 +80,4 @@
             <option value="1.0">1.0</option>
         </select>
     </div>
-</div>
+{{/base/content-engine/element-type-toolbars/element-type-toolbars}}

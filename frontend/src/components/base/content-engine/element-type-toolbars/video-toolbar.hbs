@@ -1,8 +1,6 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div class="video-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Video" %}</span>
-    <div class="vr m-2"></div>
+{{#> base/content-engine/element-type-toolbars/element-type-toolbars class="video-toolbar" title="Video" }}
     <button id="change-video-btn"
             class="btn btn-tertiary btn-sm d-flex align-items-center py-1 gap-2 rounded mx-3">
         {% trans "Change" %}
@@ -59,4 +57,4 @@
             </label>
         </div>
     </div>
-</div>
+{{/base/content-engine/element-type-toolbars/element-type-toolbars}}

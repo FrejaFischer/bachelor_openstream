@@ -1,9 +1,6 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div id="table-toolbar"
-     class="table-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Table" %}</span>
-    <div class="vr m-2"></div>
+{{#> base/content-engine/element-type-toolbars/element-type-toolbars id="table-toolbar" class="table-toolbar" title="Table" }}
     <!-- Popover-based toolbar with clean sections -->
     <div class="d-flex align-items-center gap-2 w-100">
         <!-- Structure & Layout Control Button -->
@@ -126,4 +123,4 @@
         <input type="color" id="table-border-color" value="#dee2e6">
         <input type="number" id="table-border-thickness" min="1" max="5" value="1">
     </div>
-</div>
+{{/base/content-engine/element-type-toolbars/element-type-toolbars}}

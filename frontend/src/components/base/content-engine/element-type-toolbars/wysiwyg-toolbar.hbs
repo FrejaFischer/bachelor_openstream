@@ -1,9 +1,7 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div class="wysiwyg-toolbar element-type-toolbar d-none disabled pe-4">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Textbox" %}</span>
-    <div class="vr m-2"></div>
-    <div class="mx-3 d-flex">
+{{#> base/content-engine/element-type-toolbars/element-type-toolbars class="wysiwyg-toolbar" title="Textbox" }}
+      <div class="mx-3 d-flex">
         <select class="font-family-select mx-3 form-select form-select-sm">
             <!-- Populated by JS -->
         </select>
@@ -123,4 +121,4 @@
             <i class="material-symbols-outlined">vertical_align_bottom</i>
         </button>
     </div>
-</div>
+{{/base/content-engine/element-type-toolbars/element-type-toolbars}}
