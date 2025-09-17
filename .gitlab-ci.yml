@@ -23,6 +23,12 @@ variables:
   RELEASE_IMAGE_TAG: ${RELEASE_IMAGE}:${CI_COMMIT_TAG}
   RELEASE_IMAGE_LATEST: ${RELEASE_IMAGE}:latest
   CONTEXT: $CI_PROJECT_DIR/backend
+  FRONTEND_DOCKERFILE: $CI_PROJECT_DIR/frontend/Dockerfile
+  FRONTEND_IMAGE_SHA: ${CI_REGISTRY_IMAGE}-frontend:${CI_COMMIT_SHA}
+  FRONTEND_RELEASE_IMAGE: magentaaps/openstream-frontend
+  FRONTEND_RELEASE_IMAGE_TAG: ${FRONTEND_RELEASE_IMAGE}:${CI_COMMIT_TAG}
+  FRONTEND_RELEASE_IMAGE_LATEST: ${FRONTEND_RELEASE_IMAGE}:latest
+  FRONTEND_CONTEXT: $CI_PROJECT_DIR/frontend
 
 #############
 #  Linting  #
@@ -80,6 +86,13 @@ Django Tests:
   script:
     - cd $CI_PROJECT_DIR/backend && poetry run python openstream/manage.py test
 
+# Test Frontend
+Test Frontend:
+  stage: test
+  image: node:20-alpine
+  script:
+    - cd $CI_PROJECT_DIR/frontend && npm ci && npm run build
+
 ###########
 #  Build  #
 ###########
@@ -90,6 +103,15 @@ Build app image:
     CONTEXT: $CI_PROJECT_DIR/backend
   # Minimize unnecessary builds, specified because the extended template sets needs to []
   needs: [Lint Python, Django Tests]
+
+Build Frontend image:
+  extends: .build-docker
+  variables:
+    DOCKERFILE: $FRONTEND_DOCKERFILE
+    CONTEXT: $FRONTEND_CONTEXT
+    IMAGE_SHA: $FRONTEND_IMAGE_SHA
+    TARGET: production
+  needs: [Test Frontend]
 
 #############
 #  Release  #
@@ -118,4 +140,22 @@ Release latest tag:
     - skopeo copy --src-creds=${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD}
       --dest-creds=${RELEASE_REGISTRY_USER}:${RELEASE_REGISTRY_PASSWORD}
       "docker://${IMAGE_SHA}"
-      "docker://${RELEASE_IMAGE_TAG}"
+      "docker://${RELEASE_IMAGE_LATEST}"
+
+Release Frontend versioned tag:
+  <<: *release-default
+  extends: [.rules:semver-all]
+  script:
+    - skopeo copy --src-creds=${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD}
+      --dest-creds=${RELEASE_REGISTRY_USER}:${RELEASE_REGISTRY_PASSWORD}
+      "docker://${FRONTEND_IMAGE_SHA}"
+      "docker://${FRONTEND_RELEASE_IMAGE_TAG}"
+
+Release Frontend latest tag:
+  <<: *release-default
+  extends: [.rules:semver-core]
+  script:
+    - skopeo copy --src-creds=${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD}
+      --dest-creds=${RELEASE_REGISTRY_USER}:${RELEASE_REGISTRY_PASSWORD}
+      "docker://${FRONTEND_IMAGE_SHA}"
+      "docker://${FRONTEND_RELEASE_IMAGE_LATEST}"
