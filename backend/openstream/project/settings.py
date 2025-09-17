@@ -118,15 +118,10 @@ MIDDLEWARE = [
 # CORS Settings
 ###############################################################################
 
-_env_cors = os.environ.get("CORS_ALLOWED_ORIGINS")
-if _env_cors:
-    # Split on commas, strip whitespace and ignore empty entries
-    CORS_ALLOWED_ORIGINS = [u.strip() for u in _env_cors.split(",") if u.strip()]
+if os.environ.get("CORS_ALLOWED_ORIGINS"):
+    CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
 else:
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:5173",
-        "http://localhost:4173",
-    ]
+    CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:4173"]
 
 CORS_ALLOW_HEADERS = [
     "accept",
