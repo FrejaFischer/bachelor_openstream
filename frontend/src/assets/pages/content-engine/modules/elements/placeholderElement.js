@@ -11,6 +11,7 @@ import {
   replaceElementWithType,
 } from "../utils/elementTypeConverter.js";
 import { GridUtils } from "../config/gridConfig.js";
+import { gettext } from "../../../../utils/locales.js";
 
 function addPlaceholderToSlide() {
   if (store.currentSlideIndex < 0) {
