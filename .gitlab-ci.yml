@@ -91,7 +91,7 @@ Test Frontend:
   stage: test
   image: node:20-alpine
   script:
-    - cd $CI_PROJECT_DIR/frontend && npm ci && npm run build
+    - cd $CI_PROJECT_DIR/frontend && npm ci --legacy-peer-deps && npm run build
 
 ###########
 #  Build  #
