@@ -7,54 +7,32 @@
     </button>
     <div class="vr m-1"></div>
     <span class="ms-2">{% trans "Volume" %}</span>
-    <div class="d-flex align-items-center gap-2 rounded ms-3">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-sm">
-                <input type="radio" name="videoVolume" value="false" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">volume_up</i>
-            </label>
-            <label class="btn btn-sm">
-                <input type="radio" name="videoVolume" value="true" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">volume_off</i>
-            </label>
-        </div>
+    <div class="d-flex align-items-center gap-2 ms-3">
+        {{#> base/form/radio name="videoVolume" id="video-volume-up" value="false" icon="volume_up" autocomplete="off" ariaLabel="Volume up"}}
+        {{/base/form/radio}}
+        {{#> base/form/radio name="videoVolume" id="video-volume-off" value="true" icon="volume_off" autocomplete="off" ariaLabel="Volume off"}}
+        {{/base/form/radio}}
     </div>
     <div class="vr m-1"></div>
     <!-- Horizontal Align Video Options -->
-    <div class="d-flex align-items-center gap-2 rounded mx-3">
+    <div class="d-flex align-items-center gap-2 mx-3">
         <span class="mx-2">{% trans "Horizontal Align" %}</span>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-sm">
-                <input type="radio" name="videoHAlign" value="left" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_back</i>
-            </label>
-            <label class="btn btn-sm">
-                <input type="radio" name="videoHAlign" value="center" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">filter_tilt_shift</i>
-            </label>
-            <label class="btn btn-sm">
-                <input type="radio" name="videoHAlign" value="right" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_forward</i>
-            </label>
-        </div>
+        {{#> base/form/radio name="videoHAlign" id="video-ha-left" value="left" icon="arrow_back" autocomplete="off" ariaLabel="Video horizontal align left"}}
+        {{/base/form/radio}}
+        {{#> base/form/radio name="videoHAlign" id="video-ha-center" value="center" icon="filter_tilt_shift" autocomplete="off" ariaLabel="Video horizontal align center"}}
+        {{/base/form/radio}}
+        {{#> base/form/radio name="videoHAlign" id="video-ha-right" value="right" icon="arrow_forward" autocomplete="off" ariaLabel="Video horizontal align right"}}
+        {{/base/form/radio}}
     </div>
     <div class="vr m-1"></div>
     <!-- Vertical Align Video Options -->
-    <div class="d-flex align-items-center gap-2 rounded mx-3">
+    <div class="d-flex align-items-center gap-2 mx-3">
         <span class="ms-2">{% trans "Vertical Align" %}</span>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-sm">
-                <input type="radio" name="videoVAlign" value="top" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_upward</i>
-            </label>
-            <label class="btn btn-sm">
-                <input type="radio" name="videoVAlign" value="center" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">filter_tilt_shift</i>
-            </label>
-            <label class="btn btn-sm">
-                <input type="radio" name="videoVAlign" value="bottom" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">arrow_downward</i>
-            </label>
-        </div>
+        {{#> base/form/radio name="videoVAlign" id="video-va-top" value="top" icon="arrow_upward" autocomplete="off" ariaLabel="Video vertical align top"}}
+        {{/base/form/radio}}
+        {{#> base/form/radio name="videoVAlign" id="video-va-center" value="center" icon="filter_tilt_shift" autocomplete="off" ariaLabel="Video vertical align center"}}
+        {{/base/form/radio}}
+        {{#> base/form/radio name="videoVAlign" id="video-va-bottom" value="bottom" icon="arrow_downward" autocomplete="off" ariaLabel="Video vertical align bottom"}}
+        {{/base/form/radio}}
     </div>
 {{/base/content-engine/element-type-toolbars/element-type-toolbars}}
