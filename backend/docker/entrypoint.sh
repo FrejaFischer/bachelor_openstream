@@ -42,6 +42,9 @@ if [ "${DJANGO_ENV}" = "development" ]; then
 fi
 
 if [ "${DJANGO_ENV}" = "production" ]; then
-    echo "Running openstream.dk in production mode"
-    exec gunicorn project.wsgi:application --config /app/gunicorn-settings.py --bind 0.0.0.0:8000
+  echo "Running openstream.dk in production mode"
+  # Ensure static files are collected to STATIC_ROOT so WhiteNoise can serve them
+  echo 'Collecting static files'
+  ./manage.py collectstatic --noinput
+  exec gunicorn project.wsgi:application --config /app/gunicorn-settings.py --bind 0.0.0.0:8000
 fi
