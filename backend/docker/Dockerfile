@@ -93,18 +93,11 @@ FROM final AS development
 # ---------------------------------------------------------------------
 FROM final AS production
 
-ARG CACHEBUSTER=CACHEBUSTING
+ARG BUSTERCACHE=BUSTERCACHING
 
-# Don't remove the cachebuster
+# Don't remove the BUSTERCACHE
 RUN set -ex \
-    && echo "Cachebuster: $CACHEBUSTER"
-
-ARG CACHEBUSTER2=CACHEBUSTING2
-
-# Don't remove the cachebuster
-RUN set -ex \
-    && echo "Cachebuster: $CACHEBUSTER2"
-
+    && echo "BUSTERCACHE: $BUSTERCACHE"
 
 RUN set -ex \
     && groupadd -r -g ${APP_GID} ${APP_GROUP} \
