@@ -1,7 +1,10 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div class="form-check">
-    <input type="radio" name="{{name}}" id="{{id}}" value="{{value}}" {{#if checked}}checked{{/if}} {{#if
-        required}}required{{/if}}>
-    <label for="{{id}}" class="form-check-label">{% trans "{{text}}" %}</label>
+<div class="form-check d-flex gap-1 px-0 mx-1 mb-0 align-items-center">
+    <input type="radio" name="{{name}}" id="{{id}}" class="form-check-input m-0" value="{{value}}" {{#if checked}}checked{{/if}} {{#if
+        required}}required{{/if}} autocomplete={{autocomplete}}>
+    <label for="{{id}}" class="form-check-label d-flex align-items-center" aria-label="{{ariaLabel}}">
+        {{#if text}}{% trans "{{text}}" %}{{/if}}
+        {{#if icon}}<i class="fs-4 material-symbols-outlined">{{icon}}</i>{{/if}}
+    </label>
 </div>
