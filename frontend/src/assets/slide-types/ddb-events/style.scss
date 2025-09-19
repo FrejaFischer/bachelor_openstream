@@ -124,10 +124,10 @@ body {
 .event-title {
   font-size: 5rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
 }
 
 .event-description {
+  display: none;
   font-size: 3.5rem;
   margin-bottom: 1rem;
 }
@@ -138,6 +138,21 @@ body {
 .event-tags {
   margin-bottom: 0.5rem;
   font-size: 2.5rem;
+}
+
+/* Combine date and location on one line while preserving font sizes */
+.event-meta {
+  display: flex;
+  gap: 1rem; /* space between date and location */
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.event-meta .event-date {
+  font-size: 2.5rem;
+}
+.event-meta .event-location {
+  font-size: 2.5rem;
+  color: $darkest-gray;
 }
 
 .event-body {
@@ -179,17 +194,15 @@ body {
   display: flex;
   z-index: 90;
   width: 100%;
-  height: 30vh; // fixed height as requested
+  height: 15rem; // fixed height as requested
   box-sizing: border-box;
   overflow: hidden; // prevent expansion beyond fixed height
 }
 
-
-
 .vertical-layout-text {
   flex: 1;
   /* provide inner spacing for text while keeping the panel edge-to-edge */
-  padding: 20px;
+  padding: 1.5rem;
 }
 
 // Ensure text inside the bottom layout is clamped with ellipses when overflowing
