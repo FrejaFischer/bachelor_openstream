@@ -124,7 +124,7 @@ body {
   /* add 2rem horizontal padding so text (and QR) have consistent side spacing in horizontal mode */
   padding: 2rem 2rem !important;
   /* semi-transparent so the blurred background shows through; use rgba instead of opacity */
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: none; /* optionally could use backdrop-filter: blur(6px) for extra effect */
   overflow-y: auto;
   position: relative;
@@ -169,7 +169,30 @@ body {
 .event-body {
   margin-top: 1.5rem;
   font-size: 1rem;
-  line-height: 1.4;
+  line-height: 1.2;
+}
+
+/* Horizontal-mode specific spacing: only apply when the carousel item is not vertical */
+.carousel-item:not(.vertical) {
+  .event-title {
+    margin-bottom: 1.25rem; /* more space after title */
+  }
+
+  .event-meta {
+    margin-bottom: 1rem; /* increase spacing after date/location */
+  }
+
+  .event-body {
+    margin-top: 1.75rem; /* slightly more space before body */
+    margin-bottom: 1.25rem; /* space after body before QR */
+  }
+
+  .event-qr {
+    margin-top: 1.25rem; /* add extra vertical gap above QR */
+    margin-bottom: 1.25rem; /* and below for breathing room */
+    /* allow the QR to align to the left but not be flush to the container edge */
+    align-self: flex-start;
+  }
 }
 
 // QR code positioning
