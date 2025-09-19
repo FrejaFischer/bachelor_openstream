@@ -104,9 +104,9 @@ function displayEventsInCarousel(events) {
 
     if (config.layout === "vertical") {
       carouselItemMarkup = `
-        <div class="carousel-item vertical ${isActive}">
-          <div class="col-12 col-image">
-            <img src="${imageUrl}" alt="${title}" class="p-1" style="object-fit: contain; height: 100%; width: 100%;">
+        <div class="carousel-item vertical ${isActive}" style="--slide-bg: url('${imageUrl}')">
+          <div class="col-image" style="height: 70vh;">
+            <img src="${imageUrl}" alt="${title}" class="p-1">
           </div>
           <div class="vertical-layout-bottom">
             <div class="vertical-layout-text">
@@ -123,7 +123,7 @@ function displayEventsInCarousel(events) {
       `;
     } else {
       carouselItemMarkup = `
-        <div class="carousel-item ${isActive}">
+        <div class="carousel-item ${isActive}" style="--slide-bg: url('${imageUrl}')">
           <div class="row g-0">
             <div class="col-6 col-image" style="height: 100vh;">
               <img src="${imageUrl}" alt="${title}">
@@ -147,11 +147,15 @@ function displayEventsInCarousel(events) {
       setTimeout(() => {
         const qrContainer = document.getElementById(`qrcode-${index}`);
         if (qrContainer) {
+          // Generate QR code with transparent background
           new QRCode(qrContainer, {
             text: qrValue,
             width: 200,
             height: 200,
+            colorDark: "#000000",
+            colorLight: "transparent",
           });
+          // ensure any generated <canvas> or <svg> has transparent background via inline styles later
         }
       }, 0);
     }
