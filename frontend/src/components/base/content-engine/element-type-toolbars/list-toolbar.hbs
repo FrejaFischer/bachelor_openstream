@@ -21,7 +21,7 @@
             {{> base/form/dropdown-option value="lower-roman" text="Roman (i, ii, iii)" }}
             {{> base/form/dropdown-option value="upper-roman" text="Roman (I, II, III)" }}
             {{> base/form/dropdown-option value="none" text="None" }}
-        {{/base/form/dropdown}}
+    {{/base/form/dropdown}}
         <!-- List items textarea -->
         <textarea id="list-items"
                   rows="5"
@@ -41,13 +41,13 @@
             {{> base/form/dropdown-option value="2.0" text="2.0" }}
             {{> base/form/dropdown-option value="2.5" text="2.5" }}
             {{> base/form/dropdown-option value="3.0" text="3.0" }}
-        {{/base/form/dropdown}}
+    {{/base/form/dropdown}}
         <!-- Font family select -->
     {{#> base/form/dropdown id="list-font-family" }}
             <!-- Options will be populated by JavaScript -->
-        {{/base/form/dropdown}}
+    {{/base/form/dropdown}}
         <!-- Font color input -->
-        <input type="color" id="list-font-color" value="#212529">
+        {{> base/form/input type="color" id="list-font-color" value="#212529" }}
         <!-- Line height select -->
     {{#> base/form/dropdown id="list-line-height" }}
             {{> base/form/dropdown-option value="1.0" text="1.0" }}
@@ -56,7 +56,7 @@
             {{> base/form/dropdown-option value="1.6" text="1.6" }}
             {{> base/form/dropdown-option value="1.8" text="1.8" }}
             {{> base/form/dropdown-option value="2.0" text="2.0" }}
-        {{/base/form/dropdown}}
+    {{/base/form/dropdown}}
         <!-- Item spacing select -->
     {{#> base/form/dropdown id="list-item-spacing" }}
             {{> base/form/dropdown-option value="0" text="0" }}
@@ -64,6 +64,6 @@
             {{> base/form/dropdown-option value="0.5" text="0.5" selected=true }}
             {{> base/form/dropdown-option value="0.75" text="0.75" }}
             {{> base/form/dropdown-option value="1.0" text="1.0" }}
-        {{/base/form/dropdown}}
+    {{/base/form/dropdown}}
     </div>
 {{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}
