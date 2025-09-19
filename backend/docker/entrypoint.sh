@@ -36,8 +36,7 @@ fi
 
 # Run the application
 if [ "${DJANGO_ENV}" = "development" ]; then
-  echo "Running openstream.dk in development mode (live reload)"
-  ./manage.py compilemessages
+  echo "Running openstream.dk in development mode"
   exec ./manage.py runserver 0.0.0.0:8000
 fi
 
