@@ -1,4 +1,5 @@
 /* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
 /* SPDX-License-Identifier: AGPL-3.0-only */
 // KMD Foreningsportalen Booking Display Styles
 @import "../../scss/main";
@@ -170,19 +171,19 @@ body {
 
   .material-symbols-outlined {
     font-size: 4rem;
-    opacity: 50%;
+    opacity: 0.5;
     margin-bottom: 1rem;
   }
 
   h3 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    opacity: 80%;
+    opacity: 0.8;
   }
 
   p {
     font-size: 1.2rem;
-    opacity: 60%;
+    opacity: 0.6;
     max-width: 400px;
   }
 }
@@ -209,13 +210,13 @@ body {
 
   p {
     font-size: 1.2rem;
-    opacity: 80%;
+    opacity: 0.8;
     max-width: 400px;
   }
 }
 
 // Responsive adjustments
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   #header {
     font-size: 1.8rem;
     padding: 1.2rem 2rem;
@@ -254,7 +255,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   #wrapper {
     padding: 0.5rem;
   }

@@ -1,4 +1,5 @@
 /* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
 /* SPDX-License-Identifier: AGPL-3.0-only */
 @import "../../scss/main";
 
@@ -187,7 +188,7 @@ body {
   }
 
   &.hidden {
-    opacity: 0%;
+    opacity: 0;
     pointer-events: none;
   }
 }
@@ -207,7 +208,8 @@ body {
 
   /* GitHub Markdown Styles */
   color: $darkest-gray;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
 
@@ -283,7 +285,7 @@ body {
       margin: 0;
       overflow: visible;
       line-height: inherit;
-      word-wrap: normal;
+      overflow-wrap: normal;
       background-color: transparent;
       border: 0;
     }
@@ -373,7 +375,7 @@ body {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   #sidebar {
     min-width: 100%;
     max-width: 100%;

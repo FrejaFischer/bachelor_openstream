@@ -71,14 +71,31 @@ async function loadFonts() {
 
     // Ensure we know if the user is an org admin (or super_admin) before rendering
     try {
-      const suborgs = await genericFetch(`${BASE_URL}/api/user/suborganisations/`, "GET");
+      const suborgs = await genericFetch(
+        `${BASE_URL}/api/user/suborganisations/`,
+        "GET",
+      );
       // The backend represents org_admin by user_role === 'org_admin' or if super_admin they get all suborgs
       const actingOrgId = String(parentOrgID);
       // If any returned suborg has user_role 'org_admin' for our parent org, set admin
-      isAdmin = suborgs.some((s) => {
-        // serializer returns .organisation as id and .user_role
-        return (String(s.organisation) === actingOrgId && s.user_role === "org_admin") || s.user_role === "org_admin" && String(s.organisation) === actingOrgId;
-      }) || suborgs.some((s) => s.user_role === "org_admin") || suborgs.length > 0 && suborgs.some((s) => s.user_role === null && s.organisation && String(s.organisation) === actingOrgId);
+      isAdmin =
+        suborgs.some((s) => {
+          // serializer returns .organisation as id and .user_role
+          return (
+            (String(s.organisation) === actingOrgId &&
+              s.user_role === "org_admin") ||
+            (s.user_role === "org_admin" &&
+              String(s.organisation) === actingOrgId)
+          );
+        }) ||
+        suborgs.some((s) => s.user_role === "org_admin") ||
+        (suborgs.length > 0 &&
+          suborgs.some(
+            (s) =>
+              s.user_role === null &&
+              s.organisation &&
+              String(s.organisation) === actingOrgId,
+          ));
 
       // If backend returned everything because user is super_admin, treat as admin
       if (suborgs && Array.isArray(suborgs) && suborgs.length > 0) {
@@ -92,7 +109,8 @@ async function loadFonts() {
 
       // Update UI controls
       if (isAdmin) {
-        document.getElementById("add-font-modal-btn").style.display = "inline-block";
+        document.getElementById("add-font-modal-btn").style.display =
+          "inline-block";
         adminRequiredMessage.classList.add("d-none");
       } else {
         document.getElementById("add-font-modal-btn").style.display = "none";
@@ -100,7 +118,10 @@ async function loadFonts() {
       }
     } catch (err) {
       // If we fail to determine admin status, default to hiding admin controls
-      console.warn("Failed to fetch suborganisations to determine admin status:", err);
+      console.warn(
+        "Failed to fetch suborganisations to determine admin status:",
+        err,
+      );
       document.getElementById("add-font-modal-btn").style.display = "none";
       adminRequiredMessage.classList.remove("d-none");
       isAdmin = false;

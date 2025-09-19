@@ -13,7 +13,12 @@ const config = {
   showSubtitle: queryParams.showSubtitle === "true",
   showDescription: queryParams.showDescription === "true",
   showQr: queryParams.showQr === "true",
+  slideDuration: parseInt(queryParams.slideDuration) || 10,
 };
+
+document
+  .getElementById("eventsCarousel")
+  .setAttribute("data-bs-interval", config.slideDuration * 1000);
 
 const baseUrl = queryParams.baseUrl || BASE_URL;
 
