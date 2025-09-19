@@ -1,6 +1,6 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-{{#> base/content-engine/element-type-toolbars/element-type-toolbars class="website-toolbar" title="Website" }}
+{{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="website-toolbar" title="Website" }}
     <!-- URL input field  -->
     {{> base/form/input type="url" extraClass="w-25 ms-3" name="change-website" id="change-website-input" placeholder="https://example.com" }}
     <!-- Update url button  -->
@@ -11,4 +11,4 @@
         {{> base/form/radio name="websiteVolume" id="embed-volume-up" value="false" icon="volume_up" autocomplete="off" ariaLabel="Volume up"}}
         {{> base/form/radio name="websiteVolume" id="embed-volume-off" value="true" icon="volume_off" autocomplete="off" ariaLabel="Volume off"}}
     </div>
-{{/base/content-engine/element-type-toolbars/element-type-toolbars}}
+{{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}

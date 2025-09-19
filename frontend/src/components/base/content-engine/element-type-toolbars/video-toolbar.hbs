@@ -1,6 +1,6 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-{{#> base/content-engine/element-type-toolbars/element-type-toolbars class="video-toolbar" title="Video" }}
+{{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="video-toolbar" title="Video" }}
     {{> base/content-engine/element-type-toolbars/buttons/change-btn id="change-video-btn" text='{% trans "Change" %}'}}
     <div class="vr m-1"></div>
     <span class="ms-2">{% trans "Volume" %}</span>
@@ -24,4 +24,4 @@
         {{> base/form/radio name="videoVAlign" id="video-va-center" value="center" icon="filter_tilt_shift" autocomplete="off" ariaLabel="Video vertical align center"}}
         {{> base/form/radio name="videoVAlign" id="video-va-bottom" value="bottom" icon="arrow_downward" autocomplete="off" ariaLabel="Video vertical align bottom"}}
     </div>
-{{/base/content-engine/element-type-toolbars/element-type-toolbars}}
+{{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}

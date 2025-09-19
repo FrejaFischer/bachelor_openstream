@@ -1,6 +1,6 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-{{#> base/content-engine/element-type-toolbars/element-type-toolbars class="image-toolbar" title="Image" }}
+{{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="image-toolbar" title="Image" }}
     {{> base/content-engine/element-type-toolbars/buttons/change-btn id="change-image" text='{% trans "Change" %}'}}
     <div class="vr m-2"></div>
     <!-- Horizontal Align Image Options -->
@@ -26,4 +26,4 @@
         {{> base/form/radio name="imageSize" id="image-size-stretch" value="stretch" text="Stretch" autocomplete="off" ariaLabel="Image size stretch"}}
         {{> base/form/radio name="imageSize" id="image-size-original" value="original" text="Original" autocomplete="off" ariaLabel="Image size original"}}
     </div>
-{{/base/content-engine/element-type-toolbars/element-type-toolbars}}
+{{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}
