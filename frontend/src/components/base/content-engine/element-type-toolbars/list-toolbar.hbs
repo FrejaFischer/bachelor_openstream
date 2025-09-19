@@ -4,23 +4,9 @@
      <!-- Popover-based toolbar with clean sections -->
     <div class="d-flex align-items-center gap-2 w-100">
         <!-- Structure Control Button -->
-        <button type="button"
-                id="list-structure-btn"
-                class="btn btn-secondary btn-sm d-flex align-items-center gap-1"
-                data-bs-toggle="tooltip"
-                title="{% trans 'List Structure & Content' %}">
-            <i class="material-symbols-outlined" style="font-size: 18px;">format_list_bulleted</i>
-            <span class="d-none d-md-inline">{% trans "Structure" %}</span>
-        </button>
+        {{> base/content-engine/element-type-toolbars/buttons/option-btn id="list-structure-btn" icon="format_list_bulleted" tooltip="{% trans 'List Structure & Content' %}" text="{% trans 'Structure' %}"}}
         <!-- Typography Control Button -->
-        <button type="button"
-                id="list-typography-btn"
-                class="btn btn-secondary btn-sm d-flex align-items-center gap-1"
-                data-bs-toggle="tooltip"
-                title="{% trans 'Typography & Fonts' %}">
-            <i class="material-symbols-outlined" style="font-size: 18px;">text_fields</i>
-            <span class="d-none d-md-inline">{% trans "Typography" %}</span>
-        </button>
+        {{> base/content-engine/element-type-toolbars/buttons/option-btn id="list-typography-btn" icon="text_fields" tooltip="{% trans 'Typography & Fonts' %}" text="{% trans 'Typography' %}"}}
     </div>
     <!-- Hidden form elements that will be moved into popovers -->
     <div style="display: none;">

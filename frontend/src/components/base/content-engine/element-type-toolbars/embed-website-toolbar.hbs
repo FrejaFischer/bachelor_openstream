@@ -1,18 +1,14 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
 {{#> base/content-engine/element-type-toolbars/element-type-toolbars class="website-toolbar" title="Website" }}
-    <input id="change-website-input"
-           name="change-website"
-           type="url"
-           placeholder="https://example.com"
-           class="w-25 form-control rounded ms-3">
-    <button id="update-change-website-btn" class="btn btn-tertiary btn-sm mx-3">{% trans "Update" %}</button>
+    <!-- URL input field  -->
+    {{> base/form/input type="url" extraClass="w-25 ms-3" name="change-website" id="change-website-input" placeholder="https://example.com" }}
+    <!-- Update url button  -->
+    {{> base/content-engine/element-type-toolbars/buttons/change-btn id="update-change-website-btn" text='{% trans "Update" %}'}}
     <div class="vr m-1"></div>
     <span class="ms-2">{% trans "Volume" %}</span>
     <div class="d-flex align-items-center gap-2 ms-3">
-        {{#> base/form/radio name="websiteVolume" id="embed-volume-up" value="false" icon="volume_up" autocomplete="off" ariaLabel="Volume up"}}
-        {{/base/form/radio}}
-        {{#> base/form/radio name="websiteVolume" id="embed-volume-off" value="true" icon="volume_off" autocomplete="off" ariaLabel="Volume off"}}
-        {{/base/form/radio}}
+        {{> base/form/radio name="websiteVolume" id="embed-volume-up" value="false" icon="volume_up" autocomplete="off" ariaLabel="Volume up"}}
+        {{> base/form/radio name="websiteVolume" id="embed-volume-off" value="true" icon="volume_off" autocomplete="off" ariaLabel="Volume off"}}
     </div>
 {{/base/content-engine/element-type-toolbars/element-type-toolbars}}
