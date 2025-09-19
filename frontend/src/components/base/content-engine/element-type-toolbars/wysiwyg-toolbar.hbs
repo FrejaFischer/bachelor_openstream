@@ -2,45 +2,44 @@
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
 {{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="wysiwyg-toolbar" title="Textbox" }}
       <div class="mx-3 d-flex">
-        <select class="font-family-select mx-3 form-select form-select-sm">
+        {{#> base/form/dropdown id="" class="font-family-select mx-3 form-select form-select-sm" }}
             <!-- Populated by JS -->
-        </select>
-        <select class="font-size-select mx-1 form-select form-select-sm">
-            <option value="1">10</option>
-            <option value="2">11</option>
-            <option value="3">12</option>
-            <option value="4">14</option>
-            <option value="5">16</option>
-            <option value="6">18</option>
-            <option value="7">20</option>
-            <option value="8">24</option>
-            <option value="9">28</option>
-            <option value="10">32</option>
-            <option value="11">36</option>
-            <option selected value="12">40</option>
-            <option value="13">44</option>
-            <option value="14">48</option>
-            <option value="15">52</option>
-            <option value="16">56</option>
-            <option value="17">60</option>
-            <option value="18">64</option>
-            <option value="19">68</option>
-            <option value="20">72</option>
-            <option value="21">80</option>
-            <option value="22">88</option>
-            <option value="23">96</option>
-            <option value="24">104</option>
-            <option value="25">112</option>
-            <option value="26">120</option>
-            <option value="27">128</option>
-        </select>
-        <select class="line-height-select mx-1 form-select form-select-sm"
-                title="{% trans 'Line Height' %}">
-            <option value="1">1</option>
-            <option value="1.2" selected>1.2</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-        </select>
+        {{/base/form/dropdown}}
+        {{#> base/form/dropdown id="" class="font-size-select mx-1 form-select form-select-sm" }}
+            {{> base/form/dropdown-option value="1" text="10"}}
+            {{> base/form/dropdown-option value="2" text="11"}}
+            {{> base/form/dropdown-option value="3" text="12"}}
+            {{> base/form/dropdown-option value="4" text="14"}}
+            {{> base/form/dropdown-option value="5" text="16"}}
+            {{> base/form/dropdown-option value="6" text="18"}}
+            {{> base/form/dropdown-option value="7" text="20"}}
+            {{> base/form/dropdown-option value="8" text="24"}}
+            {{> base/form/dropdown-option value="9" text="28"}}
+            {{> base/form/dropdown-option value="10" text="32"}}
+            {{> base/form/dropdown-option value="11" text="36"}}
+            {{> base/form/dropdown-option value="12" text="40" selected=true}}
+            {{> base/form/dropdown-option value="13" text="44"}}
+            {{> base/form/dropdown-option value="14" text="48"}}
+            {{> base/form/dropdown-option value="15" text="52"}}
+            {{> base/form/dropdown-option value="16" text="56"}}
+            {{> base/form/dropdown-option value="17" text="60"}}
+            {{> base/form/dropdown-option value="18" text="64"}}
+            {{> base/form/dropdown-option value="19" text="68"}}
+            {{> base/form/dropdown-option value="20" text="72"}}
+            {{> base/form/dropdown-option value="21" text="80"}}
+            {{> base/form/dropdown-option value="22" text="88"}}
+            {{> base/form/dropdown-option value="23" text="96"}}
+            {{> base/form/dropdown-option value="24" text="104"}}
+            {{> base/form/dropdown-option value="25" text="112"}}
+            {{> base/form/dropdown-option value="26" text="120"}}
+            {{> base/form/dropdown-option value="27" text="128"}}
+        {{/base/form/dropdown}}
+        {{#> base/form/dropdown id="" class="line-height-select mx-1 form-select form-select-sm" title="{% trans 'Line Height' %}" }}
+            {{> base/form/dropdown-option value="1" text="1"}}
+            {{> base/form/dropdown-option value="1.2" text="1.2" selected=true}}
+            {{> base/form/dropdown-option value="1.5" text="1.5"}}
+            {{> base/form/dropdown-option value="2" text="2"}}
+        {{/base/form/dropdown}}
     </div>
     <div class="mx-4">
         <!-- Text Color Picker -->
