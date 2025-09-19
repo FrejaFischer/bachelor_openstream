@@ -121,6 +121,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* add 2rem horizontal padding so text (and QR) have consistent side spacing in horizontal mode */
+  padding: 2rem 2rem !important;
   /* semi-transparent so the blurred background shows through; use rgba instead of opacity */
   background-color: rgba(255, 255, 255, 0.85);
   backdrop-filter: none; /* optionally could use backdrop-filter: blur(6px) for extra effect */
@@ -172,16 +174,22 @@ body {
 
 // QR code positioning
 .event-qr {
-  /* Position the QR inside the .col-info panel: vertically centered and inset from the right edge */
-  position: absolute;
-  top: 50%;
-  right: 20px; /* distance from the info panel's right edge */
-  transform: translateY(-50%);
-  margin: 0;
+  /* In horizontal (default) layout, let the QR flow as part of the normal document flow
+     so it appears below the preceding info text instead of absolutely positioned. */
+  position: static; /* remove absolute positioning so it stacks under .event-meta */
+  margin: 1rem 0; /* spacing above and below */
   z-index: 100;
   display: flex;
   align-items: center;
-  padding-right: 8px; /* small internal spacing so QR doesn't butt up to the panel edge */
+  justify-content: flex-start;
+  /* ensure QR aligns with the 2rem inner padding of .col-info */
+  padding: 0 0 0 0; /* left padding already provided by .col-info; avoid double-padding */
+}
+
+/* If the QR were ever positioned absolutely (older layouts), provide a helper to inset it 2rem from sides */
+.event-qr--inset {
+  right: 2rem;
+  left: 2rem;
 }
 
 /* Ensure QR code backgrounds are transparent (some QR libraries render white canvas by default) */
