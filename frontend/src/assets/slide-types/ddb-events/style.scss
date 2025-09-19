@@ -68,9 +68,18 @@ body {
     background-position: center center;
     /* use CSS variable for the background image set inline on .carousel-item */
     background-image: var(--slide-bg);
-    filter: blur(20px);
+    filter: blur(30px);
     transform: scale(1.05); /* avoid edge artifacts from blur */
     z-index: 0; /* sits behind all slide content */
+  }
+
+  /* Add a dark overlay on top of the blurred background */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(133, 133, 133, 0.2); /* slight dark overlay */
+    z-index: 1; /* sits above the blur but below content */
   }
 }
 
@@ -95,15 +104,15 @@ body {
      the container's available space. Use inline-block so it doesn't stretch
      to the full width of the parent. */
   display: inline-block;
-  width: 100%; 
-  height: 100%;
+  width: 99%; 
+  height: 99%;
   object-fit: contain; /* still useful if a height/width constraint applies */
   margin: 0;
   position: relative;
   z-index: 2; /* ensure image sits above the blurred ::before but behind info overlay if needed */
   /* Add a box-shadow and a small radius so the shadow follows the image bounds */
   background: transparent; /* ensure any canvas/svg QR backgrounds show through transparently */
-  @extend .shadow-xl;
+  @extend .rounded;
   padding: 1rem !important;
 }
 
@@ -202,7 +211,7 @@ body {
 .vertical-layout-text {
   flex: 1;
   /* provide inner spacing for text while keeping the panel edge-to-edge */
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 // Ensure text inside the bottom layout is clamped with ellipses when overflowing
@@ -230,7 +239,7 @@ body {
   display: flex;
   align-items: center; /* center vertically inside the bottom bar */
   justify-content: center;
-  padding-right: 1.5rem; /* give QR some space from the right edge */
+  padding-right: 2rem; /* give QR some space from the right edge */
 }
 
 // Scrollbar styles

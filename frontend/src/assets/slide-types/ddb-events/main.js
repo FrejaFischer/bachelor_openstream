@@ -173,8 +173,8 @@ function displayEventsInCarousel(events) {
           // Generate QR code with transparent background
           new QRCode(qrContainer, {
             text: qrValue,
-            width: 200,
-            height: 200,
+            width: 180,
+            height: 180,
             colorDark: "#000000",
             colorLight: "transparent",
           });

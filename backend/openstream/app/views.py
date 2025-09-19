@@ -4446,6 +4446,7 @@ DDB_EVENT_API_URLS = {
             "Hovedbiblioteket",
             "BIBLIOTEKET Rentemestervej",
             "Bibliotekshuset",
+            "Ørestad Bibliotek",
         ],
     },
     "Lyngby-Taarbaek": {
