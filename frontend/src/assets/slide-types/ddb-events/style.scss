@@ -66,6 +66,7 @@ body {
     inset: 0;
     background-size: cover;
     background-position: center center;
+
     /* use CSS variable for the background image set inline on .carousel-item */
     background-image: var(--slide-bg);
     filter: blur(30px);
@@ -78,7 +79,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(133, 133, 133, 0.2); /* slight dark overlay */
+    background-color: rgb(133 133 133 / 20%); /* slight dark overlay */
     z-index: 1; /* sits above the blur but below content */
   }
 }
@@ -99,20 +100,23 @@ body {
 
 .col-image img {
   /* remove any bootstrap utility padding (e.g. p-1) */
-  padding: 0 !important;
+
   /* Make the image shrink-wrap to its intrinsic size while still respecting
      the container's available space. Use inline-block so it doesn't stretch
      to the full width of the parent. */
   display: inline-block;
-  width: 99%; 
+  width: 99%;
   height: 99%;
   object-fit: contain; /* still useful if a height/width constraint applies */
   margin: 0;
   position: relative;
   z-index: 2; /* ensure image sits above the blurred ::before but behind info overlay if needed */
+
   /* Add a box-shadow and a small radius so the shadow follows the image bounds */
   background: transparent; /* ensure any canvas/svg QR backgrounds show through transparently */
+
   @extend .rounded;
+
   padding: 1rem !important;
 }
 
@@ -121,10 +125,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   /* add 2rem horizontal padding so text (and QR) have consistent side spacing in horizontal mode */
-  padding: 2rem 2rem !important;
+  padding: 2rem !important;
+
   /* semi-transparent so the blurred background shows through; use rgba instead of opacity */
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgb(255 255 255 / 70%);
   backdrop-filter: none; /* optionally could use backdrop-filter: blur(6px) for extra effect */
   overflow-y: auto;
   position: relative;
@@ -158,9 +164,11 @@ body {
   align-items: center;
   margin-bottom: 0.5rem;
 }
+
 .event-meta .event-date {
   font-size: 2.5rem;
 }
+
 .event-meta .event-location {
   font-size: 2.5rem;
   color: $darkest-gray;
@@ -190,6 +198,7 @@ body {
   .event-qr {
     margin-top: 1.25rem; /* add extra vertical gap above QR */
     margin-bottom: 1.25rem; /* and below for breathing room */
+
     /* allow the QR to align to the left but not be flush to the container edge */
     align-self: flex-start;
   }
@@ -205,8 +214,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
   /* ensure QR aligns with the 2rem inner padding of .col-info */
-  padding: 0 0 0 0; /* left padding already provided by .col-info; avoid double-padding */
+  padding: 0; /* left padding already provided by .col-info; avoid double-padding */
 }
 
 /* If the QR were ever positioned absolutely (older layouts), provide a helper to inset it 2rem from sides */
@@ -227,7 +237,8 @@ body {
 
 // Vertical layout specific styles
 .vertical-layout-bottom {
-  background: rgba(255, 255, 255, 0.70);
+  background: rgb(255 255 255 / 70%);
+
   /* remove outer padding and let the container span the full width
      internal spacing is provided by .vertical-layout-text */
   padding: 0;
@@ -241,12 +252,14 @@ body {
 
 .vertical-layout-text {
   flex: 1;
+
   /* provide inner spacing for text while keeping the panel edge-to-edge */
   padding: 2rem;
 }
 
 // Ensure text inside the bottom layout is clamped with ellipses when overflowing
-.vertical-layout-text, .vertical-layout-bottom .vertical-layout-text * {
+.vertical-layout-text,
+.vertical-layout-bottom .vertical-layout-text * {
   /* single-line ellipsis for inline elements */
   overflow: hidden;
   text-overflow: ellipsis;
@@ -261,6 +274,7 @@ body {
   line-clamp: 3;
   -ms-overflow-style: none;
   overflow: hidden;
+
   /* ensure block-level element can wrap lines for clamping */
   white-space: normal;
 }

@@ -107,14 +107,17 @@ function displayEventsInCarousel(events) {
     const branches = event.branches?.join(", ") || "";
     // Prefer a human-friendly location field if present, otherwise fall back to street. Omit zip_code and city.
     const address = event.address
-      ? (event.address.location || event.address.street || "")
+      ? event.address.location || event.address.street || ""
       : "";
     // Show general location (e.g. library/branch) and the specific sub-location if available
     const generalLocation = branches;
-    const subLocation = event.address ? (event.address.location || event.address.street || "") : "";
-    const locationDisplay = generalLocation && subLocation
-      ? ` &nbsp;|&nbsp; ${generalLocation}`
-      : (generalLocation || subLocation);
+    const subLocation = event.address
+      ? event.address.location || event.address.street || ""
+      : "";
+    const locationDisplay =
+      generalLocation && subLocation
+        ? ` &nbsp;|&nbsp; ${generalLocation}`
+        : generalLocation || subLocation;
     const body = config.showDescription ? event.body : "";
 
     const qrValue = event.url || "";
