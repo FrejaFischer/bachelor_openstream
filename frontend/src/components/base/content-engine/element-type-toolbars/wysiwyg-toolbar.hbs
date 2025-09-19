@@ -42,83 +42,32 @@
             <option value="2">2</option>
         </select>
     </div>
-    <!-- Text Color Picker -->
     <div class="mx-4">
-        <button type="button"
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Change Text Color" %}'
-                class="text-color-picker"
-                title='{% trans "Text Color" %}'>
-            <i class="material-symbols-outlined">format_color_text</i>
-        </button>
+        <!-- Text Color Picker -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="textColorBtn" class="text-color-picker" icon="format_color_text" tooltip="{% trans 'Change Text Color' %}"}}
     </div>
     <div class="mx-3">
-        <button class="btn btn-sm"
-                id="boldBtn"
-                title='{% trans "Bold" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Make Text Bold" %}'>
-            <i class="material-symbols-outlined">format_bold</i>
-        </button>
-        <button class="btn btn-sm"
-                id="italicBtn"
-                title='{% trans "Italic" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Make Text Italic" %}'>
-            <i class="material-symbols-outlined">format_italic</i>
-        </button>
-        <button class="btn btn-sm"
-                id="underlineBtn"
-                title='{% trans "Underline" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Underline Text" %}'>
-            <i class="material-symbols-outlined">format_underlined</i>
-        </button>
+        <!-- Bold format -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="boldBtn" icon="format_bold" tooltip="{% trans 'Make Text Bold' %}"}}
+        <!-- Italic format -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="italicBtn" icon="format_italic" tooltip="{% trans 'Make Text Italic' %}"}}
+        <!-- Underline format -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="underlineBtn" icon="format_underlined" tooltip="{% trans 'Underline Text' %}"}}
     </div>
     <div class="mx-3">
-        <button class="btn btn-sm"
-                id="alignTextLeftBtn"
-                title='{% trans "Align Left" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Align Text Left" %}'>
-            <i class="material-symbols-outlined">format_align_left</i>
-        </button>
-        <button class="btn btn-sm"
-                id="alignTextCenterBtn"
-                title='{% trans "Align Center" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Align Text Center" %}'>
-            <i class="material-symbols-outlined">format_align_center</i>
-        </button>
-        <button class="btn btn-sm"
-                id="alignTextRightBtn"
-                title='{% trans "Align Right" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Align Text Right" %}'>
-            <i class="material-symbols-outlined">format_align_right</i>
-        </button>
+        <!-- Text align left -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextLeftBtn" icon="format_align_left" tooltip="{% trans 'Align Text Left' %}"}}
+        <!-- Text align center -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextCenterBtn" icon="format_align_center" tooltip="{% trans 'Align Text Center' %}"}}
+        <!-- Text align right -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextRightBtn" icon="format_align_right" tooltip="{% trans 'Align Text Right' %}"}}
     </div>
     <div class="btn-group mx-3">
-        <button id="alignTextTopBtn"
-                class="btn btn-sm"
-                data-bs-toggle="tooltip"
-                title='{% trans "Align Top" %}'
-                data-bs-title='{% trans "Align Top" %}'>
-            <i class="material-symbols-outlined">vertical_align_top</i>
-        </button>
-        <button id="alignTextMiddleBtn"
-                class="btn btn-sm"
-                data-bs-toggle="tooltip"
-                title='{% trans "Align Middle" %}'
-                data-bs-title='{% trans "Align Middle" %}'>
-            <i class="material-symbols-outlined">vertical_align_center</i>
-        </button>
-        <button id="alignTextBottomBtn"
-                class="btn btn-sm"
-                data-bs-toggle="tooltip"
-                title='{% trans "Align Bottom" %}'
-                data-bs-title='{% trans "Align Bottom" %}'>
-            <i class="material-symbols-outlined">vertical_align_bottom</i>
-        </button>
+        <!-- Text vertical align top -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextTopBtn" icon="vertical_align_top" tooltip="{% trans 'Align Top' %}"}}
+        <!-- Text vertical align center -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextMiddleBtn" icon="vertical_align_center" tooltip="{% trans 'Align Middle' %}"}}
+        <!-- Text vertical align bottom -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextBottomBtn" icon="vertical_align_bottom" tooltip="{% trans 'Align Bottom' %}"}}
     </div>
 {{/base/content-engine/element-type-toolbars/element-type-toolbars}}

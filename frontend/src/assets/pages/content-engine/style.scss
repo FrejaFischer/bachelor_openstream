@@ -551,6 +551,7 @@ span {
   background: none;
   padding: 0;
   position: relative;
+  display: block !important;
 
   /* Needed for absolutely positioned pseudo-element */
 }
