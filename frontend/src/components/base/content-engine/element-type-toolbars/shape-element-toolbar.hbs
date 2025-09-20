@@ -1,4 +1,37 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+
+
 {{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="shape-element-toolbar" title="Shape" }}
+	{{!-- Toolbar static structure: JS will find elements by data attributes and populate dynamic parts (shape list, color pickers, radios) --}}
+	{{!-- Container partial prints the toolbar title; do not duplicate it here --}}
+	{{> base/content-engine/element-type-toolbars/buttons/change-btn id="shape-change-btn" text='{% trans "Change Shape" %}'}}
+
+
+	<div class="vr m-1" aria-hidden="true"></div>
+
+	<span class="ms-2">{{> base/form/label text='Fill'}}</span>
+	<div class="d-flex align-items-center gap-2 rounded ms-3">
+		{{> base/buttons/icon-button id="shape-fill-btn" class="btn btn-sm" title='Change Fill Color' icon="format_color_fill"}}
+	</div>
+
+	<div class="vr m-1" aria-hidden="true"></div>
+
+	<span class="ms-2">{{> base/form/label text='Outline'}}</span>
+	<div class="d-flex align-items-center gap-2 rounded ms-3">
+		{{> base/buttons/icon-button id="shape-outline-btn" class="btn btn-sm" title='Change Outline Color' icon="border_color"}}
+	</div>
+
+	<div class="vr m-1" aria-hidden="true"></div>
+
+	<span class="ms-2">{{> base/form/label text='Sizing'}}</span>
+	<div class="d-flex align-items-center gap-2 rounded ms-3">
+		<div class="d-flex align-items-center gap-2 rounded ms-3">
+			{{> base/form/radio name="shapeSize" id="shape-size-scale" value="scale" text="Scale" autocomplete="off" ariaLabel="Shape size scale"}}
+			{{> base/form/radio name="shapeSize" id="shape-size-stretch" value="stretch" text="Stretch" autocomplete="off" ariaLabel="Shape size stretch"}}
+		</div>
+	</div>
+
+	{{!-- Hidden container used by JS to render the popover content (not visible in DOM by default) --}}
+	<div style="display:none;" data-shape-popover-content></div>
 {{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}

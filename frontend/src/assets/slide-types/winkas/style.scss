@@ -62,7 +62,7 @@ body {
 
   .current-date {
     font-size: 1rem;
-    opacity: 0.8;
+    opacity: 80%;
     margin-top: 0.25rem;
   }
 }
@@ -110,7 +110,7 @@ body {
 
   &.completed {
     background: $darkest-gray;
-    opacity: 0.7;
+    opacity: 70%;
   }
 
   &.upcoming {
@@ -170,7 +170,7 @@ body {
 
     .material-symbols-outlined {
       font-size: 1.3rem;
-      opacity: 0.8;
+      opacity: 80%;
     }
   }
 }
@@ -203,19 +203,19 @@ body {
 
   .material-symbols-outlined {
     font-size: 4rem;
-    opacity: 0.5;
+    opacity: 50%;
     margin-bottom: 1rem;
   }
 
   h3 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    opacity: 0.8;
+    opacity: 80%;
   }
 
   p {
     font-size: 1.2rem;
-    opacity: 0.6;
+    opacity: 60%;
     max-width: 400px;
   }
 }
@@ -242,7 +242,7 @@ body {
 
   p {
     font-size: 1.2rem;
-    opacity: 0.8;
+    opacity: 80%;
     max-width: 400px;
   }
 }
