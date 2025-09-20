@@ -105,19 +105,17 @@ body {
      the container's available space. Use inline-block so it doesn't stretch
      to the full width of the parent. */
   display: inline-block;
-  width: 99%;
-  height: 99%;
-  object-fit: contain; /* still useful if a height/width constraint applies */
+  width: 100%;
+  height: 100%;
+  
   margin: 0;
   position: relative;
   z-index: 2; /* ensure image sits above the blurred ::before but behind info overlay if needed */
 
   /* Add a box-shadow and a small radius so the shadow follows the image bounds */
   background: transparent; /* ensure any canvas/svg QR backgrounds show through transparently */
-
-  @extend .rounded;
-
-  padding: 1rem !important;
+  border-radius: 11px;
+  padding: 0.5rem !important;
 }
 
 // Info panel styles
