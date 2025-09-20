@@ -149,7 +149,7 @@ function displayEventsInCarousel(events) {
       carouselItemMarkup = `
         <div class="carousel-item ${isActive}" style="--slide-bg: url('${imageUrl}')">
           <div class="row g-0">
-            <div class="col-6 col-image" style="height: 100vh;">
+            <div class="col-6 col-image h-100">
               <img src="${imageUrl}" alt="${title}">
             </div>
             <div class="col-6 col-info">

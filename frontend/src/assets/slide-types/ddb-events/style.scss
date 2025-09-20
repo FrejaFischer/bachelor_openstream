@@ -79,7 +79,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgb(133 133 133 / 20%); /* slight dark overlay */
+    background-color: rgba($darker-gray, 0.2); 
     z-index: 1; /* sits above the blur but below content */
   }
 }
@@ -130,7 +130,7 @@ body {
   padding: 2rem !important;
 
   /* semi-transparent so the blurred background shows through; use rgba instead of opacity */
-  background-color: rgb(255 255 255 / 70%);
+  background-color: rgba($white, 0.7);
   backdrop-filter: none; /* optionally could use backdrop-filter: blur(6px) for extra effect */
   overflow-y: auto;
   position: relative;
@@ -237,7 +237,7 @@ body {
 
 // Vertical layout specific styles
 .vertical-layout-bottom {
-  background: rgb(255 255 255 / 70%);
+  background-color: rgba($white, 0.7);
 
   /* remove outer padding and let the container span the full width
      internal spacing is provided by .vertical-layout-text */
