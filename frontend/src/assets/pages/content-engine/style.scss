@@ -676,13 +676,15 @@ span {
 }
 
 #slide-elements-list .list-group-item:hover {
-  background: $secondary-accent-light;
+  background: rgba($secondary, 0.04);
   cursor: pointer;
+  transform: translateY(-1px);
 }
 
+/* Active/selected state: use a subtle primary tint to match controls */
 #slide-elements-list .list-group-item.active,
 #slide-elements-list .list-group-item.active:hover {
-  background: $secondary-accent;
+  background: rgba($primary, 0.06);
   color: $darkest-gray;
   box-shadow: 0 1px 0 rgba($black, 0.03) inset;
 }
@@ -711,11 +713,17 @@ span {
   min-width: 1.6rem;
   height: 1.6rem;
   padding: 0 6px;
-  border-radius: 999px;
-  background: $secondary-tab;
+  border-radius: 8px;
+  background: $secondary;
   color: $white;
   font-size: 0.78rem;
   font-weight: 600;
+  box-shadow: 0 1px 0 rgba($black, 0.04);
+}
+
+/* Slightly dim badge on inactive rows to keep hierarchy subtle */
+#slide-elements-list .list-group-item:not(.active) .text-end .rank-badge {
+  opacity: 0.9;
 }
 
 /* Reduce scrollbar visual footprint inside the small sidebar list */

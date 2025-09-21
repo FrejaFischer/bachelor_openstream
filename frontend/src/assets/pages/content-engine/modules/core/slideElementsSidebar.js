@@ -5,9 +5,10 @@ import { store } from "./slideStore.js";
 function computeZOrderRanks(slideElements) {
   // slideElements is expected to be an array of element data objects with zIndex numeric
   const withIndex = slideElements.map((el, idx) => ({ el, idx }));
-  // Sort by zIndex ascending (lowest at bottom). If undefined, treat as 0.
-  withIndex.sort((a, b) => (a.el.zIndex || 0) - (b.el.zIndex || 0));
-  // Build a map from element id -> rank (1..N) where 1 is bottom, N is top
+  // Sort by zIndex descending so highest zIndex (topmost) comes first.
+  // If undefined, treat as 0.
+  withIndex.sort((a, b) => (b.el.zIndex || 0) - (a.el.zIndex || 0));
+  // Build a map from element id -> rank (1..N) where 1 is topmost
   const rankMap = {};
   withIndex.forEach((item, sortedPos) => {
     rankMap[item.el.id] = sortedPos + 1;
@@ -43,9 +44,10 @@ export function renderSlideElementsSidebar() {
   // Compute z-order ranks
   const rankMap = computeZOrderRanks(slide.elements);
 
-  // Build rows
+  // Build rows: iterate elements in order of descending z-index (topmost first)
   container.innerHTML = "";
-  slide.elements.forEach((elData) => {
+  const elementsSorted = [...slide.elements].sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0));
+  elementsSorted.forEach((elData) => {
     const rank = rankMap[elData.id] || "-";
     const summary = elementSummary(elData);
     const row = document.createElement("div");
