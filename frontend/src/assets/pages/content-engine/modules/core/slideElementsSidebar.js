@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
 // SPDX-License-Identifier: AGPL-3.0-only
 import { store } from "./slideStore.js";
+import { selectElement } from "./elementSelector.js";
 
 function computeZOrderRanks(slideElements) {
   // slideElements is expected to be an array of element data objects with zIndex numeric
@@ -36,26 +37,50 @@ export function renderSlideElementsSidebar() {
 
   // Determine current slide from store
   const slide = store.slides[store.currentSlideIndex];
-  if (!slide || !slide.elements || !slide.elements.length) {
+  // Build a merged list of elements to show in the sidebar:
+  // - all elements on the current slide
+  // - all persistent (pinned) elements from all slides
+  // Deduplicate by id so each element appears only once.
+  const elementsMap = {};
+  if (slide && slide.elements) {
+    slide.elements.forEach((el) => {
+      elementsMap[el.id] = el;
+    });
+  }
+
+  // Add pinned elements from all slides
+  store.slides.forEach((s) => {
+    (s.elements || []).forEach((el) => {
+      if (el.isPersistent) elementsMap[el.id] = el;
+    });
+  });
+
+  const elementsArray = Object.values(elementsMap);
+  if (!elementsArray.length) {
     container.innerHTML = `<div class="text-muted small">No elements</div>`;
     return;
   }
 
-  // Compute z-order ranks
-  const rankMap = computeZOrderRanks(slide.elements);
+  // Compute z-order ranks across the merged set
+  const rankMap = computeZOrderRanks(elementsArray);
 
   // Build rows: iterate elements in order of descending z-index (topmost first)
   container.innerHTML = "";
-  const elementsSorted = [...slide.elements].sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0));
+  const elementsSorted = [...elementsArray].sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0));
   elementsSorted.forEach((elData) => {
     const rank = rankMap[elData.id] || "-";
     const summary = elementSummary(elData);
     const row = document.createElement("div");
     row.className = "list-group-item px-1 py-1 d-flex justify-content-between align-items-start";
+    // Mark pinned elements with a small pin indicator
+    const pinnedHtml = elData.isPersistent
+      ? `<span class="pin-indicator ms-1" title="Pinned">📌</span>`
+      : "";
+
     row.innerHTML = `
       <div>
-        <div class="fw-bold">${summary.type}</div>
-        <div class="text-muted small">pos: ${summary.pos} • size: ${summary.size}</div>
+        <div class="fw-bold">${summary.type} ${pinnedHtml}</div>
+        <div class="text-muted small">pos: ${summary.pos} \u2022 size: ${summary.size}</div>
       </div>
       <div class="text-end small text-secondary"><span class="rank-badge">${rank}</span></div>
     `;
@@ -68,17 +93,20 @@ export function renderSlideElementsSidebar() {
     // Click row to select element
     row.addEventListener("click", () => {
       const domEl = document.getElementById("el-" + elData.id);
-      if (domEl) {
-        // Reuse global selector if available
-        if (window.selectElement) {
-          window.selectElement(domEl, elData);
-        } else if (window.store) {
-          // fallback set selection directly
-          window.store.selectedElement = domEl;
-          window.store.selectedElementData = elData;
-        }
-        renderSlideElementsSidebar();
+      if (!domEl) return;
+
+      // Prefer the module's selectElement which handles toolbars, wrappers and state
+      try {
+        selectElement(domEl, elData);
+      } catch (e) {
+        // Fallback to direct store mutation if selectElement is unavailable for any reason
+        window.store = window.store || store;
+        window.store.selectedElement = domEl;
+        window.store.selectedElementData = elData;
       }
+
+      // Update visuals
+      renderSlideElementsSidebar();
     });
 
     container.appendChild(row);
