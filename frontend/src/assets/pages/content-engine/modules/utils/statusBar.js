@@ -41,7 +41,11 @@ function createStatusBar() {
     statusBar = document.createElement("div");
     statusBar.className = "content-engine-status-bar";
     statusBar.style.cssText = `
-      width: 100%;
+      /* Position above the bottom and not under the right sidebar */
+      position: absolute;
+      left: 18rem;
+      bottom: 0;
+      width: calc(100% - 31.3rem);
       height: 32px;
       background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%);
       border-top: 1px solid #34495e;

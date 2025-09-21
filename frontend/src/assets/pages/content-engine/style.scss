@@ -624,12 +624,49 @@ span {
 .preview-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 32px);
 
   /* Instead of padding-bottom, force full height */
 
   /* max-width: 1920px; This creates a bug, and nothing bad seems to happen if i remove this */
   background-color: $secondary-accent-hover;
+}
+
+/* Right sidebar (10rem) that sits to the right of the slide preview */
+.slide-right-sidebar {
+  width: 14rem; /* fixed width requirement */
+  height: 100%;
+  background: $lightest-gray;
+  border-left: 1px solid $light-gray;
+  box-sizing: border-box;
+  /* place to the right inside .slide-canvas flex layout */
+}
+
+/* Ensure slide-canvas lays out preview and right sidebar side-by-side */
+.slide-canvas {
+  flex-direction: row; /* override earlier column so children are horizontal */
+  align-items: stretch;
+}
+
+/* Reserve space for the right sidebar so preview-container doesn't overlap */
+.slide-canvas > .preview-container {
+  /* Take remaining space left of the sidebar */
+  width: calc(100% - 10rem);
+  min-width: 0; /* allow flex shrink */
+}
+
+/* Status bar should not overlap the right sidebar; reduce its width */
+.content-engine-status-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 10rem);
+  box-sizing: border-box;
+}
+
+/* Ensure the main-content padding accounts for status bar height */
+.main-content {
+  padding-bottom: 32px; /* matches status bar height */
 }
 
 /* Zoom mode styling for scrollable container */
