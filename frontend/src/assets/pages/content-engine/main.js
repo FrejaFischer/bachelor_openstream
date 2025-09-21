@@ -67,6 +67,7 @@ import { initSlideshowPlayer } from "./modules/core/slideshowPlayer.js";
 import { fetchAndInitializeFonts } from "./modules/utils/fontUtils.js";
 import { syncGridConfigWithCSS } from "./modules/config/gridConfig.js";
 import { initStatusBar } from "./modules/utils/statusBar.js";
+import initSlideElementsSidebar from "./modules/core/slideElementsSidebar.js";
 import { initZoomController } from "./modules/utils/zoomController.js";
 import * as bootstrap from "bootstrap";
 
@@ -144,6 +145,8 @@ if (queryParams.mode === "edit") {
     })
     .catch((err) => console.error(err));
   initAddSlide();
+  // init slide elements sidebar UI
+  initSlideElementsSidebar();
   initCommonEditorFeatures();
 }
 
@@ -170,6 +173,8 @@ if (queryParams.mode === "template_editor") {
       console.error(gettext("Error initializing template editor page:"), err),
     );
     initCommonEditorFeatures();
+  // init slide elements sidebar UI
+  initSlideElementsSidebar();
     const playBtn = document.getElementById("playBtn");
     if (playBtn) {
       playBtn.style.display = "none";

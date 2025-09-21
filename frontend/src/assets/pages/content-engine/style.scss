@@ -642,6 +642,93 @@ span {
   /* place to the right inside .slide-canvas flex layout */
 }
 
+/* Slide elements list inside the right sidebar */
+.slide-right-sidebar .sidebar-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-right-sidebar h6 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: $darkest-gray;
+  font-weight: 600;
+}
+
+#slide-elements-list {
+  overflow: auto;
+  padding-right: 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+#slide-elements-list .list-group-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: $darkest-gray;
+  border-radius: 6px;
+  transition: background-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+#slide-elements-list .list-group-item:hover {
+  background: $secondary-accent-light;
+  cursor: pointer;
+}
+
+#slide-elements-list .list-group-item.active,
+#slide-elements-list .list-group-item.active:hover {
+  background: $secondary-accent;
+  color: $darkest-gray;
+  box-shadow: 0 1px 0 rgba($black, 0.03) inset;
+}
+
+#slide-elements-list .list-group-item .fw-bold {
+  font-size: 0.9rem;
+  color: $darkest-gray;
+}
+
+#slide-elements-list .list-group-item .text-muted.small {
+  color: $darker-gray;
+  font-size: 0.78rem;
+}
+
+/* Rank badge on the right side (z-order rank) */
+#slide-elements-list .list-group-item .text-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#slide-elements-list .list-group-item .text-end .rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: $secondary-tab;
+  color: $white;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* Reduce scrollbar visual footprint inside the small sidebar list */
+#slide-elements-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+#slide-elements-list::-webkit-scrollbar-thumb {
+  background: $light-gray;
+  border-radius: 6px;
+}
+
+
 /* Ensure slide-canvas lays out preview and right sidebar side-by-side */
 .slide-canvas {
   flex-direction: row; /* override earlier column so children are horizontal */
