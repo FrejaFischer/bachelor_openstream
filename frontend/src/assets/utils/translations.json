@@ -167,11 +167,11 @@
   "Search by Title": {
     "da": "Søg efter Titel"
   },
-  "Manage Fonts": {
-    "da": "Administrer Skrifttyper"
+  "Manage Fonts and Color Scheme": {
+    "da": "Administrér skrifttyper og farver"
   },
-  "Manage custom fonts for your organization. These fonts will be available across all departments.": {
-    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle afdelinger."
+  "Manage custom fonts and colors for your organization. These will be available across all branches.": {
+    "da": "Administrer brugerdefinerede skrifttyper og farver for din organisation. Disse vil være tilgængelige på tværs af alle afdelinger."
   },
   "You must be an organization admin to add or modify fonts.": {
     "da": "Du skal være organisationsadministrator for at tilføje eller ændre skrifttyper."
