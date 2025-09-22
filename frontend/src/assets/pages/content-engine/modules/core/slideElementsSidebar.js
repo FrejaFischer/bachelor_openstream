@@ -129,6 +129,10 @@ export function renderSlideElementsSidebar() {
             <input type="checkbox" id="block-select-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isSelectionBlocked ? "checked" : ""} />
             <span id="block-select-icon-${elData.id}" class="material-symbols-outlined block-select-icon">block</span>
           </label>
+          ${queryParams.mode === "template_editor" ? `<label class="d-inline-flex align-items-center force-settings-checkbox-wrapper" title="Prevent template users changing settings">
+            <input type="checkbox" id="force-settings-checkbox-${elData.id}" class="form-check-input me-1" ${elData.preventSettingsChanges ? "checked" : ""} />
+            <span id="force-settings-icon-${elData.id}" class="material-symbols-outlined force-settings-icon">lock_person</span>
+          </label>` : ''}
           <label class="d-inline-flex align-items-center always-on-top-checkbox-wrapper" title="Always on top">
             <input type="checkbox" id="always-on-top-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isAlwaysOnTop ? "checked" : ""} />
             <span id="always-on-top-icon-${elData.id}" class="material-symbols-outlined always-on-top-icon">vertical_align_top</span>
@@ -169,6 +173,15 @@ export function renderSlideElementsSidebar() {
         } catch (err) {
           // ignore if undo not available
         }
+        // Prevent changes outside template editor when flagged
+        if (queryParams.mode !== "template_editor" && elData.preventSettingsChanges) {
+          try {
+            showToast(gettext("This element's settings are enforced by the template."), "Info");
+          } catch (err) {}
+          // Revert checkbox
+          pinCheckbox.checked = !!elData.isPersistent;
+          return;
+        }
 
         const shouldBePersistent = pinCheckbox.checked;
         // Toggle persistence flag on the element data
@@ -207,6 +220,15 @@ export function renderSlideElementsSidebar() {
             pushCurrentSlideState();
           } catch (err) {
             // ignore if undo not available
+          }
+
+          // Prevent changes outside template editor when flagged
+          if (queryParams.mode !== "template_editor" && elData.preventSettingsChanges) {
+            try {
+              showToast(gettext("This element's settings are enforced by the template."), "Info");
+            } catch (err) {}
+            lockCheckbox.checked = !!elData.isLocked;
+            return;
           }
 
           const shouldBeLocked = lockCheckbox.checked;
@@ -257,6 +279,15 @@ export function renderSlideElementsSidebar() {
             pushCurrentSlideState();
           } catch (err) {
             // ignore if undo not available
+          }
+
+          // Prevent changes outside template editor when flagged
+          if (queryParams.mode !== "template_editor" && elData.preventSettingsChanges) {
+            try {
+              showToast(gettext("This element's settings are enforced by the template."), "Info");
+            } catch (err) {}
+            alwaysOnTopCheckbox.checked = !!elData.isAlwaysOnTop;
+            return;
           }
 
           const shouldBeAlwaysOnTop = alwaysOnTopCheckbox.checked;
@@ -377,6 +408,15 @@ export function renderSlideElementsSidebar() {
           // ignore if undo not available
         }
 
+        // Prevent changes outside template editor when flagged
+        if (queryParams.mode !== "template_editor" && elData.preventSettingsChanges) {
+          try {
+            showToast(gettext("This element's settings are enforced by the template."), "Info");
+          } catch (err) {}
+          blockSelectCheckbox.checked = !!elData.isSelectionBlocked;
+          return;
+        }
+
         const shouldBlock = blockSelectCheckbox.checked;
         elData.isSelectionBlocked = shouldBlock;
 
@@ -415,6 +455,26 @@ export function renderSlideElementsSidebar() {
         // Re-render sidebar to update icons
         renderSlideElementsSidebar();
       });
+    }
+
+    // Wire up force-settings checkbox (template-only) to prevent changes by template users
+    if (queryParams.mode === "template_editor") {
+      const forceSettingsCheckbox = row.querySelector(`#force-settings-checkbox-${elData.id}`);
+      const forceSettingsIcon = row.querySelector(`#force-settings-icon-${elData.id}`);
+      if (forceSettingsIcon) {
+        try {
+          forceSettingsIcon.style.fontVariationSettings = elData.preventSettingsChanges ? "'FILL' 1" : "'FILL' 0";
+        } catch (e) {}
+      }
+      if (forceSettingsCheckbox) {
+        forceSettingsCheckbox.addEventListener('click', (e) => e.stopPropagation());
+        forceSettingsCheckbox.addEventListener('change', (e) => {
+          e.stopPropagation();
+          try { pushCurrentSlideState(); } catch (err) {}
+          elData.preventSettingsChanges = !!forceSettingsCheckbox.checked;
+          renderSlideElementsSidebar();
+        });
+      }
     }
 
     // Highlight if this is the selected element

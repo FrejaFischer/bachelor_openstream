@@ -4,6 +4,7 @@ import { store } from "../core/slideStore.js";
 import { pushCurrentSlideState } from "../core/undoRedo.js";
 import { queryParams } from "../../../../utils/utils.js";
 import { gettext } from "../../../../utils/locales.js";
+import { showToast } from "../../../../utils/utils.js";
 
 export function initLockElement() {
   const lockButton = document.getElementById("lock-element-btn");
@@ -19,6 +20,16 @@ export function initLockElement() {
 
 function toggleElementLock() {
   if (!store.selectedElementData) return;
+  // Prevent toggling when template enforces settings and we're outside template editor
+  if (
+    queryParams.mode !== "template_editor" &&
+    store.selectedElementData.preventSettingsChanges
+  ) {
+    try {
+      showToast(gettext("This element's settings are enforced by the template."), "Info");
+    } catch (err) {}
+    return;
+  }
 
   pushCurrentSlideState();
 
