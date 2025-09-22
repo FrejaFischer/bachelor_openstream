@@ -20,9 +20,13 @@ function escapeHtml(str) {
 function computeZOrderRanks(slideElements) {
   // slideElements is expected to be an array of element data objects with zIndex numeric
   const withIndex = slideElements.map((el, idx) => ({ el, idx }));
-  // Sort by zIndex descending so highest zIndex (topmost) comes first.
+  // Sort by isAlwaysOnTop descending, then zIndex descending so highest zIndex (topmost) comes first.
   // If undefined, treat as 0.
-  withIndex.sort((a, b) => (b.el.zIndex || 0) - (a.el.zIndex || 0));
+  withIndex.sort((a, b) => {
+    if (a.el.isAlwaysOnTop && !b.el.isAlwaysOnTop) return -1;
+    if (!a.el.isAlwaysOnTop && b.el.isAlwaysOnTop) return 1;
+    return (b.el.zIndex || 0) - (a.el.zIndex || 0);
+  });
   // Build a map from element id -> rank (1..N) where 1 is topmost
   const rankMap = {};
   withIndex.forEach((item, sortedPos) => {
@@ -78,9 +82,13 @@ export function renderSlideElementsSidebar() {
   // Compute z-order ranks across the merged set
   const rankMap = computeZOrderRanks(elementsArray);
 
-  // Build rows: iterate elements in order of descending z-index (topmost first)
+  // Build rows: iterate elements with always on top first, then by descending z-index
   container.innerHTML = "";
-  const elementsSorted = [...elementsArray].sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0));
+  const elementsSorted = [...elementsArray].sort((a, b) => {
+    if (a.isAlwaysOnTop && !b.isAlwaysOnTop) return -1;
+    if (!a.isAlwaysOnTop && b.isAlwaysOnTop) return 1;
+    return (b.zIndex || 0) - (a.zIndex || 0);
+  });
   elementsSorted.forEach((elData) => {
     const rank = rankMap[elData.id] || "-";
     const summary = elementSummary(elData);
@@ -104,6 +112,10 @@ export function renderSlideElementsSidebar() {
           <label class="d-inline-flex align-items-center lock-checkbox-wrapper" title="Toggle locked">
             <input type="checkbox" id="lock-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isLocked ? "checked" : ""} />
             <span id="lock-icon-${elData.id}" class="material-symbols-outlined lock-icon">${elData.isLocked ? 'lock' : 'lock_open'}</span>
+          </label>
+          <label class="d-inline-flex align-items-center always-on-top-checkbox-wrapper" title="Always on top">
+            <input type="checkbox" id="always-on-top-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isAlwaysOnTop ? "checked" : ""} />
+            <span id="always-on-top-icon-${elData.id}" class="material-symbols-outlined always-on-top-icon">vertical_align_top</span>
           </label>
           <span class="rank-badge">${rank}</span>
         </div>
@@ -202,6 +214,62 @@ export function renderSlideElementsSidebar() {
             loadSlide(store.slides[store.currentSlideIndex], undefined, undefined, true);
           } catch (err) {
             console.warn('Failed to reload slide after toggling lock', err);
+          }
+
+          // Re-render sidebar to update all rows
+          renderSlideElementsSidebar();
+        });
+      }
+
+      // Wire up always on top checkbox behavior
+      const alwaysOnTopCheckbox = row.querySelector(`#always-on-top-checkbox-${elData.id}`);
+      const alwaysOnTopIconEl = row.querySelector(`#always-on-top-icon-${elData.id}`);
+      if (alwaysOnTopIconEl) {
+        try {
+          alwaysOnTopIconEl.style.fontVariationSettings = elData.isAlwaysOnTop ? "'FILL' 1" : "'FILL' 0";
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      if (alwaysOnTopCheckbox) {
+        alwaysOnTopCheckbox.addEventListener('click', (e) => e.stopPropagation());
+        alwaysOnTopCheckbox.addEventListener('change', (e) => {
+          e.stopPropagation();
+          try {
+            pushCurrentSlideState();
+          } catch (err) {
+            // ignore if undo not available
+          }
+
+          const shouldBeAlwaysOnTop = alwaysOnTopCheckbox.checked;
+          elData.isAlwaysOnTop = shouldBeAlwaysOnTop;
+
+          // Adjust zIndex
+          const alwaysOnTopElements = elementsArray.filter(el => el.isAlwaysOnTop);
+          const nonAlwaysElements = elementsArray.filter(el => !el.isAlwaysOnTop);
+          const maxAlwaysZ = alwaysOnTopElements.length ? Math.max(...alwaysOnTopElements.map(el => el.zIndex || 0)) : 9999;
+          const maxNonZ = nonAlwaysElements.length ? Math.max(...nonAlwaysElements.map(el => el.zIndex || 0)) : 0;
+          if (shouldBeAlwaysOnTop) {
+            elData.zIndex = maxAlwaysZ + 1;
+          } else {
+            elData.zIndex = maxNonZ + 1;
+          }
+
+          // Update DOM zIndex
+          try {
+            const domEl = document.getElementById("el-" + elData.id);
+            if (domEl) domEl.style.zIndex = elData.zIndex;
+          } catch (err) {
+            // ignore
+          }
+
+          if (alwaysOnTopIconEl) alwaysOnTopIconEl.style.fontVariationSettings = shouldBeAlwaysOnTop ? "'FILL' 1" : "'FILL' 0";
+
+          try {
+            loadSlide(store.slides[store.currentSlideIndex], undefined, undefined, true);
+          } catch (err) {
+            console.warn('Failed to reload slide after toggling always on top', err);
           }
 
           // Re-render sidebar to update all rows

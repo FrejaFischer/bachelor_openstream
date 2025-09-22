@@ -23,7 +23,7 @@ export function initBringToFrontBack() {
       if (typeof el.zIndex === "undefined") el.zIndex = 1;
     });
 
-    let maxZ = Math.max(...allElements.map((el) => el.zIndex));
+    let maxZ = Math.max(...allElements.filter(el => !el.isAlwaysOnTop).map((el) => el.zIndex));
     store.selectedElementData.zIndex = maxZ + 1;
     store.selectedElement.style.zIndex = store.selectedElementData.zIndex;
   });
@@ -41,7 +41,7 @@ export function initBringToFrontBack() {
     // Get all relevant elements (current slide + persistent elements from all slides)
     const allElements = getAllRelevantElements();
     let currentMin = Math.min(
-      ...allElements.map((el) =>
+      ...allElements.filter(el => !el.isAlwaysOnTop).map((el) =>
         typeof el.zIndex !== "undefined" ? el.zIndex : 1,
       ),
     );
