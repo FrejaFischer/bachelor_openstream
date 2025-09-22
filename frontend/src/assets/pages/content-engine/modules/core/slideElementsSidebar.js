@@ -4,6 +4,7 @@ import { store } from "./slideStore.js";
 import { selectElement } from "./elementSelector.js";
 import { pushCurrentSlideState } from "./undoRedo.js";
 import { loadSlide } from "./renderSlide.js";
+import Sortable from "sortablejs";
 
 function computeZOrderRanks(slideElements) {
   // slideElements is expected to be an array of element data objects with zIndex numeric
@@ -74,9 +75,8 @@ export function renderSlideElementsSidebar() {
     const summary = elementSummary(elData);
     const row = document.createElement("div");
     row.className = "list-group-item px-1 py-1 d-flex justify-content-between align-items-start";
-    row.setAttribute("draggable", "true");
-    row.dataset.elId = elData.id;
-    // Mark pinned elements with a small pin indicator
+  row.dataset.elId = elData.id;
+  // Mark pinned elements with a small pin indicator
     const pinnedHtml = elData.isPersistent
       ? `<span class="pin-indicator ms-1" title="Pinned">📌</span>`
       : "";
@@ -94,73 +94,7 @@ export function renderSlideElementsSidebar() {
       row.classList.add("active");
     }
 
-    // Drag handlers to reorder z-index
-    row.addEventListener("dragstart", (ev) => {
-      ev.dataTransfer.setData("text/plain", String(elData.id));
-      ev.dataTransfer.effectAllowed = "move";
-      row.classList.add("dragging");
-    });
-    row.addEventListener("dragend", () => {
-      row.classList.remove("dragging");
-      // clear any drop indicators
-      document.querySelectorAll(".drop-before").forEach((n) => n.classList.remove("drop-before"));
-    });
-
-    row.addEventListener("dragover", (ev) => {
-      ev.preventDefault();
-      ev.dataTransfer.dropEffect = "move";
-      const target = ev.currentTarget;
-      // Show visual indicator
-      target.classList.add("drop-before");
-    });
-
-    row.addEventListener("dragleave", (ev) => {
-      ev.currentTarget.classList.remove("drop-before");
-    });
-
-    row.addEventListener("drop", (ev) => {
-      ev.preventDefault();
-      const draggedId = parseInt(ev.dataTransfer.getData("text/plain"), 10);
-      const targetId = elData.id;
-      if (isNaN(draggedId) || draggedId === targetId) return;
-
-      // Compute new zIndex ordering: we will move dragged element to be just above the target
-      // Gather elements belonging to the same slide (origin) if not persistent; for pinned elements
-      // we still modify their zIndex globally.
-      const allElements = store.slides.flatMap((s) => s.elements || []);
-      const draggedEl = allElements.find((e) => e.id === draggedId);
-      const targetEl = allElements.find((e) => e.id === targetId);
-      if (!draggedEl || !targetEl) return;
-
-      // Save undo snapshot
-      pushCurrentSlideState();
-
-      // Compute list of elements that share container (we'll operate on all elements in current slide)
-      const currentSlide = store.slides[store.currentSlideIndex];
-      const operateOn = currentSlide.elements || [];
-
-      // Sort operateOn by zIndex ascending (bottom to top)
-      operateOn.sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
-
-      // Remove dragged from the array
-      const idx = operateOn.findIndex((e) => e.id === draggedId);
-      if (idx >= 0) operateOn.splice(idx, 1);
-
-      // Find target index in operateOn (where to insert before/after)
-      const targetIndex = operateOn.findIndex((e) => e.id === targetId);
-      // We'll insert after target so dragged becomes above target
-      const insertIndex = targetIndex + 1;
-      operateOn.splice(insertIndex, 0, draggedEl);
-
-      // Reassign zIndex values to maintain integer stacking (lower first)
-      operateOn.forEach((el, i) => {
-        el.zIndex = i + 1;
-      });
-
-      // Reload slide to apply zIndex changes and re-render
-      loadSlide(currentSlide, undefined, undefined, true);
-      renderSlideElementsSidebar();
-    });
+  // (Sortable will handle drag/drop for smooth UX)
 
     // Click row to select element
     row.addEventListener("click", () => {
@@ -183,6 +117,56 @@ export function renderSlideElementsSidebar() {
 
     container.appendChild(row);
   });
+
+  // Initialize Sortable for smoother dragging. Keep a reference to destroy previous instance.
+  if (window.__slideElementsSortable) {
+    try {
+      window.__slideElementsSortable.destroy();
+    } catch (e) {
+      // ignore
+    }
+    window.__slideElementsSortable = null;
+  }
+
+  try {
+    window.__slideElementsSortable = new Sortable(container, {
+      animation: 150,
+      ghostClass: "sortable-ghost",
+      chosenClass: "sortable-chosen",
+      dragClass: "sortable-drag",
+      // No explicit handle — allow dragging the whole item for expected UX
+      onEnd: function (evt) {
+        // Build new ordering from DOM children (topmost first as rendered)
+        const ids = Array.from(container.children).map((child) => parseInt(child.dataset.elId, 10)).filter(Boolean);
+
+        if (!ids.length) return;
+
+        const currentSlide = store.slides[store.currentSlideIndex];
+        if (!currentSlide) return;
+
+        pushCurrentSlideState();
+
+        // Sidebar is rendered with topmost first; assign zIndex so topmost gets highest value
+        ids.forEach((id, idx) => {
+          const el = currentSlide.elements.find((e) => e.id === id);
+          if (el) {
+            el.zIndex = ids.length - idx;
+          }
+        });
+
+        // Reload slide to apply zIndex changes and re-render canvas.
+        loadSlide(currentSlide, undefined, undefined, true);
+
+        // Delay re-render of sidebar slightly to avoid interfering with Sortable's DOM update
+        setTimeout(() => {
+          renderSlideElementsSidebar();
+        }, 150);
+      },
+    });
+  } catch (e) {
+    // Sortable may fail in some environments; ignore gracefully
+    console.warn("Sortable init failed", e);
+  }
 }
 
 export function initSlideElementsSidebar() {
