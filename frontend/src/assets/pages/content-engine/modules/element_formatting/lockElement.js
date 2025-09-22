@@ -84,34 +84,48 @@ function addLockIndicator(element) {
   lockIndicator.innerHTML = '<i class="material-symbols-outlined">lock</i>';
   // Position lock to the right by default; if a persistent (pin) indicator
   // exists we shift it left so it sits to the left of the pin.
-  lockIndicator.style.position = "absolute";
-  lockIndicator.style.top = "8px";
-  lockIndicator.style.right = "8px";
-  lockIndicator.style.background = "#dc3545";
-  lockIndicator.style.color = "white";
-  lockIndicator.style.borderRadius = "8px";
-  lockIndicator.style.width = "40px";
-  lockIndicator.style.height = "40px";
-  lockIndicator.style.display = "flex";
-  lockIndicator.style.alignItems = "center";
-  lockIndicator.style.justifyContent = "center";
-  lockIndicator.style.fontSize = "22px";
-  lockIndicator.style.zIndex = "1000";
-  lockIndicator.style.pointerEvents = "none";
-  lockIndicator.style.boxShadow = "0 3px 8px rgba(0,0,0,0.3)";
-  lockIndicator.style.border = "3px solid white";
-
-  const persistentIndicator = element.querySelector('.persistent-indicator');
-  if (persistentIndicator) {
-    // persistentIndicator in render uses width ~40px + border, position top/right 8px.
-    // Place lock to the left of it with a small gap.
-    lockIndicator.style.right = "56px"; // 8 + 40 + 8 gap
+  // Prefer placing inside the indicators wrapper for consistent layout
+  try {
+    // Respect global flag if it exists (avoid import cycle by checking window.store)
+    const show = (typeof window !== 'undefined' && window.store && typeof window.store.showElementIndicators !== 'undefined') ? window.store.showElementIndicators : true;
+    const wrapper = element.querySelector('.element-indicators-wrapper');
+    if (wrapper) {
+      wrapper.appendChild(lockIndicator);
+      lockIndicator.style.borderRadius = '8px';
+      lockIndicator.style.width = '40px';
+      lockIndicator.style.height = '40px';
+      lockIndicator.style.display = 'flex';
+      lockIndicator.style.alignItems = 'center';
+      lockIndicator.style.justifyContent = 'center';
+      lockIndicator.style.fontSize = '22px';
+      lockIndicator.style.pointerEvents = 'none';
+      lockIndicator.style.boxShadow = '0 3px 8px rgba(0,0,0,0.3)';
+      lockIndicator.style.border = '3px solid white';
+      if (!show) wrapper.style.display = 'none';
+    } else {
+      // Fallback to previous absolute positioning if wrapper not present
+      lockIndicator.style.position = 'absolute';
+      lockIndicator.style.top = '8px';
+      lockIndicator.style.right = '8px';
+      lockIndicator.style.background = '#dc3545';
+      lockIndicator.style.color = 'white';
+      lockIndicator.style.borderRadius = '8px';
+      lockIndicator.style.width = '40px';
+      lockIndicator.style.height = '40px';
+      lockIndicator.style.display = 'flex';
+      lockIndicator.style.alignItems = 'center';
+      lockIndicator.style.justifyContent = 'center';
+      lockIndicator.style.fontSize = '22px';
+      lockIndicator.style.zIndex = '1000';
+      lockIndicator.style.pointerEvents = 'none';
+      lockIndicator.style.boxShadow = '0 3px 8px rgba(0,0,0,0.3)';
+      lockIndicator.style.border = '3px solid white';
+      element.appendChild(lockIndicator);
+    }
+  } catch (err) {
+    // On any error, append as fallback
+    element.appendChild(lockIndicator);
   }
-
-  const innerIcon = lockIndicator.querySelector('.material-symbols-outlined');
-  if (innerIcon) innerIcon.style.fontVariationSettings = "'FILL' 1";
-
-  element.appendChild(lockIndicator);
 }
 
 function removeLockIndicator(element) {

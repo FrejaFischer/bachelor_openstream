@@ -20,6 +20,31 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+function updateElementIndicatorsVisibility() {
+  const visibility = store.showElementIndicators ? 'visible' : 'hidden';
+  document.querySelectorAll('.element-indicators-wrapper').forEach((wrapper) => {
+    wrapper.style.visibility = visibility;
+  });
+}
+
+function getCurrentShowElementIndicators() {
+  const slide = store.slides[store.currentSlideIndex];
+  return slide ? (slide.showElementIndicators !== undefined ? slide.showElementIndicators : store.showElementIndicators) : store.showElementIndicators;
+}
+
+function setCurrentShowElementIndicators(value) {
+  const slide = store.slides[store.currentSlideIndex];
+  if (slide) {
+    slide.showElementIndicators = value;
+  }
+  store.showElementIndicators = value;
+}
+
+function handleCheckboxChange(e) {
+  setCurrentShowElementIndicators(!e.target.checked);
+  updateElementIndicatorsVisibility();
+}
+
 function computeZOrderRanks(slideElements) {
   // slideElements is expected to be an array of element data objects with zIndex numeric
   const withIndex = slideElements.map((el, idx) => ({ el, idx }));
@@ -187,6 +212,20 @@ export function renderSlideElementsSidebar() {
         // Toggle persistence flag on the element data
         elData.isPersistent = shouldBePersistent;
 
+        // If the DOM element exists, update indicators live (so icons don't disappear briefly)
+        try {
+          const domEl = document.getElementById("el-" + elData.id);
+          if (domEl) {
+            // adjust blocked-indicator offset if present
+            const blocked = domEl.querySelector('.blocked-indicator');
+            if (blocked) blocked.style.right = shouldBePersistent ? '56px' : '8px';
+            const force = domEl.querySelector('.force-settings-indicator');
+            if (force) force.style.right = shouldBePersistent ? '56px' : '8px';
+            const top = domEl.querySelector('.always-on-top-indicator');
+            if (top) top.style.right = shouldBePersistent ? '56px' : '8px';
+          }
+        } catch (err) {}
+
         // Reload current slide to reflect persistent change in preview
         try {
           loadSlide(store.slides[store.currentSlideIndex], undefined, undefined, true);
@@ -241,6 +280,27 @@ export function renderSlideElementsSidebar() {
             if (domEl) {
               if (shouldBeLocked) domEl.classList.add('is-locked');
               else domEl.classList.remove('is-locked');
+              // update blocked indicator offset if present
+              const blocked = domEl.querySelector('.blocked-indicator');
+              if (blocked) {
+                const right = elData.isPersistent ? '56px' : '8px';
+                blocked.style.right = right;
+              }
+              const force = domEl.querySelector('.force-settings-indicator');
+              if (force) {
+                // If locked and persistent, move further left
+                const right = elData.isLocked && elData.isPersistent ? '104px' : elData.isPersistent ? '56px' : '8px';
+                force.style.right = right;
+              }
+              const top = domEl.querySelector('.always-on-top-indicator');
+              if (top) {
+                // recompute offset cumulatively
+                let offset = 8;
+                if (elData.preventSettingsChanges) offset += 48;
+                if (elData.isPersistent) offset += 48;
+                if (elData.isLocked) offset += 48;
+                top.style.right = offset + 'px';
+              }
             }
           } catch (err) {
             // ignore
@@ -425,11 +485,35 @@ export function renderSlideElementsSidebar() {
           const domEl = document.getElementById("el-" + elData.id);
           if (domEl) {
             if (shouldBlock) {
-              domEl.classList.add('is-selection-blocked');
-              domEl.style.pointerEvents = 'none';
+                domEl.classList.add('is-selection-blocked');
+                domEl.style.pointerEvents = 'none';
+                // add blocked indicator if missing; place inside wrapper if present
+                if (!domEl.querySelector('.blocked-indicator')) {
+                  const bi = document.createElement('div');
+                  bi.className = 'blocked-indicator';
+                  bi.innerHTML = '<i class="material-symbols-outlined">block</i>';
+                  const inner = bi.querySelector('.material-symbols-outlined');
+                  if (inner) inner.style.fontVariationSettings = "'FILL' 1";
+                  // Try to append to wrapper for consistent layout
+                  let wrapper = domEl.querySelector('.element-indicators-wrapper');
+                  if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.className = 'element-indicators-wrapper';
+                    domEl.appendChild(wrapper);
+                    // move any existing indicator nodes into wrapper
+                    ['.persistent-indicator', '.lock-indicator', '.force-settings-indicator', '.always-on-top-indicator', '.element-indicator'].forEach((sel) => {
+                      const n = domEl.querySelector(sel);
+                      if (n) wrapper.appendChild(n);
+                    });
+                  }
+                  wrapper.appendChild(bi);
+                  wrapper.style.visibility = getCurrentShowElementIndicators() ? 'visible' : 'hidden';
+                }
             } else {
               domEl.classList.remove('is-selection-blocked');
               domEl.style.pointerEvents = '';
+              const existing = domEl.querySelector('.blocked-indicator');
+              if (existing) existing.remove();
             }
           }
         } catch (err) {
@@ -472,6 +556,49 @@ export function renderSlideElementsSidebar() {
           e.stopPropagation();
           try { pushCurrentSlideState(); } catch (err) {}
           elData.preventSettingsChanges = !!forceSettingsCheckbox.checked;
+          // Update the element DOM immediately so the indicator appears without a reload
+          try {
+            const domEl = document.getElementById("el-" + elData.id);
+            if (domEl) {
+              // Ensure we have an indicators wrapper to keep layout consistent
+              let wrapper = domEl.querySelector('.element-indicators-wrapper');
+              const ensureWrapper = () => {
+                if (!wrapper) {
+                  wrapper = document.createElement('div');
+                  wrapper.className = 'element-indicators-wrapper';
+                  // Append wrapper to top-right of element; CSS will position it
+                  domEl.appendChild(wrapper);
+                  // Move any pre-existing absolute indicators into the wrapper
+                  ['.persistent-indicator', '.lock-indicator', '.blocked-indicator', '.always-on-top-indicator', '.force-settings-indicator', '.element-indicator'].forEach((sel) => {
+                    const n = domEl.querySelector(sel);
+                    if (n) wrapper.appendChild(n);
+                  });
+                  wrapper.style.visibility = getCurrentShowElementIndicators() ? 'visible' : 'hidden';
+                }
+              };
+
+              if (elData.preventSettingsChanges) {
+                ensureWrapper();
+                if (!wrapper.querySelector('.force-settings-indicator')) {
+                  const fi = document.createElement('div');
+                  fi.className = 'force-settings-indicator';
+                  fi.innerHTML = '<i class="material-symbols-outlined">lock_person</i>';
+                  const inner = fi.querySelector('.material-symbols-outlined');
+                  if (inner) inner.style.fontVariationSettings = "'FILL' 1";
+                  wrapper.appendChild(fi);
+                }
+              } else {
+                const existing = domEl.querySelector('.force-settings-indicator');
+                if (existing) existing.remove();
+                // If wrapper exists and now has no meaningful indicators, remove it
+                if (wrapper) {
+                  const hasChildren = Array.from(wrapper.children).some((c) => c.classList && (c.classList.contains('persistent-indicator') || c.classList.contains('lock-indicator') || c.classList.contains('blocked-indicator') || c.classList.contains('always-on-top-indicator') || c.classList.contains('element-indicator')));
+                  if (!hasChildren) wrapper.remove();
+                }
+              }
+            }
+          } catch (err) {}
+
           renderSlideElementsSidebar();
         });
       }
@@ -567,21 +694,71 @@ export function renderSlideElementsSidebar() {
   }
 }
 
-// Re-render sidebar when slide selection changes elsewhere
-try {
   document.addEventListener("os:slideChanged", () => {
     try {
       renderSlideElementsSidebar();
+      const slide = store.slides[store.currentSlideIndex];
+      if (slide && slide.showElementIndicators === undefined) {
+        slide.showElementIndicators = store.showElementIndicators;
+      }
+      store.showElementIndicators = slide ? slide.showElementIndicators : store.showElementIndicators;
+      const showElementIconsCheckbox = document.getElementById("toggle-element-icons");
+      if (showElementIconsCheckbox && !showElementIconsCheckbox.hasAttribute('data-listener-attached')) {
+        showElementIconsCheckbox.addEventListener('change', handleCheckboxChange);
+        showElementIconsCheckbox.setAttribute('data-listener-attached', 'true');
+      }
+      if (showElementIconsCheckbox) showElementIconsCheckbox.checked = !store.showElementIndicators;
+      updateElementIndicatorsVisibility();
     } catch (err) {
       console.warn("Failed to render slide elements sidebar on slide change", err);
     }
   });
-} catch (err) {
-  // ignore if environment doesn't support events
-}
+
+
+
+
 export function initSlideElementsSidebar() {
+
+
+  const showElementIconsCheckbox = document.getElementById("toggle-element-icons");
+
+  showElementIconsCheckbox.addEventListener('change', handleCheckboxChange);
+
+  showElementIconsCheckbox.setAttribute('data-listener-attached', 'true');
+
+  showElementIconsCheckbox.checked = !getCurrentShowElementIndicators();
   // Render initially and whenever slide data or selection changes
   renderSlideElementsSidebar();
+
+  // Add a small toggle in the top toolbar to show/hide element indicators
+  try {
+    const topToolbar = document.querySelector('.top-toolbar');
+    if (topToolbar && !document.getElementById('toggle-element-indicators-btn')) {
+      const btn = document.createElement('button');
+      btn.id = 'toggle-element-indicators-btn';
+      btn.className = 'btn btn-sm btn-outline-secondary ms-2';
+      btn.type = 'button';
+      btn.title = 'Show / hide element icons';
+      btn.innerHTML = '<span class="material-symbols-outlined">visibility</span>';
+      topToolbar.appendChild(btn);
+
+      const updateButtonState = () => {
+        const visible = !!getCurrentShowElementIndicators();
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = visible ? 'visibility' : 'visibility_off';
+      };
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setCurrentShowElementIndicators(!store.showElementIndicators);
+        updateButtonState();
+
+        updateElementIndicatorsVisibility();
+      });
+
+      updateButtonState();
+    }
+  } catch (err) {}
 
   // Observe store changes by polling simple interval (non-invasive)
   // The editor doesn't appear to use an observable store, so poll for changes
@@ -602,10 +779,34 @@ export function initSlideElementsSidebar() {
     if (cur !== lastSlidesStr) {
       lastSlidesStr = cur;
       renderSlideElementsSidebar();
+      const slide = store.slides[store.currentSlideIndex];
+      if (slide && slide.showElementIndicators === undefined) {
+        slide.showElementIndicators = store.showElementIndicators;
+      }
+      store.showElementIndicators = slide ? slide.showElementIndicators : store.showElementIndicators;
+      const showElementIconsCheckbox = document.getElementById("toggle-element-icons");
+      if (showElementIconsCheckbox && !showElementIconsCheckbox.hasAttribute('data-listener-attached')) {
+        showElementIconsCheckbox.addEventListener('change', handleCheckboxChange);
+        showElementIconsCheckbox.setAttribute('data-listener-attached', 'true');
+      }
+      if (showElementIconsCheckbox) showElementIconsCheckbox.checked = !store.showElementIndicators;
+      updateElementIndicatorsVisibility();
     } else if (curSelectedId !== lastSelectedElementId) {
       // Selected element changed (selected, deselected, or switched to another id)
       lastSelectedElementId = curSelectedId;
       renderSlideElementsSidebar();
+      const slide = store.slides[store.currentSlideIndex];
+      if (slide && slide.showElementIndicators === undefined) {
+        slide.showElementIndicators = store.showElementIndicators;
+      }
+      store.showElementIndicators = slide ? slide.showElementIndicators : store.showElementIndicators;
+      const showElementIconsCheckbox = document.getElementById("toggle-element-icons");
+      if (showElementIconsCheckbox && !showElementIconsCheckbox.hasAttribute('data-listener-attached')) {
+        showElementIconsCheckbox.addEventListener('change', handleCheckboxChange);
+        showElementIconsCheckbox.setAttribute('data-listener-attached', 'true');
+      }
+      if (showElementIconsCheckbox) showElementIconsCheckbox.checked = !store.showElementIndicators;
+      updateElementIndicatorsVisibility();
     }
     // Otherwise, do nothing to avoid interfering with drag interactions.
   }, 600);

@@ -604,101 +604,79 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
     container.classList.add('is-selection-blocked');
     // Prevent clicks and interactions that would select/edit the element
     container.style.pointerEvents = 'none';
-
-    // Add small blocked indicator in editor mode
-    if (queryParams.mode === 'edit' || queryParams.mode === 'template_editor') {
-      const blockedIndicator = document.createElement('div');
-      blockedIndicator.className = 'blocked-indicator';
-      blockedIndicator.innerHTML = '<i class="material-symbols-outlined">block</i>';
-      blockedIndicator.style.cssText = `
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 40px;
-        height: 40px;
-        background-color: #6c757d;
-        color: white;
-        border: 3px solid white;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        z-index: 1000;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.5);
-        pointer-events: none;
-      `;
-      blockedIndicator.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
-      container.appendChild(blockedIndicator);
-    }
+    // NOTE: visual indicator element (blocked-indicator) is appended later
+    // after other indicators so it isn't accidentally covered by them.
   }
 
-  // Add persistent element indicator in editor mode
-  if (
-    el.isPersistent &&
-    (queryParams.mode === "edit" || queryParams.mode === "template_editor")
-  ) {
-    const persistentIndicator = document.createElement("div");
-    persistentIndicator.className = "persistent-indicator";
-    persistentIndicator.innerHTML =
-      '<span class="material-symbols-outlined">push_pin</span>';
-    persistentIndicator.style.cssText = `
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 40px;
-      height: 40px;
-      background-color: black;
-      color: white;
-      border: 3px solid white;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      z-index: 1000;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.5);
-      pointer-events: none;
-    `;
-    persistentIndicator.querySelector(
-      ".material-symbols-outlined",
-    ).style.fontVariationSettings = "'FILL' 1";
-    container.appendChild(persistentIndicator);
-  }
+  // Simplified indicators: use a single flex wrapper in the top-right so icons never overlap
+  const shouldShowPersistent = el.isPersistent && (queryParams.mode === 'edit' || queryParams.mode === 'template_editor');
+  const shouldShowLock = el.isLocked;
+  const shouldShowForce = el.preventSettingsChanges && (queryParams.mode === 'template_editor' || queryParams.mode === 'edit');
+  const shouldShowTop = el.isAlwaysOnTop && (queryParams.mode === 'edit' || queryParams.mode === 'template_editor');
+  const shouldShowBlocked = el.isSelectionBlocked && (queryParams.mode === 'edit' || queryParams.mode === 'template_editor');
 
-  // Add lock element indicator when locked (show marker and class for any mode)
-  if (el.isLocked) {
-    const lockIndicator = document.createElement("div");
-    lockIndicator.className = "lock-indicator";
-    lockIndicator.innerHTML = '<i class="material-symbols-outlined">lock</i>';
+  // Always create the indicators wrapper when any indicator would be shown
+  // (we'll toggle its visibility separately). This ensures the wrapper DOM
+  // exists even if indicators are currently hidden so the toggle can show
+  // them again after a slide change.
+  if (shouldShowPersistent || shouldShowLock || shouldShowForce || shouldShowTop || shouldShowBlocked) {
+    const indicatorsWrapper = document.createElement('div');
+    indicatorsWrapper.className = 'element-indicators-wrapper';
+    Object.assign(indicatorsWrapper.style, {
+      position: 'absolute',
+      top: '8px',
+      right: '8px',
+      display: 'flex',
+      gap: '8px',
+      alignItems: 'center',
+      zIndex: '1015',
+      pointerEvents: 'none',
+    });
 
-    // Match persistent indicator sizing so they look consistent; red background
-    lockIndicator.style.top = "8px";
-    lockIndicator.style.right = "8px";
-    lockIndicator.style.width = "40px";
-    lockIndicator.style.height = "40px";
-    lockIndicator.style.background = "#dc3545";
-    lockIndicator.style.color = "white";
-    lockIndicator.style.border = "3px solid white";
-    lockIndicator.style.borderRadius = "8px";
-    lockIndicator.style.display = "flex";
-    lockIndicator.style.alignItems = "center";
-    lockIndicator.style.justifyContent = "center";
-    lockIndicator.style.fontSize = "22px";
-    lockIndicator.style.boxShadow = "0 3px 8px rgba(0,0,0,0.5)";
-    lockIndicator.style.pointerEvents = "none";
-    lockIndicator.style.zIndex = "1000";
+    // Compute visibility from per-slide override if present, otherwise use global
+    const visibleFlag = (typeof slide !== 'undefined' && slide && typeof slide.showElementIndicators !== 'undefined') ? slide.showElementIndicators : store.showElementIndicators;
+    indicatorsWrapper.style.visibility = visibleFlag ? 'visible' : 'hidden';
 
-    if (el.isPersistent) {
-      // Place lock to the left of the persistent indicator (which is ~40px wide + borders)
-      lockIndicator.style.right = "56px"; // 8 + 40 + 8 gap
+    const createIndicator = (iconName, opts = {}) => {
+      const d = document.createElement('div');
+      d.className = opts.className || 'element-indicator';
+      d.innerHTML = `<i class="material-symbols-outlined">${iconName}</i>`;
+      Object.assign(d.style, {
+        width: '40px',
+        height: '40px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '8px',
+        fontSize: '22px',
+        boxShadow: '0 3px 8px rgba(0,0,0,0.5)',
+        color: opts.color || 'white',
+        background: opts.background || 'rgba(0,0,0,0.6)',
+        border: '3px solid white',
+        pointerEvents: 'none',
+      });
+      const inner = d.querySelector('.material-symbols-outlined');
+      if (inner) inner.style.fontVariationSettings = "'FILL' 1";
+      if (opts.zIndex) d.style.zIndex = opts.zIndex;
+      return d;
+    };
+
+    // Append in a fixed order so layout is predictable. Blocked indicator comes last to sit on top.
+    if (shouldShowPersistent) indicatorsWrapper.appendChild(createIndicator('push_pin', { className: 'persistent-indicator', background: 'black' }));
+    if (shouldShowLock) {
+      indicatorsWrapper.appendChild(createIndicator('lock', { className: 'lock-indicator', background: '#dc3545' }));
+      container.classList.add('is-locked');
+    }
+    if (shouldShowForce) indicatorsWrapper.appendChild(createIndicator('lock_person', { className: 'force-settings-indicator' }));
+    if (shouldShowTop) indicatorsWrapper.appendChild(createIndicator('vertical_align_top', { className: 'always-on-top-indicator' }));
+    if (shouldShowBlocked) {
+      const b = createIndicator('block', { className: 'blocked-indicator', zIndex: '1016' });
+      b.style.background = 'rgba(0,0,0,0.8)';
+      b.style.zIndex = '1016';
+      indicatorsWrapper.appendChild(b);
     }
 
-  // Ensure the inner icon is filled style to match pin
-  const innerIcon = lockIndicator.querySelector('.material-symbols-outlined');
-  if (innerIcon) innerIcon.style.fontVariationSettings = "'FILL' 1";
-  container.appendChild(lockIndicator);
-    container.classList.add("is-locked");
+    container.appendChild(indicatorsWrapper);
   }
 
   if (el.rotation) {

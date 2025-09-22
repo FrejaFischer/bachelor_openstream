@@ -513,6 +513,7 @@ export function updateSlideSelector() {
 
       store.currentSlideIndex = index;
       loadSlide(slide, undefined, undefined, true);
+      
       updateSlideSelector();
     });
 
