@@ -123,12 +123,7 @@
                 {% trans "Send To Back" %}
             </button>
             <div class="vr"></div>
-            <button id="persist-element-btn" class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans "Toggle element persistence across all slides" %}'>
-                <span class="material-symbols-outlined">push_pin</span>
-            </button>
-            <button id="lock-element-btn" class="btn btn-secondary btn-sm d-flex align-items-center" data-bs-toggle="tooltip" data-bs-title='{% trans "Lock element to prevent movement when template is used" %}'>
-                <span class="material-symbols-outlined">lock</span>
-            </button>
+            {{!-- Persist and Lock moved to sidebar; toolbar buttons removed. --}}
             <select id="elementLinkDropdown" class="form-select form-select-sm"></select>
         </div>
     </div>

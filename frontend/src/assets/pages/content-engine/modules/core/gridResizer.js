@@ -15,8 +15,8 @@ export function makeDraggable(el, dataObj) {
   function dragMouseDown(e) {
     if (e.target.classList.contains("resize-handle")) return;
 
-    // Prevent dragging if element is locked in regular mode (not template editor)
-    if (queryParams.mode !== "template_editor" && isElementLocked(dataObj)) {
+    // Prevent dragging if element is locked
+    if (isElementLocked(dataObj)) {
       e.preventDefault();
       return;
     }
@@ -119,8 +119,8 @@ export function makeResizable(el, dataObj) {
   let hasResized = false;
 
   function initResize(e) {
-    // Prevent resizing if element is locked in regular mode (not template editor)
-    if (queryParams.mode !== "template_editor" && isElementLocked(dataObj)) {
+    // Prevent resizing if element is locked
+    if (isElementLocked(dataObj)) {
       e.preventDefault();
       return;
     }

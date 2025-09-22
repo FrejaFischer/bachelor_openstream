@@ -8,14 +8,9 @@ import { gettext } from "../../../../utils/locales.js";
 export function initLockElement() {
   const lockButton = document.getElementById("lock-element-btn");
   if (lockButton) {
-    // Hide button initially if not in template editor mode
-    if (queryParams.mode !== "template_editor") {
-      lockButton.style.display = "none";
-    }
-
+    // Show/hide and allow toggling depending on selection; handler toggles lock in any mode
     lockButton.addEventListener("click", () => {
-      // Only allow toggling in template editor mode
-      if (queryParams.mode === "template_editor" && store.selectedElementData) {
+      if (store.selectedElementData) {
         toggleElementLock();
       }
     });
@@ -108,31 +103,14 @@ function removeLockIndicator(element) {
 export function updateLockButtonForSelectedElement() {
   const lockButton = document.getElementById("lock-element-btn");
   if (!lockButton) return;
-
-  // Always hide button in non-template mode, regardless of selection
-  if (queryParams.mode !== "template_editor") {
-    // In non-template mode, show visual state but make non-interactive
-    if (store.selectedElementData && store.selectedElementData.isLocked) {
-      // Show as locked (red/primary state) but non-interactive
-      lockButton.classList.remove("btn-secondary");
-      lockButton.classList.add("btn-primary");
-      lockButton.querySelector(".material-symbols-outlined").textContent =
-        "lock";
-      lockButton.style.display = "flex";
-      lockButton.style.pointerEvents = "none"; // Make non-interactive
-      lockButton.style.opacity = "0.8"; // Slightly dimmed to show it's non-interactive
-    } else {
-      lockButton.style.display = "none";
-    }
-    return;
-  }
-
   if (store.selectedElementData) {
     const isLocked = store.selectedElementData.isLocked || false;
     updateLockButtonState(lockButton, isLocked);
     lockButton.style.display = "flex";
-    lockButton.style.pointerEvents = "auto"; // Make interactive in template mode
-    lockButton.style.opacity = "1"; // Full opacity in template mode
+    // Make interactive in any mode; if you want non-interactive in non-template mode,
+    // we can change this to pointerEvents = 'none' when queryParams.mode !== 'template_editor'
+    lockButton.style.pointerEvents = "auto";
+    lockButton.style.opacity = "1";
   } else {
     lockButton.style.display = "none";
   }

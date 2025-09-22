@@ -162,10 +162,6 @@ if (queryParams.mode === "template_editor") {
     topPanel.classList.remove("d-none");
   }
   //document.getElementById("change-slideshow-btn").classList.add("d-none");
-  const persistElementBtn = document.getElementById("persist-element-btn");
-  if (persistElementBtn) {
-    persistElementBtn.classList.add("d-none");
-  }
   const orgId = selectedSubOrgID || parentOrgID;
 
   if (orgId) {

@@ -632,8 +632,8 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
     container.appendChild(persistentIndicator);
   }
 
-  // Add lock element indicator in template editor mode
-  if (el.isLocked && queryParams.mode === "template_editor") {
+  // Add lock element indicator when locked (show marker and class for any mode)
+  if (el.isLocked) {
     const lockIndicator = document.createElement("div");
     lockIndicator.className = "lock-indicator";
     lockIndicator.innerHTML = '<i class="material-symbols-outlined">lock</i>';
