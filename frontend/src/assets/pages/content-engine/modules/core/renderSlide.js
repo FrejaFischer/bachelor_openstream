@@ -572,7 +572,10 @@ function _syncSlideBgColorIcon(backgroundColor) {
 }
 
 function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
-  if (queryParams.mode !== "edit" && store.slideshowMode === "interactive") {
+  // Consider this an interactive playback render when we're not in the
+  // editor or template editor modes. That covers slideshow and interactive
+  // playback contexts where we shouldn't show editor-only indicators.
+  if (queryParams.mode !== "edit" && queryParams.mode !== "template_editor") {
     isInteractivePlayback = true;
   }
 
@@ -610,7 +613,9 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
 
   // Simplified indicators: use a single flex wrapper in the top-right so icons never overlap
   const shouldShowPersistent = el.isPersistent && (queryParams.mode === 'edit' || queryParams.mode === 'template_editor');
-  const shouldShowLock = el.isLocked;
+  // Only show lock indicator in editor/template modes (not during playback)
+  // Only show lock indicator in editor/template modes (not during playback)
+  const shouldShowLock = el.isLocked && !isInteractivePlayback && (queryParams.mode === 'edit' || queryParams.mode === 'template_editor');
   const shouldShowForce = el.preventSettingsChanges && (queryParams.mode === 'template_editor' || queryParams.mode === 'edit');
   const shouldShowTop = el.isAlwaysOnTop && (queryParams.mode === 'edit' || queryParams.mode === 'template_editor');
   const shouldShowBlocked = el.isSelectionBlocked && (queryParams.mode === 'edit' || queryParams.mode === 'template_editor');

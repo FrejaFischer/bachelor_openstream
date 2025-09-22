@@ -253,6 +253,10 @@ body {
   pointer-events: none; /* don't block interactions */
 }
 
+.element-indicators-wrapper div {
+  box-shadow: none !important;
+}
+
 .element-indicators-wrapper .element-indicator,
 .element-indicators-wrapper .persistent-indicator,
 .element-indicators-wrapper .lock-indicator,
@@ -266,7 +270,6 @@ body {
   justify-content: center;
   border-radius: 8px;
   font-size: 22px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.5);
   color: white;
   background: rgba(0,0,0,0.6);
   border: 3px solid white;
@@ -746,6 +749,13 @@ span {
 #slide-elements-list {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+.element-indicators-wrapper i {
+  color: inherit;
+  background: inherit;
+  padding: inherit;
+  border-bottom-width: inherit;
 }
 
 #slide-elements-list .list-group-item {
@@ -1863,6 +1873,7 @@ span {
 
 /* Lock indicator styles */
 .lock-indicator {
+  color: inherit;
   /* Default: top-right of element. When a persistent (pin) indicator exists, JS will
      position the lock further left so it sits to the left of the pin. */
   position: absolute;
@@ -1880,7 +1891,6 @@ span {
   font-size: 22px;
   z-index: 1000;
   pointer-events: none;
-  box-shadow: 0 3px 8px rgba($black, 0.5);
   border: 2px solid $white;
 }
 
@@ -1946,7 +1956,6 @@ span {
   font-size: 20px;
   z-index: 1000;
   pointer-events: none;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
   border: 3px solid $white;
 }
 
@@ -1976,7 +1985,6 @@ span {
   font-size: 20px;
   z-index: 1000;
   pointer-events: none;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
   border: 3px solid $white;
 }
 

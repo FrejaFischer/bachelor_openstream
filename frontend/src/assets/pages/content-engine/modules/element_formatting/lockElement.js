@@ -86,8 +86,14 @@ function addLockIndicator(element) {
   // exists we shift it left so it sits to the left of the pin.
   // Prefer placing inside the indicators wrapper for consistent layout
   try {
-    // Respect global flag if it exists (avoid import cycle by checking window.store)
-    const show = (typeof window !== 'undefined' && window.store && typeof window.store.showElementIndicators !== 'undefined') ? window.store.showElementIndicators : true;
+    // Only show lock indicators in editor/template modes (not during playback)
+    if (queryParams.mode !== 'edit' && queryParams.mode !== 'template_editor') {
+      return;
+    }
+
+    // Respect per-slide override if present, otherwise use global flag
+    const slide = (store && Array.isArray(store.slides)) ? store.slides[store.currentSlideIndex] : null;
+    const show = slide && typeof slide.showElementIndicators !== 'undefined' ? slide.showElementIndicators : (typeof window !== 'undefined' && window.store && typeof window.store.showElementIndicators !== 'undefined' ? window.store.showElementIndicators : true);
     const wrapper = element.querySelector('.element-indicators-wrapper');
     if (wrapper) {
       wrapper.appendChild(lockIndicator);
@@ -99,9 +105,9 @@ function addLockIndicator(element) {
       lockIndicator.style.justifyContent = 'center';
       lockIndicator.style.fontSize = '22px';
       lockIndicator.style.pointerEvents = 'none';
-      lockIndicator.style.boxShadow = '0 3px 8px rgba(0,0,0,0.3)';
       lockIndicator.style.border = '3px solid white';
-      if (!show) wrapper.style.display = 'none';
+      // use visibility so wrapper remains in DOM for toggling
+      if (!show) wrapper.style.visibility = 'hidden';
     } else {
       // Fallback to previous absolute positioning if wrapper not present
       lockIndicator.style.position = 'absolute';
@@ -118,7 +124,6 @@ function addLockIndicator(element) {
       lockIndicator.style.fontSize = '22px';
       lockIndicator.style.zIndex = '1000';
       lockIndicator.style.pointerEvents = 'none';
-      lockIndicator.style.boxShadow = '0 3px 8px rgba(0,0,0,0.3)';
       lockIndicator.style.border = '3px solid white';
       element.appendChild(lockIndicator);
     }
