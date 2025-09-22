@@ -6,6 +6,17 @@ import { pushCurrentSlideState } from "./undoRedo.js";
 import { loadSlide } from "./renderSlide.js";
 import Sortable from "sortablejs";
 
+// Simple HTML escape for insertion into innerHTML
+function escapeHtml(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function computeZOrderRanks(slideElements) {
   // slideElements is expected to be an array of element data objects with zIndex numeric
   const withIndex = slideElements.map((el, idx) => ({ el, idx }));
@@ -74,20 +85,68 @@ export function renderSlideElementsSidebar() {
     const rank = rankMap[elData.id] || "-";
     const summary = elementSummary(elData);
     const row = document.createElement("div");
-    row.className = "list-group-item px-1 py-1 d-flex justify-content-between align-items-start";
+    row.className = "list-group-item px-1 py-1 d-flex justify-content-between align-items-start my-1 border border-dark rounded";
   row.dataset.elId = elData.id;
-  // Mark pinned elements with a small pin indicator
+    // Mark pinned elements with a small pin indicator (use material icon)
     const pinnedHtml = elData.isPersistent
-      ? `<span class="pin-indicator ms-1" title="Pinned">📌</span>`
+      ? `<span class="material-symbols-outlined pin-icon" title="Pinned">push_pin</span>`
       : "";
 
+    // Render a clear, semantic summary where each property is on its own line.
+    // Name is editable in-place (defaults to type). Clicking the input should
+    // not select the element; changes are applied to the element data and
+    // the sidebar is re-rendered.
+    const displayName = elData.name || summary.type;
     row.innerHTML = `
-      <div>
-        <div class="fw-bold">${summary.type} ${pinnedHtml}</div>
-        <div class="text-muted small">pos: ${summary.pos} \u2022 size: ${summary.size}</div>
+      <div class="w-100">
+        <div class="fw-bold mb-1">
+          <label class="visually-hidden" for="el-name-${elData.id}">Name</label>
+          <input id="el-name-${elData.id}" class="form-control form-control-sm p-0 m-0 border-0 bg-transparent fw-bold" type="text" value="${escapeHtml(displayName)}" aria-label="Element name" />
+        </div>
+
+  <div class="text-muted small mb-1"><strong>Type:</strong> ${summary.type}</div>
+  <div class="text-muted small mb-1"><strong>Size:</strong> ${summary.size}</div>
+  <div class="text-muted small mb-1"><strong>Position:</strong> ${summary.pos}</div>
       </div>
-      <div class="text-end small text-secondary"><span class="rank-badge">${rank}</span></div>
+      <div class="text-end small text-secondary"><span class="pin-indicator me-1">${pinnedHtml}</span><span class="rank-badge">${rank}</span></div>
     `;
+
+    // Wire up name editing after inserting HTML
+    const nameInput = row.querySelector(`#el-name-${elData.id}`);
+    if (nameInput) {
+      // Prevent clicks in the input from selecting the row
+      nameInput.addEventListener('click', (e) => e.stopPropagation());
+      nameInput.addEventListener('mousedown', (e) => e.stopPropagation());
+
+      // Commit change on blur or Enter key
+      const commitName = () => {
+        const newName = nameInput.value.trim();
+        // Update the element data in-place. This object references the
+        // element in the store.slides structure, so changes are live.
+        elData.name = newName || elData.type;
+        // Re-render sidebar to reflect change
+        renderSlideElementsSidebar();
+      };
+
+      nameInput.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          nameInput.blur();
+        } else if (ev.key === 'Escape') {
+          // revert to original
+          nameInput.value = elData.name || summary.type;
+          nameInput.blur();
+        }
+      });
+
+      nameInput.addEventListener('blur', () => {
+        try {
+          commitName();
+        } catch (err) {
+          console.warn('Failed to commit element name', err);
+        }
+      });
+    }
 
     // Highlight if this is the selected element
     if (store.selectedElementData && store.selectedElementData.id === elData.id) {

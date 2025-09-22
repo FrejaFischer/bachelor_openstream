@@ -164,6 +164,31 @@ body {
   height: 100%;
 }
 
+/* Sidebar pin icon styling */
+.pin-icon {
+  font-size: 18px; /* slightly larger than normal material icon */
+  line-height: 1;
+  vertical-align: middle;
+  color: var(--bs-secondary, #6c757d);
+}
+
+.list-group-item .rank-badge {
+  display: inline-block;
+  min-width: 1.6rem;
+  text-align: center;
+}
+
+.list-group-item .pin-indicator,
+.list-group-item .pin-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-group-item .pin-indicator .material-symbols-outlined {
+  font-size: 18px;
+}
+
 .general-settings {
   background-color: $secondary-accent-light;
 }
@@ -669,7 +694,7 @@ span {
   gap: 0.5rem;
   padding: 0.375rem 0.5rem;
   border: none;
-  background: transparent;
+  background: $secondary-accent;
   color: $darkest-gray;
   border-radius: 6px;
   transition: background-color 0.12s ease, box-shadow 0.12s ease;
@@ -685,7 +710,7 @@ span {
 #slide-elements-list .list-group-item.active,
 #slide-elements-list .list-group-item.active:hover {
   background: $cold-purple-light;
-  color: $darkest-gray;
+  color: $darkest-gray !important;
   border: $dark-gray;
   box-shadow: 0 1px 0 rgba($black, 0.03) inset;
 }
