@@ -4,6 +4,13 @@
 @import "../../scss/main";
 
 /* Styles for the Manage Fonts page */
+.settings-layout {
+  padding: 4rem 5rem
+}
+
+.test {
+  height: 70vh;
+}
 
 .font-preview {
   font-size: 1.2rem;
@@ -39,8 +46,13 @@
 }
 
 /* Table styles */
+
 .table td {
   vertical-align: middle;
+}
+
+.table tbody tr:last-of-type {
+  border-color: transparent;
 }
 
 .table .font-preview-text {
