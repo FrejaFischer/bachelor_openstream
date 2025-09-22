@@ -429,6 +429,19 @@ export function renderSlideElementsSidebar() {
     console.warn("Sortable init failed", e);
   }
 }
+
+// Re-render sidebar when slide selection changes elsewhere
+try {
+  document.addEventListener("os:slideChanged", () => {
+    try {
+      renderSlideElementsSidebar();
+    } catch (err) {
+      console.warn("Failed to render slide elements sidebar on slide change", err);
+    }
+  });
+} catch (err) {
+  // ignore if environment doesn't support events
+}
 export function initSlideElementsSidebar() {
   // Render initially and whenever slide data or selection changes
   renderSlideElementsSidebar();

@@ -571,6 +571,17 @@ export function updateSlideSelector() {
       new bootstrap.Tooltip(tooltipTriggerEl, tooltipOptions);
     });
   }, 100);
+  // Notify other modules that the selected slide may have changed so they can update (e.g. elements list)
+  try {
+    document.dispatchEvent(
+      new CustomEvent("os:slideChanged", {
+        detail: { currentSlideIndex: store.currentSlideIndex },
+      }),
+    );
+  } catch (err) {
+    // ignore if dispatch fails for any reason
+    console.warn("Failed to dispatch os:slideChanged", err);
+  }
 }
 
 // Add a helper function to update slide numbers
