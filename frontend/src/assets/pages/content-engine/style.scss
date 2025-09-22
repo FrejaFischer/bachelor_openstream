@@ -751,13 +751,29 @@ span {
   min-width: 0; /* allow flex shrink */
 }
 
-/* Status bar should not overlap the right sidebar; reduce its width */
+/* Preview column: stacks preview-container and the status bar vertically
+   so the status bar is part of normal flow instead of absolutely positioned */
+.preview-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* take remaining horizontal space in .slide-canvas */
+  min-width: 0;
+}
+
+/* Make preview-container take remaining vertical space inside the column
+   and allow the status bar to occupy its own 32px height below it */
+.preview-column > .preview-container {
+  height: calc(100% - 32px);
+  width: 100%;
+  min-width: 0;
+}
+
+/* Status bar becomes a normal flex item at the bottom of the preview column */
 .content-engine-status-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: calc(100% - 10rem);
   box-sizing: border-box;
+  height: 32px;
+  flex: 0 0 32px;
+  width: 100%;
 }
 
 /* Ensure the main-content padding accounts for status bar height */
