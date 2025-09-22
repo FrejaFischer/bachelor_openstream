@@ -4,6 +4,8 @@ import { store } from "./slideStore.js";
 import { selectElement } from "./elementSelector.js";
 import { pushCurrentSlideState } from "./undoRedo.js";
 import { loadSlide } from "./renderSlide.js";
+import { queryParams } from "../../../../utils/utils.js";
+import { gettext } from "../../../../utils/locales.js";
 import Sortable from "sortablejs";
 
 // Simple HTML escape for insertion into innerHTML
@@ -47,6 +49,15 @@ function elementSummary(dataObj) {
       ? `${dataObj.gridWidth}x${dataObj.gridHeight}`
       : `${dataObj.width || "-"}x${dataObj.height || "-"}`;
   return { type, pos, size };
+}
+
+function getLinkOptions(dataObj) {
+  let options = `<option value="Open page by clicking ..">${gettext("Open page by clicking ..")}</option>`;
+  store.slides.forEach((slide, index) => {
+    const selected = (typeof dataObj.goToSlideIndex === "number" && dataObj.goToSlideIndex === index) ? "selected" : "";
+    options += `<option value="${index}" ${selected}>${index + 1}: ${slide.name}</option>`;
+  });
+  return options;
 }
 
 export function renderSlideElementsSidebar() {
@@ -104,7 +115,7 @@ export function renderSlideElementsSidebar() {
     const displayName = elData.name || summary.type;
     row.innerHTML = `
       <div class="w-100">
-        <div class="d-flex justify-content-between align-items-center mb-1 text-muted small">
+        <div class="d-flex justify-content-between align-items-center mb-1 text-muted small border-bottom pb-1 border-gray">
           <label class="d-inline-flex align-items-center pin-checkbox-wrapper" title="Toggle pinned">
             <input type="checkbox" id="pin-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isPersistent ? "checked" : ""} />
             <span id="pin-icon-${elData.id}" class="material-symbols-outlined pin-icon">push_pin</span>
@@ -126,6 +137,7 @@ export function renderSlideElementsSidebar() {
         <div class="text-muted small mb-1"><strong>Type:</strong> ${summary.type}</div>
         <div class="text-muted small mb-1"><strong>Size:</strong> ${summary.size}</div>
         <div class="text-muted small mb-1"><strong>Position:</strong> ${summary.pos}</div>
+        ${store.slideshowMode === "interactive" && queryParams.mode === "edit" ? `<div class="text-muted small mb-1"><strong>Link:</strong> <select id="link-select-${elData.id}" class="form-select form-select-sm">${getLinkOptions(elData)}</select></div>` : ''}
       </div>
     `;
 
@@ -275,6 +287,30 @@ export function renderSlideElementsSidebar() {
           // Re-render sidebar to update all rows
           renderSlideElementsSidebar();
         });
+      }
+
+      // Wire up link select
+      if (store.slideshowMode === "interactive" && queryParams.mode === "edit") {
+        const linkSelect = row.querySelector(`#link-select-${elData.id}`);
+        if (linkSelect) {
+          linkSelect.addEventListener('click', (e) => e.stopPropagation());
+          linkSelect.addEventListener('change', (e) => {
+            e.stopPropagation();
+            try {
+              pushCurrentSlideState();
+            } catch (err) {
+            }
+            const chosenValue = e.target.value;
+            if (chosenValue === "Open page by clicking ..") {
+              delete elData.goToSlideIndex;
+            } else {
+              const chosenIndex = parseInt(chosenValue, 10);
+              if (!isNaN(chosenIndex)) {
+                elData.goToSlideIndex = chosenIndex;
+              }
+            }
+          });
+        }
       }
 
     // Wire up name editing after inserting HTML

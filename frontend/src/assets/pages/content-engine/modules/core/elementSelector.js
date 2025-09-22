@@ -533,13 +533,7 @@ export function selectElement(el, dataObj) {
     }
 
     // Show/hide or enable/disable based on slideshowMode
-    if (store.slideshowMode === "interactive" && queryParams.mode === "edit") {
-      linkDropdown.disabled = false;
-    } else {
-      linkDropdown.style.display = "none";
-      // either hide it, or simply disable it
-      linkDropdown.disabled = true;
-      // linkDropdown.value = ""; // or revert to “Open page by clicking ..”
-    }
+    linkDropdown.style.display = "none";
+    linkDropdown.disabled = true;
   }
 }

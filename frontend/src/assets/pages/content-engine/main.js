@@ -100,7 +100,6 @@ const initCommonEditorFeatures = () => {
   initSelectedElementBackgroundColor();
   initSelectedElementBorder();
   initOpacity();
-  initBringToFrontBack();
   initBoxShadow();
   initBlur();
   initRotate();

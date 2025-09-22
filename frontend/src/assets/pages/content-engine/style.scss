@@ -176,6 +176,9 @@ body {
   display: inline-block;
   min-width: 1.6rem;
   text-align: center;
+  background-color: $dark;
+  color: $white;
+  @extend .rounded;
 }
 
 .list-group-item .pin-indicator,
