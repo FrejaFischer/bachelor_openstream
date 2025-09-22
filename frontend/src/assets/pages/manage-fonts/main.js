@@ -24,8 +24,8 @@ let deleteId = null;
 // DOM elements
 const fontsTableBody = document.getElementById("fonts-table-body");
 const noFontsMessage = document.getElementById("no-fonts-message");
-const loadingSpinner = document.getElementById("loading-spinner");
-const adminRequiredMessage = document.getElementById("admin-required-message");
+const loadingSpinner = document.getElementById("loading-spinner-fonts");
+const adminRequiredMessage = document.getElementById("admin-required-message-fonts");
 
 // Add Font Modal elements
 const addFontModalBtn = document.getElementById("add-font-modal-btn");

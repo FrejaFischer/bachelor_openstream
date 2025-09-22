@@ -27,8 +27,8 @@ let colorBeingEdited = null;
 let deleteId = null;
 
 // DOM elements
-const adminRequiredMessage = document.getElementById("admin-required-message");
-const loadingSpinner = document.getElementById("loading-spinner");
+const adminRequiredMessage = document.getElementById("admin-required-message-colors");
+const loadingSpinner = document.getElementById("loading-spinner-colors");
 const colorsTable = document.getElementById("colors-table");
 const colorsTableBody = document.getElementById("colors-table-body");
 const deleteModalEl = document.getElementById("deleteModal");
