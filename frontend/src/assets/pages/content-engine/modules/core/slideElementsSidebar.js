@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { store } from "./slideStore.js";
 import { selectElement } from "./elementSelector.js";
+import { pushCurrentSlideState } from "./undoRedo.js";
+import { loadSlide } from "./renderSlide.js";
 
 function computeZOrderRanks(slideElements) {
   // slideElements is expected to be an array of element data objects with zIndex numeric
@@ -72,6 +74,8 @@ export function renderSlideElementsSidebar() {
     const summary = elementSummary(elData);
     const row = document.createElement("div");
     row.className = "list-group-item px-1 py-1 d-flex justify-content-between align-items-start";
+    row.setAttribute("draggable", "true");
+    row.dataset.elId = elData.id;
     // Mark pinned elements with a small pin indicator
     const pinnedHtml = elData.isPersistent
       ? `<span class="pin-indicator ms-1" title="Pinned">📌</span>`
@@ -89,6 +93,74 @@ export function renderSlideElementsSidebar() {
     if (store.selectedElementData && store.selectedElementData.id === elData.id) {
       row.classList.add("active");
     }
+
+    // Drag handlers to reorder z-index
+    row.addEventListener("dragstart", (ev) => {
+      ev.dataTransfer.setData("text/plain", String(elData.id));
+      ev.dataTransfer.effectAllowed = "move";
+      row.classList.add("dragging");
+    });
+    row.addEventListener("dragend", () => {
+      row.classList.remove("dragging");
+      // clear any drop indicators
+      document.querySelectorAll(".drop-before").forEach((n) => n.classList.remove("drop-before"));
+    });
+
+    row.addEventListener("dragover", (ev) => {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = "move";
+      const target = ev.currentTarget;
+      // Show visual indicator
+      target.classList.add("drop-before");
+    });
+
+    row.addEventListener("dragleave", (ev) => {
+      ev.currentTarget.classList.remove("drop-before");
+    });
+
+    row.addEventListener("drop", (ev) => {
+      ev.preventDefault();
+      const draggedId = parseInt(ev.dataTransfer.getData("text/plain"), 10);
+      const targetId = elData.id;
+      if (isNaN(draggedId) || draggedId === targetId) return;
+
+      // Compute new zIndex ordering: we will move dragged element to be just above the target
+      // Gather elements belonging to the same slide (origin) if not persistent; for pinned elements
+      // we still modify their zIndex globally.
+      const allElements = store.slides.flatMap((s) => s.elements || []);
+      const draggedEl = allElements.find((e) => e.id === draggedId);
+      const targetEl = allElements.find((e) => e.id === targetId);
+      if (!draggedEl || !targetEl) return;
+
+      // Save undo snapshot
+      pushCurrentSlideState();
+
+      // Compute list of elements that share container (we'll operate on all elements in current slide)
+      const currentSlide = store.slides[store.currentSlideIndex];
+      const operateOn = currentSlide.elements || [];
+
+      // Sort operateOn by zIndex ascending (bottom to top)
+      operateOn.sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
+
+      // Remove dragged from the array
+      const idx = operateOn.findIndex((e) => e.id === draggedId);
+      if (idx >= 0) operateOn.splice(idx, 1);
+
+      // Find target index in operateOn (where to insert before/after)
+      const targetIndex = operateOn.findIndex((e) => e.id === targetId);
+      // We'll insert after target so dragged becomes above target
+      const insertIndex = targetIndex + 1;
+      operateOn.splice(insertIndex, 0, draggedEl);
+
+      // Reassign zIndex values to maintain integer stacking (lower first)
+      operateOn.forEach((el, i) => {
+        el.zIndex = i + 1;
+      });
+
+      // Reload slide to apply zIndex changes and re-render
+      loadSlide(currentSlide, undefined, undefined, true);
+      renderSlideElementsSidebar();
+    });
 
     // Click row to select element
     row.addEventListener("click", () => {
