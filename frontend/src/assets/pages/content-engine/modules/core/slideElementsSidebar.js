@@ -96,25 +96,24 @@ export function renderSlideElementsSidebar() {
     const displayName = elData.name || summary.type;
     row.innerHTML = `
       <div class="w-100">
+        <div class="d-flex justify-content-between align-items-center mb-1 text-muted small">
+          <label class="d-inline-flex align-items-center pin-checkbox-wrapper" title="Toggle pinned">
+            <input type="checkbox" id="pin-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isPersistent ? "checked" : ""} />
+            <span id="pin-icon-${elData.id}" class="material-symbols-outlined pin-icon">push_pin</span>
+          </label>
+          <label class="d-inline-flex align-items-center lock-checkbox-wrapper" title="Toggle locked">
+            <input type="checkbox" id="lock-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isLocked ? "checked" : ""} />
+            <span id="lock-icon-${elData.id}" class="material-symbols-outlined lock-icon">${elData.isLocked ? 'lock' : 'lock_open'}</span>
+          </label>
+          <span class="rank-badge">${rank}</span>
+        </div>
         <div class="fw-bold mb-1">
           <label class="visually-hidden">Name</label>
           <input id="el-name-${elData.id}" class="form-control form-control-sm p-0 m-0 border-0 bg-transparent fw-bold" type="text" value="${escapeHtml(displayName)}" aria-label="Element name" />
         </div>
-
-  <div class="text-muted small mb-1"><strong>Type:</strong> ${summary.type}</div>
-  <div class="text-muted small mb-1"><strong>Size:</strong> ${summary.size}</div>
-  <div class="text-muted small mb-1"><strong>Position:</strong> ${summary.pos}</div>
-      </div>
-      <div class="text-end small text-secondary">
-  <label class="d-inline-flex align-items-center pin-checkbox-wrapper" title="Toggle pinned">
-          <input type="checkbox" id="pin-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isPersistent ? "checked" : ""} />
-          <span id="pin-icon-${elData.id}" class="material-symbols-outlined pin-icon">push_pin</span>
-        </label>
-  <label class="d-inline-flex align-items-center lock-checkbox-wrapper ms-2" title="Toggle locked">
-          <input type="checkbox" id="lock-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isLocked ? "checked" : ""} />
-          <span id="lock-icon-${elData.id}" class="material-symbols-outlined lock-icon">${elData.isLocked ? 'lock' : 'lock_open'}</span>
-        </label>
-        <span class="rank-badge">${rank}</span>
+        <div class="text-muted small mb-1"><strong>Type:</strong> ${summary.type}</div>
+        <div class="text-muted small mb-1"><strong>Size:</strong> ${summary.size}</div>
+        <div class="text-muted small mb-1"><strong>Position:</strong> ${summary.pos}</div>
       </div>
     `;
 
