@@ -490,7 +490,7 @@ export function renderSlideElementsSidebar() {
                 // add blocked indicator if missing; place inside wrapper if present
                 if (!domEl.querySelector('.blocked-indicator')) {
                   const bi = document.createElement('div');
-                  bi.className = 'blocked-indicator';
+                  bi.className = 'blocked-indicator element-indicator';
                   bi.innerHTML = '<i class="material-symbols-outlined">block</i>';
                   const inner = bi.querySelector('.material-symbols-outlined');
                   if (inner) inner.style.fontVariationSettings = "'FILL' 1";
@@ -581,7 +581,7 @@ export function renderSlideElementsSidebar() {
                 ensureWrapper();
                 if (!wrapper.querySelector('.force-settings-indicator')) {
                   const fi = document.createElement('div');
-                  fi.className = 'force-settings-indicator';
+                  fi.className = 'force-settings-indicator element-indicator';
                   fi.innerHTML = '<i class="material-symbols-outlined">lock_person</i>';
                   const inner = fi.querySelector('.material-symbols-outlined');
                   if (inner) inner.style.fontVariationSettings = "'FILL' 1";

@@ -80,7 +80,7 @@ function addLockIndicator(element) {
   removeLockIndicator(element);
 
   const lockIndicator = document.createElement("div");
-  lockIndicator.classList.add("lock-indicator");
+  lockIndicator.classList.add("lock-indicator", "element-indicator");
   lockIndicator.innerHTML = '<i class="material-symbols-outlined">lock</i>';
   // Position lock to the right by default; if a persistent (pin) indicator
   // exists we shift it left so it sits to the left of the pin.
@@ -96,35 +96,14 @@ function addLockIndicator(element) {
     const show = slide && typeof slide.showElementIndicators !== 'undefined' ? slide.showElementIndicators : (typeof window !== 'undefined' && window.store && typeof window.store.showElementIndicators !== 'undefined' ? window.store.showElementIndicators : true);
     const wrapper = element.querySelector('.element-indicators-wrapper');
     if (wrapper) {
+      // rely on CSS for visuals; only adjust wrapper visibility from here
       wrapper.appendChild(lockIndicator);
-      lockIndicator.style.borderRadius = '8px';
-      lockIndicator.style.width = '40px';
-      lockIndicator.style.height = '40px';
-      lockIndicator.style.display = 'flex';
-      lockIndicator.style.alignItems = 'center';
-      lockIndicator.style.justifyContent = 'center';
-      lockIndicator.style.fontSize = '22px';
-      lockIndicator.style.pointerEvents = 'none';
-      lockIndicator.style.border = '3px solid white';
-      // use visibility so wrapper remains in DOM for toggling
       if (!show) wrapper.style.visibility = 'hidden';
     } else {
-      // Fallback to previous absolute positioning if wrapper not present
+      // Fallback: position absolutely but still use class-based visuals
       lockIndicator.style.position = 'absolute';
       lockIndicator.style.top = '8px';
       lockIndicator.style.right = '8px';
-      lockIndicator.style.background = '#dc3545';
-      lockIndicator.style.color = 'white';
-      lockIndicator.style.borderRadius = '8px';
-      lockIndicator.style.width = '40px';
-      lockIndicator.style.height = '40px';
-      lockIndicator.style.display = 'flex';
-      lockIndicator.style.alignItems = 'center';
-      lockIndicator.style.justifyContent = 'center';
-      lockIndicator.style.fontSize = '22px';
-      lockIndicator.style.zIndex = '1000';
-      lockIndicator.style.pointerEvents = 'none';
-      lockIndicator.style.border = '3px solid white';
       element.appendChild(lockIndicator);
     }
   } catch (err) {

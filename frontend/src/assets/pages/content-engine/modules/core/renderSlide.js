@@ -646,20 +646,11 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
       const d = document.createElement('div');
       d.className = opts.className || 'element-indicator';
       d.innerHTML = `<i class="material-symbols-outlined">${iconName}</i>`;
-      Object.assign(d.style, {
-        width: '40px',
-        height: '40px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: '8px',
-        fontSize: '22px',
-        boxShadow: '0 3px 8px rgba(0,0,0,0.5)',
-        color: opts.color || 'white',
-        background: opts.background || 'rgba(0,0,0,0.6)',
-        border: '3px solid white',
-        pointerEvents: 'none',
-      });
+  // Minimal inline styles only; visual appearance is controlled by CSS classes
+  d.style.pointerEvents = 'none';
+  if (opts.zIndex) d.style.zIndex = opts.zIndex;
+  if (opts.background) d.style.background = opts.background;
+  if (opts.color) d.style.color = opts.color;
       const inner = d.querySelector('.material-symbols-outlined');
       if (inner) inner.style.fontVariationSettings = "'FILL' 1";
       if (opts.zIndex) d.style.zIndex = opts.zIndex;

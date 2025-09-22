@@ -257,12 +257,13 @@ body {
   box-shadow: none !important;
 }
 
-.element-indicators-wrapper .element-indicator,
-.element-indicators-wrapper .persistent-indicator,
-.element-indicators-wrapper .lock-indicator,
-.element-indicators-wrapper .blocked-indicator,
-.element-indicators-wrapper .force-settings-indicator,
-.element-indicators-wrapper .always-on-top-indicator {
+.element-indicator,
+.persistent-indicator,
+.lock-indicator,
+.blocked-indicator,
+.force-settings-indicator,
+.always-on-top-indicator {
+  /* shared indicator appearance */
   width: 40px;
   height: 40px;
   display: flex;
@@ -270,19 +271,15 @@ body {
   justify-content: center;
   border-radius: 8px;
   font-size: 22px;
-  color: white;
-  background: rgba(0,0,0,0.6);
-  border: 3px solid white;
+  color: $white;
+  background: rgba(0, 0, 0, 0.6);
+  border: 3px solid $white;
   pointer-events: none;
 }
 
-.element-indicators-wrapper .lock-indicator {
-  background: #dc3545; /* red for lock */
-}
-
-.element-indicators-wrapper .persistent-indicator {
-  background: #000; /* black for persistent */
-}
+/* Per-indicator color / minor variants */
+.lock-indicator { background: #dc3545; }
+.persistent-indicator { background: #000; }
 
 .element-indicators-wrapper .blocked-indicator {
   background: rgba(0,0,0,0.8);
@@ -1871,27 +1868,13 @@ span {
   box-shadow: 0 0 0 0.2rem rgba($secondary, 0.35) !important;
 }
 
-/* Lock indicator styles */
+/* Lock indicator: position + any small overrides (shared appearance in base class) */
 .lock-indicator {
-  color: inherit;
-  /* Default: top-right of element. When a persistent (pin) indicator exists, JS will
-     position the lock further left so it sits to the left of the pin. */
   position: absolute;
   top: 8px;
   right: 8px;
-  background: $error-red;
-  color: $white;
-  border-radius: 50%;
-  /* Match persistent indicator size/style to be visually consistent */
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
   z-index: 1000;
-  pointer-events: none;
-  border: 2px solid $white;
+  border-radius: 50%; /* keep circular lock for better affordance */
 }
 
 /* Locked element visual styling */
@@ -1915,25 +1898,13 @@ span {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 40px;
-  height: 40px;
-  background: #6c757d; /* match neutral gray used in JS */
-  color: #ffffff;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
   z-index: 1000;
-  pointer-events: none;
+  background: #6c757d; /* match neutral gray used in JS */
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
-  border: 3px solid #ffffff;
 }
 
 /* If the element is also persistent, move the blocked indicator left so it doesn't overlap the pin */
-.slide-element.is-persistent .blocked-indicator {
-  right: 56px; /* 8 + 40 + 8 gap to match lock/pin spacing */
-}
+.slide-element.is-persistent .blocked-indicator { right: 56px; }
 
 /* Slightly dim blocked elements on hover to hint non-interactivity */
 .slide-element.is-selection-blocked:hover {
@@ -1945,47 +1916,24 @@ span {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 40px;
-  height: 40px;
-  background: $secondary; /* use secondary theme color */
-  color: $white;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
   z-index: 1000;
-  pointer-events: none;
-  border: 3px solid $white;
+  font-size: 20px;
+  background: $secondary; /* use secondary theme color */
 }
 
 /* When element is persistent, offset the force-settings indicator to avoid overlap */
-.slide-element.is-persistent .force-settings-indicator {
-  right: 56px;
-}
-
+.slide-element.is-persistent .force-settings-indicator { right: 56px; }
 /* If element is locked too, move further left */
-.slide-element.is-locked .force-settings-indicator {
-  right: 104px;
-}
+.slide-element.is-locked .force-settings-indicator { right: 104px; }
 
 /* Always-on-top indicator (shows that element is top-most) */
 .always-on-top-indicator {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 40px;
-  height: 40px;
-  background: $neutral-blue; /* choose a distinct but consistent color */
-  color: $white;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
   z-index: 1000;
-  pointer-events: none;
-  border: 3px solid $white;
+  font-size: 20px;
+  background: $neutral-blue; /* choose a distinct but consistent color */
 }
 
 /* Offsetting handled in JS to prevent complicated combinatorial CSS rules */
