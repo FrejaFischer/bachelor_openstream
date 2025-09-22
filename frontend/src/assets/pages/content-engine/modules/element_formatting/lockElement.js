@@ -71,24 +71,34 @@ function addLockIndicator(element) {
   const lockIndicator = document.createElement("div");
   lockIndicator.classList.add("lock-indicator");
   lockIndicator.innerHTML = '<i class="material-symbols-outlined">lock</i>';
-  lockIndicator.style.cssText = `
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: #dc3545;
-    color: white;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    z-index: 1000;
-    pointer-events: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    border: 2px solid white;
-  `;
+  // Position lock to the right by default; if a persistent (pin) indicator
+  // exists we shift it left so it sits to the left of the pin.
+  lockIndicator.style.position = "absolute";
+  lockIndicator.style.top = "8px";
+  lockIndicator.style.right = "8px";
+  lockIndicator.style.background = "#dc3545";
+  lockIndicator.style.color = "white";
+  lockIndicator.style.borderRadius = "8px";
+  lockIndicator.style.width = "40px";
+  lockIndicator.style.height = "40px";
+  lockIndicator.style.display = "flex";
+  lockIndicator.style.alignItems = "center";
+  lockIndicator.style.justifyContent = "center";
+  lockIndicator.style.fontSize = "22px";
+  lockIndicator.style.zIndex = "1000";
+  lockIndicator.style.pointerEvents = "none";
+  lockIndicator.style.boxShadow = "0 3px 8px rgba(0,0,0,0.3)";
+  lockIndicator.style.border = "3px solid white";
+
+  const persistentIndicator = element.querySelector('.persistent-indicator');
+  if (persistentIndicator) {
+    // persistentIndicator in render uses width ~40px + border, position top/right 8px.
+    // Place lock to the left of it with a small gap.
+    lockIndicator.style.right = "56px"; // 8 + 40 + 8 gap
+  }
+
+  const innerIcon = lockIndicator.querySelector('.material-symbols-outlined');
+  if (innerIcon) innerIcon.style.fontVariationSettings = "'FILL' 1";
 
   element.appendChild(lockIndicator);
 }

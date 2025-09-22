@@ -637,24 +637,33 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
     const lockIndicator = document.createElement("div");
     lockIndicator.className = "lock-indicator";
     lockIndicator.innerHTML = '<i class="material-symbols-outlined">lock</i>';
-    lockIndicator.style.cssText = `
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: #dc3545;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      z-index: 1000;
-      pointer-events: none;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    `;
-    container.appendChild(lockIndicator);
+
+    // Match persistent indicator sizing so they look consistent; red background
+    lockIndicator.style.top = "8px";
+    lockIndicator.style.right = "8px";
+    lockIndicator.style.width = "40px";
+    lockIndicator.style.height = "40px";
+    lockIndicator.style.background = "#dc3545";
+    lockIndicator.style.color = "white";
+    lockIndicator.style.border = "3px solid white";
+    lockIndicator.style.borderRadius = "8px";
+    lockIndicator.style.display = "flex";
+    lockIndicator.style.alignItems = "center";
+    lockIndicator.style.justifyContent = "center";
+    lockIndicator.style.fontSize = "22px";
+    lockIndicator.style.boxShadow = "0 3px 8px rgba(0,0,0,0.5)";
+    lockIndicator.style.pointerEvents = "none";
+    lockIndicator.style.zIndex = "1000";
+
+    if (el.isPersistent) {
+      // Place lock to the left of the persistent indicator (which is ~40px wide + borders)
+      lockIndicator.style.right = "56px"; // 8 + 40 + 8 gap
+    }
+
+  // Ensure the inner icon is filled style to match pin
+  const innerIcon = lockIndicator.querySelector('.material-symbols-outlined');
+  if (innerIcon) innerIcon.style.fontVariationSettings = "'FILL' 1";
+  container.appendChild(lockIndicator);
     container.classList.add("is-locked");
   }
 

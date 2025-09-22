@@ -1805,21 +1805,25 @@ span {
 
 /* Lock indicator styles */
 .lock-indicator {
+  /* Default: top-right of element. When a persistent (pin) indicator exists, JS will
+     position the lock further left so it sits to the left of the pin. */
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: 8px;
+  right: 8px;
   background: $error-red;
   color: $white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  /* Match persistent indicator size/style to be visually consistent */
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 22px;
   z-index: 1000;
   pointer-events: none;
-  box-shadow: 0 2px 4px rgba($black, 0.2);
+  box-shadow: 0 3px 8px rgba($black, 0.5);
+  border: 2px solid $white;
 }
 
 /* Locked element visual styling */
