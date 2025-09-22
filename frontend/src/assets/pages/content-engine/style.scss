@@ -636,8 +636,8 @@ span {
 .slide-right-sidebar {
   width: 14rem; /* fixed width requirement */
   height: 100%;
-  background: $lightest-gray;
-  border-left: 1px solid $light-gray;
+  background: $lighter-gray;
+  border-left: 1px solid $dark-gray;
   box-sizing: border-box;
   /* place to the right inside .slide-canvas flex layout */
 }
@@ -684,8 +684,9 @@ span {
 /* Active/selected state: use a subtle primary tint to match controls */
 #slide-elements-list .list-group-item.active,
 #slide-elements-list .list-group-item.active:hover {
-  background: rgba($primary, 0.06);
+  background: $cold-purple-light;
   color: $darkest-gray;
+  border: $dark-gray;
   box-shadow: 0 1px 0 rgba($black, 0.03) inset;
 }
 

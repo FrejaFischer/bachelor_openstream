@@ -176,15 +176,28 @@ export function initSlideElementsSidebar() {
   // Observe store changes by polling simple interval (non-invasive)
   // The editor doesn't appear to use an observable store, so poll for changes
   let lastSlidesStr = store.lastSlidesStr || JSON.stringify(store.slides || []);
+  // Track last selected element id to avoid re-rendering repeatedly while an
+  // element remains selected. Re-render only when slides change or the
+  // selected element id changes.
+  let lastSelectedElementId = store.selectedElementData
+    ? store.selectedElementData.id
+    : null;
+
   setInterval(() => {
     const cur = JSON.stringify(store.slides || []);
+    const curSelectedId = store.selectedElementData
+      ? store.selectedElementData.id
+      : null;
+
     if (cur !== lastSlidesStr) {
       lastSlidesStr = cur;
       renderSlideElementsSidebar();
-    } else if (store.selectedElementData) {
-      // Rerender if selection changed
+    } else if (curSelectedId !== lastSelectedElementId) {
+      // Selected element changed (selected, deselected, or switched to another id)
+      lastSelectedElementId = curSelectedId;
       renderSlideElementsSidebar();
     }
+    // Otherwise, do nothing to avoid interfering with drag interactions.
   }, 600);
 }
 
