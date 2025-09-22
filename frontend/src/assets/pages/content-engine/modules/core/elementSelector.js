@@ -27,6 +27,7 @@ import {
   isElementLocked,
 } from "../element_formatting/lockElement.js";
 import { gettext } from "../../../../utils/locales.js";
+import { showToast } from "../../../../utils/utils.js";
 // Helper function to create a temporary wrapper element with gradient border
 function createGradientWrapper(element) {
   // Remove any existing wrapper first
@@ -172,6 +173,15 @@ if (linkDropdown) {
 }
 
 export function selectElement(el, dataObj) {
+  // Respect selection-block flag to make elements unselectable even from sidebar/canvas
+  if (dataObj && dataObj.isSelectionBlocked) {
+    try {
+      showToast(gettext("Selection is blocked for this element"), "Info");
+    } catch (err) {
+      // ignore
+    }
+    return;
+  }
   const lockElementBtn = document.getElementById("lock-element-btn");
   if (lockElementBtn) {
     if (!dataObj.isLocked && queryParams.mode !== "template_editor") {

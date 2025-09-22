@@ -6,6 +6,7 @@ import { pushCurrentSlideState } from "./undoRedo.js";
 import { loadSlide } from "./renderSlide.js";
 import { queryParams } from "../../../../utils/utils.js";
 import { gettext } from "../../../../utils/locales.js";
+import { showToast } from "../../../../utils/utils.js";
 import Sortable from "sortablejs";
 
 // Simple HTML escape for insertion into innerHTML
@@ -123,6 +124,10 @@ export function renderSlideElementsSidebar() {
           <label class="d-inline-flex align-items-center lock-checkbox-wrapper" title="Toggle locked">
             <input type="checkbox" id="lock-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isLocked ? "checked" : ""} />
             <span id="lock-icon-${elData.id}" class="material-symbols-outlined lock-icon">${elData.isLocked ? 'lock' : 'lock_open'}</span>
+          </label>
+          <label class="d-inline-flex align-items-center block-select-checkbox-wrapper" title="Block selection">
+            <input type="checkbox" id="block-select-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isSelectionBlocked ? "checked" : ""} />
+            <span id="block-select-icon-${elData.id}" class="material-symbols-outlined block-select-icon">block</span>
           </label>
           <label class="d-inline-flex align-items-center always-on-top-checkbox-wrapper" title="Always on top">
             <input type="checkbox" id="always-on-top-checkbox-${elData.id}" class="form-check-input me-1" ${elData.isAlwaysOnTop ? "checked" : ""} />
@@ -350,6 +355,68 @@ export function renderSlideElementsSidebar() {
       });
     }
 
+    // Wire up block-selection checkbox behavior
+    const blockSelectCheckbox = row.querySelector(`#block-select-checkbox-${elData.id}`);
+    const blockSelectIconEl = row.querySelector(`#block-select-icon-${elData.id}`);
+    if (blockSelectIconEl) {
+      try {
+        // show filled block icon when blocked
+        blockSelectIconEl.style.fontVariationSettings = elData.isSelectionBlocked ? "'FILL' 1" : "'FILL' 0";
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    if (blockSelectCheckbox) {
+      blockSelectCheckbox.addEventListener('click', (e) => e.stopPropagation());
+      blockSelectCheckbox.addEventListener('change', (e) => {
+        e.stopPropagation();
+        try {
+          pushCurrentSlideState();
+        } catch (err) {
+          // ignore if undo not available
+        }
+
+        const shouldBlock = blockSelectCheckbox.checked;
+        elData.isSelectionBlocked = shouldBlock;
+
+        // Update DOM element to prevent pointer events if blocked
+        try {
+          const domEl = document.getElementById("el-" + elData.id);
+          if (domEl) {
+            if (shouldBlock) {
+              domEl.classList.add('is-selection-blocked');
+              domEl.style.pointerEvents = 'none';
+            } else {
+              domEl.classList.remove('is-selection-blocked');
+              domEl.style.pointerEvents = '';
+            }
+          }
+        } catch (err) {
+          // ignore
+        }
+
+        // If this element is currently selected, deselect it
+        if (store.selectedElementData && store.selectedElementData.id === elData.id) {
+          // Clear selection state and remove selection visuals
+          window.selectedElementForUpdate = null;
+          store.selectedElement = null;
+          store.selectedElementData = null;
+          document.querySelectorAll('.gradient-border-wrapper').forEach(n => n.remove());
+        }
+
+        // Reload current slide preview to ensure UI matches
+        try {
+          loadSlide(store.slides[store.currentSlideIndex], undefined, undefined, true);
+        } catch (err) {
+          console.warn('Failed to reload slide after toggling selection block', err);
+        }
+
+        // Re-render sidebar to update icons
+        renderSlideElementsSidebar();
+      });
+    }
+
     // Highlight if this is the selected element
     if (store.selectedElementData && store.selectedElementData.id === elData.id) {
       row.classList.add("active");
@@ -361,6 +428,16 @@ export function renderSlideElementsSidebar() {
     row.addEventListener("click", () => {
       const domEl = document.getElementById("el-" + elData.id);
       if (!domEl) return;
+
+      // Do not allow selecting if element blocks selection
+      if (elData.isSelectionBlocked) {
+        try {
+          showToast(gettext('Selection is blocked for this element'), 'Info');
+        } catch (e) {
+          // ignore
+        }
+        return;
+      }
 
       // Prefer the module's selectElement which handles toolbars, wrappers and state
       try {

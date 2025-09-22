@@ -599,6 +599,40 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
     });
   });
 
+  // If element blocks selection, mark visually and disable pointer events
+  if (el.isSelectionBlocked) {
+    container.classList.add('is-selection-blocked');
+    // Prevent clicks and interactions that would select/edit the element
+    container.style.pointerEvents = 'none';
+
+    // Add small blocked indicator in editor mode
+    if (queryParams.mode === 'edit' || queryParams.mode === 'template_editor') {
+      const blockedIndicator = document.createElement('div');
+      blockedIndicator.className = 'blocked-indicator';
+      blockedIndicator.innerHTML = '<i class="material-symbols-outlined">block</i>';
+      blockedIndicator.style.cssText = `
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 40px;
+        height: 40px;
+        background-color: #6c757d;
+        color: white;
+        border: 3px solid white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        z-index: 1000;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+        pointer-events: none;
+      `;
+      blockedIndicator.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+      container.appendChild(blockedIndicator);
+    }
+  }
+
   // Add persistent element indicator in editor mode
   if (
     el.isPersistent &&
@@ -713,12 +747,17 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
   container.appendChild(resizer);
 
   if (queryParams.mode === "edit" || queryParams.mode === "template_editor") {
-    container.addEventListener("click", (ev) => {
-      ev.stopPropagation();
-      selectElement(container, el);
-    });
-    makeDraggable(container, el);
-    makeResizable(container, el);
+    if (!el.isSelectionBlocked) {
+      container.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        selectElement(container, el);
+      });
+      makeDraggable(container, el);
+      makeResizable(container, el);
+    } else {
+      // Visual only; don't attach interactive handlers
+      container.style.cursor = "default";
+    }
   }
 
   if (store.slideshowMode === "interactive" && queryParams.mode !== "edit") {
