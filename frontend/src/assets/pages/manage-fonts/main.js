@@ -201,15 +201,15 @@ function renderFonts() {
     // Only show edit/delete buttons if user is admin
     if (isAdmin) {
       const editBtn = document.createElement("button");
-      editBtn.className = "btn btn-sm btn-outline-secondary me-2";
-      editBtn.innerHTML = '<span class="material-symbols-outlined">edit</span>';
+      editBtn.className = "btn btn-sm btn-outline-secondary-light me-2";
+      editBtn.innerHTML = '<span class="material-symbols-outlined text-secondary-hover">edit</span>';
       editBtn.title = gettext("Edit");
       editBtn.addEventListener("click", () => openEditModal(font));
 
       const deleteBtn = document.createElement("button");
-      deleteBtn.className = "btn btn-sm btn-outline-danger";
+      deleteBtn.className = "btn btn-sm btn-outline-secondary-light";
       deleteBtn.innerHTML =
-        '<span class="material-symbols-outlined">delete</span>';
+        '<span class="material-symbols-outlined text-secondary-hover">delete_forever</span>';
       deleteBtn.title = gettext("Delete");
       deleteBtn.addEventListener("click", () => showDeleteConfirmation(font));
 
