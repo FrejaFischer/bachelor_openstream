@@ -895,13 +895,41 @@ function getFilters() {
   if (selectedExtensions.length > 0) {
     // If user has selected specific extensions, use ONLY those
     // and ignore the initial filters
-    file_types = selectedExtensions;
+    const extensionMap = {
+      pdf: "pdf",
+      png: "png",
+      jpeg: "jpeg",
+      jpg: "jpeg",
+      svg: "svg",
+      gif: "gif",
+      mp4: "mp4",
+      webp: "WebP",
+      webm: "WebM",
+    };
+
+    file_types = selectedExtensions.map((ext) => extensionMap[ext] || ext);
   } else if (
     currentInitialFilters.file_types &&
     currentInitialFilters.file_types.length > 0
   ) {
     // If no extensions are selected, fall back to the initial filters
-    file_types = [...currentInitialFilters.file_types];
+    // Map initial filters to backend enum casing where necessary
+    const extensionMap = {
+      pdf: "pdf",
+      png: "png",
+      jpeg: "jpeg",
+      jpg: "jpeg",
+      svg: "svg",
+      gif: "gif",
+      mp4: "mp4",
+      webp: "WebP",
+      webm: "WebM",
+    };
+
+    file_types = currentInitialFilters.file_types.map((t) => {
+      const lower = String(t).toLowerCase();
+      return extensionMap[lower] || t;
+    });
   }
 
   // Get selected tag IDs from dropdown
