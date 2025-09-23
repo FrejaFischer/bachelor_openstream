@@ -2716,5 +2716,68 @@
   },
   "{{placeholder}}": {
     "da": ""
+  },
+  "Danish": {
+    "da": "Dansk"
+  },
+  "Swedish": {
+    "da": "Svensk"
+  },
+  "Suborganisation Name": {
+    "da": "Underorganisationsnavn"
+  },
+  "Please provide a suborganisation name.": {
+    "da": "Angiv et underorganisationsnavn."
+  },
+  "Branch Name": {
+    "da": "Filialnavn"
+  },
+  "Please provide a branch name.": {
+    "da": "Angiv et filialnavn."
+  },
+  "Please provide a new name for the slideshow.": {
+    "da": "Angiv et nyt navn for slideshowet."
+  },
+  "Enter new slideshow name...": {
+    "da": "Indtast nyt slideshow navn..."
+  },
+  "Enter slideshow name...": {
+    "da": "Indtast slideshow navn..."
+  },
+  "Please provide a new name for the wayfinding system.": {
+    "da": "Angiv et nyt navn for wayfinding systemet."
+  },
+  "Please enter a valid group name": {
+    "da": "Indtast et gyldigt gruppenavn"
+  },
+  "Please enter a valid display name": {
+    "da": "Indtast et gyldigt skærmnavn"
+  },
+  "Start Date & Time": {
+    "da": "Start Dato & Tid"
+  },
+  "End Date & Time": {
+    "da": "Slut Dato & Tid"
+  },
+  "Combines with default content": {
+    "da": "Kombinerer med standardindhold"
+  },
+  "Overrides default content": {
+    "da": "Overskriver standardindhold"
+  },
+  "It's possible to upload multiple files at once": {
+    "da": "Det er muligt at uploade flere filer på én gang"
+  },
+  "+ Add Template": {
+    "da": "+ Tilføj Skabelon"
+  },
+  "Name of the font (e.g., 'Open Sans')": {
+    "da": "Navn på skrifttypen (f.eks., 'Open Sans')"
+  },
+  "The quick brown fox jumps over the lazy dog": {
+    "da": "Den hurtige brune ræv hopper over den dovne hund"
+  },
+  "Please provide a name.": {
+    "da": "Angiv et navn."
   }
 }
