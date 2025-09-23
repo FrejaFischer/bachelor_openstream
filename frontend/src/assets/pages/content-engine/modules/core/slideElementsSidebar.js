@@ -7,6 +7,7 @@ import { loadSlide } from "./renderSlide.js";
 import { queryParams } from "../../../../utils/utils.js";
 import { gettext } from "../../../../utils/locales.js";
 import { showToast } from "../../../../utils/utils.js";
+import { getNewZIndex } from "../utils/domUtils.js";
 import Sortable from "sortablejs";
 
 // Simple HTML escape for insertion into innerHTML
@@ -354,20 +355,30 @@ export function renderSlideElementsSidebar() {
           elData.isAlwaysOnTop = shouldBeAlwaysOnTop;
 
           // Adjust zIndex
-          const alwaysOnTopElements = elementsArray.filter(el => el.isAlwaysOnTop);
-          const nonAlwaysElements = elementsArray.filter(el => !el.isAlwaysOnTop);
-          const maxAlwaysZ = alwaysOnTopElements.length ? Math.max(...alwaysOnTopElements.map(el => el.zIndex || 0)) : 9999;
-          const maxNonZ = nonAlwaysElements.length ? Math.max(...nonAlwaysElements.map(el => el.zIndex || 0)) : 0;
+          // Reserve a high range for always-on-top elements so they cannot be
+          // accidentally covered by regular elements. Use a large base offset
+          // and keep always-on-top elements inside that bucket.
+          const ALWAYS_ON_TOP_BASE = 100000;
+          const alwaysOnTopElements = elementsArray.filter(el => el.isAlwaysOnTop && el.id !== elData.id);
           if (shouldBeAlwaysOnTop) {
-            elData.zIndex = maxAlwaysZ + 1;
+            // Determine next offset inside the always-on-top bucket
+            const offsets = alwaysOnTopElements.map(el => (Number(el.zIndex) || 0) - ALWAYS_ON_TOP_BASE).filter(n => n >= 0);
+            const nextOffset = offsets.length ? Math.max(...offsets) + 1 : 1;
+            elData.zIndex = ALWAYS_ON_TOP_BASE + nextOffset;
           } else {
-            elData.zIndex = maxNonZ + 1;
+            // When removing always-on-top, put element back into the regular z-index space
+            try {
+              elData.zIndex = getNewZIndex();
+            } catch (err) {
+              // Fallback to 1 if z-index utility is unavailable for any reason
+              elData.zIndex = 1;
+            }
           }
 
           // Update DOM zIndex
           try {
             const domEl = document.getElementById("el-" + elData.id);
-            if (domEl) domEl.style.zIndex = elData.zIndex;
+            if (domEl) domEl.style.zIndex = String(Number(elData.zIndex) || 0);
           } catch (err) {
             // ignore
           }
