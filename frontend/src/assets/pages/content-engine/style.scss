@@ -78,7 +78,7 @@
   width: 100vw;
   height: 100vh;
   background: $black;
-  opacity: 0%;
+  opacity: 0;
   visibility: hidden;
   transition:
     opacity 0.5s ease-in-out,
@@ -97,7 +97,7 @@ body {
 }
 
 .overlay.visible {
-  opacity: 100%;
+  opacity: 1;
   visibility: visible;
 }
 
@@ -686,7 +686,7 @@ span {
 
 @keyframes fadeIn {
   to {
-    opacity: 100%;
+    opacity: 1;
   }
 }
 
@@ -704,8 +704,7 @@ span {
   background-image:
     linear-gradient(to right, rgba($black, 0.2) 1px, transparent 1px),
     linear-gradient(to bottom, rgba($black, 0.2) 1px, transparent 1px);
-  background-size:
-    calc(100% / var(--grid-columns, 100))
+  background-size: calc(100% / var(--grid-columns, 100))
     calc(100% / var(--grid-rows, 100));
 }
 
@@ -715,7 +714,7 @@ span {
   position: relative;
   min-width: 0;
   min-height: 0;
-  opacity: 0%;
+  opacity: 0;
   animation: fadeIn 1s forwards;
 }
 
@@ -816,14 +815,8 @@ span {
 /* Context Menu Styles */
 .custom-context-menu {
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
   font-size: 14px;
   user-select: none;
 }
@@ -838,12 +831,12 @@ span {
 
 @keyframes slideIn {
   from {
-    opacity: 0%;
+    opacity: 0;
     transform: translateX(-5px);
   }
 
   to {
-    opacity: 100%;
+    opacity: 1;
     transform: translateX(0);
   }
 }
@@ -1008,7 +1001,7 @@ span {
 }
 
 .slide-item.inactive-slide {
-  opacity: 40% !important;
+  opacity: 0.4 !important;
   background-color: $lighter-gray !important;
 
   /* Light grey background */
@@ -1040,7 +1033,7 @@ span {
 /* Style the calendar button when the feature is active but slide is currently inactive */
 .slide-item.inactive-slide .btn-secondary .material-symbols-outlined {
   /* Example: slightly dimmer icon */
-  opacity: 70%;
+  opacity: 0.7;
 }
 
 .image-toolbar .btn-group-toggle .btn {
@@ -1141,7 +1134,7 @@ span {
 }
 
 .interval-item .remove-interval {
-  opacity: 50%;
+  opacity: 0.5;
   transition: opacity 0.2s ease;
   background: none;
   border: none;
@@ -1151,7 +1144,7 @@ span {
 }
 
 .interval-item:hover .remove-interval {
-  opacity: 100%;
+  opacity: 1;
 }
 
 /* Day section layout */
@@ -1605,7 +1598,7 @@ span {
 
 /* Locked element visual styling */
 .slide-element.is-locked:hover {
-  opacity: 80%;
+  opacity: 0.8;
 }
 
 /* Hide resize handle for locked elements */
@@ -1641,7 +1634,9 @@ span {
 }
 
 /* Ensure placeholders maintain visual separation even when grid cells are adjacent */
-.grid-container .slide-element.placeholder-element + .slide-element.placeholder-element {
+.grid-container
+  .slide-element.placeholder-element
+  + .slide-element.placeholder-element {
   /* Add extra visual separation for adjacent placeholders */
   position: relative;
 }
@@ -1658,11 +1653,11 @@ span {
 @keyframes placeholder-pulse {
   0%,
   100% {
-    opacity: 100%;
+    opacity: 1;
   }
 
   50% {
-    opacity: 85%;
+    opacity: 0.85;
   }
 }
 

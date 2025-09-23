@@ -518,7 +518,7 @@ function handleMediaSelection(element, elementType) {
                 const sourceElement = document.createElement("source");
                 sourceElement.src = data.file_url;
                 sourceElement.type = data.file_type
-                  ? `video/${data.file_type}`
+                  ? `video/${String(data.file_type).toLowerCase()}`
                   : "video/mp4";
 
                 video.appendChild(sourceElement);

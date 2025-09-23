@@ -188,10 +188,10 @@ export async function displayMediaModal(
 
         // Conditional rendering for image vs video preview
         let previewHTML = "";
-        if (videoExtensionsList.includes(file.file_type.toLowerCase())) {
+        if (videoExtensionsList.includes(file.file_type?.toLowerCase())) {
           previewHTML = `
             <video loop muted playsinline>
-              <source src="${file.file_url}" type="video/${file.file_type}">
+              <source src="${file.file_url}" type="video/${file.file_type?.toLowerCase()}">
               Your browser does not support the video tag.
             </video>`;
         } else {
@@ -205,7 +205,7 @@ export async function displayMediaModal(
 
         const titleP = document.createElement("p");
         titleP.className = "media-title small";
-        titleP.textContent = `${file.title}.${file.file_type}`;
+        titleP.textContent = `${file.title}.${file.file_type?.toLowerCase()}`;
         infoDiv.appendChild(titleP);
 
         // Create and add edit button conditionally

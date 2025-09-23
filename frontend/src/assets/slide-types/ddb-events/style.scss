@@ -79,7 +79,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba($darker-gray, 0.2); 
+    background-color: rgba($darker-gray, 0.2);
     z-index: 1; /* sits above the blur but below content */
   }
 }

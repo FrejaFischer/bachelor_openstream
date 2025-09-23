@@ -284,7 +284,10 @@ function updateExistingEmbedWebsiteElement(url) {
       }
 
       // Update mute state if possible
-      const webMuted = typeof window.selectedElementForUpdate.element.muted !== "undefined" ? window.selectedElementForUpdate.element.muted : true;
+      const webMuted =
+        typeof window.selectedElementForUpdate.element.muted !== "undefined"
+          ? window.selectedElementForUpdate.element.muted
+          : true;
       const shouldMute = queryParams.mode === "edit" || webMuted;
       if (typeof webviewEl.setAudioMuted === "function") {
         try {

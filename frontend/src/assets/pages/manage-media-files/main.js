@@ -160,11 +160,11 @@ function renderMediaGrid(mediaFiles) {
 
     // Conditional rendering for image vs video preview
     let previewHTML = "";
-    if (videoExtensionsList.includes(file.file_type.toLowerCase())) {
+    if (videoExtensionsList.includes(file.file_type?.toLowerCase())) {
       previewHTML = `
         <div class="preview-container">
           <video loop muted playsinline>
-            <source src="${file.file_url}" type="video/${file.file_type}">
+            <source src="${file.file_url}" type="video/${file.file_type?.toLowerCase()}">
             ${gettext("Your browser does not support the video tag.")}
           </video>
         </div>`;
@@ -178,7 +178,7 @@ function renderMediaGrid(mediaFiles) {
     // Create the info section
     const infoHTML = `
       <div class="media-info">
-        <p class="media-title" title="${file.title}.${file.file_type}">${file.title}.${file.file_type}</p>
+        <p class="media-title" title="${file.title}.${file.file_type?.toLowerCase()}">${file.title}.${file.file_type?.toLowerCase()}</p>
         <div class="media-actions">
           ${
             file.is_owned_by_branch
@@ -377,7 +377,22 @@ function getFilters() {
 
   // Only add file_types if selections exist
   if (selectedExtensions.length > 0) {
-    filters.file_types = selectedExtensions;
+    // Map frontend extension strings to backend Document.FileType values
+    const extensionMap = {
+      pdf: "pdf",
+      png: "png",
+      jpeg: "jpeg",
+      jpg: "jpeg",
+      svg: "svg",
+      gif: "gif",
+      mp4: "mp4",
+      webp: "WebP",
+      webm: "WebM",
+    };
+
+    filters.file_types = selectedExtensions
+      .map((ext) => extensionMap[ext] || ext)
+      .filter(Boolean);
   }
 
   return filters;

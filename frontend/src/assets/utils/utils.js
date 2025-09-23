@@ -730,7 +730,9 @@ function createOriginalDropdown(container, buttonText, options, checkAll) {
 
 export function getSelectedExtensions(container) {
   const nodes = container.querySelectorAll(".extension-checkbox");
-  return [...nodes].filter((cb) => cb.checked).map((cb) => cb.value);
+  return [...nodes]
+    .filter((cb) => cb.checked)
+    .map((cb) => String(cb.value).trim().toLowerCase());
 }
 
 export function capitalizeStartLetters(string) {
