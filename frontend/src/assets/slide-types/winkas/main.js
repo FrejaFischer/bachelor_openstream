@@ -30,27 +30,48 @@ let currentPageIndex = 0;
 let totalPages = 0;
 let bookingPages = [];
 
+// Carousel sizing state (declared at module scope)
+let bookingsPerPage = 6;
+window.winkasBookingEntryHeight = window.winkasBookingEntryHeight || 120;
+
 // Fetch location data and bookings
 async function initializeSlide() {
   try {
+    // Set up date header like KMD slide
+    updateDateHeader();
+
     // Fetch location data to get location name
     await fetchLocationData();
 
     // Fetch and display bookings
     await fetchAndDisplayBookings();
-
-    // Start time updates
-    updateCurrentTime();
-    setInterval(updateCurrentTime, 60000); // Update every minute
-
-    // Start page rotation if multiple pages
-    if (totalPages > 1) {
-      setInterval(rotatePage, 15000); // Rotate every 15 seconds
-    }
   } catch (error) {
     console.error("Error initializing slide:", error);
     displayError("Failed to load booking data");
   }
+}
+
+function updateDateHeader() {
+  const header = document.querySelector("#formatted-date-header");
+  if (!header) return;
+
+  const currentDate = new Date();
+  const dayNames = [
+    "SØNDAG",
+    "MANDAG",
+    "TIRSDAG",
+    "ONSDAG",
+    "TORSDAG",
+    "FREDAG",
+    "LØRDAG",
+  ];
+
+  const day = String(currentDate.getDate()).padStart(2, "0");
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const year = String(currentDate.getFullYear()).slice(-2);
+  const formattedDate = `${dayNames[currentDate.getDay()]} ${day}-${month}-${year}`;
+
+  header.textContent = formattedDate;
 }
 
 async function fetchLocationData() {
@@ -65,6 +86,8 @@ async function fetchLocationData() {
     }
 
     locationData = await response.json();
+
+    console.log("locationData:", locationData);
 
     // Update location title
     const locationTitle = document.getElementById("location-title");
@@ -96,6 +119,9 @@ async function fetchAndDisplayBookings() {
     }
 
     const data = await response.json();
+
+    console.log("Fetched bookings data:", data);
+
     displayBookingsInCarousel(data);
   } catch (error) {
     console.error("Error fetching bookings:", error);
@@ -103,14 +129,30 @@ async function fetchAndDisplayBookings() {
   }
 }
 
-function displayBookingsInCarousel(data) {
-  const carousel = document.getElementById("booking-carousel");
-  if (!carousel) return;
+function displayBookingsInCarousel(locationBookings) {
+  const locationTitle = document.getElementById("location-title");
+  const bookingCarousel = document.getElementById("booking-carousel");
 
-  carousel.innerHTML = "";
+  if (!bookingCarousel) return;
 
-  if (!data.bookings || data.bookings.length === 0) {
-    carousel.innerHTML = `
+  // Update location title
+  if (locationTitle && locationBookings.location_name) {
+    locationTitle.textContent = locationBookings.location_name;
+  }
+
+  // Clear existing content and intervals
+  if (window.winkasCarouselInterval) {
+    clearInterval(window.winkasCarouselInterval);
+    window.winkasCarouselInterval = null;
+  }
+  bookingCarousel.innerHTML = "";
+
+  if (
+    !locationBookings ||
+    !locationBookings.bookings ||
+    locationBookings.bookings.length === 0
+  ) {
+    bookingCarousel.innerHTML = `
       <div class="booking-page">
         <div class="no-bookings-message">
           <span class="material-symbols-outlined">event_busy</span>
@@ -119,44 +161,95 @@ function displayBookingsInCarousel(data) {
         </div>
       </div>
     `;
-    totalPages = 1;
     return;
   }
 
-  // Group bookings by pages (max 6 per page)
-  const bookingsPerPage = 6;
-  bookingPages = [];
+  const bookings = locationBookings.bookings;
 
-  for (let i = 0; i < data.bookings.length; i += bookingsPerPage) {
-    bookingPages.push(data.bookings.slice(i, i + bookingsPerPage));
-  }
+  // Calculate bookings per page based on available space
+  calculateBookingsPerPage(bookings);
 
-  totalPages = bookingPages.length;
+  const totalPagesLocal = Math.ceil(bookings.length / bookingsPerPage);
 
   // Create carousel pages
-  bookingPages.forEach((pageBookings, pageIndex) => {
-    const pageElement = document.createElement("div");
-    pageElement.className = "booking-page";
-    if (pageIndex !== 0) pageElement.style.display = "none";
+  for (let page = 0; page < totalPagesLocal; page++) {
+    const pageDiv = document.createElement("div");
+    pageDiv.className = "booking-page";
 
-    pageBookings.forEach((booking) => {
-      const bookingElement = createBookingElement(booking);
-      pageElement.appendChild(bookingElement);
-    });
+    const startIndex = page * bookingsPerPage;
+    const endIndex = Math.min(startIndex + bookingsPerPage, bookings.length);
 
-    carousel.appendChild(pageElement);
-  });
+    for (let i = startIndex; i < endIndex; i++) {
+      const booking = bookings[i];
+      const bookingDiv = createBookingElement(
+        booking,
+        locationBookings.location_name,
+      );
+      pageDiv.appendChild(bookingDiv);
+    }
 
-  currentPageIndex = 0;
+    bookingCarousel.appendChild(pageDiv);
+  }
+
+  // Start carousel rotation if multiple pages
+  if (totalPagesLocal > 1) {
+    startCarousel(bookings.length);
+  }
 }
 
-function createBookingElement(booking) {
-  const bookingData = booking.booking_data;
-  const locationName = booking.location_name;
+// Parse WinKAS timestamp formats into JS Date objects.
+// Supported inputs:
+// - JavaScript Date -> returned as-is
+// - numeric unix timestamp (seconds or ms)
+// - ISO date string (if parseable by Date)
+// - WinKAS format: "DD-MM-YYYY HH:MM:SS" -> parsed to local Date
+function parseWinKASDate(input) {
+  if (!input && input !== 0) return null;
+  if (input instanceof Date) return input;
 
-  // Format time
-  const startTime = new Date(bookingData.start);
-  const endTime = new Date(bookingData.stop);
+  // numeric timestamp
+  if (typeof input === "number" && isFinite(input)) {
+    // treat as seconds if small
+    const ms = input > 1e12 ? input : input * 1000;
+    const d = new Date(ms);
+    return isFinite(d.getTime()) ? d : null;
+  }
+
+  if (typeof input === "string") {
+    // try native parse (ISO etc.)
+    const isoTry = new Date(input);
+    if (isFinite(isoTry.getTime())) return isoTry;
+
+    // match DD-MM-YYYY HH:MM:SS (WinKAS)
+    const m = input
+      .trim()
+      .match(/^(\d{2})-(\d{2})-(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+    if (m) {
+      const [, dd, mm, yyyy, hh, min, sec] = m;
+      const d = new Date(
+        parseInt(yyyy, 10),
+        parseInt(mm, 10) - 1,
+        parseInt(dd, 10),
+        parseInt(hh, 10),
+        parseInt(min, 10),
+        parseInt(sec || "0", 10),
+      );
+      return isFinite(d.getTime()) ? d : null;
+    }
+  }
+
+  return null;
+}
+
+function createBookingElement(booking, fallbackLocationName = "") {
+  // booking expected shape: { sub_location, sub_location_id, booking_data: { subject, start, stop, booked_by } }
+  const bookingData = booking.booking_data || booking;
+  const locationName =
+    booking.sub_location || booking.location_name || fallbackLocationName || "";
+
+  // Parse and format times (support WinKAS format 'DD-MM-YYYY HH:MM:SS')
+  const startTime = parseWinKASDate(bookingData.start);
+  const endTime = parseWinKASDate(bookingData.stop);
 
   const timeFormatter = new Intl.DateTimeFormat("da-DK", {
     hour: "2-digit",
@@ -169,58 +262,140 @@ function createBookingElement(booking) {
     month: "short",
   });
 
-  const startTimeStr = timeFormatter.format(startTime);
-  const endTimeStr = timeFormatter.format(endTime);
-  const dateStr = dateFormatter.format(startTime);
+  // Helper to safely format a date or return a fallback
+  const safeFormatTime = (d) => {
+    if (!d || !isFinite(d.getTime())) {
+      console.warn(
+        "Invalid date encountered while formatting time:",
+        d,
+        bookingData.start,
+        bookingData.stop,
+      );
+      return "--:--";
+    }
+    return timeFormatter.format(d);
+  };
 
-  // Determine status
+  const safeFormatDate = (d) => {
+    if (!d || !isFinite(d.getTime())) {
+      console.warn(
+        "Invalid date encountered while formatting date:",
+        d,
+        bookingData.start,
+        bookingData.stop,
+      );
+      return "Unknown date";
+    }
+    return dateFormatter.format(d);
+  };
+
+  const startTimeStr = safeFormatTime(startTime);
+  const endTimeStr = safeFormatTime(endTime);
+  const dateStr = safeFormatDate(startTime);
+
+  // Determine status (if dates missing, show upcoming)
   const now = new Date();
   let statusClass = "upcoming";
   let statusText = "Upcoming";
 
-  if (now >= startTime && now <= endTime) {
-    statusClass = "ongoing";
-    statusText = "Ongoing";
-  } else if (now > endTime) {
-    statusClass = "completed";
-    statusText = "Completed";
+  if (startTime && endTime) {
+    if (now >= startTime && now <= endTime) {
+      statusClass = "ongoing";
+      statusText = "Ongoing";
+    } else if (now > endTime) {
+      statusClass = "completed";
+      statusText = "Completed";
+    }
   }
 
   const bookingElement = document.createElement("div");
   bookingElement.className = `booking-entry ${statusClass}`;
 
   bookingElement.innerHTML = `
-    <div class="booking-header">
-      <div class="booking-subject">${bookingData.subject || "Untitled Booking"}</div>
-      <div class="booking-status ${statusClass}">${statusText}</div>
-    </div>
     <div class="booking-details">
-      <div class="booking-time">
-        <span class="material-symbols-outlined">schedule</span>
-        <span>${startTimeStr} - ${endTimeStr}</span>
+      <div class="time-column">
+        <div class="start-time">${startTimeStr}</div>
+        <div class="time-divider"></div>
+        <div class="end-time">${endTimeStr}</div>
       </div>
-      <div class="booking-date">
-        <span class="material-symbols-outlined">calendar_today</span>
-        <span>${dateStr}</span>
+      <div class="booking-info">
+        <div class="booking-title">${bookingData.subject || "Untitled Booking"}</div>
+        <div class="booking-location"><strong>Lokale:</strong> ${locationName || "Ikke angivet"}</div>
+        ${bookingData.booked_by ? `<div class="booking-organizer"><strong>Arrangør:</strong> ${bookingData.booked_by}</div>` : ""}
       </div>
-      <div class="booking-location">
-        <span class="material-symbols-outlined">location_on</span>
-        <span>${locationName}</span>
-      </div>
-      ${
-        bookingData.booked_by
-          ? `
-        <div class="booking-owner">
-          <span class="material-symbols-outlined">person</span>
-          <span>${bookingData.booked_by}</span>
-        </div>
-      `
-          : ""
-      }
     </div>
   `;
 
   return bookingElement;
+}
+
+function calculateBookingsPerPage(bookings) {
+  if (bookings.length === 0) {
+    bookingsPerPage = 6;
+    return;
+  }
+
+  const bookingBody = document.getElementById("booking-body");
+  if (!bookingBody) return;
+
+  const availableHeight = bookingBody.clientHeight - 32; // Account for padding
+
+  // Create a temporary container to measure booking height
+  const tempContainer = document.createElement("div");
+  tempContainer.style.cssText = `
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    width: ${bookingBody.clientWidth}px;
+    visibility: hidden;
+  `;
+  document.body.appendChild(tempContainer);
+
+  let maxHeight = 0;
+
+  // Measure a few sample bookings to get average height
+  const samplesToMeasure = Math.min(3, bookings.length);
+  for (let i = 0; i < samplesToMeasure; i++) {
+    const tempBooking = createBookingElement(bookings[i]);
+    tempContainer.appendChild(tempBooking);
+
+    const height = tempBooking.offsetHeight + 8; // Add gap
+    maxHeight = Math.max(maxHeight, height);
+
+    tempContainer.removeChild(tempBooking);
+  }
+
+  document.body.removeChild(tempContainer);
+
+  if (maxHeight > 0) {
+    window.winkasBookingEntryHeight = maxHeight;
+    bookingsPerPage = Math.floor(
+      availableHeight / window.winkasBookingEntryHeight,
+    );
+    bookingsPerPage = Math.max(1, bookingsPerPage);
+  }
+}
+
+function startCarousel(totalBookings) {
+  if (window.winkasCarouselInterval) {
+    clearInterval(window.winkasCarouselInterval);
+  }
+
+  if (totalBookings <= bookingsPerPage) {
+    return;
+  }
+
+  const totalPagesLocal = Math.ceil(totalBookings / bookingsPerPage);
+  let currentIndex = 0;
+
+  const carousel = document.querySelector("#booking-carousel");
+  window.winkasCarouselInterval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % totalPagesLocal;
+    const translateY = -currentIndex * 100;
+    if (carousel) {
+      carousel.style.transform = `translateY(${translateY}%)`;
+    }
+  }, 6000);
 }
 
 function rotatePage() {
