@@ -389,6 +389,15 @@ function displayUserDetails(userObj) {
     addSuborgMembershipContainer.style.display = "none";
   } else {
     addSuborgMembershipContainer.style.display = "block";
+    // Initialize branch dropdown based on current role
+    const roleVal = document.getElementById("suborgRoleManage").value;
+    const branchSelectManage = document.getElementById("branchSelectManage");
+    if (roleVal === "employee") {
+      branchSelectManage.style.display = "block";
+      populateBranchSelectManage();
+    } else {
+      branchSelectManage.style.display = "none";
+    }
   }
   const deleteUserBtn = document.getElementById("deleteUserBtn");
   if (isActingUserOrgAdmin && String(userObj.id) !== String(myUserId)) {
@@ -557,13 +566,10 @@ function populateBranchSelectManage() {
   );
   if (!suborgObj || !suborgObj.branches) return;
   suborgObj.branches.forEach((b) => {
-    // Don't allow selecting "Global" branches
-    if (b.name !== "Global") {
-      const opt = document.createElement("option");
-      opt.value = b.id;
-      opt.textContent = b.name;
-      branchSelectManage.appendChild(opt);
-    }
+    const opt = document.createElement("option");
+    opt.value = b.id;
+    opt.textContent = b.name;
+    branchSelectManage.appendChild(opt);
   });
 }
 
@@ -1330,6 +1336,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       populateBranchSelectManage();
     } else {
       branchSelectManage.style.display = "none";
+    }
+  });
+
+  document.getElementById("suborgSelectManage").addEventListener("change", () => {
+    const roleVal = document.getElementById("suborgRoleManage").value;
+    if (roleVal === "employee") {
+      populateBranchSelectManage();
     }
   });
 
