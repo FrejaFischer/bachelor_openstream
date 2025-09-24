@@ -62,7 +62,9 @@ export function gettext(key) {
   }
   const translated = translations[key][lang];
   if (!translated) {
-    console.error(`Translation not found for key: "${key}" in language: "${lang}"`);
+    console.error(
+      `Translation not found for key: "${key}" in language: "${lang}"`,
+    );
     return key;
   }
   return translated;

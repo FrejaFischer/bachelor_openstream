@@ -36,6 +36,7 @@ const addFontForm = document.getElementById("add-font-form");
 const addFontNameInput = document.getElementById("add-font-name");
 const addFontUrlInput = document.getElementById("add-font-url");
 const confirmAddFontBtn = document.getElementById("confirm-add-font-btn");
+const addFontFileInput = document.getElementById("add-font-file");
 
 // Edit Font Modal elements
 const editFontModal = new bootstrap.Modal(
@@ -45,6 +46,7 @@ const editFontForm = document.getElementById("edit-font-form");
 const editFontIdInput = document.getElementById("edit-font-id");
 const editFontNameInput = document.getElementById("edit-font-name");
 const editFontUrlInput = document.getElementById("edit-font-url");
+const editFontFileInput = document.getElementById("edit-font-file");
 const confirmEditFontBtn = document.getElementById("confirm-edit-font-btn");
 
 // Delete Modal elements
@@ -261,7 +263,25 @@ function openEditModal(font) {
   // Populate form fields
   editFontIdInput.value = font.id;
   editFontNameInput.value = font.name;
-  editFontUrlInput.value = font.font_url;
+  // If the edit URL input exists (older UI) populate it; otherwise populate a readonly display
+  if (editFontUrlInput) {
+    editFontUrlInput.value = font.font_url;
+    const curContainer = document.getElementById(
+      "edit-font-current-url-container",
+    );
+    if (curContainer) curContainer.style.display = "none";
+  } else {
+    const curUrlEl = document.getElementById("edit-font-current-url");
+    if (curUrlEl) {
+      if (font.font_url) {
+        curUrlEl.innerHTML = `<a href="${font.font_url}" target="_blank" rel="noopener noreferrer">${font.font_url}</a>`;
+      } else {
+        curUrlEl.textContent = gettext("No URL stored");
+      }
+    }
+  }
+  // Clear any previous file selection
+  if (editFontFileInput) editFontFileInput.value = "";
 
   // Show modal
   editFontModal.show();
@@ -289,23 +309,31 @@ async function addFont() {
   }
 
   // Get form data
-  const formData = {
-    name: addFontNameInput.value.trim(),
-    font_url: addFontUrlInput.value.trim(),
-  };
+  const name = addFontNameInput.value.trim();
+  const file = addFontFileInput ? addFontFileInput.files[0] : null;
 
-  // Validate form data
-  if (!formData.name || !formData.font_url) {
+  if (!name || (!file && !addFontUrlInput.value.trim())) {
     showToast(gettext("Please fill in all required fields"), "Error");
     return;
   }
 
   try {
-    // Add new font
+    // Prepare body: use FormData if file present
+    let body;
+    let headers = undefined; // let genericFetch set Content-Type unless FormData
+    if (file) {
+      body = new FormData();
+      body.append("name", name);
+      body.append("file", file);
+    } else {
+      body = { name, font_url: addFontUrlInput.value.trim() };
+    }
+
     const response = await genericFetch(
       `${BASE_URL}/api/fonts/?organisation_id=${parentOrgID}`,
       "POST",
-      formData,
+      body,
+      headers,
     );
 
     // Add to local array
@@ -342,7 +370,7 @@ async function updateFont() {
   // Get form data
   const formData = {
     name: editFontNameInput.value.trim(),
-    font_url: editFontUrlInput.value.trim(),
+    font_url: editFontUrlInput ? editFontUrlInput.value.trim() : "",
   };
 
   // Validate form data
@@ -352,11 +380,23 @@ async function updateFont() {
   }
 
   try {
-    // Update existing font
+    // If a new file is selected, use FormData and send file
+    const newFile = editFontFileInput ? editFontFileInput.files[0] : null;
+    let body;
+    let headers = undefined;
+    if (newFile) {
+      body = new FormData();
+      body.append("name", formData.name);
+      body.append("file", newFile);
+    } else {
+      body = formData;
+    }
+
     const response = await genericFetch(
       `${BASE_URL}/api/fonts/${fontId}/?organisation_id=${parentOrgID}`,
       "PATCH",
-      formData,
+      body,
+      headers,
     );
 
     // Update in local array
