@@ -50,14 +50,18 @@ RUN if [ "$INSTALL_DEV_DEPS" = "true" ]; \
     else poetry install --no-interaction --no-ansi --no-root --without dev; \
     fi
 
-COPY ./openstream .
-COPY ./docker/entrypoint.sh .
-COPY ./docker/gunicorn-settings.py .
-
 FROM base AS final
 
 WORKDIR /app
-COPY --from=builder /app /app
+
+# 1. Copy ONLY the installed dependencies from the builder
+COPY --from=builder /app/.venv ./.venv
+
+# 2. Copy the application code and scripts directly from the build context
+# This is the key change. Now, any change in './openstream' will bust this layer's cache.
+COPY ./openstream .
+COPY ./docker/entrypoint.sh .
+COPY ./docker/gunicorn-settings.py .
 
 # Install SUPERCRONIC - latest releases available at https://github.com/aptible/supercronic/releases
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-amd64 \
@@ -92,12 +96,6 @@ FROM final AS development
 # Target 2: Production Image (creates and runs as non-root)
 # ---------------------------------------------------------------------
 FROM final AS production
-
-ARG BUSTERCACHE=BUSTERCACHING
-
-# Don't remove the BUSTERCACHE
-RUN set -ex \
-    && echo "BUSTERCACHE: $BUSTERCACHE"
 
 RUN set -ex \
     && groupadd -r -g ${APP_GID} ${APP_GROUP} \
