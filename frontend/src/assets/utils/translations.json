@@ -170,8 +170,8 @@
   "Manage Fonts": {
     "da": "Administrer Skrifttyper"
   },
-  "Manage custom fonts for your organization. These fonts will be available across all branches.": {
-    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle filialer."
+  "Manage custom fonts for your organization. These fonts will be available across all departments.": {
+    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle afdelinger."
   },
   "You must be an organization admin to add or modify fonts.": {
     "da": "Du skal være organisationsadministrator for at tilføje eller ændre skrifttyper."
@@ -645,19 +645,19 @@
     "da": "Underorganisation oprettet succesfuldt!"
   },
   "Error creating branch: ": {
-    "da": "Fejl ved oprettelse af filial: "
+    "da": "Fejl ved oprettelse af afdeling: "
   },
   "No suborg selected for branch creation!": {
-    "da": "Ingen underorganisation valgt for filial oprettelse!"
+    "da": "Ingen underorganisation valgt for afdeling oprettelse!"
   },
   "Please enter a branch name.": {
-    "da": "Indtast et filial navn."
+    "da": "Indtast et afdelings navn."
   },
   "Branch created successfully!": {
-    "da": "Filial oprettet succesfuldt!"
+    "da": "Afdeling oprettet succesfuldt!"
   },
   "Delete branch": {
-    "da": "Slet filial"
+    "da": "Slet afdeling"
   },
   "Failed to fetch org users:": {
     "da": "Kunne ikke hente organisationsbrugere:"
@@ -693,10 +693,10 @@
     "da": "Fejl ved hentning af underorganisationer:"
   },
   "Branch": {
-    "da": "Filial"
+    "da": "Afdeling"
   },
   "No branches found.": {
-    "da": "Ingen filialer fundet."
+    "da": "Ingen afdelinger fundet."
   },
   "Error creating user: ": {
     "da": "Fejl ved oprettelse af bruger: "
@@ -717,13 +717,13 @@
     "da": "Slet underorganisation"
   },
   "Error updating branch: ": {
-    "da": "Fejl ved opdatering af filial: "
+    "da": "Fejl ved opdatering af afdeling: "
   },
   "No branch ID found!": {
-    "da": "Intet filial ID fundet!"
+    "da": "Intet afdeling ID fundet!"
   },
   "Branch updated successfully!": {
-    "da": "Filial opdateret succesfuldt!"
+    "da": "Afdeling opdateret succesfuldt!"
   },
   "Please fill out all required fields.": {
     "da": "Udfyld alle påkrævede felter."
@@ -738,16 +738,16 @@
     "da": "Ingen bruger valgt."
   },
   "Please select a branch for the employee.": {
-    "da": "Vælg en filial for medarbejderen."
+    "da": "Vælg en afdeling for medarbejderen."
   },
   "No org ID in localStorage!": {
     "da": "Intet org ID i localStorage!"
   },
   "Error deleting branch: ": {
-    "da": "Fejl ved sletning af filial: "
+    "da": "Fejl ved sletning af afdeling: "
   },
   "Branch deleted successfully!": {
-    "da": "Filial slettet succesfuldt!"
+    "da": "Afdeling slettet succesfuldt!"
   },
   "Error deleting user: ": {
     "da": "Fejl ved sletning af bruger: "
@@ -798,7 +798,7 @@
     "da": "Få Skærm Link"
   },
   "Failed to get API key for this branch": {
-    "da": "Kunne ikke få API nøgle for denne filial"
+    "da": "Kunne ikke få API nøgle for denne afdeling"
   },
   "Failed to generate display link": {
     "da": "Kunne ikke generere skærm link"
@@ -864,7 +864,7 @@
     "da": "Tag slettet succesfuldt"
   },
   "Error fetching branches.": {
-    "da": "Fejl ved hentning af filialer."
+    "da": "Fejl ved hentning af afdelinger."
   },
   "Failed to load media files": {
     "da": "Kunne ikke indlæse mediefiler"
@@ -1260,7 +1260,7 @@
     "da": "Underorganisation Admin"
   },
   "Select a Branch": {
-    "da": "Vælg en Filial"
+    "da": "Vælg en Afdeling"
   },
   "Delete User": {
     "da": "Slet Bruger"
@@ -1272,10 +1272,10 @@
     "da": "Indtast underorganisation navn..."
   },
   "Branch Name:": {
-    "da": "Filial Navn:"
+    "da": "Afdeling Navn:"
   },
   "Enter branch name...": {
-    "da": "Indtast filial navn..."
+    "da": "Indtast afdeling navn..."
   },
   "Confirm Delete User": {
     "da": "Bekræft Slet Bruger"
@@ -1284,7 +1284,7 @@
     "da": "Bekræft Slet Underorganisation"
   },
   "Confirm Delete Branch": {
-    "da": "Bekræft Slet Filial"
+    "da": "Bekræft Slet Afdeling"
   },
   "Role": {
     "da": "Rolle"
@@ -1299,7 +1299,7 @@
     "da": "Underorganisation"
   },
   "Select Branch": {
-    "da": "Vælg Filial"
+    "da": "Vælg Afdeling"
   },
   "First Name": {
     "da": "Fornavn"
@@ -2076,7 +2076,7 @@
     "da": "Indsæt"
   },
   "No branches available": {
-    "da": "Ingen filialer tilgængelige"
+    "da": "Ingen afdelinger tilgængelige"
   },
   "Uploaded by": {
     "da": "Uploadet af"
@@ -2727,10 +2727,10 @@
     "da": "Angiv et underorganisationsnavn."
   },
   "Branch Name": {
-    "da": "Filialnavn"
+    "da": "Afdelingsnavn"
   },
   "Please provide a branch name.": {
-    "da": "Angiv et filialnavn."
+    "da": "Angiv et afdelingsnavn."
   },
   "Please provide a new name for the slideshow.": {
     "da": "Angiv et nyt navn for slideshowet."
@@ -2779,5 +2779,23 @@
   },
   "Organisation Structure": {
     "da": "Organisationsstruktur"
+  },
+  "Please fill out all required fields": {
+    "da": "Udfyld venligst alle obligatoriske felter"
+  },
+  "employee": {
+    "da": "Medarbejder"
+  },
+  "suborg_admin": {
+    "da": "Underorganisationsadministrator"
+  },
+  "Remove from Organization": {
+    "da": "Fjern fra organisation"
+  },
+  "Confirm Remove User from Organization": {
+    "da": "Bekræft fjernelse af bruger fra organisation"
+  },
+  "Confirm Remove": {
+    "da": "Bekræft fjernelse"
   }
 }

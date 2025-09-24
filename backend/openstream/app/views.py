@@ -2630,39 +2630,33 @@ class UserDetailAPIView(APIView):
         target_user = get_object_or_404(User, pk=pk)
 
         if target_user == request.user:
-            return Response({"error": "You cannot delete yourself."}, status=403)
+            return Response({"error": "You cannot remove yourself from organizations."}, status=403)
 
-        # gather the orgs that the target user belongs to
-        user_org_ids = (
-            OrganisationMembership.objects.filter(user=target_user)
-            .values_list("organisation_id", flat=True)
-            .distinct()
-        )
+        # Get the orgs where the request.user is org_admin
+        admin_orgs = OrganisationMembership.objects.filter(
+            user=request.user, role="org_admin"
+        ).values_list("organisation_id", flat=True)
 
-        if not user_org_ids:
+        if not admin_orgs:
             return Response(
-                {"error": f"User {target_user.username} has no org memberships."},
+                {"error": "You must be org_admin in at least one organization to perform this action."},
                 status=403,
             )
 
-        # Must be org_admin in at least one of those orgs or super_admin
-        is_authorized = (
-            user_is_super_admin(request.user)
-            or OrganisationMembership.objects.filter(
-                user=request.user, organisation_id__in=user_org_ids, role="org_admin"
-            ).exists()
+        # Remove memberships for target_user in the orgs where request.user is org_admin
+        memberships_to_remove = OrganisationMembership.objects.filter(
+            user=target_user, organisation_id__in=admin_orgs
         )
 
-        if not is_authorized:
+        if not memberships_to_remove.exists():
             return Response(
-                {
-                    "error": "You must be org_admin for at least one shared org to delete this user."
-                },
+                {"error": f"User {target_user.username} is not a member of any organizations where you are admin."},
                 status=403,
             )
 
-        target_user.delete()
-        return Response(status=204)
+        memberships_to_remove.delete()
+
+        return Response({"message": "User removed from organizations where you are admin."}, status=200)
 
 
 ###############################################################################

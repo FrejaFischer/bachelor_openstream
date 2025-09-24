@@ -411,10 +411,10 @@ async function confirmDeleteUser(userObj) {
   document.getElementById("deleteUserName").value = userObj.username;
 
   // Set up modal content
-  const requiredText = `${gettext("Delete")} ${userObj.username}`;
+  const requiredText = `${gettext("Remove")} ${userObj.username}`;
   messageEl.textContent = `${gettext(
-    "Are you sure you want to delete user",
-  )} '${userObj.username}'?`;
+    "Are you sure you want to remove user",
+  )} '${userObj.username}' ${gettext("from the organization")}?`;
   textToTypeEl.textContent = requiredText;
 
   // Use the utility function for delete confirmation setup
@@ -470,9 +470,9 @@ async function fetchUserMemberships(userId) {
         displayText += m.suborganisation_name
           ? m.suborganisation_name
           : gettext("No Suborganisation");
-        displayText += " - " + m.role;
+        displayText += " - " + gettext(m.role);
         if (m.role === "employee" && m.branch_name) {
-          displayText += " - Branch: " + m.branch_name;
+          displayText += " - " + m.branch_name;
         }
         row.innerHTML = `
           <span>${displayText}</span>
@@ -1453,10 +1453,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!resp.ok) {
           const err = await resp.json();
           await showToast(
-            gettext("Error deleting user: ") + JSON.stringify(err),
+            gettext("Error removing user from organization: ") + JSON.stringify(err),
           );
         } else {
-          await showToast(gettext("User deleted successfully!"));
+          await showToast(gettext("User removed from organization successfully!"));
           const orgId = localStorage.getItem("parentOrgID");
           if (orgId) {
             fetchOrgUsers(orgId);

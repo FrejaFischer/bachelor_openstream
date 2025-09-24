@@ -22,7 +22,7 @@
             </div>
             <!-- Suborganisation Selection (shown for suborg_admin and employee) -->
             <div class="row mb-3" id="suborgDropdownContainer" style="display: none;">
-                <label for="suborgSelect" class="col-sm-3 col-form-label">Suborganisation</label>
+                <label for="suborgSelect" class="col-sm-3 col-form-label">{% trans "Suborganisation" %}</label>
                 <div class="col-sm-9">
                     {{#> base/form/dropdown id="suborgSelect"}}
                         {{> base/form/dropdown-option value="" text="Select a Suborganisation" disabled=true selected=true}}
@@ -32,7 +32,7 @@
             </div>
             <!-- Branch Selection (shown only for employee) -->
             <div class="row mb-3" id="branchDropdownContainer" style="display: none;">
-                <label for="branchSelect" class="col-sm-3 col-form-label">Select Branch</label>
+                <label for="branchSelect" class="col-sm-3 col-form-label">{% trans "Select Branch" %}</label>
                 <div class="col-sm-9">
                     {{#> base/form/dropdown id="branchSelect"}}
                         {{> base/form/dropdown-option value="" text="Select a Branch" disabled=true selected=true}}
@@ -43,7 +43,7 @@
             <hr />
             <!-- 2) New user fields -->
             <div class="row mb-3">
-                <label for="newUserUsername" class="col-sm-3 col-form-label">Username:</label>
+                <label for="newUserUsername" class="col-sm-3 col-form-label">{% trans "Username" %}</label>
                 <div class="col-sm-9">
                     {{> base/form/input type="text" id="newUserUsername" required=true}}
                 </div>
@@ -55,25 +55,25 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="userFirstNameInput" class="col-sm-3 col-form-label">First Name</label>
+                <label for="userFirstNameInput" class="col-sm-3 col-form-label">{% trans "First Name" %}</label>
                 <div class="col-sm-9">
                     {{> base/form/input type="text" id="userFirstNameInput" required=true}}
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="userLastNameInput" class="col-sm-3 col-form-label">Last Name</label>
+                <label for="userLastNameInput" class="col-sm-3 col-form-label">{% trans "Last Name" %}</label>
                 <div class="col-sm-9">
                     {{> base/form/input type="text" id="userLastNameInput" required=true}}
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="userPasswordInput" class="col-sm-3 col-form-label">Password</label>
+                <label for="userPasswordInput" class="col-sm-3 col-form-label">{% trans "Password" %}</label>
                 <div class="col-sm-9">
                     {{> base/form/input type="password" id="userPasswordInput" required=true}}
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="userLanguageSelect" class="col-sm-3 col-form-label">Language</label>
+                <label for="userLanguageSelect" class="col-sm-3 col-form-label">{% trans "Language" %}</label>
                 <div class="col-sm-9">
                     {{#> base/form/dropdown id="userLanguageSelect"}}
                         {{> base/form/dropdown-option value="en" text="English"}}
@@ -87,9 +87,9 @@
     {{/inline}}
     
     {{#*inline "footer"}}
-        {{> base/modal/modal-footer-close btn-text="Close"}}
-        {{#> base/modal/modal-footer-save id="submitAddNewUserBtn" disabled=true tooltip="Please fill out all required fields"}}
-            <span class="material-symbols-outlined">person_add</span>&nbsp;&nbsp;Create User
+        {{> base/modal/modal-footer-close btn-text="{% trans 'Close' %}"}}
+        {{#> base/modal/modal-footer-save id="submitAddNewUserBtn" disabled=true tooltip='{% trans "Please fill out all required fields" %}'}}
+            <span class="material-symbols-outlined">person_add</span>&nbsp;&nbsp;{% trans "Create User" %}
         {{/base/modal/modal-footer-save}}
     {{/inline}}
 {{/base/modal/modal}}
