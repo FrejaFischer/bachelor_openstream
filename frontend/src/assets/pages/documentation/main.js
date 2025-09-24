@@ -15,8 +15,8 @@ import {
 const DOCS_CONFIG = {
   chapters: [
     {
-      slug: "01_Getting_Started",
-      title: "Getting Started",
+      slug: "01_Introduction",
+      title: "Introduction",
       order: 1,
     },
     {
@@ -25,8 +25,8 @@ const DOCS_CONFIG = {
       order: 2,
     },
     {
-      slug: "03_Content_Management",
-      title: "Content Management",
+      slug: "03_Organisation_Overview",
+      title: "Organisation Overview",
       order: 3,
     },
     {
