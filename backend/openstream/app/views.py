@@ -2402,6 +2402,9 @@ class CreateUserAPIView(APIView):
         username = request.data.get("username")
         email = request.data.get("email")
         password = request.data.get("password")
+        first_name = request.data.get("first_name", "")
+        last_name = request.data.get("last_name", "")
+        language_preference = request.data.get("language_preference", "en")
 
         if not username or not email or not password:
             return Response(
@@ -2412,11 +2415,11 @@ class CreateUserAPIView(APIView):
             return Response({"error": "Username already taken."}, status=400)
 
         user = User.objects.create_user(
-            username=username, email=email, password=password
+            username=username, email=email, password=password, first_name=first_name, last_name=last_name
         )
-        UserExtended.objects.create(user=user)
+        UserExtended.objects.create(user=user, language_preference=language_preference)
         return Response(
-            {"id": user.id, "username": user.username, "email": user.email}, status=201
+            {"id": user.id, "username": user.username, "email": user.email, "first_name": user.first_name, "last_name": user.last_name, "language_preference": language_preference}, status=201
         )
 
 
