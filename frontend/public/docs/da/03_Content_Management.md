@@ -1,6 +1,19 @@
-# 3. Content Management
+# 3. Organistions Overbliks Side
 
-This section covers everything related to creating, editing, and managing your content.
+På denne side kan man se alle sine tilknyttede underorganistioner og afdelinger. 
+Udover dette, så hvis man er organistions administrator, vil man også se mulighederne "Tilføj Underorganistion", "Administrer Brugerer" og "Globalle indstillinger.
+Organistions- og underorganistionsadministratrore vil også kunne oprette og slette afdelinger for en underorganistion.
+
+
+## Hvis du har medarbejder rollen
+Her er et eksempel på en medarbejder som tilknyttet to afdelinger. Overblikket viser dine afdelinger, og du kan tilgå dem ved at trykke "Vælg".
+
+![image](/docs/docs_images/employee_da_select_sub_org.png)
+
+## Hvis du er underorganistionsadministrator
+
+## Hvis du er organistionsadminstrator
+
 
 ## 3.1. Managing Content
 
