@@ -224,8 +224,8 @@
   "No\n            slideshows found": {
     "da": "Ingen slideshows fundet"
   },
-  "Manage Color Scheme": {
-    "da": "Administrer Farveskema"
+  "Custom Color Scheme": {
+    "da": "Brugerdefinerede Farver"
   },
   "Add Color": {
     "da": "Tilføj Farve"
@@ -2504,11 +2504,8 @@
   "title": {
     "da": "titel"
   },
-  "Color Scheme": {
-    "da": "Farveskema"
-  },
-  "Fonts": {
-    "da": "Skrifttyper"
+  "Fonts & Color Scheme": {
+    "da": "Skrifttyper & farver"
   },
   "Categories & Tags": {
     "da": "Kategorier & Tags"
