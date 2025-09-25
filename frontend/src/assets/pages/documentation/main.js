@@ -30,8 +30,8 @@ const DOCS_CONFIG = {
       order: 3,
     },
     {
-      slug: "04_Global_Settings",
-      title: "Global Settings",
+      slug: "04_Branch_Subpages",
+      title: "Branch Subpages",
       order: 4,
     },
     {
