@@ -1,6 +1,6 @@
 # 3. Organisationsoverblik
 
-Efter login, vil du blive sendt hen til organisationsoverblik's siden.
+Efter login bliver du sendt til organisationsoverblik-siden.
 
 Denne side giver et samlet overblik over alle tilknyttede underorganisationer og afdelinger. Siden tilpasser sig dynamisk baseret på din brugerrolle og de tilhørende rettigheder.
 
@@ -73,10 +73,52 @@ I dette panel kan du udføre følgende handlinger:
 * **Fjern en bruger permanent**: For at fjerne en bruger helt fra organisationen, skal du vælge brugeren og klikke på **Fjern fra organisation**. Alternativt vil en bruger blive fjernet fra organisationen, hvis alle deres roller og adgange manuelt fjernes.
 
 ### 3.3.2 Globale Indstillinger
+
 Som organisationsadministrator kan du tilgå siden "Globale indstillinger" for at konfigurere organisationens fælles udseende og ressourcer. Her kan du:
 
 * Angive standardfarver og skrifttyper, der anvendes ved oprettelse af indhold.
 * Oprette og vedligeholde skabeloner, som afdelinger kan bruge.
 * Administrere globale mediefiler, fx logoer.
 
-Ændringerne gælder på tværs af underorganisationer og afdelinger. Læs mere om globale indstillinger i næste afsnit.
+Ændringerne gælder på tværs af underorganisationer og afdelinger.
+
+For at tilgå globale indstillinger, tryk på knappen "Globale Indstillinger".
+
+![Global Settings](/docs/docs_images/da/global_settings_da.png)
+
+Efter at have trykket på knappen, vil du se en ny navigationsmenu med mulighederne:
+
+* Farveskema
+* Skrifttyper
+* Kategorier og tags
+* Skabeloner
+* Mediefiler
+
+Som standard lander du på siden for "Farveskema".
+
+#### 3.3.2.1 Farveskema
+
+På siden Farveskema administrerer du organisationens farver, som bruges i skabeloner, slideshows og interaktive sider. For at tilføje en farve skal du klikke på **Tilføj Farve**; der åbnes en dialog, hvor du vælger farven og giver den et navn. Når du har navngivet farven, klikker du på **Gem** — den bliver derefter tilgængelig i hele organisationen.
+
+Farvevælgeren er browserbaseret, så udseende og funktionalitet kan variere:
+
+* I Firefox vises først en række standardfarver. Du kan vælge en af dem eller vælge "Custom" / "Brugerdefineret" for at indtaste en hex-kode eller vælge farven manuelt.
+![Tilføj farve](/docs/docs_images/da/color_scheme_da.png)
+![Tilføj farve](/docs/docs_images/da/add_color_da.png)
+![Tilføj farve](/docs/docs_images/da/select_color_da.png)
+
+* I Google Chrome er farvevælgeren lidt anderledes. Her kan du vælge farven visuelt med musen eller indtaste værdier i RGB. Ved at klikke på "RGB" kan du skifte mellem forskellige inputformater og til sidst skifte til HEX.
+![Tilføj farve](/docs/docs_images/da/select_color_chrome.png)
+![Tilføj farve](/docs/docs_images/da/chrome_color_picker_hex.png)
+
+Efter at have valgt og gemt en farve, vil den være tilgængelig, når skabeloner, slideshows og sider oprettes eller redigeres.
+
+For at redigere en farve og ændre dens navn eller farve, tryk på blyantsikonet ved siden af farven i tabellen.
+
+![Rediger farve](/docs/docs_images/da/edit_color_da.png)
+
+Efter at have trykket på knappen, vil samme dialogboks komme frem som når man opretter farver, men i stedet ændrer du dataen for en eksisterende farve.
+
+For at slette en farve, tryk på skraldespandsikonet og følg instruktionerne.
+
+**OBS!** Vær opmærksom på, at hvis du sletter en farve, som bliver brugt, så vil farven ikke længere være tilgængelig i de slideshows, skabeloner eller interaktive sider, som bruger farven.
