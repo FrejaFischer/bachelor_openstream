@@ -274,6 +274,10 @@ body {
   visibility: hidden;
 }
 
+.text-content span {
+  font-family: inherit;
+}
+
 /* New CSS for the media change button (used by images, videos, and embedded websites) */
 .media-change-btn {
   position: absolute;
