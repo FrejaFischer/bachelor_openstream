@@ -1,0 +1,105 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
+/* SPDX-License-Identifier: AGPL-3.0-only */
+// Newsticker Slide Type Styles
+// Inherits from main.scss and adds slide-specific styling
+
+@import "../../scss/main";
+
+:root {
+    --ticker-distance: 100%;
+    --ticker-duration: 60s;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: $black;
+}
+
+#newsTickerBox {
+    position: absolute;
+    inset: 0;
+    background: $black;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#clock,
+#news,
+#weather {
+    font-size: var(--ticker-font-size);
+}
+
+.news-items a {
+    font-size: var(--ticker-font-size);
+}
+
+.ticker-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#clock,
+#news,
+#weather {
+    margin: 0 10px;
+    white-space: nowrap;
+}
+
+#news {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.news-wrapper {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: scroll var(--ticker-duration) linear infinite;
+}
+
+.news-items {
+    display: flex;
+    white-space: nowrap;
+}
+
+.news-items a {
+    color: $white;
+    text-decoration: none;
+    margin-right: 80px;
+}
+
+.news-items .feed_name {
+    color: $neutral-blue-light;
+}
+
+.news-items .item_title {
+    font-weight: $font-weight-bold;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-1 * var(--ticker-distance)));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .news-wrapper {
+        animation: none;
+    }
+}

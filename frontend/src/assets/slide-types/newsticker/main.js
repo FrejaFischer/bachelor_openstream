@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
 // SPDX-License-Identifier: AGPL-3.0-only
+import "./style.scss";
 import { BASE_URL } from "../../utils/constants";
 import { queryParams } from "../../utils/utils";
 
@@ -93,10 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const a = document.createElement("a");
             a.href = item.link;
             a.target = "_blank";
-            a.innerHTML = `<strong>${
-              lastCat !== feed.category ? feed.category + ":" : ""
-            }</strong> ${item.title}. ${item.description}`;
-            lastCat = feed.category;
+            a.innerHTML = `${
+              lastCat !== feed.name ? '<span class="feed_name">' + feed.name + ":</span>" : ""
+            } <span class="item_title">${item.title}</span> ${item.summary ? " - " + item.summary : ""}`;
+            lastCat = feed.name;
             frag1.appendChild(a);
             frag2.appendChild(a.cloneNode(true));
           });
