@@ -52,6 +52,10 @@ RUN if [ "$INSTALL_DEV_DEPS" = "true" ]; \
 
 FROM base AS final
 
+ARG CACHEBUSTER99="CACHEBUSTER99"
+
+RUN echo "Cachebuster: $CACHEBUSTER99"
+
 WORKDIR /app
 
 # 1. Copy ONLY the installed dependencies from the builder
