@@ -383,6 +383,12 @@ export function initSlideshowPlayerMode() {
   // Emulated size becomes full window
   store.emulatedWidth = window.innerWidth;
   store.emulatedHeight = window.innerHeight;
+  // Add body class to hide editor UI when in player mode
+  try {
+    document.body.classList.add("player-mode");
+  } catch (e) {
+    // document may not be available in some test environments
+  }
   _startSlideshowPlayer();
 }
 
@@ -498,11 +504,21 @@ async function _startSlideshowPlayer() {
   })();
 
   if (store.slideshowMode === "interactive") {
+    // Ensure body has player-mode class
+    try {
+      document.body.classList.add("player-mode");
+    } catch (e) {}
+
     if (store.slides.length > 0) {
       store.currentSlideIndex = 0;
       loadSlide(store.slides[0], undefined, undefined, true);
     }
   } else {
+    // Not interactive mode: ensure any player-mode class is removed
+    try {
+      document.body.classList.remove("player-mode");
+    } catch (e) {}
+
     if (store.slides.length > 0) {
       await playSlideshow(false);
     }
