@@ -29,15 +29,15 @@
                     <!-- Populated by JS -->
                 </div>
                 <div id="addSuborgMembershipContainer" class="border-top pt-2">
-                    <label class="form-label fw-bold">Add New Suborg Membership:</label>
+                    <label class="form-label fw-bold">{% trans "Add New Suborg Membership:" %}</label>
                     <div class="input-group mb-2">
                         {{#> base/form/dropdown id="suborgSelectManage"}}
                             {{> base/form/dropdown-option value="" text="Select a Suborganisation" disabled=true selected=true}}
                             <!-- Options populated by JS -->
         {{/base/form/dropdown}}
                         {{#> base/form/dropdown id="suborgRoleManage"}}
-                            {{> base/form/dropdown-option value="" text="Select a Role" disabled=true selected=true}}
-                            {{> base/form/dropdown-option value="employee" text="Employee"}}
+                            {{> base/form/dropdown-option value="" text="Select a Role" disabled=true}}
+                            {{> base/form/dropdown-option value="employee" text="Employee" selected=true}}
                             {{> base/form/dropdown-option value="suborg_admin" text="Suborg Admin"}}
         {{/base/form/dropdown}}
                         <!-- New branch dropdown for employees -->
@@ -52,7 +52,7 @@
                 <hr>
                 <div class="mt-3">
                     <button class="btn btn-danger btn-sm d-flex align-items-center" id="deleteUserBtn">
-                        <span class="material-symbols-outlined">delete_forever</span>&nbsp;{% trans "Delete User" %}
+                        <span class="material-symbols-outlined">delete_forever</span>&nbsp;{% trans "Remove from Organization" %}
                     </button>
                 </div>
             </div>

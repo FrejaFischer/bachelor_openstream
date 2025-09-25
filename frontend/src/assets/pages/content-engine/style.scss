@@ -1,4 +1,5 @@
 /* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
 /* SPDX-License-Identifier: AGPL-3.0-only */
 @import "../../scss/main";
 
@@ -13,6 +14,51 @@
 
 .player-mode {
   overflow: hidden !important;
+}
+
+/* Full-screen player mode: hide all editor UI and show only the slide canvas */
+body.player-mode {
+  overflow: hidden !important;
+}
+
+body.player-mode .left-sidebar,
+body.player-mode #sidebar,
+body.player-mode .top-toolbar,
+body.player-mode .toolbar-container,
+body.player-mode .toolbar-general,
+body.player-mode .top-panel,
+body.player-mode .toolbar-section,
+body.player-mode .wysiwyg-toolbar,
+body.player-mode .sidebar-and-content-container > .left-sidebar,
+body.player-mode .main-content > :not(.slide-canvas),
+body.player-mode .slide-item,
+body.player-mode .content-engine-status-bar,
+body.player-mode .slide-list {
+  display: none !important;
+}
+
+/* Make the slide canvas occupy the full viewport in player mode */
+body.player-mode .slide-canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  background: $black;
+}
+
+body.player-mode .preview-container,
+body.player-mode .preview-slide,
+body.player-mode .zoom-wrapper,
+body.player-mode .grid-container,
+body.player-mode .persistent-elements-container {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
 }
 
 /* CSS Custom Properties for Grid Configuration */
@@ -98,12 +144,6 @@ body {
 .overlay.visible {
   opacity: 100%;
   visibility: visible;
-}
-
-.autosave-info {
-  font-family: Arial, sans-serif;
-
-  /* Optionally, add some spacing or a border if needed */
 }
 
 .top-toolbar {
@@ -279,6 +319,10 @@ body {
   visibility: hidden;
 }
 
+.text-content span {
+  font-family: inherit;
+}
+
 /* New CSS for the media change button (used by images, videos, and embedded websites) */
 .media-change-btn {
   position: absolute;
@@ -434,7 +478,7 @@ span {
 }
 
 .slide-name {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   word-break: break-all;
   width: 100%;
   border-bottom: 0.5px solid $dark-gray;
@@ -535,12 +579,6 @@ span {
   align-items: center;
 }
 
-.wysiwyg-toolbar {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
 .wysiwyg-toolbar button {
   background: none;
   border: none;
@@ -556,6 +594,7 @@ span {
   background: none;
   padding: 0;
   position: relative;
+  display: block !important;
 
   /* Needed for absolutely positioned pseudo-element */
 }

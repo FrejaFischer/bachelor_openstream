@@ -1,27 +1,14 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div class="website-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Website" %}</span>
-    <div class="vr m-2"></div>
-    <input id="change-website-input"
-           name="change-website"
-           type="url"
-           placeholder="https://example.com"
-           class="w-25 form-control py-1 gap-2 rounded mx-3"
-           style="font-size: var(--fs-small)">
-    <button id="update-change-website-btn" class="btn btn-tertiary btn-sm me-2">{% trans "Update" %}</button>
+{{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="website-toolbar" title="Website" }}
+    <!-- URL input field  -->
+    {{> base/form/input type="url" extraClass="w-25 ms-3" name="change-website" id="change-website-input" placeholder="https://example.com" }}
+    <!-- Update url button  -->
+    {{> base/content-engine/element-type-toolbars/buttons/change-btn id="update-change-website-btn" text='{% trans "Update" %}'}}
     <div class="vr m-1"></div>
     <span class="ms-2">{% trans "Volume" %}</span>
-    <div class="d-flex align-items-center gap-2 rounded ms-3">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-sm">
-                <input type="radio" name="websiteVolume" value="false" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">volume_up</i>
-            </label>
-            <label class="btn btn-sm">
-                <input type="radio" name="websiteVolume" value="true" autocomplete="off">
-                &nbsp;<i class="fs-6 material-symbols-outlined">volume_off</i>
-            </label>
-        </div>
+    <div class="d-flex align-items-center gap-2 ms-3">
+        {{> base/form/radio name="websiteVolume" id="embed-volume-up" value="false" icon="volume_up" autocomplete="off" ariaLabel="Volume up"}}
+        {{> base/form/radio name="websiteVolume" id="embed-volume-off" value="true" icon="volume_off" autocomplete="off" ariaLabel="Volume off"}}
     </div>
-</div>
+{{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}

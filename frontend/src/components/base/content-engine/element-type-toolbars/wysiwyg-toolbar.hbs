@@ -1,126 +1,72 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div class="wysiwyg-toolbar element-type-toolbar d-none disabled pe-4">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Textbox" %}</span>
-    <div class="vr m-2"></div>
-    <div class="mx-3 d-flex">
-        <select class="font-family-select mx-3 form-select form-select-sm">
+{{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="wysiwyg-toolbar" title="Textbox" }}
+      <div class="mx-3 d-flex">
+        {{#> base/form/dropdown id="" class="font-family-select mx-3 form-select form-select-sm" }}
             <!-- Populated by JS -->
-        </select>
-        <select class="font-size-select mx-1 form-select form-select-sm">
-            <option value="1">10</option>
-            <option value="2">11</option>
-            <option value="3">12</option>
-            <option value="4">14</option>
-            <option value="5">16</option>
-            <option value="6">18</option>
-            <option value="7">20</option>
-            <option value="8">24</option>
-            <option value="9">28</option>
-            <option value="10">32</option>
-            <option value="11">36</option>
-            <option selected value="12">40</option>
-            <option value="13">44</option>
-            <option value="14">48</option>
-            <option value="15">52</option>
-            <option value="16">56</option>
-            <option value="17">60</option>
-            <option value="18">64</option>
-            <option value="19">68</option>
-            <option value="20">72</option>
-            <option value="21">80</option>
-            <option value="22">88</option>
-            <option value="23">96</option>
-            <option value="24">104</option>
-            <option value="25">112</option>
-            <option value="26">120</option>
-            <option value="27">128</option>
-        </select>
-        <select class="line-height-select mx-1 form-select form-select-sm"
-                title="{% trans 'Line Height' %}">
-            <option value="1">1</option>
-            <option value="1.2" selected>1.2</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-        </select>
+    {{/base/form/dropdown}}
+        {{#> base/form/dropdown id="" class="font-size-select mx-1 form-select form-select-sm" }}
+            {{> base/form/dropdown-option value="1" text="10"}}
+            {{> base/form/dropdown-option value="2" text="11"}}
+            {{> base/form/dropdown-option value="3" text="12"}}
+            {{> base/form/dropdown-option value="4" text="14"}}
+            {{> base/form/dropdown-option value="5" text="16"}}
+            {{> base/form/dropdown-option value="6" text="18"}}
+            {{> base/form/dropdown-option value="7" text="20"}}
+            {{> base/form/dropdown-option value="8" text="24"}}
+            {{> base/form/dropdown-option value="9" text="28"}}
+            {{> base/form/dropdown-option value="10" text="32"}}
+            {{> base/form/dropdown-option value="11" text="36"}}
+            {{> base/form/dropdown-option value="12" text="40" selected=true}}
+            {{> base/form/dropdown-option value="13" text="44"}}
+            {{> base/form/dropdown-option value="14" text="48"}}
+            {{> base/form/dropdown-option value="15" text="52"}}
+            {{> base/form/dropdown-option value="16" text="56"}}
+            {{> base/form/dropdown-option value="17" text="60"}}
+            {{> base/form/dropdown-option value="18" text="64"}}
+            {{> base/form/dropdown-option value="19" text="68"}}
+            {{> base/form/dropdown-option value="20" text="72"}}
+            {{> base/form/dropdown-option value="21" text="80"}}
+            {{> base/form/dropdown-option value="22" text="88"}}
+            {{> base/form/dropdown-option value="23" text="96"}}
+            {{> base/form/dropdown-option value="24" text="104"}}
+            {{> base/form/dropdown-option value="25" text="112"}}
+            {{> base/form/dropdown-option value="26" text="120"}}
+            {{> base/form/dropdown-option value="27" text="128"}}
+    {{/base/form/dropdown}}
+        {{#> base/form/dropdown id="" class="line-height-select mx-1 form-select form-select-sm" title="{% trans 'Line Height' %}" }}
+            {{> base/form/dropdown-option value="1" text="1"}}
+            {{> base/form/dropdown-option value="1.2" text="1.2" selected=true}}
+            {{> base/form/dropdown-option value="1.5" text="1.5"}}
+            {{> base/form/dropdown-option value="2" text="2"}}
+    {{/base/form/dropdown}}
     </div>
-    <!-- Text Color Picker -->
     <div class="mx-4">
-        <button type="button"
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Change Text Color" %}'
-                class="text-color-picker"
-                title='{% trans "Text Color" %}'>
-            <i class="material-symbols-outlined">format_color_text</i>
-        </button>
+        <!-- Text Color Picker -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="textColorBtn" class="text-color-picker" icon="format_color_text" tooltip="{% trans 'Change Text Color' %}"}}
     </div>
     <div class="mx-3">
-        <button class="btn btn-sm"
-                id="boldBtn"
-                title='{% trans "Bold" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Make Text Bold" %}'>
-            <i class="material-symbols-outlined">format_bold</i>
-        </button>
-        <button class="btn btn-sm"
-                id="italicBtn"
-                title='{% trans "Italic" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Make Text Italic" %}'>
-            <i class="material-symbols-outlined">format_italic</i>
-        </button>
-        <button class="btn btn-sm"
-                id="underlineBtn"
-                title='{% trans "Underline" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Underline Text" %}'>
-            <i class="material-symbols-outlined">format_underlined</i>
-        </button>
+        <!-- Bold format -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="boldBtn" icon="format_bold" tooltip="{% trans 'Make Text Bold' %}"}}
+        <!-- Italic format -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="italicBtn" icon="format_italic" tooltip="{% trans 'Make Text Italic' %}"}}
+        <!-- Underline format -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="underlineBtn" icon="format_underlined" tooltip="{% trans 'Underline Text' %}"}}
     </div>
     <div class="mx-3">
-        <button class="btn btn-sm"
-                id="alignTextLeftBtn"
-                title='{% trans "Align Left" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Align Text Left" %}'>
-            <i class="material-symbols-outlined">format_align_left</i>
-        </button>
-        <button class="btn btn-sm"
-                id="alignTextCenterBtn"
-                title='{% trans "Align Center" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Align Text Center" %}'>
-            <i class="material-symbols-outlined">format_align_center</i>
-        </button>
-        <button class="btn btn-sm"
-                id="alignTextRightBtn"
-                title='{% trans "Align Right" %}'
-                data-bs-toggle="tooltip"
-                data-bs-title='{% trans "Align Text Right" %}'>
-            <i class="material-symbols-outlined">format_align_right</i>
-        </button>
+        <!-- Text align left -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextLeftBtn" icon="format_align_left" tooltip="{% trans 'Align Text Left' %}"}}
+        <!-- Text align center -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextCenterBtn" icon="format_align_center" tooltip="{% trans 'Align Text Center' %}"}}
+        <!-- Text align right -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextRightBtn" icon="format_align_right" tooltip="{% trans 'Align Text Right' %}"}}
     </div>
     <div class="btn-group mx-3">
-        <button id="alignTextTopBtn"
-                class="btn btn-sm"
-                data-bs-toggle="tooltip"
-                title='{% trans "Align Top" %}'
-                data-bs-title='{% trans "Align Top" %}'>
-            <i class="material-symbols-outlined">vertical_align_top</i>
-        </button>
-        <button id="alignTextMiddleBtn"
-                class="btn btn-sm"
-                data-bs-toggle="tooltip"
-                title='{% trans "Align Middle" %}'
-                data-bs-title='{% trans "Align Middle" %}'>
-            <i class="material-symbols-outlined">vertical_align_center</i>
-        </button>
-        <button id="alignTextBottomBtn"
-                class="btn btn-sm"
-                data-bs-toggle="tooltip"
-                title='{% trans "Align Bottom" %}'
-                data-bs-title='{% trans "Align Bottom" %}'>
-            <i class="material-symbols-outlined">vertical_align_bottom</i>
-        </button>
+        <!-- Text vertical align top -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextTopBtn" icon="vertical_align_top" tooltip="{% trans 'Align Top' %}"}}
+        <!-- Text vertical align center -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextMiddleBtn" icon="vertical_align_center" tooltip="{% trans 'Align Middle' %}"}}
+        <!-- Text vertical align bottom -->
+        {{> base/content-engine/element-type-toolbars/buttons/text-editor-btn id="alignTextBottomBtn" icon="vertical_align_bottom" tooltip="{% trans 'Align Bottom' %}"}}
     </div>
-</div>
+{{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}

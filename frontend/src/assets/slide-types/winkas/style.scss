@@ -1,6 +1,7 @@
 /* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
 /* SPDX-License-Identifier: AGPL-3.0-only */
-// WinKAS Booking Display Styles
+// WinKAS Booking Display Styles (ported from KMD Foreningsportalen)
 @import "../../scss/main";
 
 html,
@@ -38,11 +39,13 @@ body {
 
 .location-name-container {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 0.5em;
 
   .material-symbols-outlined {
     font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    margin-right: 2rem;
   }
 }
 
@@ -51,19 +54,10 @@ body {
   text-align: left;
 }
 
-.time-display {
+.date-display {
   text-align: right;
-
-  .current-time {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-
-  .current-date {
-    font-size: 1rem;
-    opacity: 80%;
-    margin-top: 0.25rem;
-  }
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 #booking-body {
@@ -73,11 +67,14 @@ body {
   overflow: hidden;
   width: 100%;
   margin-top: 1rem;
+  position: relative;
 }
 
 .booking-carousel {
   display: flex;
   flex-direction: column;
+  gap: 0;
+  transition: transform 0.8s ease-in-out;
   width: 100%;
   height: 100%;
 }
@@ -85,13 +82,12 @@ body {
 .booking-page {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.5rem;
   height: 100%;
   width: 100%;
   justify-content: flex-start;
   box-sizing: border-box;
   flex-shrink: 0;
-  overflow-y: auto;
 }
 
 .booking-entry {
@@ -101,93 +97,66 @@ body {
   border-radius: 0.4rem;
   box-shadow: 0 0 10px rgba($black, 0.05);
   transition: all 0.3s ease;
-
-  &.ongoing {
-    background: $darkest-gray;
-    border-left: 4px solid $success-green;
-  }
-
-  &.completed {
-    background: $darkest-gray;
-    opacity: 70%;
-  }
-
-  &.upcoming {
-    background: $darkest-gray;
-    border-left: 4px solid $neutral-blue;
-  }
-}
-
-.booking-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-
-  .booking-subject {
-    font-size: 1.4rem;
-    font-weight: bold;
-    flex: 1;
-    margin-right: 1rem;
-  }
-
-  .booking-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-
-    &.ongoing {
-      background-color: $success-green;
-      color: $white;
-    }
-
-    &.completed {
-      background-color: $darker-gray;
-      color: $white;
-    }
-
-    &.upcoming {
-      background-color: $neutral-blue;
-      color: $white;
-    }
-  }
 }
 
 .booking-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
 
-  > div {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.1rem;
+.time-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
 
-    .material-symbols-outlined {
-      font-size: 1.3rem;
-      opacity: 80%;
-    }
+  .start-time,
+  .end-time {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: $warning-yellow;
+  }
+
+  .time-divider {
+    width: 3px;
+    height: 20px;
+    background-color: $warning-yellow;
+    margin: 0.5rem 0;
+    border-radius: 2px;
   }
 }
 
-.booking-time {
-  color: $warning-yellow-light;
-}
+.booking-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 
-.booking-date {
-  color: $orange-light;
-}
+  .booking-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: $white;
+    margin-bottom: 0.5rem;
+  }
 
-.booking-location {
-  color: $neutral-blue-light;
-}
+  .booking-location {
+    font-size: 1.2rem;
+    color: $neutral-blue-light;
 
-.booking-owner {
-  color: $cold-purple-light;
+    strong {
+      color: $white;
+    }
+  }
+
+  .booking-organizer {
+    font-size: 1.2rem;
+    color: $orange-light;
+
+    strong {
+      color: $white;
+    }
+  }
 }
 
 // No bookings message
@@ -247,35 +216,46 @@ body {
 }
 
 // Responsive adjustments
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   #header {
     font-size: 1.8rem;
     padding: 1.2rem 2rem;
 
-    .time-display .current-time {
+    .date-display {
       font-size: 1.8rem;
     }
   }
 
   .booking-entry {
     padding: 1.2rem;
+  }
 
-    .booking-header .booking-subject {
+  .booking-details {
+    gap: 1.5rem;
+  }
+
+  .time-column {
+    min-width: 80px;
+
+    .start-time,
+    .end-time {
       font-size: 1.2rem;
     }
   }
 
-  .booking-details {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
+  .booking-info {
+    .booking-title {
+      font-size: 1.4rem;
+    }
 
-    > div {
-      font-size: 1rem;
+    .booking-location,
+    .booking-organizer {
+      font-size: 1.1rem;
     }
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   #wrapper {
     padding: 0.5rem;
   }
@@ -287,18 +267,47 @@ body {
     text-align: center;
     gap: 0.5rem;
 
-    .time-display .current-time {
+    .date-display {
       font-size: 1.5rem;
-    }
-
-    .time-display .current-date {
-      font-size: 0.9rem;
     }
   }
 
   .location-name-container {
     .material-symbols-outlined {
       font-size: 2rem;
+      margin-right: 1rem;
+    }
+  }
+
+  .booking-details {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .time-column {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    min-width: auto;
+
+    .time-divider {
+      width: 20px;
+      height: 3px;
+      margin: 0;
+    }
+  }
+
+  .booking-info {
+    text-align: left;
+
+    .booking-title {
+      font-size: 1.3rem;
+    }
+
+    .booking-location,
+    .booking-organizer {
+      font-size: 1rem;
     }
   }
 }

@@ -188,10 +188,10 @@ export async function displayMediaModal(
 
         // Conditional rendering for image vs video preview
         let previewHTML = "";
-        if (videoExtensionsList.includes(file.file_type.toLowerCase())) {
+        if (videoExtensionsList.includes(file.file_type?.toLowerCase())) {
           previewHTML = `
             <video loop muted playsinline>
-              <source src="${file.file_url}" type="video/${file.file_type}">
+              <source src="${file.file_url}" type="video/${file.file_type?.toLowerCase()}">
               Your browser does not support the video tag.
             </video>`;
         } else {
@@ -205,7 +205,7 @@ export async function displayMediaModal(
 
         const titleP = document.createElement("p");
         titleP.className = "media-title small";
-        titleP.textContent = `${file.title}.${file.file_type}`;
+        titleP.textContent = `${file.title}.${file.file_type?.toLowerCase()}`;
         infoDiv.appendChild(titleP);
 
         // Create and add edit button conditionally
@@ -895,13 +895,41 @@ function getFilters() {
   if (selectedExtensions.length > 0) {
     // If user has selected specific extensions, use ONLY those
     // and ignore the initial filters
-    file_types = selectedExtensions;
+    const extensionMap = {
+      pdf: "pdf",
+      png: "png",
+      jpeg: "jpeg",
+      jpg: "jpeg",
+      svg: "svg",
+      gif: "gif",
+      mp4: "mp4",
+      webp: "WebP",
+      webm: "WebM",
+    };
+
+    file_types = selectedExtensions.map((ext) => extensionMap[ext] || ext);
   } else if (
     currentInitialFilters.file_types &&
     currentInitialFilters.file_types.length > 0
   ) {
     // If no extensions are selected, fall back to the initial filters
-    file_types = [...currentInitialFilters.file_types];
+    // Map initial filters to backend enum casing where necessary
+    const extensionMap = {
+      pdf: "pdf",
+      png: "png",
+      jpeg: "jpeg",
+      jpg: "jpeg",
+      svg: "svg",
+      gif: "gif",
+      mp4: "mp4",
+      webp: "WebP",
+      webm: "WebM",
+    };
+
+    file_types = currentInitialFilters.file_types.map((t) => {
+      const lower = String(t).toLowerCase();
+      return extensionMap[lower] || t;
+    });
   }
 
   // Get selected tag IDs from dropdown

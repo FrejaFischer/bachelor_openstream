@@ -1,8 +1,5 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div class="html-element-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "HTML Element" %}</span>
-    <div class="vr m-2"></div>
-    <button id="edit-html-element-btn"
-            class="btn btn-tertiary btn-sm d-flex align-items-center gap-2 mx-3">{% trans "Edit HTML" %}</button>
-</div>
+{{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container class="html-element-toolbar" title="HTML Element" }}
+    {{> base/content-engine/element-type-toolbars/buttons/change-btn id="edit-html-element-btn" text='{% trans "Edit HTML" %}'}}
+{{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}

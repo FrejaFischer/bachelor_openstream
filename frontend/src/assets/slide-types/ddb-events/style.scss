@@ -1,4 +1,5 @@
 /* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
 /* SPDX-License-Identifier: AGPL-3.0-only */
 // DDB Events Slide Type Styles
 // Inherits from main.scss and adds slide-specific styling
@@ -53,24 +54,43 @@ body {
 
 .carousel-item .col-image,
 .carousel-item .col-info {
-  padding: 20px;
+  /* remove outer gutter so the image/info panels reach the viewport edges */
+  padding: 0;
 }
 
-.carousel-item.vertical .col-image {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: $lighter-gray;
-  overflow: hidden;
+.carousel-item {
+  /* Add a blurred background for the whole carousel item using the --slide-bg variable */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center center;
+
+    /* use CSS variable for the background image set inline on .carousel-item */
+    background-image: var(--slide-bg);
+    filter: blur(30px);
+    transform: scale(1.05); /* avoid edge artifacts from blur */
+    z-index: 0; /* sits behind all slide content */
+  }
+
+  /* Add a dark overlay on top of the blurred background */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba($darker-gray, 0.2);
+    z-index: 1; /* sits above the blur but below content */
+  }
 }
 
 // Image styles
 .col-image {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $lighter-gray;
+  background-color: transparent; /* removed solid background */
   overflow: hidden;
 }
 
@@ -79,10 +99,23 @@ body {
 }
 
 .col-image img {
+  /* remove any bootstrap utility padding (e.g. p-1) */
+
+  /* Make the image shrink-wrap to its intrinsic size while still respecting
+     the container's available space. Use inline-block so it doesn't stretch
+     to the full width of the parent. */
+  display: inline-block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  margin: 1rem;
+  margin: 0;
+  position: relative;
+  z-index: 2; /* ensure image sits above the blurred ::before but behind info overlay if needed */
+
+  /* Add a box-shadow and a small radius so the shadow follows the image bounds */
+  background: transparent; /* ensure any canvas/svg QR backgrounds show through transparently */
+  border-radius: 11px;
+  padding: 0.5rem !important;
 }
 
 // Info panel styles
@@ -90,19 +123,26 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: $white;
+
+  /* add 2rem horizontal padding so text (and QR) have consistent side spacing in horizontal mode */
+  padding: 2rem !important;
+
+  /* semi-transparent so the blurred background shows through; use rgba instead of opacity */
+  background-color: rgba($white, 0.7);
+  backdrop-filter: none; /* optionally could use backdrop-filter: blur(6px) for extra effect */
   overflow-y: auto;
   position: relative;
+  z-index: 3; /* ensure info panel sits above the image and blur */
 }
 
 // Event text styles
 .event-title {
   font-size: 5rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
 }
 
 .event-description {
+  display: none;
   font-size: 3.5rem;
   margin-bottom: 1rem;
 }
@@ -115,38 +155,134 @@ body {
   font-size: 2.5rem;
 }
 
+/* Combine date and location on one line while preserving font sizes */
+.event-meta {
+  display: flex;
+  gap: 1rem; /* space between date and location */
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.event-meta .event-date {
+  font-size: 2.5rem;
+}
+
+.event-meta .event-location {
+  font-size: 2.5rem;
+  color: $darkest-gray;
+}
+
 .event-body {
   margin-top: 1.5rem;
   font-size: 1rem;
-  line-height: 1.4;
+  line-height: 1.2;
+}
+
+/* Horizontal-mode specific spacing: only apply when the carousel item is not vertical */
+.carousel-item:not(.vertical) {
+  .event-title {
+    margin-bottom: 1.25rem; /* more space after title */
+  }
+
+  .event-meta {
+    margin-bottom: 1rem; /* increase spacing after date/location */
+  }
+
+  .event-body {
+    margin-top: 1.75rem; /* slightly more space before body */
+    margin-bottom: 1.25rem; /* space after body before QR */
+  }
+
+  .event-qr {
+    margin-top: 1.25rem; /* add extra vertical gap above QR */
+    margin-bottom: 1.25rem; /* and below for breathing room */
+
+    /* allow the QR to align to the left but not be flush to the container edge */
+    align-self: flex-start;
+  }
 }
 
 // QR code positioning
 .event-qr {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  margin: 0;
+  /* In horizontal (default) layout, let the QR flow as part of the normal document flow
+     so it appears below the preceding info text instead of absolutely positioned. */
+  position: static; /* remove absolute positioning so it stacks under .event-meta */
+  margin: 1rem 0; /* spacing above and below */
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* ensure QR aligns with the 2rem inner padding of .col-info */
+  padding: 0; /* left padding already provided by .col-info; avoid double-padding */
+}
+
+/* If the QR were ever positioned absolutely (older layouts), provide a helper to inset it 2rem from sides */
+.event-qr--inset {
+  right: 2rem;
+  left: 2rem;
+}
+
+/* Ensure QR code backgrounds are transparent (some QR libraries render white canvas by default) */
+#carouselContainer .event-qr,
+#carouselContainer .event-qr canvas,
+#carouselContainer .event-qr svg,
+.vertical-layout-qr,
+.vertical-layout-qr canvas,
+.vertical-layout-qr svg {
+  background: transparent !important;
 }
 
 // Vertical layout specific styles
 .vertical-layout-bottom {
-  background-color: rgba($white, 0.9);
-  padding: 20px;
+  background-color: rgba($white, 0.7);
+
+  /* remove outer padding and let the container span the full width
+     internal spacing is provided by .vertical-layout-text */
+  padding: 0;
   display: flex;
   z-index: 90;
-  width: 98%;
+  width: 100%;
+  height: 15rem; // fixed height as requested
+  box-sizing: border-box;
+  overflow: hidden; // prevent expansion beyond fixed height
 }
 
 .vertical-layout-text {
   flex: 1;
+
+  /* provide inner spacing for text while keeping the panel edge-to-edge */
+  padding: 2rem;
+}
+
+// Ensure text inside the bottom layout is clamped with ellipses when overflowing
+.vertical-layout-text,
+.vertical-layout-bottom .vertical-layout-text * {
+  /* single-line ellipsis for inline elements */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* prevent wrapping so ellipsis appears */
+}
+
+/* Multi-line clamp for block-level text inside the .vertical-layout-text container */
+.vertical-layout-text .clamp-multiline {
+  display: box; /* necessary for webkit line clamp */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* adjust lines as needed */
+  line-clamp: 3;
+  -ms-overflow-style: none;
+  overflow: hidden;
+
+  /* ensure block-level element can wrap lines for clamping */
+  white-space: normal;
 }
 
 .vertical-layout-qr {
   margin-left: 20px;
   display: flex;
-  align-items: flex-end;
+  align-items: center; /* center vertically inside the bottom bar */
+  justify-content: center;
+  padding-right: 2rem; /* give QR some space from the right edge */
 }
 
 // Scrollbar styles

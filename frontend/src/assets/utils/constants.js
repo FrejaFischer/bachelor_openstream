@@ -22,7 +22,10 @@ function deriveBaseFromHostname() {
     return "https://api.test.openstream.dk";
   }
 
-  if (host.endsWith(".staging.openstream.dk") || host === "staging.openstream.dk") {
+  if (
+    host.endsWith(".staging.openstream.dk") ||
+    host === "staging.openstream.dk"
+  ) {
     return "https://api.staging.openstream.dk";
   }
 
@@ -35,4 +38,6 @@ function deriveBaseFromHostname() {
 }
 
 export const BASE_URL =
-  import.meta.env.VITE_BASE_URL || deriveBaseFromHostname() || "http://localhost:8000";
+  import.meta.env.VITE_BASE_URL ||
+  deriveBaseFromHostname() ||
+  "http://localhost:8000";

@@ -1,4 +1,5 @@
 /* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
 /* SPDX-License-Identifier: AGPL-3.0-only */
 // Speed Admin School Schedule Styles
 @import "../../scss/main";
@@ -148,7 +149,7 @@ body {
 }
 
 // Responsive adjustments
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   #header {
     font-size: 1.8rem;
     padding: 1.2rem 2rem;
@@ -176,7 +177,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   #wrapper {
     padding: 0.5rem;
   }
@@ -219,7 +220,7 @@ body {
     }
 
     // Stack table cells on very small screens
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       thead {
         display: none;
       }

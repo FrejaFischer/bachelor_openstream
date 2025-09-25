@@ -15,14 +15,14 @@
             <!-- DESCRIPTION -->
             <div class="mb-3">
                 {{> base/form/label for="createWayfindingSystemDescription" text="Description"}}
-                <textarea class="form-control" id="createWayfindingSystemDescription" placeholder="Brief description of the wayfinding system..."></textarea>
+                <textarea class="form-control" id="createWayfindingSystemDescription" placeholder='{% trans "Brief description of the wayfinding system..." %}'></textarea>
             </div>
     {{/inline}}
         {{#*inline "footer"}}
-            {{> base/modal/modal-footer-close btn-text="Cancel"}}
+            {{> base/modal/modal-footer-close btn-text='{% trans "Cancel" %}' }}
             <button type="submit" class="btn btn-primary">
                 <span class="material-symbols-outlined me-1">add</span>
-                Create Wayfinding System
+                {% trans "Create Wayfinding System" %}
             </button>
     {{/inline}}
 {{/base/modal/modal}}

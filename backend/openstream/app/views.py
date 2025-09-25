@@ -2402,6 +2402,9 @@ class CreateUserAPIView(APIView):
         username = request.data.get("username")
         email = request.data.get("email")
         password = request.data.get("password")
+        first_name = request.data.get("first_name", "")
+        last_name = request.data.get("last_name", "")
+        language_preference = request.data.get("language_preference", "en")
 
         if not username or not email or not password:
             return Response(
@@ -2412,11 +2415,23 @@ class CreateUserAPIView(APIView):
             return Response({"error": "Username already taken."}, status=400)
 
         user = User.objects.create_user(
-            username=username, email=email, password=password
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
         )
-        UserExtended.objects.create(user=user)
+        UserExtended.objects.create(user=user, language_preference=language_preference)
         return Response(
-            {"id": user.id, "username": user.username, "email": user.email}, status=201
+            {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "language_preference": language_preference,
+            },
+            status=201,
         )
 
 
@@ -2630,39 +2645,42 @@ class UserDetailAPIView(APIView):
         target_user = get_object_or_404(User, pk=pk)
 
         if target_user == request.user:
-            return Response({"error": "You cannot delete yourself."}, status=403)
-
-        # gather the orgs that the target user belongs to
-        user_org_ids = (
-            OrganisationMembership.objects.filter(user=target_user)
-            .values_list("organisation_id", flat=True)
-            .distinct()
-        )
-
-        if not user_org_ids:
             return Response(
-                {"error": f"User {target_user.username} has no org memberships."},
-                status=403,
+                {"error": "You cannot remove yourself from organizations."}, status=403
             )
 
-        # Must be org_admin in at least one of those orgs or super_admin
-        is_authorized = (
-            user_is_super_admin(request.user)
-            or OrganisationMembership.objects.filter(
-                user=request.user, organisation_id__in=user_org_ids, role="org_admin"
-            ).exists()
-        )
+        # Get the orgs where the request.user is org_admin
+        admin_orgs = OrganisationMembership.objects.filter(
+            user=request.user, role="org_admin"
+        ).values_list("organisation_id", flat=True)
 
-        if not is_authorized:
+        if not admin_orgs:
             return Response(
                 {
-                    "error": "You must be org_admin for at least one shared org to delete this user."
+                    "error": "You must be org_admin in at least one organization to perform this action."
                 },
                 status=403,
             )
 
-        target_user.delete()
-        return Response(status=204)
+        # Remove memberships for target_user in the orgs where request.user is org_admin
+        memberships_to_remove = OrganisationMembership.objects.filter(
+            user=target_user, organisation_id__in=admin_orgs
+        )
+
+        if not memberships_to_remove.exists():
+            return Response(
+                {
+                    "error": f"User {target_user.username} is not a member of any organizations where you are admin."
+                },
+                status=403,
+            )
+
+        memberships_to_remove.delete()
+
+        return Response(
+            {"message": "User removed from organizations where you are admin."},
+            status=200,
+        )
 
 
 ###############################################################################
@@ -3623,13 +3641,63 @@ class CustomFontAPIView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        # Create a new font
+        # Create a new font. Accept an uploaded file in request.FILES['file'] or a font_url in data.
         data = request.data.copy()
+
+        uploaded_file = request.FILES.get("file")
+        allowed_extensions = (".woff2", ".woff", ".ttf", ".otf")
+
+        if uploaded_file:
+            # Validate extension
+            from django.core.files.storage import default_storage
+            from django.core.files.base import ContentFile
+            import os
+
+            filename = uploaded_file.name
+            ext = os.path.splitext(filename)[1].lower()
+            if ext not in allowed_extensions:
+                return Response(
+                    {
+                        "detail": f"Unsupported font file type: {ext}. Allowed: {', '.join(allowed_extensions)}"
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # Build storage path: uploads/fonts/<org_id>/<unique_filename>
+            safe_dir = f"uploads/fonts/{organisation.id}"
+            # Ensure unique filename to avoid collisions
+            unique_suffix = secrets.token_hex(6)
+            storage_filename = f"{os.path.splitext(filename)[0]}-{unique_suffix}{ext}"
+            storage_path = f"{safe_dir}/{storage_filename}"
+
+            try:
+                saved_path = default_storage.save(
+                    storage_path, ContentFile(uploaded_file.read())
+                )
+                font_url = request.build_absolute_uri(default_storage.url(saved_path))
+                data["font_url"] = font_url
+                # Default name to filename (without extension) if not provided
+                if not data.get("name"):
+                    data["name"] = os.path.splitext(filename)[0]
+            except Exception as e:
+                logger.error(f"Failed to save uploaded font: {e}")
+                return Response(
+                    {"detail": "Failed to store uploaded font."},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
+
+        # If uploaded_file not provided, expect client to send font_url in body
         serializer = CustomFontSerializer(data=data)
         if serializer.is_valid():
             # Assign the font to the specified organization
             serializer.save(organisation=organisation)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # If serializer invalid and we saved a file, attempt to cleanup the saved file
+        if uploaded_file and saved_path:
+            try:
+                default_storage.delete(saved_path)
+            except Exception:
+                pass
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
@@ -3672,10 +3740,57 @@ class CustomFontAPIView(APIView):
 
         # Update the font
         data = request.data.copy()
+
+        uploaded_file = request.FILES.get("file")
+        allowed_extensions = (".woff2", ".woff", ".ttf", ".otf")
+        saved_path = None
+
+        if uploaded_file:
+            # Validate extension
+            from django.core.files.storage import default_storage
+            from django.core.files.base import ContentFile
+            import os
+
+            filename = uploaded_file.name
+            ext = os.path.splitext(filename)[1].lower()
+            if ext not in allowed_extensions:
+                return Response(
+                    {
+                        "detail": f"Unsupported font file type: {ext}. Allowed: {', '.join(allowed_extensions)}"
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # Build storage path: uploads/fonts/<org_id>/<unique_filename>
+            safe_dir = f"uploads/fonts/{organisation.id}"
+            # Ensure unique filename to avoid collisions
+            unique_suffix = secrets.token_hex(6)
+            storage_filename = f"{os.path.splitext(filename)[0]}-{unique_suffix}{ext}"
+            storage_path = f"{safe_dir}/{storage_filename}"
+
+            try:
+                saved_path = default_storage.save(
+                    storage_path, ContentFile(uploaded_file.read())
+                )
+                font_url = request.build_absolute_uri(default_storage.url(saved_path))
+                data["font_url"] = font_url
+            except Exception as e:
+                logger.error(f"Failed to save uploaded font: {e}")
+                return Response(
+                    {"detail": "Failed to store uploaded font."},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
+
         serializer = CustomFontSerializer(custom_font, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        # If serializer invalid and we saved a file, attempt to cleanup the saved file
+        if uploaded_file and saved_path:
+            try:
+                default_storage.delete(saved_path)
+            except Exception:
+                pass
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
@@ -4446,6 +4561,7 @@ DDB_EVENT_API_URLS = {
             "Hovedbiblioteket",
             "BIBLIOTEKET Rentemestervej",
             "Bibliotekshuset",
+            "Ørestad Bibliotek",
         ],
     },
     "Lyngby-Taarbaek": {

@@ -170,8 +170,8 @@
   "Manage Fonts": {
     "da": "Administrer Skrifttyper"
   },
-  "Manage custom fonts for your organization. These fonts will be available across all branches.": {
-    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle filialer."
+  "Manage custom fonts for your organization. These fonts will be available across all departments.": {
+    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle afdelinger."
   },
   "You must be an organization admin to add or modify fonts.": {
     "da": "Du skal være organisationsadministrator for at tilføje eller ændre skrifttyper."
@@ -645,19 +645,19 @@
     "da": "Underorganisation oprettet succesfuldt!"
   },
   "Error creating branch: ": {
-    "da": "Fejl ved oprettelse af filial: "
+    "da": "Fejl ved oprettelse af afdeling: "
   },
   "No suborg selected for branch creation!": {
-    "da": "Ingen underorganisation valgt for filial oprettelse!"
+    "da": "Ingen underorganisation valgt for afdeling oprettelse!"
   },
   "Please enter a branch name.": {
-    "da": "Indtast et filial navn."
+    "da": "Indtast et afdelings navn."
   },
   "Branch created successfully!": {
-    "da": "Filial oprettet succesfuldt!"
+    "da": "Afdeling oprettet succesfuldt!"
   },
   "Delete branch": {
-    "da": "Slet filial"
+    "da": "Slet afdeling"
   },
   "Failed to fetch org users:": {
     "da": "Kunne ikke hente organisationsbrugere:"
@@ -693,10 +693,10 @@
     "da": "Fejl ved hentning af underorganisationer:"
   },
   "Branch": {
-    "da": "Filial"
+    "da": "Afdeling"
   },
   "No branches found.": {
-    "da": "Ingen filialer fundet."
+    "da": "Ingen afdelinger fundet."
   },
   "Error creating user: ": {
     "da": "Fejl ved oprettelse af bruger: "
@@ -717,13 +717,13 @@
     "da": "Slet underorganisation"
   },
   "Error updating branch: ": {
-    "da": "Fejl ved opdatering af filial: "
+    "da": "Fejl ved opdatering af afdeling: "
   },
   "No branch ID found!": {
-    "da": "Intet filial ID fundet!"
+    "da": "Intet afdeling ID fundet!"
   },
   "Branch updated successfully!": {
-    "da": "Filial opdateret succesfuldt!"
+    "da": "Afdeling opdateret succesfuldt!"
   },
   "Please fill out all required fields.": {
     "da": "Udfyld alle påkrævede felter."
@@ -738,16 +738,16 @@
     "da": "Ingen bruger valgt."
   },
   "Please select a branch for the employee.": {
-    "da": "Vælg en filial for medarbejderen."
+    "da": "Vælg en afdeling for medarbejderen."
   },
   "No org ID in localStorage!": {
     "da": "Intet org ID i localStorage!"
   },
   "Error deleting branch: ": {
-    "da": "Fejl ved sletning af filial: "
+    "da": "Fejl ved sletning af afdeling: "
   },
   "Branch deleted successfully!": {
-    "da": "Filial slettet succesfuldt!"
+    "da": "Afdeling slettet succesfuldt!"
   },
   "Error deleting user: ": {
     "da": "Fejl ved sletning af bruger: "
@@ -798,7 +798,7 @@
     "da": "Få Skærm Link"
   },
   "Failed to get API key for this branch": {
-    "da": "Kunne ikke få API nøgle for denne filial"
+    "da": "Kunne ikke få API nøgle for denne afdeling"
   },
   "Failed to generate display link": {
     "da": "Kunne ikke generere skærm link"
@@ -864,7 +864,7 @@
     "da": "Tag slettet succesfuldt"
   },
   "Error fetching branches.": {
-    "da": "Fejl ved hentning af filialer."
+    "da": "Fejl ved hentning af afdelinger."
   },
   "Failed to load media files": {
     "da": "Kunne ikke indlæse mediefiler"
@@ -1260,7 +1260,7 @@
     "da": "Underorganisation Admin"
   },
   "Select a Branch": {
-    "da": "Vælg en Filial"
+    "da": "Vælg en Afdeling"
   },
   "Delete User": {
     "da": "Slet Bruger"
@@ -1272,10 +1272,10 @@
     "da": "Indtast underorganisation navn..."
   },
   "Branch Name:": {
-    "da": "Filial Navn:"
+    "da": "Afdeling Navn:"
   },
   "Enter branch name...": {
-    "da": "Indtast filial navn..."
+    "da": "Indtast afdeling navn..."
   },
   "Confirm Delete User": {
     "da": "Bekræft Slet Bruger"
@@ -1284,7 +1284,7 @@
     "da": "Bekræft Slet Underorganisation"
   },
   "Confirm Delete Branch": {
-    "da": "Bekræft Slet Filial"
+    "da": "Bekræft Slet Afdeling"
   },
   "Role": {
     "da": "Rolle"
@@ -1299,7 +1299,7 @@
     "da": "Underorganisation"
   },
   "Select Branch": {
-    "da": "Vælg Filial"
+    "da": "Vælg Afdeling"
   },
   "First Name": {
     "da": "Fornavn"
@@ -2076,7 +2076,7 @@
     "da": "Indsæt"
   },
   "No branches available": {
-    "da": "Ingen filialer tilgængelige"
+    "da": "Ingen afdelinger tilgængelige"
   },
   "Uploaded by": {
     "da": "Uploadet af"
@@ -2615,9 +2615,6 @@
   "Manage Content": {
     "da": "Administrer Indhold"
   },
-  "Administrer Indhold": {
-    "da": "Administrer Indhold"
-  },
   "Manage Tags and Categories": {
     "da": "Administrer Tags og Kategorier"
   },
@@ -2716,5 +2713,149 @@
   },
   "{{placeholder}}": {
     "da": ""
+  },
+  "Danish": {
+    "da": "Dansk"
+  },
+  "Swedish": {
+    "da": "Svensk"
+  },
+  "Suborganisation Name": {
+    "da": "Underorganisationsnavn"
+  },
+  "Please provide a suborganisation name.": {
+    "da": "Angiv et underorganisationsnavn."
+  },
+  "Branch Name": {
+    "da": "Afdelingsnavn"
+  },
+  "Please provide a branch name.": {
+    "da": "Angiv et afdelingsnavn."
+  },
+  "Please provide a new name for the slideshow.": {
+    "da": "Angiv et nyt navn for slideshowet."
+  },
+  "Enter new slideshow name...": {
+    "da": "Indtast nyt slideshow navn..."
+  },
+  "Enter slideshow name...": {
+    "da": "Indtast slideshow navn..."
+  },
+  "Please provide a new name for the wayfinding system.": {
+    "da": "Angiv et nyt navn for wayfinding systemet."
+  },
+  "Please enter a valid group name": {
+    "da": "Indtast et gyldigt gruppenavn"
+  },
+  "Please enter a valid display name": {
+    "da": "Indtast et gyldigt skærmnavn"
+  },
+  "Start Date & Time": {
+    "da": "Start Dato & Tid"
+  },
+  "End Date & Time": {
+    "da": "Slut Dato & Tid"
+  },
+  "Combines with default content": {
+    "da": "Kombinerer med standardindhold"
+  },
+  "Overrides default content": {
+    "da": "Overskriver standardindhold"
+  },
+  "It's possible to upload multiple files at once": {
+    "da": "Det er muligt at uploade flere filer på én gang"
+  },
+  "+ Add Template": {
+    "da": "+ Tilføj Skabelon"
+  },
+  "Name of the font (e.g., 'Open Sans')": {
+    "da": "Navn på skrifttypen (f.eks., 'Open Sans')"
+  },
+  "The quick brown fox jumps over the lazy dog": {
+    "da": "Den hurtige brune ræv hopper over den dovne hund"
+  },
+  "Please provide a name.": {
+    "da": "Angiv et navn."
+  },
+  "Organisation Structure": {
+    "da": "Organisationsstruktur"
+  },
+  "Please fill out all required fields": {
+    "da": "Udfyld venligst alle obligatoriske felter"
+  },
+  "employee": {
+    "da": "Medarbejder"
+  },
+  "suborg_admin": {
+    "da": "Underorganisationsadministrator"
+  },
+  "Remove from Organization": {
+    "da": "Fjern fra organisation"
+  },
+  "Confirm Remove User from Organization": {
+    "da": "Bekræft fjernelse af bruger fra organisation"
+  },
+  "Confirm Remove": {
+    "da": "Bekræft fjernelse"
+  },
+  "Introduction": {
+    "da": "Introduktion"
+  },
+  "Organisation Overview": {
+    "da": "Organisationsoversigt"
+  },
+  "Add Wayfinding System": {
+    "da": "Tilføj Wayfinding System"
+  },
+  "Wayfinding systems help visitors navigate through your organization's spaces. ": {
+    "da": "Wayfinding-systemer hjælper besøgende med at finde rundt i din organisations lokaler."
+  },
+  "Create, manage, and configure wayfinding displays for different locations.": {
+    "da": "Opret, administrer og konfigurer wayfinding-skærme for forskellige lokationer."
+  },
+  "Setting up a wayfinding display:": {
+    "da": "Opsætning af en wayfinding-skærm:"
+  },
+  "Click the link button": {
+    "da": "Klik på link-knappen"
+  },
+  "to get your display URL": {
+    "da": "for at få din skærm-URL"
+  },
+  "Open this URL on your wayfinding screen device": {
+    "da": "Åbn denne URL på din wayfinding-skærm"
+  },
+  "Select which location view the screen should display": {
+    "da": "Vælg hvilken lokationsvisning skærmen skal vise"
+  },
+  "Wayfinding displays are different from regular digital signage screens and require separate setup.": {
+    "da": "Wayfinding-skærme adskiller sig fra almindelige digitale skilte og kræver en separat opsætning."
+  },
+  "Manage custom fonts for your organization. These fonts will be available across all branches.": {
+    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle afdelinger."
+  },
+  "Font File": {
+    "da": "Skrifttype Fil"
+  },
+  "Upload a font file supported by browsers (WOFF2, WOFF, TTF, OTF).": {
+    "da": "Upload en skrifttypefil, som understøttes af browsere (WOFF2, WOFF, TTF, OTF)."
+  },
+  "Font File (optional)": {
+    "da": "Skrifttype Fil (valgfri)"
+  },
+  "Upload a new font file to replace the existing one, or leave blank to keep current URL.": {
+    "da": "Upload en ny skrifttypefil for at erstatte den eksisterende, eller lad feltet stå tomt for at beholde den nuværende URL."
+  },
+  "Current Font URL": {
+    "da": "Nuværende skrifttype URL"
+  },
+  "Current stored font URL. Upload a file to replace it.": {
+    "da": "Nuværende gemte skrifttype-URL. Upload en fil for at erstatte den."
+  },
+  "Create Content": {
+    "da": "Opret Indhold"
+  },
+  "Branch Subpages": {
+    "da": "Afdelingsundersider"
   }
 }

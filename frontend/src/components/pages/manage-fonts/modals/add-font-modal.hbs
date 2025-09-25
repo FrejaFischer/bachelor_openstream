@@ -14,9 +14,9 @@
                 <div class="form-text">{% trans "Name of the font (e.g., 'Open Sans')" %}</div>
             </div>
             <div class="mb-3">
-                {{> base/form/label for="add-font-url" text="Font URL"}}
-                {{> base/form/input type="url" id="add-font-url" required=true}}
-                <div class="form-text">{% trans "URL to the font file (e.g., WOFF2, TTF, Google Fonts URL)" %}</div>
+                {{> base/form/label for="add-font-file" text="Font File"}}
+                <input class="form-control" type="file" id="add-font-file" accept=".woff2,.woff,.ttf,.otf" required />
+                <div class="form-text">{% trans "Upload a font file supported by browsers (WOFF2, WOFF, TTF, OTF)." %}</div>
             </div>
         </form>
     {{/inline}}

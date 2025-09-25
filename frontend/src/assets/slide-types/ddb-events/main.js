@@ -13,7 +13,12 @@ const config = {
   showSubtitle: queryParams.showSubtitle === "true",
   showDescription: queryParams.showDescription === "true",
   showQr: queryParams.showQr === "true",
+  slideDuration: parseInt(queryParams.slideDuration) || 10,
 };
+
+document
+  .getElementById("eventsCarousel")
+  .setAttribute("data-bs-interval", config.slideDuration * 1000);
 
 const baseUrl = queryParams.baseUrl || BASE_URL;
 
@@ -75,22 +80,44 @@ function displayEventsInCarousel(events) {
     const startDate = new Date(event.date_time?.start);
     const endDate = new Date(event.date_time?.end);
 
-    const dateOptions = {
-      year: "numeric",
-      month: "long",
+    // Format date without year: "1. januar kl. 12:00"
+    const datePartStart = startDate.toLocaleDateString("da-DK", {
       day: "numeric",
+      month: "long",
+    });
+    const timePartStart = startDate.toLocaleTimeString("da-DK", {
       hour: "2-digit",
       minute: "2-digit",
-    };
+    });
+    const formattedStart = `${datePartStart} kl. ${timePartStart}`;
 
-    const formattedStart = startDate.toLocaleString("da-DK", dateOptions);
-    const formattedEnd = endDate.toLocaleString("da-DK", dateOptions);
+    const datePartEnd = endDate.toLocaleDateString("da-DK", {
+      day: "numeric",
+      month: "long",
+    });
+    const timePartEnd = endDate.toLocaleTimeString("da-DK", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const formattedEnd = `${datePartEnd} kl. ${timePartEnd}`;
     const dateInfo = `${formattedStart}`;
 
+    console.log(event);
+
     const branches = event.branches?.join(", ") || "";
+    // Prefer a human-friendly location field if present, otherwise fall back to street. Omit zip_code and city.
     const address = event.address
-      ? `${event.address.street}, ${event.address.zip_code} ${event.address.city}`
+      ? event.address.location || event.address.street || ""
       : "";
+    // Show general location (e.g. library/branch) and the specific sub-location if available
+    const generalLocation = branches;
+    const subLocation = event.address
+      ? event.address.location || event.address.street || ""
+      : "";
+    const locationDisplay =
+      generalLocation && subLocation
+        ? ` &nbsp;|&nbsp; ${generalLocation}`
+        : generalLocation || subLocation;
     const body = config.showDescription ? event.body : "";
 
     const qrValue = event.url || "";
@@ -99,16 +126,18 @@ function displayEventsInCarousel(events) {
 
     if (config.layout === "vertical") {
       carouselItemMarkup = `
-        <div class="carousel-item vertical ${isActive}">
-          <div class="col-12 col-image">
-            <img src="${imageUrl}" alt="${title}" class="p-1" style="object-fit: contain; height: 100%; width: 100%;">
+        <div class="carousel-item vertical ${isActive}" style="--slide-bg: url('${imageUrl}')">
+          <div class="col-image" style="height: calc(100vh - 15rem);">
+            <img src="${imageUrl}" alt="${title}" class="p-1">
           </div>
           <div class="vertical-layout-bottom">
             <div class="vertical-layout-text">
               <div class="event-title">${title}</div>
               <div class="event-description">${description}</div>
-              <div class="event-date">${dateInfo}</div>
-              <div class="event-location">${branches} | ${address}</div>
+              <div class="event-meta">
+                <span class="event-date">${dateInfo}</span>
+                <span class="event-location">${locationDisplay}</span>
+              </div>
               <div class="event-address"></div>
               <div class="event-body">${body}</div>
             </div>
@@ -118,16 +147,18 @@ function displayEventsInCarousel(events) {
       `;
     } else {
       carouselItemMarkup = `
-        <div class="carousel-item ${isActive}">
+        <div class="carousel-item ${isActive}" style="--slide-bg: url('${imageUrl}')">
           <div class="row g-0">
-            <div class="col-6 col-image" style="height: 100vh;">
+            <div class="col-6 col-image h-100">
               <img src="${imageUrl}" alt="${title}">
             </div>
             <div class="col-6 col-info">
               <div class="event-title">${title}</div>
               <div class="event-description">${description}</div>
-              <div class="event-date">${dateInfo}</div>
-              <div class="event-location">${branches} | ${address}</div>
+              <div class="event-meta">
+                <span class="event-date">${dateInfo}</span>
+                <span class="event-location">${locationDisplay}</span>
+              </div>
               ${config.showQr ? `<div class="event-qr"><div id="qrcode-${index}"></div></div>` : ``}
               <div class="event-body">${body}</div>
             </div>
@@ -142,11 +173,15 @@ function displayEventsInCarousel(events) {
       setTimeout(() => {
         const qrContainer = document.getElementById(`qrcode-${index}`);
         if (qrContainer) {
+          // Generate QR code with transparent background
           new QRCode(qrContainer, {
             text: qrValue,
-            width: 200,
-            height: 200,
+            width: 180,
+            height: 180,
+            colorDark: "#000000",
+            colorLight: "transparent",
           });
+          // ensure any generated <canvas> or <svg> has transparent background via inline styles later
         }
       }, 0);
     }

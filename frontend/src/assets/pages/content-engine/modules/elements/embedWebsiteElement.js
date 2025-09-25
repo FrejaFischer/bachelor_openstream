@@ -245,8 +245,67 @@ function updateExistingEmbedWebsiteElement(url) {
   // Update the URL in the data
   window.selectedElementForUpdate.element.url = url;
 
-  // Re-render the slide to reflect the URL change
-  loadSlide(store.slides[store.currentSlideIndex], ".preview-slide", true);
+  // Try to update the DOM directly so the change is visible immediately
+  const containerEl = document.getElementById("el-" + elementId);
+  if (containerEl) {
+    // Update any existing webview inside the element
+    const webviewEl = containerEl.querySelector("webview");
+    if (webviewEl) {
+      try {
+        webviewEl.src = url;
+      } catch (e) {
+        // setting src might throw in some environments, but continue
+        console.error("Failed to set webview src:", e);
+      }
+
+      // Update the placeholder text inside the webview (used in editor mode)
+      try {
+        webviewEl.innerHTML = `
+    <div id="electron-placeholder" class="d-flex justify-content-center align-items-center w-100 h-100 text-white text-center position-relative bg-dark border border-secondary" style="border-width: 10px !important;">
+        <!-- Faint background icon -->
+        <span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle text-primary" style="font-size: 30rem; opacity: 0.15; pointer-events: none;">
+          language
+        </span>
+        <!-- Foreground message -->
+        <div class="bg-dark p-4 rounded shadow-lg">
+          <p class="fs-3 m-0">
+  ${gettext("When using the native version of OpenStream (as the actual digital signage screens should), this website will be shown:")}<br><br>
+</p> <p class="fs-2 fw-bold m-0">${url.split("?")[0]}</p>
+
+     <p class="fs-3 m-0"><br>
+  ${gettext("If you wish to preview embedded websites in the editor, you need to install the desktop version of OpenStream. Please read the documentation for more information.")}
+</p> 
+        </div>
+  </div>
+  `;
+      } catch (e) {
+        // Some environments disallow writing innerHTML to the webview — ignore silently
+        console.warn("Could not update webview innerHTML:", e);
+      }
+
+      // Update mute state if possible
+      const webMuted =
+        typeof window.selectedElementForUpdate.element.muted !== "undefined"
+          ? window.selectedElementForUpdate.element.muted
+          : true;
+      const shouldMute = queryParams.mode === "edit" || webMuted;
+      if (typeof webviewEl.setAudioMuted === "function") {
+        try {
+          webviewEl.setAudioMuted(shouldMute);
+        } catch (e) {
+          console.warn("setAudioMuted failed:", e);
+        }
+      } else {
+        // fallback: set muted attribute
+        try {
+          if (shouldMute) webviewEl.setAttribute("muted", "");
+          else webviewEl.removeAttribute("muted");
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+  }
 
   // Re-select the element to maintain selection and update toolbar
   const updatedElement = document.getElementById("el-" + elementId);

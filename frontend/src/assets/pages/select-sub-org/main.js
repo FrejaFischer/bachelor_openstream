@@ -389,6 +389,15 @@ function displayUserDetails(userObj) {
     addSuborgMembershipContainer.style.display = "none";
   } else {
     addSuborgMembershipContainer.style.display = "block";
+    // Initialize branch dropdown based on current role
+    const roleVal = document.getElementById("suborgRoleManage").value;
+    const branchSelectManage = document.getElementById("branchSelectManage");
+    if (roleVal === "employee") {
+      branchSelectManage.style.display = "block";
+      populateBranchSelectManage();
+    } else {
+      branchSelectManage.style.display = "none";
+    }
   }
   const deleteUserBtn = document.getElementById("deleteUserBtn");
   if (isActingUserOrgAdmin && String(userObj.id) !== String(myUserId)) {
@@ -411,10 +420,10 @@ async function confirmDeleteUser(userObj) {
   document.getElementById("deleteUserName").value = userObj.username;
 
   // Set up modal content
-  const requiredText = `${gettext("Delete")} ${userObj.username}`;
+  const requiredText = `${gettext("Remove")} ${userObj.username}`;
   messageEl.textContent = `${gettext(
-    "Are you sure you want to delete user",
-  )} '${userObj.username}'?`;
+    "Are you sure you want to remove user",
+  )} '${userObj.username}' ${gettext("from the organization")}?`;
   textToTypeEl.textContent = requiredText;
 
   // Use the utility function for delete confirmation setup
@@ -470,9 +479,9 @@ async function fetchUserMemberships(userId) {
         displayText += m.suborganisation_name
           ? m.suborganisation_name
           : gettext("No Suborganisation");
-        displayText += " - " + m.role;
+        displayText += " - " + gettext(m.role);
         if (m.role === "employee" && m.branch_name) {
-          displayText += " - Branch: " + m.branch_name;
+          displayText += " - " + m.branch_name;
         }
         row.innerHTML = `
           <span>${displayText}</span>
@@ -557,13 +566,10 @@ function populateBranchSelectManage() {
   );
   if (!suborgObj || !suborgObj.branches) return;
   suborgObj.branches.forEach((b) => {
-    // Don't allow selecting "Global" branches
-    if (b.name !== "Global") {
-      const opt = document.createElement("option");
-      opt.value = b.id;
-      opt.textContent = b.name;
-      branchSelectManage.appendChild(opt);
-    }
+    const opt = document.createElement("option");
+    opt.value = b.id;
+    opt.textContent = b.name;
+    branchSelectManage.appendChild(opt);
   });
 }
 
@@ -1333,6 +1339,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  document
+    .getElementById("suborgSelectManage")
+    .addEventListener("change", () => {
+      const roleVal = document.getElementById("suborgRoleManage").value;
+      if (roleVal === "employee") {
+        populateBranchSelectManage();
+      }
+    });
+
   document.getElementById("sign-out-btn").addEventListener("click", signOut);
   document
     .getElementById("add-user-btn")
@@ -1453,10 +1468,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!resp.ok) {
           const err = await resp.json();
           await showToast(
-            gettext("Error deleting user: ") + JSON.stringify(err),
+            gettext("Error removing user from organization: ") +
+              JSON.stringify(err),
           );
         } else {
-          await showToast(gettext("User deleted successfully!"));
+          await showToast(
+            gettext("User removed from organization successfully!"),
+          );
           const orgId = localStorage.getItem("parentOrgID");
           if (orgId) {
             fetchOrgUsers(orgId);

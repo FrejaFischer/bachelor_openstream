@@ -58,6 +58,7 @@ export const DdbEventsApiSlideType = {
       kommune: config.kommune || "",
       library: config.library || "",
       days: config.days || "",
+      slideDuration: config.slideDuration || "",
       layout: config.layout || "vertical",
       showTitle: config.showTitle !== false,
       showSubtitle: config.showSubtitle || false,
@@ -97,6 +98,7 @@ export const DdbEventsApiSlideType = {
 
     // Set form values
     this.setElementValue("nrOfDaysInput", config.days);
+    this.setElementValue("slideDurationInput", config.slideDuration);
     this.setElementChecked(
       `input[name="layout"][value="${config.layout}"]`,
       true,
@@ -197,6 +199,7 @@ export const DdbEventsApiSlideType = {
       kommune: config.kommune || "",
       library: config.library || "",
       days: config.days || "7",
+      slideDuration: config.slideDuration || "",
       layout: config.layout || "vertical",
       showSubtitle: config.showSubtitle || "false",
       showDescription: config.showDescription || "false",
@@ -222,6 +225,7 @@ export const DdbEventsApiSlideType = {
       kommune: getElementValue("kommuneSelect"),
       library: getElementValue("librarySelect"),
       days: getElementValue("nrOfDaysInput"),
+      slideDuration: getElementValue("slideDurationInput"),
       layout: getSelectedRadio("layout"),
       showTitle: getElementChecked("title"),
       showSubtitle: getElementChecked("subtitle"),

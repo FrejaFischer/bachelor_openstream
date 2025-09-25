@@ -1,0 +1,32 @@
+# 2. Organisationsstruktur
+
+OpenStream er opbygget hierarkisk omkring organisationer og roller.
+
+## 2.1 Organisationshierarki
+Der er tre niveauer:
+
+### 2.1.1 Organisation
+Det øverste niveau. En organisation kan fx være "Lyngby-Taarbæk Kommune" eller "Brøndby Kommune". På organisationsniveau administreres skabeloner, farveskemaer og skrifttyper.
+
+### 2.1.2 Underorganisation
+En underopdeling inden for en organisation, fx "Bibliotekerne" eller "Plejecentrene".
+
+### 2.1.3 Afdeling
+En specifik enhed under en underorganisation, fx "Lundtofte Bibliotek". På afdelingsniveau oprettes indhold, og skærme tilknyttes. Hver afdeling har en dedikeret underside og egne slideshows, tilkoblede skærme og kalenderintegration. Det er typisk her, brugere bruger OpenStream mest.
+
+## 2.2 Roller
+OpenStream har følgende roller:
+
+### 2.2.1 Organisationsadministrator
+Har fulde rettigheder i organisationen. En organisationsadministrator kan administrere organisationens brugere, ændre globale indstillinger og få adgang til alle underorganisationer og afdelinger med fulde rettigheder.
+
+### 2.2.2 Underorganisationsadministrator
+Har fulde rettigheder inden for en underorganisation. Denne rolle kan administrere alle afdelinger under underorganisationen og oprette nye afdelinger.
+
+### 2.2.3 Medarbejder
+Har adgang til en eller flere specifikke afdelinger og kan arbejde med indhold på disse afdelinger.
+
+### 2.2.4 Fleksibel rollefordeling
+En bruger kan tildeles flere forskellige roller i den samme organisation. For eksempel kan en bruger være medarbejder i to forskellige afdelinger eller være underorganisationsadministrator i flere underorganisationer. Rollefordelingen er fleksibel og administreres af en organisationsadministrator fra oversigtssiden.
+
+I nogle tilfælde kan brugere være tilknyttet flere organisationer. Efter login kan brugeren vælge, hvilken organisation vedkommende ønsker at arbejde i.

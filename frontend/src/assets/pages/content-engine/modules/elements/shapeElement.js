@@ -214,14 +214,10 @@ export function initShape() {
   if (shapeTopOption) {
     shapeTopOption.addEventListener("click", addShapeElement);
   }
-
-  // Setup the shape toolbar.
+  // Setup the shape toolbar by wiring the existing HBS structure.
   const shapeToolbar = document.querySelector(".shape-element-toolbar");
   if (shapeToolbar) {
-    // Clear any existing content
-    shapeToolbar.innerHTML = "";
-
-    // Remove any background styling and use clean design
+    // ensure consistent styling
     shapeToolbar.classList.remove(
       "bg-light",
       "rounded",
@@ -230,32 +226,24 @@ export function initShape() {
     );
     shapeToolbar.classList.add("element-type-toolbar");
 
-    // Create toolbar title
-    const toolbarTitle = document.createElement("span");
-    toolbarTitle.className =
-      "element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2";
-    toolbarTitle.textContent = gettext("Shape");
-    shapeToolbar.appendChild(toolbarTitle);
-    const divider = document.createElement("div");
-    divider.classList.add("vr", "m-2");
-    shapeToolbar.appendChild(divider);
-    // --------- Shape Changer Button ---------
-    const shapeTypePopoverBtn = document.createElement("button");
-    shapeTypePopoverBtn.classList.add(
-      "btn",
-      "btn-tertiary",
-      "d-flex",
-      "align-items-center",
-      "py-1",
-      "gap-2",
-      "rounded",
-      "mx-3",
-      "btn-sm",
+    // Find elements created by the HBS template
+    const shapeTypePopoverBtn = shapeToolbar.querySelector("#shape-change-btn");
+    const popoverContentHolder = shapeToolbar.querySelector(
+      "[data-shape-popover-content]",
     );
-    shapeTypePopoverBtn.innerHTML = gettext("Change Shape");
-    shapeTypePopoverBtn.title = gettext("Change Shape");
+    const fillBtn = shapeToolbar.querySelector("#shape-fill-btn");
+    const outlineBtn = shapeToolbar.querySelector("#shape-outline-btn");
+    // The radio partial renders an <input id="..."> and a <label for="...">.
+    // Query the label by its for-attribute so we still find the associated label
+    // after switching to the `base/form/radio` partial which doesn't add label IDs.
+    const scaleLabel = shapeToolbar.querySelector(
+      'label[for="shape-size-scale"]',
+    );
+    const stretchLabel = shapeToolbar.querySelector(
+      'label[for="shape-size-stretch"]',
+    );
 
-    // Build popover content container.
+    // Build popover content with shape buttons
     const shapeTypeContent = document.createElement("div");
     shapeTypeContent.classList.add("d-flex", "gap-2", "flex-wrap", "p-2");
     const shapeTypes = Object.keys(shapeMap);
@@ -272,6 +260,7 @@ export function initShape() {
       btn.style.padding = "5px";
       btn.style.overflow = "hidden";
       btn.style.boxSizing = "border-box";
+      // Use a non-scaling-stroke preview for toolbar buttons so they look consistent
       btn.innerHTML = getShapeSVG(
         shapeType,
         "#000000",
@@ -282,14 +271,166 @@ export function initShape() {
         false,
       );
       btn.title = shapeType;
-      btn.addEventListener("click", () => {
+      // expose the shape type for delegated handling
+      btn.dataset.shapeType = shapeType;
+      shapeTypeContent.appendChild(btn);
+    });
+
+    if (shapeTypePopoverBtn) {
+      // Ensure the popover content is ready
+      new bootstrap.Popover(shapeTypePopoverBtn, {
+        content: shapeTypeContent,
+        html: true,
+        placement: "bottom",
+        trigger: "click",
+        container: "body",
+      });
+    }
+
+    // Delegated click handler for shape type buttons in the popover
+    document.addEventListener("click", (e) => {
+      const clicked = e.target.closest(".shape-type-btn");
+      if (!clicked) return;
+      if (
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.type === "shape"
+      ) {
+        pushCurrentSlideState();
+        const elementData = window.selectedElementForUpdate.element;
+        const shapeType = clicked.dataset.shapeType;
+        elementData.shape = shapeType;
+        const elementDom = window.selectedElementForUpdate.container;
+        const svgContainer = elementDom.querySelector(".shape-svg-container");
+        if (svgContainer) {
+          svgContainer.innerHTML = getShapeSVG(
+            elementData.shape,
+            elementData.fill,
+            elementData.stroke,
+            elementData.fitMode,
+            elementData.alignment,
+            elementData.strokeWidth,
+          );
+        }
+        const popover = bootstrap.Popover.getInstance(shapeTypePopoverBtn);
+        if (popover) {
+          popover.hide();
+        }
+      }
+    });
+
+    // Fill color
+    if (fillBtn) {
+      if (
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.fill
+      ) {
+        fillBtn.style.border = `3px solid ${window.selectedElementForUpdate.element.fill}`;
+      }
+      fillBtn.addEventListener("click", () => {
         if (
+          window.selectedElementForUpdate &&
+          window.selectedElementForUpdate.element.type === "shape"
+        ) {
+          showColorPalette(fillBtn, (chosenColor) => {
+            if (chosenColor) {
+              pushCurrentSlideState();
+              const elementData = window.selectedElementForUpdate.element;
+              elementData.fill = chosenColor;
+              fillBtn.style.border = `3px solid ${chosenColor}`;
+              const elementDom = window.selectedElementForUpdate.container;
+              const svgContainer = elementDom.querySelector(
+                ".shape-svg-container",
+              );
+              if (svgContainer) {
+                svgContainer.innerHTML = getShapeSVG(
+                  elementData.shape,
+                  elementData.fill,
+                  elementData.stroke,
+                  elementData.fitMode,
+                  elementData.alignment,
+                  elementData.strokeWidth,
+                );
+              }
+            }
+          });
+        }
+      });
+    }
+
+    // Outline color
+    if (outlineBtn) {
+      if (
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.stroke
+      ) {
+        outlineBtn.style.border = `3px solid ${window.selectedElementForUpdate.element.stroke}`;
+      }
+      outlineBtn.addEventListener("click", () => {
+        if (
+          window.selectedElementForUpdate &&
+          window.selectedElementForUpdate.element.type === "shape"
+        ) {
+          showColorPalette(outlineBtn, (chosenColor) => {
+            if (chosenColor) {
+              pushCurrentSlideState();
+              const elementData = window.selectedElementForUpdate.element;
+              elementData.stroke = chosenColor;
+              outlineBtn.style.border = `3px solid ${chosenColor}`;
+              const elementDom = window.selectedElementForUpdate.container;
+              const svgContainer = elementDom.querySelector(
+                ".shape-svg-container",
+              );
+              if (svgContainer) {
+                svgContainer.innerHTML = getShapeSVG(
+                  elementData.shape,
+                  elementData.fill,
+                  elementData.stroke,
+                  elementData.fitMode,
+                  elementData.alignment,
+                  elementData.strokeWidth,
+                );
+              }
+            }
+          });
+        }
+      });
+    }
+
+    // Sizing radios
+    if (scaleLabel && stretchLabel) {
+      // Scope the radio inputs to the toolbar to avoid global collisions
+      const scaleRadio =
+        shapeToolbar.querySelector("#shape-size-scale") ||
+        document.getElementById("shape-size-scale");
+      const stretchRadio =
+        shapeToolbar.querySelector("#shape-size-stretch") ||
+        document.getElementById("shape-size-stretch");
+      if (!scaleRadio || !stretchRadio) {
+        // Radios not present; nothing to wire
+        return;
+      }
+
+      // initialize state
+      if (
+        window.selectedElementForUpdate &&
+        window.selectedElementForUpdate.element.fitMode === "stretch"
+      ) {
+        stretchRadio.checked = true;
+        stretchLabel.classList.add("active");
+      } else {
+        scaleRadio.checked = true;
+        scaleLabel.classList.add("active");
+      }
+
+      scaleRadio.addEventListener("change", () => {
+        if (
+          scaleRadio.checked &&
           window.selectedElementForUpdate &&
           window.selectedElementForUpdate.element.type === "shape"
         ) {
           pushCurrentSlideState();
           const elementData = window.selectedElementForUpdate.element;
-          elementData.shape = shapeType;
+          elementData.fitMode = "scale";
           const elementDom = window.selectedElementForUpdate.container;
           const svgContainer = elementDom.querySelector(".shape-svg-container");
           if (svgContainer) {
@@ -302,263 +443,36 @@ export function initShape() {
               elementData.strokeWidth,
             );
           }
-          let popover = bootstrap.Popover.getInstance(shapeTypePopoverBtn);
-          if (popover) {
-            popover.hide();
-          }
+          scaleLabel.classList.add("active");
+          stretchLabel.classList.remove("active");
         }
       });
-      shapeTypeContent.appendChild(btn);
-    });
 
-    new bootstrap.Popover(shapeTypePopoverBtn, {
-      content: shapeTypeContent,
-      html: true,
-      placement: "bottom",
-      trigger: "click",
-      container: "body",
-    });
-
-    shapeToolbar.appendChild(shapeTypePopoverBtn);
-
-    // --------- Vertical Divider ---------
-    const divider1 = document.createElement("div");
-    divider1.classList.add("vr", "m-1");
-    shapeToolbar.appendChild(divider1);
-
-    // --------- Fill Section ---------
-    const fillLabel = document.createElement("span");
-    fillLabel.classList.add("ms-2");
-    fillLabel.textContent = gettext("Fill");
-    shapeToolbar.appendChild(fillLabel);
-
-    const fillContainer = document.createElement("div");
-    fillContainer.classList.add(
-      "d-flex",
-      "align-items-center",
-      "gap-2",
-      "rounded",
-      "ms-3",
-    );
-
-    const fillBtn = document.createElement("button");
-    fillBtn.classList.add("btn", "btn-sm");
-    fillBtn.innerHTML = `<i class="fs-6 material-symbols-outlined">format_color_fill</i>`;
-    fillBtn.title = gettext("Change Fill Color");
-    if (
-      window.selectedElementForUpdate &&
-      window.selectedElementForUpdate.element.fill
-    ) {
-      fillBtn.style.border = `3px solid ${window.selectedElementForUpdate.element.fill}`;
-    }
-    fillBtn.addEventListener("click", () => {
-      if (
-        window.selectedElementForUpdate &&
-        window.selectedElementForUpdate.element.type === "shape"
-      ) {
-        showColorPalette(fillBtn, (chosenColor) => {
-          if (chosenColor) {
-            pushCurrentSlideState();
-            const elementData = window.selectedElementForUpdate.element;
-            elementData.fill = chosenColor;
-            fillBtn.style.border = `3px solid ${chosenColor}`;
-            const elementDom = window.selectedElementForUpdate.container;
-            const svgContainer = elementDom.querySelector(
-              ".shape-svg-container",
+      stretchRadio.addEventListener("change", () => {
+        if (
+          stretchRadio.checked &&
+          window.selectedElementForUpdate &&
+          window.selectedElementForUpdate.element.type === "shape"
+        ) {
+          pushCurrentSlideState();
+          const elementData = window.selectedElementForUpdate.element;
+          elementData.fitMode = "stretch";
+          const elementDom = window.selectedElementForUpdate.container;
+          const svgContainer = elementDom.querySelector(".shape-svg-container");
+          if (svgContainer) {
+            svgContainer.innerHTML = getShapeSVG(
+              elementData.shape,
+              elementData.fill,
+              elementData.stroke,
+              elementData.fitMode,
+              elementData.alignment,
+              elementData.strokeWidth,
             );
-            if (svgContainer) {
-              svgContainer.innerHTML = getShapeSVG(
-                elementData.shape,
-                elementData.fill,
-                elementData.stroke,
-                elementData.fitMode,
-                elementData.alignment,
-                elementData.strokeWidth,
-              );
-            }
           }
-        });
-      }
-    });
-    fillContainer.appendChild(fillBtn);
-    shapeToolbar.appendChild(fillContainer);
-
-    // --------- Vertical Divider ---------
-    const divider2 = document.createElement("div");
-    divider2.classList.add("vr", "m-1");
-    shapeToolbar.appendChild(divider2);
-
-    // --------- Outline Section ---------
-    const outlineLabel = document.createElement("span");
-    outlineLabel.classList.add("ms-2");
-    outlineLabel.textContent = gettext("Outline");
-    shapeToolbar.appendChild(outlineLabel);
-
-    const outlineContainer = document.createElement("div");
-    outlineContainer.classList.add(
-      "d-flex",
-      "align-items-center",
-      "gap-2",
-      "rounded",
-      "ms-3",
-    );
-
-    const outlineBtn = document.createElement("button");
-    outlineBtn.classList.add("btn", "btn-sm");
-    outlineBtn.innerHTML = `<i class="fs-6 material-symbols-outlined">border_color</i>`;
-    outlineBtn.title = gettext("Change Outline Color");
-    if (
-      window.selectedElementForUpdate &&
-      window.selectedElementForUpdate.element.stroke
-    ) {
-      outlineBtn.style.border = `3px solid ${window.selectedElementForUpdate.element.stroke}`;
-    }
-    outlineBtn.addEventListener("click", () => {
-      if (
-        window.selectedElementForUpdate &&
-        window.selectedElementForUpdate.element.type === "shape"
-      ) {
-        showColorPalette(outlineBtn, (chosenColor) => {
-          if (chosenColor) {
-            pushCurrentSlideState();
-            const elementData = window.selectedElementForUpdate.element;
-            elementData.stroke = chosenColor;
-            outlineBtn.style.border = `3px solid ${chosenColor}`;
-            const elementDom = window.selectedElementForUpdate.container;
-            const svgContainer = elementDom.querySelector(
-              ".shape-svg-container",
-            );
-            if (svgContainer) {
-              svgContainer.innerHTML = getShapeSVG(
-                elementData.shape,
-                elementData.fill,
-                elementData.stroke,
-                elementData.fitMode,
-                elementData.alignment,
-                elementData.strokeWidth,
-              );
-            }
-          }
-        });
-      }
-    });
-    outlineContainer.appendChild(outlineBtn);
-    shapeToolbar.appendChild(outlineContainer);
-
-    // --------- Vertical Divider ---------
-    const divider3 = document.createElement("div");
-    divider3.classList.add("vr", "m-1");
-    shapeToolbar.appendChild(divider3);
-
-    // --------- Sizing Section ---------
-    const sizingLabel = document.createElement("span");
-    sizingLabel.classList.add("ms-2");
-    sizingLabel.textContent = gettext("Sizing");
-    shapeToolbar.appendChild(sizingLabel);
-
-    const sizingContainer = document.createElement("div");
-    sizingContainer.classList.add(
-      "d-flex",
-      "align-items-center",
-      "gap-2",
-      "rounded",
-      "ms-3",
-    );
-
-    const btnGroup = document.createElement("div");
-    btnGroup.classList.add("btn-group", "btn-group-toggle");
-    btnGroup.setAttribute("data-toggle", "buttons");
-
-    const scaleLabel = document.createElement("label");
-    scaleLabel.classList.add("btn", "btn-sm", "no-wrap");
-    scaleLabel.style.border = "none";
-    scaleLabel.style.backgroundColor = "transparent";
-    const scaleRadio = document.createElement("input");
-    scaleRadio.type = "radio";
-    scaleRadio.name = "shapeSize";
-    scaleRadio.value = "scale";
-    scaleRadio.setAttribute("autocomplete", "off");
-    scaleLabel.appendChild(scaleRadio);
-    scaleLabel.insertAdjacentHTML("beforeend", `\u00A0${gettext("Scale")}`);
-
-    const stretchLabel = document.createElement("label");
-    stretchLabel.classList.add("btn", "btn-sm", "no-wrap");
-    stretchLabel.style.border = "none";
-    stretchLabel.style.backgroundColor = "transparent";
-    const stretchRadio = document.createElement("input");
-    stretchRadio.type = "radio";
-    stretchRadio.name = "shapeSize";
-    stretchRadio.value = "stretch";
-    stretchRadio.setAttribute("autocomplete", "off");
-    stretchLabel.appendChild(stretchRadio);
-    stretchLabel.insertAdjacentHTML("beforeend", `\u00A0${gettext("Stretch")}`);
-
-    if (
-      window.selectedElementForUpdate &&
-      window.selectedElementForUpdate.element.fitMode === "stretch"
-    ) {
-      stretchRadio.checked = true;
-      stretchLabel.classList.add("active");
-    } else {
-      scaleRadio.checked = true;
-      scaleLabel.classList.add("active");
-    }
-
-    scaleRadio.addEventListener("change", () => {
-      if (
-        scaleRadio.checked &&
-        window.selectedElementForUpdate &&
-        window.selectedElementForUpdate.element.type === "shape"
-      ) {
-        pushCurrentSlideState();
-        const elementData = window.selectedElementForUpdate.element;
-        elementData.fitMode = "scale";
-        const elementDom = window.selectedElementForUpdate.container;
-        const svgContainer = elementDom.querySelector(".shape-svg-container");
-        if (svgContainer) {
-          svgContainer.innerHTML = getShapeSVG(
-            elementData.shape,
-            elementData.fill,
-            elementData.stroke,
-            elementData.fitMode,
-            elementData.alignment,
-            elementData.strokeWidth,
-          );
+          stretchLabel.classList.add("active");
+          scaleLabel.classList.remove("active");
         }
-        scaleLabel.classList.add("active");
-        stretchLabel.classList.remove("active");
-      }
-    });
-
-    stretchRadio.addEventListener("change", () => {
-      if (
-        stretchRadio.checked &&
-        window.selectedElementForUpdate &&
-        window.selectedElementForUpdate.element.type === "shape"
-      ) {
-        pushCurrentSlideState();
-        const elementData = window.selectedElementForUpdate.element;
-        elementData.fitMode = "stretch";
-        const elementDom = window.selectedElementForUpdate.container;
-        const svgContainer = elementDom.querySelector(".shape-svg-container");
-        if (svgContainer) {
-          svgContainer.innerHTML = getShapeSVG(
-            elementData.shape,
-            elementData.fill,
-            elementData.stroke,
-            elementData.fitMode,
-            elementData.alignment,
-            elementData.strokeWidth,
-          );
-        }
-        stretchLabel.classList.add("active");
-        scaleLabel.classList.remove("active");
-      }
-    });
-
-    btnGroup.appendChild(scaleLabel);
-    btnGroup.appendChild(stretchLabel);
-    sizingContainer.appendChild(btnGroup);
-    shapeToolbar.appendChild(sizingContainer);
+      });
+    }
   }
 }

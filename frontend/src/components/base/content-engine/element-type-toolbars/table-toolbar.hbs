@@ -1,129 +1,99 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<div id="table-toolbar"
-     class="table-toolbar element-type-toolbar d-none w-100 justify-content-start align-items-center">
-    <span class="element-toolbar-name d-inline-flex align-items-center justify-content-center ms-2 px-2">{% trans "Table" %}</span>
-    <div class="vr m-2"></div>
+{{#> base/content-engine/element-type-toolbars/containers/element-type-toolbars-container id="table-toolbar" class="table-toolbar" title="Table" }}
     <!-- Popover-based toolbar with clean sections -->
     <div class="d-flex align-items-center gap-2 w-100">
         <!-- Structure & Layout Control Button -->
-        <button type="button"
-                id="table-structure-btn"
-                class="btn btn-secondary btn-sm d-flex align-items-center gap-1"
-                data-bs-toggle="tooltip"
-                title="{% trans 'Table Structure & Layout' %}">
-            <i class="material-symbols-outlined" style="font-size: 18px;">table_chart</i>
-            <span class="d-none d-md-inline">{% trans "Structure" %}</span>
-        </button>
+        {{> base/content-engine/element-type-toolbars/buttons/option-btn id="table-structure-btn" icon="table_chart" tooltip="{% trans 'Table Structure & Layout' %}" text="{% trans 'Structure' %}"}}
         <!-- Typography Control Button -->
-        <button type="button"
-                id="table-typography-btn"
-                class="btn btn-secondary btn-sm d-flex align-items-center gap-1"
-                data-bs-toggle="tooltip"
-                title="{% trans 'Typography & Fonts' %}">
-            <i class="material-symbols-outlined" style="font-size: 18px;">text_fields</i>
-            <span class="d-none d-md-inline">{% trans "Typography" %}</span>
-        </button>
+        {{> base/content-engine/element-type-toolbars/buttons/option-btn id="table-typography-btn" icon="text_fields" tooltip="{% trans 'Typography & Fonts' %}" text="{% trans 'Typography' %}"}}
         <!-- Color Control Button -->
-        <button type="button"
-                id="table-color-btn"
-                class="btn btn-secondary btn-sm d-flex align-items-center gap-1"
-                data-bs-toggle="tooltip"
-                title="{% trans 'Table Colors' %}">
-            <i class="material-symbols-outlined" style="font-size: 18px;">color_lens</i>
-            <span class="d-none d-md-inline">{% trans "Colors" %}</span>
-        </button>
+        {{> base/content-engine/element-type-toolbars/buttons/option-btn id="table-color-btn" icon="color_lens" tooltip="{% trans 'Table Colors' %}" text="{% trans 'Colors' %}"}}
     </div>
     <!-- Hidden form elements that will be moved into popovers -->
     <div style="display: none;">
         <!-- Structure inputs -->
-        <input type="number" id="table-rows" min="1" max="20" value="3">
-        <input type="number" id="table-cols" min="1" max="10" value="3">
-        <select id="table-sizing" name="tableSizing">
-            <option value="auto" selected>{% trans "Auto" %}</option>
-            <option value="even">{% trans "Even" %}</option>
-        </select>
+    {{> base/form/input type="number" id="table-rows" min="1" max="20" value="3" classOnly="mx-10"}}
+    {{> base/form/input type="number" id="table-cols" min="1" max="10" value="3"}}
+    {{#> base/form/dropdown id="table-sizing" name="tableSizing" }}
+            {{> base/form/dropdown-option value="auto" text="Auto" selected=true }}
+            {{> base/form/dropdown-option value="even" text="Even" }}
+    {{/base/form/dropdown}}
         <!-- Font size selects -->
-        <select id="table-header-font-size">
-            <option value="0.6">0.6</option>
-            <option value="0.7">0.7</option>
-            <option value="0.8">0.8</option>
-            <option value="0.9">0.9</option>
-            <option value="1">1</option>
-            <option value="1.1">1.1</option>
-            <option value="1.2">1.2</option>
-            <option value="1.3">1.3</option>
-            <option value="1.4">1.4</option>
-            <option value="1.5">1.5</option>
-            <option value="1.6">1.6</option>
-            <option value="1.7">1.7</option>
-            <option value="1.8">1.8</option>
-            <option value="1.9">1.9</option>
-            <option value="2">2</option>
-            <option value="2.1">2.1</option>
-            <option value="2.2">2.2</option>
-            <option value="2.3" selected>2.3</option>
-            <option value="2.5">2.5</option>
-            <option value="2.6">2.6</option>
-            <option value="2.7">2.7</option>
-            <option value="2.8">2.8</option>
-            <option value="2.9">2.9</option>
-            <option value="3">3</option>
-        </select>
-        <select id="table-row-font-size">
-            <option value="0.6">0.6</option>
-            <option value="0.7">0.7</option>
-            <option value="0.8">0.8</option>
-            <option value="0.9">0.9</option>
-            <option value="1">1</option>
-            <option value="1.1">1.1</option>
-            <option value="1.2">1.2</option>
-            <option value="1.3">1.3</option>
-            <option value="1.4">1.4</option>
-            <option value="1.5">1.5</option>
-            <option value="1.6">1.6</option>
-            <option value="1.7" selected>1.7</option>
-            <option value="1.8">1.8</option>
-            <option value="1.9">1.9</option>
-            <option value="2">2</option>
-            <option value="2.1">2.1</option>
-            <option value="2.2">2.2</option>
-            <option value="2.3">2.3</option>
-            <option value="2.5">2.5</option>
-            <option value="2.6">2.6</option>
-            <option value="2.7">2.7</option>
-            <option value="2.8">2.8</option>
-            <option value="2.9">2.9</option>
-            <option value="3">3</option>
-        </select>
+    {{#> base/form/dropdown id="table-header-font-size" }}
+            {{> base/form/dropdown-option value="0.6" text="0.6" }}
+            {{> base/form/dropdown-option value="0.7" text="0.7" }}
+            {{> base/form/dropdown-option value="0.8" text="0.8" }}
+            {{> base/form/dropdown-option value="0.9" text="0.9" }}
+            {{> base/form/dropdown-option value="1" text="1" }}
+            {{> base/form/dropdown-option value="1.1" text="1.1" }}
+            {{> base/form/dropdown-option value="1.2" text="1.2" }}
+            {{> base/form/dropdown-option value="1.3" text="1.3" }}
+            {{> base/form/dropdown-option value="1.4" text="1.4" }}
+            {{> base/form/dropdown-option value="1.5" text="1.5" }}
+            {{> base/form/dropdown-option value="1.6" text="1.6" }}
+            {{> base/form/dropdown-option value="1.7" text="1.7" }}
+            {{> base/form/dropdown-option value="1.8" text="1.8" }}
+            {{> base/form/dropdown-option value="1.9" text="1.9" }}
+            {{> base/form/dropdown-option value="2" text="2" }}
+            {{> base/form/dropdown-option value="2.1" text="2.1" }}
+            {{> base/form/dropdown-option value="2.2" text="2.2" }}
+            {{> base/form/dropdown-option value="2.3" text="2.3" selected=true }}
+            {{> base/form/dropdown-option value="2.5" text="2.5" }}
+            {{> base/form/dropdown-option value="2.6" text="2.6" }}
+            {{> base/form/dropdown-option value="2.7" text="2.7" }}
+            {{> base/form/dropdown-option value="2.8" text="2.8" }}
+            {{> base/form/dropdown-option value="2.9" text="2.9" }}
+            {{> base/form/dropdown-option value="3" text="3" }}
+    {{/base/form/dropdown}}
+    {{#> base/form/dropdown id="table-row-font-size" }}
+            {{> base/form/dropdown-option value="0.6" text="0.6" }}
+            {{> base/form/dropdown-option value="0.7" text="0.7" }}
+            {{> base/form/dropdown-option value="0.8" text="0.8" }}
+            {{> base/form/dropdown-option value="0.9" text="0.9" }}
+            {{> base/form/dropdown-option value="1" text="1" }}
+            {{> base/form/dropdown-option value="1.1" text="1.1" }}
+            {{> base/form/dropdown-option value="1.2" text="1.2" }}
+            {{> base/form/dropdown-option value="1.3" text="1.3" }}
+            {{> base/form/dropdown-option value="1.4" text="1.4" }}
+            {{> base/form/dropdown-option value="1.5" text="1.5" }}
+            {{> base/form/dropdown-option value="1.6" text="1.6" }}
+            {{> base/form/dropdown-option value="1.7" text="1.7" selected=true }}
+            {{> base/form/dropdown-option value="1.8" text="1.8" }}
+            {{> base/form/dropdown-option value="1.9" text="1.9" }}
+            {{> base/form/dropdown-option value="2" text="2" }}
+            {{> base/form/dropdown-option value="2.1" text="2.1" }}
+            {{> base/form/dropdown-option value="2.2" text="2.2" }}
+            {{> base/form/dropdown-option value="2.3" text="2.3" }}
+            {{> base/form/dropdown-option value="2.5" text="2.5" }}
+            {{> base/form/dropdown-option value="2.6" text="2.6" }}
+            {{> base/form/dropdown-option value="2.7" text="2.7" }}
+            {{> base/form/dropdown-option value="2.8" text="2.8" }}
+            {{> base/form/dropdown-option value="2.9" text="2.9" }}
+            {{> base/form/dropdown-option value="3" text="3" }}
+    {{/base/form/dropdown}}
         <!-- Font family selects -->
-        <select id="table-header-font-family">
+    {{#> base/form/dropdown id="table-header-font-family" }}
             <!-- Options will be populated by JavaScript -->
-        </select>
-        <select id="table-row-font-family">
+    {{/base/form/dropdown}}
+    {{#> base/form/dropdown id="table-row-font-family" }}
             <!-- Options will be populated by JavaScript -->
-        </select>
+    {{/base/form/dropdown}}
         <!-- Color inputs -->
-        <input class="form-check-input"
-               type="checkbox"
-               id="table-use-bg-color"
-               checked>
-        <input type="color" id="table-bg-color" value="#ffffff">
-        <input type="color" id="table-font-color" value="#000000">
+    {{> base/form/input type="checkbox" id="table-use-bg-color" checked=true classOnly="form-check-input"}}
+    {{> base/form/input type="color" id="table-bg-color" value="#ffffff"}}
+    {{> base/form/input type="color" id="table-font-color" value="#000000"}}
         <!-- Header color inputs -->
-        <input class="form-check-input"
-               type="checkbox"
-               id="table-use-header-bg-color"
-               checked>
-        <input type="color" id="table-header-bg-color" value="#f8f9fa">
-        <input type="color" id="table-header-font-color" value="#212529">
+    {{> base/form/input type="checkbox" id="table-use-header-bg-color" checked=true classOnly="form-check-input"}}
+    {{> base/form/input type="color" id="table-header-bg-color" value="#f8f9fa"}}
+    {{> base/form/input type="color" id="table-header-font-color" value="#212529"}}
         <!-- Striped options -->
-        <input class="form-check-input" type="checkbox" id="table-striped" checked>
-        <input type="color" id="table-striped-bg-color" value="#f8f9fa">
-        <input type="color" id="table-striped-font-color" value="#000000">
+    {{> base/form/input type="checkbox" id="table-striped" checked=true classOnly="form-check-input"}}
+    {{> base/form/input type="color" id="table-striped-bg-color" value="#f8f9fa"}}
+    {{> base/form/input type="color" id="table-striped-font-color" value="#000000"}}
         <!-- Bordered options -->
-        <input class="form-check-input" type="checkbox" id="table-bordered" checked>
-        <input type="color" id="table-border-color" value="#dee2e6">
-        <input type="number" id="table-border-thickness" min="1" max="5" value="1">
+    {{> base/form/input type="checkbox" id="table-bordered" checked=true classOnly="form-check-input"}}
+    {{> base/form/input type="color" id="table-border-color" value="#dee2e6"}}
+    {{> base/form/input type="number" id="table-border-thickness" min="1" max="5" value="1"}}
     </div>
-</div>
+{{/base/content-engine/element-type-toolbars/containers/element-type-toolbars-container}}

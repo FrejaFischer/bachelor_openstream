@@ -5,29 +5,33 @@ import "./style.scss";
 import { marked } from "marked";
 import MiniSearch from "minisearch";
 import { makeActiveInNav } from "../../utils/utils.js";
-import { translateHTML, fetchUserLangugage } from "../../utils/locales.js";
+import {
+  translateHTML,
+  fetchUserLangugage,
+  gettext,
+} from "../../utils/locales.js";
 
 // Documentation configuration
 const DOCS_CONFIG = {
   chapters: [
     {
-      slug: "01_Getting_Started",
-      title: "Getting Started",
+      slug: "01_Introduction",
+      title: "Introduction",
       order: 1,
     },
     {
-      slug: "02_Dashboard_And_Navigation",
-      title: "Dashboard and Navigation",
+      slug: "02_Organisation_Structure",
+      title: "Organisation Structure",
       order: 2,
     },
     {
-      slug: "03_Content_Management",
-      title: "Content Management",
+      slug: "03_Organisation_Overview",
+      title: "Organisation Overview",
       order: 3,
     },
     {
-      slug: "04_Display_Management",
-      title: "Display Management",
+      slug: "04_Branch_Subpages",
+      title: "Branch Subpages",
       order: 4,
     },
     {
@@ -103,18 +107,20 @@ class DocumentationApp {
     if (!this.tocContent) return;
 
     const tocHTML = this.chapters
-      .map(
-        (chapter) => `
+      .map((chapter) => {
+        const displayTitle =
+          chapter.localizedTitle || gettext(chapter.title) || chapter.title;
+        return `
       <div class="toc-chapter">
         <a href="#${chapter.slug}" class="chapter-link" data-chapter="${chapter.slug}">
-          ${chapter.order}. ${chapter.title}
+          ${chapter.order}. ${displayTitle}
         </a>
         <div class="chapter-sections" id="sections-${chapter.slug}">
           <!-- Sections will be populated when chapter is loaded -->
         </div>
       </div>
-    `,
-      )
+    `;
+      })
       .join("");
 
     this.tocContent.innerHTML = tocHTML;
@@ -148,6 +154,25 @@ class DocumentationApp {
           const markdownContent = await response.text();
           const htmlContent = marked.parse(markdownContent);
           this.loadedChapters[slug] = htmlContent;
+
+          // Extract H1 from the fetched content to use as localized chapter title
+          try {
+            const doc = new DOMParser().parseFromString(
+              htmlContent,
+              "text/html",
+            );
+            const h1 = doc.querySelector("h1");
+            if (h1 && h1.textContent.trim()) {
+              // Store localized title on the chapter object for later use
+              const chapter = this.chapters.find((c) => c.slug === slug);
+              if (chapter) {
+                chapter.localizedTitle = h1.textContent.trim();
+              }
+            }
+          } catch (e) {
+            // ignore parsing errors and keep original title
+            console.warn("Could not parse localized title for", slug, e);
+          }
           return htmlContent;
         }
       } catch (error) {
@@ -267,14 +292,18 @@ class DocumentationApp {
 
     if (nextChapterIndex < this.chapters.length) {
       const nextChapter = this.chapters[nextChapterIndex];
-      this.nextChapterTitle.textContent = nextChapter.title;
+      const nextTitle =
+        nextChapter.localizedTitle ||
+        gettext(nextChapter.title) ||
+        nextChapter.title;
+      this.nextChapterTitle.textContent = nextTitle;
       this.nextChapterBtn.style.display = "inline-flex";
 
       // Remove existing click handlers and add new one
       this.nextChapterBtn.replaceWith(this.nextChapterBtn.cloneNode(true));
       this.nextChapterBtn = document.getElementById("next-chapter-btn");
       this.nextChapterTitle = document.getElementById("next-chapter-title");
-      this.nextChapterTitle.textContent = nextChapter.title;
+      this.nextChapterTitle.textContent = nextTitle;
 
       this.nextChapterBtn.addEventListener("click", () => {
         this.loadChapter(nextChapter.slug);
@@ -304,12 +333,14 @@ class DocumentationApp {
       const content = await this.fetchChapterContent(chapter.slug);
       const doc = new DOMParser().parseFromString(content, "text/html");
 
-      // Index the chapter title
+      // Index the chapter title (use localized title if available)
+      const chapterTitleForIndex =
+        chapter.localizedTitle || gettext(chapter.title) || chapter.title;
       this.searchData.push({
         id: searchId++,
         chapterSlug: chapter.slug,
-        chapterTitle: chapter.title,
-        heading: chapter.title,
+        chapterTitle: chapterTitleForIndex,
+        heading: chapterTitleForIndex,
         text: "",
         sectionId: null,
       });

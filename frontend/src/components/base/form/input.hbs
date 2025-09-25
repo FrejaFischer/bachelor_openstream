@@ -1,3 +1,14 @@
 {{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
 {{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
-<input type="{{type}}" class="form-control{{#if extraClass}} {{extraClass}}{{/if}}" id="{{id}}" {{#if value}}value="{{value}}"{{/if}} {{#if required}}required{{/if}} {{#if placeholder}}placeholder='{% trans "{{placeholder}}" %}'{{/if}}>
+<input
+	type="{{type}}"
+	class="{{#if classOnly}}{{classOnly}}{{else}}form-control{{#if extraClass}} {{extraClass}}{{/if}}{{/if}}"
+	id="{{id}}"
+	name="{{name}}"
+	{{#if value}}value="{{value}}"{{/if}}
+	{{#if min}}min="{{min}}"{{/if}}
+	{{#if max}}max="{{max}}"{{/if}}
+	{{#if checked}}checked{{/if}}
+	{{#if required}}required{{/if}}
+	{{#if placeholder}}placeholder='{% trans "{{placeholder}}" %}'{{/if}}
+>
