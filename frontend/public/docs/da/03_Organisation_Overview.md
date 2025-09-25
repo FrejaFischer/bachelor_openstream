@@ -138,3 +138,9 @@ For at slette en skrifttype, tryk på skraldespands ikonet. OBS! Hvis du sletter
 
 #### 3.3.2.3 Administrer kategorier og tags
 
+På denne side kan organisationsadministratorer opsætte de tilgængelige kategorier og tags i systemet. Tags bruges eksempelvis i slideshows og uploadede billeder. Brugere i systemet kan kun vælge tags eller kategorier, der er defineret her. Hver ting har én kategori, men kan have flere tags.
+
+For at tilføje en kategori, tryk på "+ Tilføj Kategori". Indtast navnet på kategorien og tryk på Gem. Det samme gælder for tags. Du kan søge i dine eksisterende tags eller kategorier i søgefeltet. For at redigere et tag eller en kategori, tryk på blyantsikonet, og en dialogboks vil åbne, hvor du kan indtaste det nye navn. For at slette en kategori eller et tag, tryk på skraldespandsikonet.
+
+
+![Kategorier og tags](/docs/docs_images/da/manage_tags_and_cats_da.png)e underorganisationer og afdelinger. Siden tilpasser sig dynamisk baseret på din brugerrolle og de tilhørende rettigheder.
