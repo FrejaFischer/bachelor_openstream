@@ -7,6 +7,7 @@
 
 import { BASE_URL } from "../../../../../utils/constants.js";
 import { SlideTypeUtils } from "../slideTypeRegistry.js";
+import * as bootstrap from "bootstrap";
 
 export const FrontdeskLtkBorgerserviceSlideType = {
   name: "Frontdesk LTK Borgerservice",
@@ -83,62 +84,150 @@ export const FrontdeskLtkBorgerserviceSlideType = {
   },
 
   setupFormEventListeners() {
-    // Set up the add queue display button
-    const addBtn = document.getElementById("add-webview-btn");
-    if (!addBtn) {
+    // Attach handler to the centralized Generate Slide button in the modal
+    // This avoids duplicate buttons and ensures the modal flow is used.
+    const generateBtn = document.getElementById("generateSlideBtn");
+    if (!generateBtn) {
+      // Modal/button may not be rendered yet; retry shortly
       setTimeout(() => this.setupFormEventListeners(), 100);
       return;
     }
 
+    // If listeners were previously registered, remove them first so we don't
+    // accumulate multiple handlers across repeated form renders.
+    if (this.eventListenerCleanup && Array.isArray(this.eventListenerCleanup)) {
+      try {
+        this.eventListenerCleanup.forEach((cleanup) => cleanup());
+      } catch (e) {
+        // ignore
+      }
+    }
     // Store cleanup functions
     this.eventListenerCleanup = [];
 
-    const addQueueHandler = async () => {
+  const addQueueHandler = async (evt) => {
+      // prevent the modal's central generate handler from running after we
+      // handle the frontdesk embed. This avoids duplicate flows and errors
+      // like "window.selectedElementForUpdate.querySelector is not a function".
+      if (evt) {
+        try {
+          // stop other listeners on the same element
+          typeof evt.stopImmediatePropagation === "function" && evt.stopImmediatePropagation();
+          // stop the event from bubbling to the modal's delegated handler
+          typeof evt.stopPropagation === "function" && evt.stopPropagation();
+          evt.preventDefault && evt.preventDefault();
+        } catch (e) {
+          // ignore
+        }
+      }
+
       try {
         const apiKey = await this.fetchApiKey();
         if (!apiKey) {
-          alert(
-            "Could not retrieve API key. Please contact your administrator.",
-          );
+          console.error("Could not retrieve API key for Frontdesk LTK Borgerservice");
+          // close the modal anyway so the user isn't left with a duplicate flow
+          this._hideModal();
           return;
         }
 
         const url = `https://clientdevicebrowser.frontdesksuite.com/ltk?clientIdentifier=${apiKey}`;
 
-        // Use the global embed website function to add the element
-        if (window.addEmbedWebsiteElementToSlide) {
-          window.addEmbedWebsiteElementToSlide(url);
-
-          // Close any modal that might be open
-          const modal = document.querySelector(".modal.show");
-          if (modal) {
-            const bootstrapModal = bootstrap.Modal.getInstance(modal);
-            if (bootstrapModal) {
-              bootstrapModal.hide();
-            }
+        // Use the global embed website function to add the element (best-effort)
+        try {
+          if (window.addEmbedWebsiteElementToSlide) {
+            window.addEmbedWebsiteElementToSlide(url);
+          } else {
+            console.error("addEmbedWebsiteElementToSlide function not available");
           }
-        } else {
-          console.error("addEmbedWebsiteElementToSlide function not available");
-          alert("Error: Could not add queue display. Please try again.");
+        } catch (err) {
+          console.error("addEmbedWebsiteElementToSlide threw:", err);
         }
+
+        // Close any modal that might be open regardless of success to avoid
+        // leaving the modal open or running the modal's generate flow.
+  // Attempt to hide the modal via a robust helper that falls back
+  // to direct DOM cleanup if the Bootstrap instance isn't reachable.
+  this._hideModal();
       } catch (error) {
+        // Log, but do not alert — user prefers no popup; close modal to finish flow.
         console.error("Error adding frontdesk queue display:", error);
-        alert("Error adding queue display. Please try again.");
+        this._hideModal();
       }
     };
 
-    addBtn.addEventListener("click", addQueueHandler);
+    // Keep a direct reference so cleanup can remove this specific handler
+    this._addQueueHandler = addQueueHandler;
+    generateBtn.addEventListener("click", this._addQueueHandler);
     this.eventListenerCleanup.push(() =>
-      addBtn.removeEventListener("click", addQueueHandler),
+      generateBtn.removeEventListener("click", this._addQueueHandler),
     );
   },
 
   cleanupFormEventListeners() {
+    // Call any registered cleanup functions
     if (this.eventListenerCleanup) {
-      this.eventListenerCleanup.forEach((cleanup) => cleanup());
+      try {
+        this.eventListenerCleanup.forEach((cleanup) => cleanup());
+      } catch (e) {
+        // ignore
+      }
       this.eventListenerCleanup = null;
     }
+
+    // Also attempt to remove the stored handler reference directly if present
+    try {
+      const generateBtn = document.getElementById("generateSlideBtn");
+      if (generateBtn && this._addQueueHandler) {
+        generateBtn.removeEventListener("click", this._addQueueHandler);
+      }
+    } catch (e) {
+      // ignore
+    }
+    this._addQueueHandler = null;
     this._apiKey = null;
+  },
+
+  // Hide the currently open modal. Tries to use Bootstrap's Modal instance
+  // if available, otherwise falls back to manual DOM cleanup so the modal
+  // reliably closes in environments where the bootstrap module instance
+  // isn't reachable from this file's scope.
+  _hideModal() {
+    try {
+      console.debug('[Frontdesk] _hideModal() called');
+      // Try Bootstrap path first (may reference global bootstrap)
+      if (bootstrap && bootstrap.Modal && bootstrap.Modal.getOrCreateInstance) {
+        const modalEl = document.querySelector('.modal.show') || document.getElementById('frontendSlideTypeModal');
+        console.debug('[Frontdesk] bootstrap path - modalEl:', modalEl);
+        if (modalEl) {
+          const inst = bootstrap.Modal.getOrCreateInstance(modalEl);
+          console.debug('[Frontdesk] bootstrap instance:', inst);
+          if (inst && typeof inst.hide === 'function') {
+            console.debug('[Frontdesk] calling bootstrap.hide()');
+            inst.hide();
+            return;
+          }
+        }
+      }
+    } catch (e) {
+      console.debug('[Frontdesk] bootstrap hide failed:', e);
+      // ignore and fall back to DOM cleanup
+    }
+
+    console.debug('[Frontdesk] falling back to DOM cleanup');
+    // Fallback: remove show/display/backdrop and reset body class
+    const modalEl = document.querySelector('.modal.show') || document.getElementById('frontendSlideTypeModal');
+    console.debug('[Frontdesk] DOM modalEl:', modalEl);
+    if (modalEl) {
+      modalEl.classList.remove('show');
+      modalEl.style.display = 'none';
+      modalEl.setAttribute('aria-hidden', 'true');
+    }
+    try {
+      document.body.classList.remove('modal-open');
+    } catch (e) {
+      // ignore
+    }
+    document.querySelectorAll('.modal-backdrop').forEach((b) => b.remove());
   },
 
   async generateSlide(config) {

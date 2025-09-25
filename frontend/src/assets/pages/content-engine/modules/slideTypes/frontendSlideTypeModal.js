@@ -452,6 +452,20 @@ class FrontendSlideTypeModal {
     if (titleElement) {
       titleElement.textContent = "Add Dynamic Content";
     }
+    // If a slide type was previously active, ensure it cleans up its event listeners
+    // so handlers (like the Frontdesk click handler) don't persist and hijack
+    // the centralized generate button when another slide type is selected.
+    if (this.currentSlideTypeId) {
+      const prev = slideTypeRegistry.getSlideType(this.currentSlideTypeId);
+      if (prev && typeof prev.cleanupFormEventListeners === "function") {
+        try {
+          prev.cleanupFormEventListeners();
+        } catch (e) {
+          console.debug('Error during slide type cleanup:', e);
+        }
+      }
+      this.currentSlideTypeId = null;
+    }
   }
 
   showForm() {
@@ -483,6 +497,20 @@ class FrontendSlideTypeModal {
   }
 
   async selectSlideType(slideTypeId) {
+    // If a different slide type is currently active, call its cleanup so that
+    // any event listeners it registered (for example on #generateSlideBtn)
+    // are removed before the new slide type is shown.
+    if (this.currentSlideTypeId && this.currentSlideTypeId !== slideTypeId) {
+      const prev = slideTypeRegistry.getSlideType(this.currentSlideTypeId);
+      if (prev && typeof prev.cleanupFormEventListeners === "function") {
+        try {
+          prev.cleanupFormEventListeners();
+        } catch (e) {
+          console.debug('Error during previous slide type cleanup:', e);
+        }
+      }
+    }
+
     this.currentSlideTypeId = slideTypeId;
     await this.showForm();
   }
