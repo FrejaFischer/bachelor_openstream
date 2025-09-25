@@ -144,3 +144,10 @@ For at tilføje en kategori, tryk på "+ Tilføj Kategori". Indtast navnet på k
 
 
 ![Kategorier og tags](/docs/docs_images/da/manage_tags_and_cats_da.png)e underorganisationer og afdelinger. Siden tilpasser sig dynamisk baseret på din brugerrolle og de tilhørende rettigheder.
+
+#### 3.3.2.4 Skabeloner
+
+På skabelons siden kan organisationsadministratorer opsætte de tilgængelige skabeloner for organisationen. Skabelons editoren har alle de samme features den normalle editor til at redigere slideshows og interaktivt indhold, så derfor vil dokumentationen for at oprette skabeloner i stedet være skrevet under afsnittet [Opret Indhold](#opret_indhold)
+
+
+![Templates](/docs/docs_images/da/templates_da.png)
