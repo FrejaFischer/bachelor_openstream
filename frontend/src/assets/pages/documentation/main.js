@@ -30,8 +30,8 @@ const DOCS_CONFIG = {
       order: 3,
     },
     {
-      slug: "04_Display_Management",
-      title: "Display Management",
+      slug: "04_Global_Settings",
+      title: "Global Settings",
       order: 4,
     },
     {

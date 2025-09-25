@@ -72,3 +72,11 @@ I dette panel kan du udføre følgende handlinger:
 * **Tildel en ny rolle**: Under sektionen "Tilføj Nyt Organisationsmedlemskab" vælger du den relevante underorganisation og rolle. For rollen **Medarbejder** skal du også specificere en afdeling. Klik på **+** ikonet for at tilføje den nye rolle.
 * **Fjern en bruger permanent**: For at fjerne en bruger helt fra organisationen, skal du vælge brugeren og klikke på **Fjern fra organisation**. Alternativt vil en bruger blive fjernet fra organisationen, hvis alle deres roller og adgange manuelt fjernes.
 
+### 3.3.2 Globale Indstillinger
+Som organisationsadministrator kan du tilgå siden "Globale indstillinger" for at konfigurere organisationens fælles udseende og ressourcer. Her kan du:
+
+* Angive standardfarver og skrifttyper, der anvendes ved oprettelse af indhold.
+* Oprette og vedligeholde skabeloner, som afdelinger kan bruge.
+* Administrere globale mediefiler, fx logoer.
+
+Ændringerne gælder på tværs af underorganisationer og afdelinger. Læs mere om globale indstillinger i næste afsnit.

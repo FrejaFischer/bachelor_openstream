@@ -1,6 +1,6 @@
-# 4. Display Management
+# 4. Globale Indstillinger
 
-This section explains how to manage your screens and players.
+Denne side er kun relevant for organisations administratorere, så hvis du ikke er organisationsadministrator, kan du springe dette afsnit over.
 
 ## 4.1. Managing Displays
 
