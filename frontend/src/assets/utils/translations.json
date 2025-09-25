@@ -2830,5 +2830,26 @@
   },
   "Wayfinding displays are different from regular digital signage screens and require separate setup.": {
     "da": "Wayfinding-skærme adskiller sig fra almindelige digitale skilte og kræver en separat opsætning."
+  },
+  "Manage custom fonts for your organization. These fonts will be available across all branches.": {
+    "da": "Administrer brugerdefinerede skrifttyper for din organisation. Disse skrifttyper vil være tilgængelige på tværs af alle afdelinger."
+  },
+  "Font File": {
+    "da": "Skrifttype Fil"
+  },
+  "Upload a font file supported by browsers (WOFF2, WOFF, TTF, OTF).": {
+    "da": "Upload en skrifttypefil, som understøttes af browsere (WOFF2, WOFF, TTF, OTF)."
+  },
+  "Font File (optional)": {
+    "da": "Skrifttype Fil (valgfri)"
+  },
+  "Upload a new font file to replace the existing one, or leave blank to keep current URL.": {
+    "da": "Upload en ny skrifttypefil for at erstatte den eksisterende, eller lad feltet stå tomt for at beholde den nuværende URL."
+  },
+  "Current Font URL": {
+    "da": "Nuværende skrifttype URL"
+  },
+  "Current stored font URL. Upload a file to replace it.": {
+    "da": "Nuværende gemte skrifttype-URL. Upload en fil for at erstatte den."
   }
 }

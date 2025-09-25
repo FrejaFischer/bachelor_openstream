@@ -122,3 +122,19 @@ Efter at have trykket på knappen, vil samme dialogboks komme frem som når man 
 For at slette en farve, tryk på skraldespandsikonet og følg instruktionerne.
 
 **OBS!** Vær opmærksom på, at hvis du sletter en farve, som bliver brugt, så vil farven ikke længere være tilgængelig i de slideshows, skabeloner eller interaktive sider, som bruger farven.
+
+#### 3.3.2.2 Skrifttyper
+
+Det næste menupunkt i globale indstillinger er Skriftyper. Her kan man indsætte hvilke skriftyper der skal være tilgænglige for organisationen når der bliver oprettet indhold.
+For at tilføje en skrifttype, tryk på "Tilføj Skrifttype" knappen. Herefter vil en modalboks komme frem. I denne modalboks kan du angive et navn for skrifttypen, og uploade en understøttet skrifttype fil (WOFF2, WOFF, TTF, OTF). Efter skrifttypen er tilføjet, vil den nu være tilgængelig når indhold bliver oprettet (slideshows / interaktive sider / skabeloner).
+
+For at redigere skrifttyper, tryk på blyantsikonet ved siden af skrifttypen. Den samme dialog boks vil blive vist som når man tilføjer skrifttyper, bortset fra her redigerer du en eksisterende.
+
+For at slette en skrifttype, tryk på skraldespands ikonet. OBS! Hvis du sletter en skrifttype som bliver brugt, vil skrifttype ikke længere være tilgænglig, og en standard skrifttype vil blive vist i stedet.
+
+![Skrifttyper](/docs/docs_images/da/manage_fonts_da.png)
+
+![Skrifttyper](/docs/docs_images/da/add_font_da.png)
+
+#### 3.3.2.3 Administrer kategorier og tags
+

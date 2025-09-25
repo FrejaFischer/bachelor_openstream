@@ -3740,10 +3740,57 @@ class CustomFontAPIView(APIView):
 
         # Update the font
         data = request.data.copy()
+
+        uploaded_file = request.FILES.get("file")
+        allowed_extensions = (".woff2", ".woff", ".ttf", ".otf")
+        saved_path = None
+
+        if uploaded_file:
+            # Validate extension
+            from django.core.files.storage import default_storage
+            from django.core.files.base import ContentFile
+            import os
+
+            filename = uploaded_file.name
+            ext = os.path.splitext(filename)[1].lower()
+            if ext not in allowed_extensions:
+                return Response(
+                    {
+                        "detail": f"Unsupported font file type: {ext}. Allowed: {', '.join(allowed_extensions)}"
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # Build storage path: uploads/fonts/<org_id>/<unique_filename>
+            safe_dir = f"uploads/fonts/{organisation.id}"
+            # Ensure unique filename to avoid collisions
+            unique_suffix = secrets.token_hex(6)
+            storage_filename = f"{os.path.splitext(filename)[0]}-{unique_suffix}{ext}"
+            storage_path = f"{safe_dir}/{storage_filename}"
+
+            try:
+                saved_path = default_storage.save(
+                    storage_path, ContentFile(uploaded_file.read())
+                )
+                font_url = request.build_absolute_uri(default_storage.url(saved_path))
+                data["font_url"] = font_url
+            except Exception as e:
+                logger.error(f"Failed to save uploaded font: {e}")
+                return Response(
+                    {"detail": "Failed to store uploaded font."},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
+
         serializer = CustomFontSerializer(custom_font, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        # If serializer invalid and we saved a file, attempt to cleanup the saved file
+        if uploaded_file and saved_path:
+            try:
+                default_storage.delete(saved_path)
+            except Exception:
+                pass
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):

@@ -374,7 +374,7 @@ async function updateFont() {
   };
 
   // Validate form data
-  if (!formData.name || !formData.font_url) {
+  if (!formData.name) {
     showToast(gettext("Please fill in all required fields"), "Error");
     return;
   }
@@ -389,7 +389,7 @@ async function updateFont() {
       body.append("name", formData.name);
       body.append("file", newFile);
     } else {
-      body = formData;
+      body = { name: formData.name };
     }
 
     const response = await genericFetch(
