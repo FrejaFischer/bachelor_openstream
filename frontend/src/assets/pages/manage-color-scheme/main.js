@@ -104,14 +104,14 @@ function renderColors() {
     const actionsTd = document.createElement("td");
     // Edit
     const editBtn = document.createElement("button");
-    editBtn.className = "btn btn-sm btn-outline-secondary me-2";
-    editBtn.innerHTML = '<span class="material-symbols-outlined">edit</span>';
+    editBtn.className = "btn btn-sm btn-outline-secondary-light me-2";
+    editBtn.innerHTML = '<span class="material-symbols-outlined text-secondary-hover">edit</span>';
     editBtn.title = gettext("Edit");
     editBtn.addEventListener("click", () => openEditModal(color));
     // Delete
     const delBtn = document.createElement("button");
-    delBtn.className = "btn btn-sm btn-outline-danger";
-    delBtn.innerHTML = '<span class="material-symbols-outlined">delete</span>';
+    delBtn.className = "btn btn-sm btn-outline-secondary-light";
+    delBtn.innerHTML = '<span class="material-symbols-outlined text-secondary-hover">delete_forever</span>';
     delBtn.title = gettext("Delete");
     delBtn.addEventListener("click", () => showDeleteConfirmation(color));
     actionsTd.appendChild(editBtn);
