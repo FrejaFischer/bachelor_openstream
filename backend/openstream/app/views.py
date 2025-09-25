@@ -2415,11 +2415,23 @@ class CreateUserAPIView(APIView):
             return Response({"error": "Username already taken."}, status=400)
 
         user = User.objects.create_user(
-            username=username, email=email, password=password, first_name=first_name, last_name=last_name
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
         )
         UserExtended.objects.create(user=user, language_preference=language_preference)
         return Response(
-            {"id": user.id, "username": user.username, "email": user.email, "first_name": user.first_name, "last_name": user.last_name, "language_preference": language_preference}, status=201
+            {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "language_preference": language_preference,
+            },
+            status=201,
         )
 
 
@@ -2633,7 +2645,9 @@ class UserDetailAPIView(APIView):
         target_user = get_object_or_404(User, pk=pk)
 
         if target_user == request.user:
-            return Response({"error": "You cannot remove yourself from organizations."}, status=403)
+            return Response(
+                {"error": "You cannot remove yourself from organizations."}, status=403
+            )
 
         # Get the orgs where the request.user is org_admin
         admin_orgs = OrganisationMembership.objects.filter(
@@ -2642,7 +2656,9 @@ class UserDetailAPIView(APIView):
 
         if not admin_orgs:
             return Response(
-                {"error": "You must be org_admin in at least one organization to perform this action."},
+                {
+                    "error": "You must be org_admin in at least one organization to perform this action."
+                },
                 status=403,
             )
 
@@ -2653,13 +2669,18 @@ class UserDetailAPIView(APIView):
 
         if not memberships_to_remove.exists():
             return Response(
-                {"error": f"User {target_user.username} is not a member of any organizations where you are admin."},
+                {
+                    "error": f"User {target_user.username} is not a member of any organizations where you are admin."
+                },
                 status=403,
             )
 
         memberships_to_remove.delete()
 
-        return Response({"message": "User removed from organizations where you are admin."}, status=200)
+        return Response(
+            {"message": "User removed from organizations where you are admin."},
+            status=200,
+        )
 
 
 ###############################################################################

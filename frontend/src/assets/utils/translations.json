@@ -2803,5 +2803,32 @@
   },
   "Organisation Overview": {
     "da": "Organisationsoversigt"
+  },
+  "Add Wayfinding System": {
+    "da": "Tilføj Wayfinding System"
+  },
+  "Wayfinding systems help visitors navigate through your organization's spaces. ": {
+    "da": "Wayfinding-systemer hjælper besøgende med at finde rundt i din organisations lokaler."
+  },
+  "Create, manage, and configure wayfinding displays for different locations.": {
+    "da": "Opret, administrer og konfigurer wayfinding-skærme for forskellige lokationer."
+  },
+  "Setting up a wayfinding display:": {
+    "da": "Opsætning af en wayfinding-skærm:"
+  },
+  "Click the link button": {
+    "da": "Klik på link-knappen"
+  },
+  "to get your display URL": {
+    "da": "for at få din skærm-URL"
+  },
+  "Open this URL on your wayfinding screen device": {
+    "da": "Åbn denne URL på din wayfinding-skærm"
+  },
+  "Select which location view the screen should display": {
+    "da": "Vælg hvilken lokationsvisning skærmen skal vise"
+  },
+  "Wayfinding displays are different from regular digital signage screens and require separate setup.": {
+    "da": "Wayfinding-skærme adskiller sig fra almindelige digitale skilte og kræver en separat opsætning."
   }
 }

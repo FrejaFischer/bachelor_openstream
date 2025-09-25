@@ -1339,12 +1339,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  document.getElementById("suborgSelectManage").addEventListener("change", () => {
-    const roleVal = document.getElementById("suborgRoleManage").value;
-    if (roleVal === "employee") {
-      populateBranchSelectManage();
-    }
-  });
+  document
+    .getElementById("suborgSelectManage")
+    .addEventListener("change", () => {
+      const roleVal = document.getElementById("suborgRoleManage").value;
+      if (roleVal === "employee") {
+        populateBranchSelectManage();
+      }
+    });
 
   document.getElementById("sign-out-btn").addEventListener("click", signOut);
   document
@@ -1466,10 +1468,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!resp.ok) {
           const err = await resp.json();
           await showToast(
-            gettext("Error removing user from organization: ") + JSON.stringify(err),
+            gettext("Error removing user from organization: ") +
+              JSON.stringify(err),
           );
         } else {
-          await showToast(gettext("User removed from organization successfully!"));
+          await showToast(
+            gettext("User removed from organization successfully!"),
+          );
           const orgId = localStorage.getItem("parentOrgID");
           if (orgId) {
             fetchOrgUsers(orgId);

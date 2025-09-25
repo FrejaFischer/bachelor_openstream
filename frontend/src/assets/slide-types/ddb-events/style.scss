@@ -266,7 +266,7 @@ body {
 
 /* Multi-line clamp for block-level text inside the .vertical-layout-text container */
 .vertical-layout-text .clamp-multiline {
-  display: -webkit-box; /* necessary for webkit line clamp */
+  display: box; /* necessary for webkit line clamp */
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3; /* adjust lines as needed */
   line-clamp: 3;
