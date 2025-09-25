@@ -461,7 +461,7 @@ class FrontendSlideTypeModal {
         try {
           prev.cleanupFormEventListeners();
         } catch (e) {
-          console.debug('Error during slide type cleanup:', e);
+          console.debug("Error during slide type cleanup:", e);
         }
       }
       this.currentSlideTypeId = null;
@@ -506,7 +506,7 @@ class FrontendSlideTypeModal {
         try {
           prev.cleanupFormEventListeners();
         } catch (e) {
-          console.debug('Error during previous slide type cleanup:', e);
+          console.debug("Error during previous slide type cleanup:", e);
         }
       }
     }

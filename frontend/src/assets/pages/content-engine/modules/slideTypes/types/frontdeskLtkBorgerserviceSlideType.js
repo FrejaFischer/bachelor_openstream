@@ -105,14 +105,15 @@ export const FrontdeskLtkBorgerserviceSlideType = {
     // Store cleanup functions
     this.eventListenerCleanup = [];
 
-  const addQueueHandler = async (evt) => {
+    const addQueueHandler = async (evt) => {
       // prevent the modal's central generate handler from running after we
       // handle the frontdesk embed. This avoids duplicate flows and errors
       // like "window.selectedElementForUpdate.querySelector is not a function".
       if (evt) {
         try {
           // stop other listeners on the same element
-          typeof evt.stopImmediatePropagation === "function" && evt.stopImmediatePropagation();
+          typeof evt.stopImmediatePropagation === "function" &&
+            evt.stopImmediatePropagation();
           // stop the event from bubbling to the modal's delegated handler
           typeof evt.stopPropagation === "function" && evt.stopPropagation();
           evt.preventDefault && evt.preventDefault();
@@ -124,7 +125,9 @@ export const FrontdeskLtkBorgerserviceSlideType = {
       try {
         const apiKey = await this.fetchApiKey();
         if (!apiKey) {
-          console.error("Could not retrieve API key for Frontdesk LTK Borgerservice");
+          console.error(
+            "Could not retrieve API key for Frontdesk LTK Borgerservice",
+          );
           // close the modal anyway so the user isn't left with a duplicate flow
           this._hideModal();
           return;
@@ -137,7 +140,9 @@ export const FrontdeskLtkBorgerserviceSlideType = {
           if (window.addEmbedWebsiteElementToSlide) {
             window.addEmbedWebsiteElementToSlide(url);
           } else {
-            console.error("addEmbedWebsiteElementToSlide function not available");
+            console.error(
+              "addEmbedWebsiteElementToSlide function not available",
+            );
           }
         } catch (err) {
           console.error("addEmbedWebsiteElementToSlide threw:", err);
@@ -145,9 +150,9 @@ export const FrontdeskLtkBorgerserviceSlideType = {
 
         // Close any modal that might be open regardless of success to avoid
         // leaving the modal open or running the modal's generate flow.
-  // Attempt to hide the modal via a robust helper that falls back
-  // to direct DOM cleanup if the Bootstrap instance isn't reachable.
-  this._hideModal();
+        // Attempt to hide the modal via a robust helper that falls back
+        // to direct DOM cleanup if the Bootstrap instance isn't reachable.
+        this._hideModal();
       } catch (error) {
         // Log, but do not alert — user prefers no popup; close modal to finish flow.
         console.error("Error adding frontdesk queue display:", error);
@@ -193,41 +198,45 @@ export const FrontdeskLtkBorgerserviceSlideType = {
   // isn't reachable from this file's scope.
   _hideModal() {
     try {
-      console.debug('[Frontdesk] _hideModal() called');
+      console.debug("[Frontdesk] _hideModal() called");
       // Try Bootstrap path first (may reference global bootstrap)
       if (bootstrap && bootstrap.Modal && bootstrap.Modal.getOrCreateInstance) {
-        const modalEl = document.querySelector('.modal.show') || document.getElementById('frontendSlideTypeModal');
-        console.debug('[Frontdesk] bootstrap path - modalEl:', modalEl);
+        const modalEl =
+          document.querySelector(".modal.show") ||
+          document.getElementById("frontendSlideTypeModal");
+        console.debug("[Frontdesk] bootstrap path - modalEl:", modalEl);
         if (modalEl) {
           const inst = bootstrap.Modal.getOrCreateInstance(modalEl);
-          console.debug('[Frontdesk] bootstrap instance:', inst);
-          if (inst && typeof inst.hide === 'function') {
-            console.debug('[Frontdesk] calling bootstrap.hide()');
+          console.debug("[Frontdesk] bootstrap instance:", inst);
+          if (inst && typeof inst.hide === "function") {
+            console.debug("[Frontdesk] calling bootstrap.hide()");
             inst.hide();
             return;
           }
         }
       }
     } catch (e) {
-      console.debug('[Frontdesk] bootstrap hide failed:', e);
+      console.debug("[Frontdesk] bootstrap hide failed:", e);
       // ignore and fall back to DOM cleanup
     }
 
-    console.debug('[Frontdesk] falling back to DOM cleanup');
+    console.debug("[Frontdesk] falling back to DOM cleanup");
     // Fallback: remove show/display/backdrop and reset body class
-    const modalEl = document.querySelector('.modal.show') || document.getElementById('frontendSlideTypeModal');
-    console.debug('[Frontdesk] DOM modalEl:', modalEl);
+    const modalEl =
+      document.querySelector(".modal.show") ||
+      document.getElementById("frontendSlideTypeModal");
+    console.debug("[Frontdesk] DOM modalEl:", modalEl);
     if (modalEl) {
-      modalEl.classList.remove('show');
-      modalEl.style.display = 'none';
-      modalEl.setAttribute('aria-hidden', 'true');
+      modalEl.classList.remove("show");
+      modalEl.style.display = "none";
+      modalEl.setAttribute("aria-hidden", "true");
     }
     try {
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
     } catch (e) {
       // ignore
     }
-    document.querySelectorAll('.modal-backdrop').forEach((b) => b.remove());
+    document.querySelectorAll(".modal-backdrop").forEach((b) => b.remove());
   },
 
   async generateSlide(config) {

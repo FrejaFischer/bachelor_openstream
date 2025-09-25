@@ -95,7 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
             a.href = item.link;
             a.target = "_blank";
             a.innerHTML = `${
-              lastCat !== feed.name ? '<span class="feed_name">' + feed.name + ":</span>" : ""
+              lastCat !== feed.name
+                ? '<span class="feed_name">' + feed.name + ":</span>"
+                : ""
             } <span class="item_title">${item.title}</span> ${item.summary ? " - " + item.summary : ""}`;
             lastCat = feed.name;
             frag1.appendChild(a);
