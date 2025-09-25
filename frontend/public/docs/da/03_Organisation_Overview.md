@@ -1,5 +1,7 @@
 # 3. Organisationsoverblik
 
+Efter login, vil du blive sendt hen til organisationsoverblik's siden.
+
 Denne side giver et samlet overblik over alle tilknyttede underorganisationer og afdelinger. Siden tilpasser sig dynamisk baseret på din brugerrolle og de tilhørende rettigheder.
 
 Som **organisationsadministrator** har du adgang til yderligere funktioner:
@@ -69,3 +71,4 @@ I dette panel kan du udføre følgende handlinger:
 * **Fjern en rolle**: Vælg den pågældende bruger i sidemenuen for at se vedkommendes nuværende roller. Klik på **Fjern Adgang** ud for den rolle, du ønsker at fjerne.
 * **Tildel en ny rolle**: Under sektionen "Tilføj Nyt Organisationsmedlemskab" vælger du den relevante underorganisation og rolle. For rollen **Medarbejder** skal du også specificere en afdeling. Klik på **+** ikonet for at tilføje den nye rolle.
 * **Fjern en bruger permanent**: For at fjerne en bruger helt fra organisationen, skal du vælge brugeren og klikke på **Fjern fra organisation**. Alternativt vil en bruger blive fjernet fra organisationen, hvis alle deres roller og adgange manuelt fjernes.
+
