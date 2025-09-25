@@ -482,7 +482,7 @@ function setupEventListeners() {
 }
 
 function activateNavLink() {
-  const navLink = document.querySelector('a[href="/manage-fonts"]');
+  const navLink = document.querySelector('a[href="/manage-fonts-and-color-scheme"]');
   if (navLink) navLink.classList.add("active");
 }
 setTimeout(activateNavLink, 200);
@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   initSignOutButton();
   await fetchUserLangugage();
   translateHTML();
-  makeActiveInNav("/manage-fonts");
+  makeActiveInNav("/manage-fonts-and-color-scheme");
   await validateToken();
   updateNavbarBranchName();
   updateNavbarUsername();

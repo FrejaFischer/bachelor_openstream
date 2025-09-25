@@ -1,0 +1,122 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/containers/html-container title="Manage Fonts and Color Scheme" script-src="/src/assets/pages/manage-fonts/main.js" script-src-2="/src/assets/pages/manage-color-scheme/main.js" }}
+    {{> base/navbar/navbar_global_settings }}
+    {{#> base/containers/main-container }}
+        {{!-- <div class="container-fluid pt-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="mb-4">{% trans "Manage Fonts" %}</h1>
+                    <p>{% trans "Manage custom fonts for your organization. These fonts will be available across all branches." %}</p>
+                    <div id="admin-required-message-fonts" class="alert alert-warning d-none" role="alert">{% trans "You must be an organization admin to add or modify fonts." %}</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5>{% trans "Custom Fonts" %}</h5>
+                            <button type="button" class="btn btn-primary" id="add-font-modal-btn">
+                                <i class="material-symbols-outlined me-2">add</i>{% trans "Add Font" %}
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="fonts-container">
+                                <div class="text-center py-4 d-none" id="loading-spinner-fonts">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">{% trans "Loading..." %}</span>
+                                    </div>
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans "Font Name" %}</th>
+                                            <th>{% trans "Example" %}</th>
+                                            <th>{% trans "Actions" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fonts-table-body">
+                                        <!-- Fonts will be populated here via JavaScript -->
+                                    </tbody>
+                                </table>
+                                <div id="no-fonts-message" class="alert alert-info d-none">
+                                    {% trans "No custom fonts found. Add a new font to get started." %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+        <section class="settings-layout">
+            <h1 class="mb-4">{% trans "Manage Fonts and Color Scheme" %}</h1>
+            <p>{% trans "Manage custom fonts and colors for your organization. These will be available across all branches." %}</p>
+            <div class="d-flex justify-content-evenly gap-4 color-scheme-fonts-container">
+                <div class="w-100 d-flex flex-column gap-1">
+                    <div id="admin-required-message-fonts" class="alert alert-warning d-none" role="alert">{% trans "You must be an organization admin to add or modify fonts." %}</div>
+                    <div class="d-flex justify-content-between align-items-center p-2">
+                        <h3 class="m-0 text-secondary">{% trans "Custom Fonts" %}</h3>
+                        <button type="button" class="btn btn-primary" id="add-font-modal-btn">
+                            <i class="material-symbols-outlined me-2">add</i>{% trans "Add Font" %}
+                        </button>
+                    </div>
+                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto">
+                        <div class="text-center py-4 d-none" id="loading-spinner-fonts">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">{% trans "Loading..." %}</span>
+                            </div>
+                        </div>
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="fw-semibold">{% trans "Font Name" %}</th>
+                                    <th class="fw-semibold">{% trans "Example" %}</th>
+                                    <th class="fw-semibold">{% trans "Actions" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fonts-table-body">
+                                <!-- Fonts will be populated here via JavaScript -->
+                            </tbody>
+                        </table>
+                        <div id="no-fonts-message" class="alert alert-info d-none">
+                            {% trans "No custom fonts found. Add a new font to get started." %}
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100 d-flex flex-column gap-1">
+                    <div id="admin-required-message-colors" class="alert alert-warning d-none">{% trans "You must be an organization admin to view or modify colors." %}</div>
+                    <div class="d-flex justify-content-between align-items-center p-2">
+                        <h3 class="m-0 text-secondary">{% trans "Custom Color Scheme" %}</h3>
+                        <button id="open-color-modal-btn" class="btn btn-primary">
+                            <span class="material-symbols-outlined align-middle">add</span>
+                            <span class="align-middle">{% trans "Add Color" %}</span>
+                        </button>
+                    </div>
+                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto">
+                        <div id="loading-spinner-colors" class="spinner-border my-3" role="status">
+                            <span class="visually-hidden">{% trans "Loading..." %}</span>
+                        </div>
+                        <table id="colors-table" class="table table-hover mb-0 d-none">
+                            <thead>
+                                <tr>
+                                    <th class="fw-semibold">{% trans "Name" %}</th>
+                                    <th class="fw-semibold">{% trans "Preview" %}</th>
+                                    <th class="fw-semibold">{% trans "Type" %}</th>
+                                    <th class="fw-semibold">{% trans "Actions" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="colors-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{> pages/manage-fonts/modals/add-font-modal }}
+        {{> pages/manage-fonts/modals/edit-font-modal }}
+        {{> pages/manage-fonts/modals/delete-modal }}
+
+        {{> pages/manage-color-scheme/modals/color-modal }}
+        {{> pages/manage-color-scheme/modals/delete-modal }}
+    {{/base/containers/main-container}}
+{{/base/containers/html-container}}
