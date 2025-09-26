@@ -31,9 +31,9 @@ const adminRequiredMessage = document.getElementById("admin-required-message-col
 const loadingSpinner = document.getElementById("loading-spinner-colors");
 const colorsTable = document.getElementById("colors-table");
 const colorsTableBody = document.getElementById("colors-table-body");
-const deleteModalEl = document.getElementById("deleteModal");
+const deleteModalEl = document.getElementById("deleteColorModal");
 const deleteModal = new bootstrap.Modal(deleteModalEl);
-const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+const confirmDeleteBtn = document.getElementById("confirm-delete-color-btn");
 const deleteNameEl = document.getElementById("delete-color-name");
 
 // Modal elements

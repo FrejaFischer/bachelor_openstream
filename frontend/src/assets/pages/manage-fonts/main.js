@@ -50,9 +50,9 @@ const editFontFileInput = document.getElementById("edit-font-file");
 const confirmEditFontBtn = document.getElementById("confirm-edit-font-btn");
 
 // Delete Modal elements
-const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+const confirmDeleteBtn = document.getElementById("confirm-delete-font-btn");
 const deleteFontNameEl = document.getElementById("delete-font-name");
-const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+const deleteModal = new bootstrap.Modal(document.getElementById("deleteFontModal"));
 
 /**
  * Load fonts from the API
