@@ -1,0 +1,34 @@
+{{!-- SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> --}}
+{{!-- SPDX-License-Identifier: AGPL-3.0-only --}}
+{{#> base/modal/modal id="editFontModal" ariaLabelledby="editFontModalLabel" }}
+    {{#*inline "header"}}
+        {{> base/modal/modal-title title="Edit Font" id="editFontModalLabel"}}
+        {{> base/modal/modal-header-close}}
+    {{/inline}}
+
+    {{#*inline "body"}}
+        <form id="edit-font-form">
+            <input type="hidden" id="edit-font-id" value="">
+            <div class="mb-3">
+                {{> base/form/label for="edit-font-name" text="Font Name"}}
+                {{> base/form/input type="text" id="edit-font-name" required=true}}
+                <div class="form-text">{% trans "Name of the font (e.g., 'Open Sans')" %}</div>
+            </div>
+            <div class="mb-3">
+                {{> base/form/label for="edit-font-file" text="Font File (optional)"}}
+                <input class="form-control" type="file" id="edit-font-file" accept=".woff2,.woff,.ttf,.otf" />
+                <div class="form-text">{% trans "Upload a new font file to replace the existing one, or leave blank to keep current URL." %}</div>
+            </div>
+            <div class="mb-3" id="edit-font-current-url-container">
+                {{> base/form/label for="edit-font-current-url" text="Current Font URL"}}
+                <div id="edit-font-current-url" class="form-control-plaintext"></div>
+                <div class="form-text">{% trans "Current stored font URL. Upload a file to replace it." %}</div>
+            </div>
+        </form>
+    {{/inline}}
+
+    {{#*inline "footer"}}
+        {{> base/modal/modal-footer-close btn-text="Cancel"}}
+        {{> base/buttons/icon-button type='button' id='confirm-edit-font-btn' variant='primary' icon='save' text='{% trans "Update Font" %}'}}
+    {{/inline}}
+{{/base/modal/modal}}
