@@ -1,0 +1,43 @@
+/* SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk> */
+
+/* SPDX-License-Identifier: AGPL-3.0-only */
+@import "../../scss/main";
+
+/* Styles for the Manage Fonts and Color Scheme page */
+.settings-layout {
+    padding: 4rem 5rem
+}
+
+.disabled {
+  opacity: 65%;
+  pointer-events: none;
+}
+
+/* Styling for Manage Fonts */
+.color-scheme-fonts-container {
+  height: 34rem;
+}
+
+#font-preview-container {
+  padding: 20px;
+  border: 1px solid $gray;
+  border-radius: 5px;
+  background-color: $lightest-gray;
+}
+
+.font-preview-text {
+  display: block;
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Table styles */
+
+.table td {
+  vertical-align: middle;
+}
+
+.table tbody tr:last-of-type {
+  border-color: transparent;
+}
