@@ -41,3 +41,35 @@ export const BASE_URL =
   import.meta.env.VITE_BASE_URL ||
   deriveBaseFromHostname() ||
   "http://localhost:8000";
+
+// Converter service base URL (same derivation pattern, default port 8001)
+function deriveConverterBaseFromHostname() {
+  if (typeof window === "undefined" || !window.location) return null;
+  const host = window.location.hostname;
+
+  if (host === "localhost" || host === "127.0.0.1") {
+    return "http://localhost:8001";
+  }
+
+  if (host.endsWith(".test.openstream.dk") || host === "test.openstream.dk") {
+    return "https://converter.test.openstream.dk";
+  }
+
+  if (
+    host.endsWith(".staging.openstream.dk") ||
+    host === "staging.openstream.dk"
+  ) {
+    return "https://converter.staging.openstream.dk";
+  }
+
+  if (host === "openstream.dk" || host.endsWith(".openstream.dk")) {
+    return "https://converter.openstream.dk";
+  }
+
+  return null;
+}
+
+export const CONVERTER_BASE =
+  import.meta.env.VITE_CONVERTER_BASE ||
+  deriveConverterBaseFromHostname() ||
+  "http://localhost:8001";
