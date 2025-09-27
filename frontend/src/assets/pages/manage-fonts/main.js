@@ -317,14 +317,20 @@ async function addFont() {
     return;
   }
 
-  try {
+    try {
     // Prepare body: use FormData if file present
     let body;
     let headers = undefined; // let genericFetch set Content-Type unless FormData
     if (file) {
       body = new FormData();
       body.append("name", name);
-      body.append("file", file);
+      // Create hashed filename to avoid duplicates (same approach as media uploads)
+      const originalName = file.name;
+      const lastDotIndex = originalName.lastIndexOf(".");
+      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
+      const hashedName = crypto.randomUUID() + extension;
+      const hashedFile = new File([file], hashedName, { type: file.type });
+      body.append("file", hashedFile);
     } else {
       body = { name, font_url: addFontUrlInput.value.trim() };
     }
@@ -387,7 +393,13 @@ async function updateFont() {
     if (newFile) {
       body = new FormData();
       body.append("name", formData.name);
-      body.append("file", newFile);
+      // Create hashed filename to avoid duplicates (same approach as media uploads)
+      const originalName = newFile.name;
+      const lastDotIndex = originalName.lastIndexOf(".");
+      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
+      const hashedName = crypto.randomUUID() + extension;
+      const hashedFile = new File([newFile], hashedName, { type: newFile.type });
+      body.append("file", hashedFile);
     } else {
       body = { name: formData.name };
     }
