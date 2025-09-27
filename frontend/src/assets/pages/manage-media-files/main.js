@@ -616,7 +616,13 @@ async function submitMediaUpdate(event) {
       showToast(gettext("Please select a file to upload."), "Error");
       return;
     }
-    body.append("file", newFile);
+    // Create hashed filename to avoid duplicates
+    const originalName = newFile.name;
+    const lastDotIndex = originalName.lastIndexOf('.');
+    const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+    const hashedName = crypto.randomUUID() + extension;
+    const hashedFile = new File([newFile], hashedName, { type: newFile.type });
+    body.append("file", hashedFile);
     method = "POST";
   } else {
     idParam = currentlyEditingMedia.id;
@@ -667,15 +673,24 @@ async function submitMultipleMediaUpload(formFile, body) {
   showLoadingOverlay(true);
   try {
     const uploads = files.map(async (file) => {
-      // Use filename (without extension) as title
-      const fileName =
-        file.name.substring(0, file.name.lastIndexOf(".")) || file.name;
-      body.set("title", fileName);
-      body.set("file", file);
+      const form = formFile.form;
+      const originalName = file.name;
+      const lastDotIndex = originalName.lastIndexOf('.');
+      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+      const hashedName = crypto.randomUUID() + extension;
+      const hashedFile = new File([file], hashedName, { type: file.type });
+      const fileName = originalName.substring(0, originalName.lastIndexOf(".")) || originalName;
+      const uploadBody = new FormData();
+      uploadBody.append("branch_id", body.get("branch_id"));
+      const category = form.category.value;
+      if (category) uploadBody.append("category", category);
+      currentMediaTags.forEach((tag) => uploadBody.append("tags[]", tag));
+      uploadBody.append("title", fileName);
+      uploadBody.append("file", hashedFile);
       await genericFetch(
         `${BASE_URL}/api/documents/?branch_id=${selectedBranchID}`,
         "POST",
-        body,
+        uploadBody,
       );
     });
 

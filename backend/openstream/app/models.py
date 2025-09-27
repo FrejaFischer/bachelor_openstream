@@ -798,6 +798,12 @@ class Document(models.Model):
 
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        # Delete the file from storage
+        if self.file:
+            self.file.delete(save=False)
+        super().delete(*args, **kwargs)
+
 
 ###############################################################################
 # Custom Colors
