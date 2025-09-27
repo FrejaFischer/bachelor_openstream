@@ -677,7 +677,13 @@ async function submitMediaUpdate(event) {
       showToast(gettext("Please select a file to upload."), "Error");
       return;
     }
-    body.append("file", newFile);
+    // Create hashed filename to avoid duplicates (match manage-media-files)
+    const originalName = newFile.name;
+    const lastDotIndex = originalName.lastIndexOf('.');
+    const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+    const hashedName = crypto.randomUUID() + extension;
+    const hashedFile = new File([newFile], hashedName, { type: newFile.type });
+    body.append("file", hashedFile);
     method = "POST";
   } else {
     idParam = currentlyEditingMedia.id;
@@ -727,12 +733,25 @@ async function submitMultipleMediaUpload(formFile, body) {
   try {
     const uploads = Array.from(files).map(async (file) => {
       // Use filename (without extension) as title
-      body.set("title", extractExtensionFromFile(file.name, true));
-      body.set("file", file);
+      const fileTitle = extractExtensionFromFile(file.name, true);
+      // Create hashed filename to avoid duplicates
+      const originalName = file.name;
+      const lastDotIndex = originalName.lastIndexOf('.');
+      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+      const hashedName = crypto.randomUUID() + extension;
+      const hashedFile = new File([file], hashedName, { type: file.type });
+      // Create a fresh FormData per upload to avoid shared state between uploads
+      const uploadBody = new FormData();
+      uploadBody.append("branch_id", body.get("branch_id"));
+      const category = body.get("category");
+      if (category) uploadBody.append("category", category);
+      currentMediaTags.forEach((tag) => uploadBody.append("tags[]", tag));
+      uploadBody.append("title", fileTitle);
+      uploadBody.append("file", hashedFile);
       await genericFetch(
         `${BASE_URL}/api/documents/?branch_id=${selectedBranchID}&organisation_id=${parentOrgID}`,
         "POST",
-        body,
+        uploadBody,
       );
     });
 
