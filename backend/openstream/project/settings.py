@@ -40,13 +40,9 @@ if os.environ.get("CSRF_TRUSTED_ORIGINS"):
 else:
     CSRF_TRUSTED_ORIGINS = []
 
-###############################################################################
-# Media Files and DigitalOcean Spaces (Using Django 4.2+ STORAGES)
-###############################################################################
-
-DO_SPACE_KEY = os.environ.get("DO_SPACE_KEY")
-DO_SPACE_SECRET = os.environ.get("DO_SPACE_SECRET")
-DO_SPACE_BUCKET = os.environ.get("DO_SPACE_BUCKET")
+################################################################################
+# Media Files and S3-compatible storage (Using Django 4.2+ STORAGES)
+################################################################################
 
 # New: support generic AWS_S3_* envs (used for MinIO/local S3)
 AWS_S3_KEY = os.environ.get("AWS_S3_KEY") or os.environ.get("AWS_ACCESS_KEY_ID")
@@ -129,26 +125,7 @@ if AWS_S3_KEY and AWS_S3_SECRET and AWS_S3_BUCKET:
         },
     }
     
-# Fallback: existing DigitalOcean Spaces vars
-elif DO_SPACE_KEY and DO_SPACE_SECRET and DO_SPACE_BUCKET:
-    AWS_ACCESS_KEY_ID = DO_SPACE_KEY
-    AWS_SECRET_ACCESS_KEY = DO_SPACE_SECRET
-    AWS_STORAGE_BUCKET_NAME = DO_SPACE_BUCKET
-    AWS_S3_ENDPOINT_URL = "https://fra1.digitaloceanspaces.com"
-    AWS_S3_CUSTOM_DOMAIN = f"{DO_SPACE_BUCKET}.fra1.digitaloceanspaces.com"
-    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-    AWS_DEFAULT_ACL = "public-read"
-    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
-
-    STORAGES = {
-        "default": {
-            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        },
-        "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-        },
-    }
-
+# If AWS_S3_* envs are not provided, fall back to filesystem storage below.
 else:
     STORAGES = {
         "default": {

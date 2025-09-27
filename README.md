@@ -32,4 +32,4 @@ Defaults used in development (see `dev-environment/backend/openstream.env`):
 - Secret Key: minioadmin
 - Bucket: infoscreen
 
-Set `AWS_S3_ENDPOINT_URL=http://minio:9000` (or `DO_SPACE_*` if you use DigitalOcean Spaces) to control which storage backend the Django app uses.
+Set `AWS_S3_ENDPOINT_URL=http://minio:9000` (or the corresponding `AWS_S3_*` envs) to control which storage backend the Django app uses.

@@ -104,20 +104,7 @@ services:
       - ./frontend/vite.config.js:/app/vite.config.js:Z
     depends_on:
       - openstream
-  media_converter:
-    container_name: openstream-media-converter
-    build:
-      context: ./media_converter_service
-      dockerfile: Dockerfile
-    image: openstream-media-converter
-    pull_policy: never
-    networks: *common-networks
-    ports:
-      - "8001:8000"
-    volumes:
-      - ./media_converter_service:/app:Z
-    depends_on:
-      - openstream
+  # media_converter service removed
 
   minio:
     container_name: openstream-minio
