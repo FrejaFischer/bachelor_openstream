@@ -770,9 +770,23 @@ class DocumentSerializer(serializers.ModelSerializer):
 
     def get_file_url(self, obj):
         request = self.context.get("request")
+        from django.conf import settings as _dj_settings
+        from urllib.parse import urljoin as _urljoin
+
+        # If MEDIA_URL is an absolute public URL (e.g. MINIO_PUBLIC_URL), use it
+        # to construct the public-facing URL. This avoids returning internal
+        # presigned URLs from the storage backend.
+        media_url = getattr(_dj_settings, "MEDIA_URL", "")
+        if media_url and media_url.startswith("http"):
+            # obj.file.name is the path inside the bucket (e.g. 'uploads/589.jpg')
+            try:
+                return _urljoin(media_url, obj.file.name)
+            except Exception:
+                pass
+
         if request:
             return request.build_absolute_uri(obj.file.url)
-        return ""
+        return obj.file.url or ""
 
     def get_is_owned_by_branch(self, obj):
         branch = self.context.get("branch")

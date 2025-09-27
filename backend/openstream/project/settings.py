@@ -48,12 +48,75 @@ DO_SPACE_KEY = os.environ.get("DO_SPACE_KEY")
 DO_SPACE_SECRET = os.environ.get("DO_SPACE_SECRET")
 DO_SPACE_BUCKET = os.environ.get("DO_SPACE_BUCKET")
 
-if DO_SPACE_KEY and DO_SPACE_SECRET and DO_SPACE_BUCKET:
-    AWS_ACCESS_KEY_ID = DO_SPACE_KEY
-    AWS_SECRET_ACCESS_KEY = DO_SPACE_SECRET
-    AWS_STORAGE_BUCKET_NAME = DO_SPACE_BUCKET
-    AWS_S3_ENDPOINT_URL = "https://fra1.digitaloceanspaces.com"
-    AWS_S3_CUSTOM_DOMAIN = f"{DO_SPACE_BUCKET}.fra1.digitaloceanspaces.com"
+# New: support generic AWS_S3_* envs (used for MinIO/local S3)
+AWS_S3_KEY = os.environ.get("AWS_S3_KEY") or os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_S3_SECRET = os.environ.get("AWS_S3_SECRET") or os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_S3_BUCKET = os.environ.get("AWS_S3_BUCKET") or os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_ENDPOINT_URL_ENV = os.environ.get("AWS_S3_ENDPOINT_URL")
+# Optional: internal endpoint for services running in the same compose network
+# e.g. set to 'http://minio:9000' so the backend container can reach MinIO
+AWS_S3_INTERNAL_ENDPOINT_URL = os.environ.get("AWS_S3_INTERNAL_ENDPOINT_URL")
+
+# --- START: MODIFIED LOGIC ---
+
+# 1. Read the new public-facing URL from the environment
+MINIO_PUBLIC_URL_ENV = os.environ.get("MINIO_PUBLIC_URL")
+
+# --- END: MODIFIED LOGIC ---
+
+
+# Priority: if AWS_S3_KEY/SECRET/BUCKET provided, use those (for MinIO/local S3)
+if AWS_S3_KEY and AWS_S3_SECRET and AWS_S3_BUCKET:
+    AWS_ACCESS_KEY_ID = AWS_S3_KEY
+    AWS_SECRET_ACCESS_KEY = AWS_S3_SECRET
+    AWS_STORAGE_BUCKET_NAME = AWS_S3_BUCKET
+    
+    # Choose internal endpoint for boto3 if provided (container network host)
+    if AWS_S3_INTERNAL_ENDPOINT_URL:
+        AWS_S3_ENDPOINT_URL = AWS_S3_INTERNAL_ENDPOINT_URL
+    elif AWS_S3_ENDPOINT_URL_ENV:
+        # Fallback: use provided external endpoint for both boto3 and MEDIA_URL
+        AWS_S3_ENDPOINT_URL = AWS_S3_ENDPOINT_URL_ENV
+
+    # --- START: MODIFIED LOGIC ---
+
+    # 2. Check if the public URL is provided (for generating frontend-facing URLs)
+    if MINIO_PUBLIC_URL_ENV:
+        # 3. Construct MEDIA_URL using the PUBLIC URL
+        public_endpoint = MINIO_PUBLIC_URL_ENV.rstrip('/')
+        MEDIA_URL = f"{public_endpoint}/{AWS_S3_BUCKET}/"
+    
+    # 4. Fallback to the old logic if the public URL isn't set
+    elif AWS_S3_ENDPOINT_URL_ENV and AWS_S3_ENDPOINT_URL_ENV.startswith("http"):
+        endpoint = AWS_S3_ENDPOINT_URL_ENV.rstrip('/')
+        MEDIA_URL = f"{endpoint}/{AWS_S3_BUCKET}/"
+        
+    # --- END: MODIFIED LOGIC ---
+
+    # Fallback custom domain logic (can be simplified, but kept for compatibility)
+    if 'MEDIA_URL' not in globals():
+        if AWS_S3_ENDPOINT_URL_ENV:
+            try:
+                from urllib.parse import urlparse
+                parsed = urlparse(AWS_S3_ENDPOINT_URL_ENV)
+                netloc = parsed.netloc or parsed.path
+                AWS_S3_CUSTOM_DOMAIN = f"{netloc}/{AWS_S3_BUCKET}"
+            except Exception:
+                stripped = AWS_S3_ENDPOINT_URL_ENV.replace("http://", "").replace("https://", "").rstrip('/')
+                AWS_S3_CUSTOM_DOMAIN = f"{stripped}/{AWS_S3_BUCKET}"
+        else:
+            AWS_S3_CUSTOM_DOMAIN = f"{AWS_S3_BUCKET}.s3.amazonaws.com"
+        MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+
+    # Extra compatibility for MinIO / local S3 endpoints:
+    # Force path-style addressing and use signature v4 which MinIO expects.
+    # Also set a sensible default region if none provided. Use the effective
+    # AWS_S3_ENDPOINT_URL (which may be the internal endpoint) to decide.
+    if 'AWS_S3_ENDPOINT_URL' in globals() and AWS_S3_ENDPOINT_URL:
+        AWS_S3_ADDRESSING_STYLE = os.environ.get("AWS_S3_ADDRESSING_STYLE", "path")
+        AWS_S3_SIGNATURE_VERSION = os.environ.get("AWS_S3_SIGNATURE_VERSION", "s3v4")
+        AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "us-east-1")
+
     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
     AWS_DEFAULT_ACL = "public-read"
 
@@ -65,8 +128,27 @@ if DO_SPACE_KEY and DO_SPACE_SECRET and DO_SPACE_BUCKET:
             "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         },
     }
+    
+# Fallback: existing DigitalOcean Spaces vars
+elif DO_SPACE_KEY and DO_SPACE_SECRET and DO_SPACE_BUCKET:
+    AWS_ACCESS_KEY_ID = DO_SPACE_KEY
+    AWS_SECRET_ACCESS_KEY = DO_SPACE_SECRET
+    AWS_STORAGE_BUCKET_NAME = DO_SPACE_BUCKET
+    AWS_S3_ENDPOINT_URL = "https://fra1.digitaloceanspaces.com"
+    AWS_S3_CUSTOM_DOMAIN = f"{DO_SPACE_BUCKET}.fra1.digitaloceanspaces.com"
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+    AWS_DEFAULT_ACL = "public-read"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
-    # No MEDIA_ROOT needed because we're using Spaces for media
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
+
 else:
     STORAGES = {
         "default": {
@@ -121,7 +203,7 @@ MIDDLEWARE = [
 if os.environ.get("CORS_ALLOWED_ORIGINS"):
     CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
 else:
-    CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:4173"]
+    CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:4173", "http://localhost:4174"]
 
 CORS_ALLOW_HEADERS = [
     "accept",

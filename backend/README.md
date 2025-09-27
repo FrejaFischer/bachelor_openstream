@@ -126,3 +126,20 @@ OBS: To revert back to the default development setup, just delete the `compose.o
 Note: The production image now runs `manage.py collectstatic --noinput` during container startup (entrypoint) so
 static assets (including the Django admin CSS) are written to `/data/static` and served by WhiteNoise. Also ensure
 `STATIC_URL` is set to begin with a leading slash (`/static/`) so templates generate correct absolute paths.
+
+### Using MinIO / local S3 for media files
+
+If you want to use a local MinIO server for media uploads, set the env vars below in your container or `.env` file.
+
+Example env vars:
+
+```env
+# minio running on localhost:9000
+AWS_S3_KEY=minioaccesskey
+AWS_S3_SECRET=miniosecretkey
+AWS_S3_BUCKET=infoscreen
+AWS_S3_ENDPOINT_URL=http://localhost:9000
+```
+
+With the above, Django will construct MEDIA_URL from the endpoint and bucket, e.g.: `http://localhost:9000/infoscreen/`.
+This ensures generated file URLs point to the actual MinIO host and port instead of a fabricated `<bucket>.local` domain.
