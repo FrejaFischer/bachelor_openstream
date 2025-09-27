@@ -21,15 +21,3 @@ https://www.magenta.dk/en/solutions/openstream-english/
 
 All code is made available under Version 3 of the AGPL  GNU Affero General Public License
 License - see the LICENSE file for details.
-
-Local S3 for development
-------------------------
-
-The development compose stack includes a local MinIO service that provides an S3-compatible API. Start the compose stack and the MinIO console will be available at http://localhost:9001 and the S3 API at http://localhost:9000.
-
-Defaults used in development (see `dev-environment/backend/openstream.env`):
-- Access Key: minioadmin
-- Secret Key: minioadmin
-- Bucket: infoscreen
-
-Set `AWS_S3_ENDPOINT_URL=http://minio:9000` (or the corresponding `AWS_S3_*` envs) to control which storage backend the Django app uses.
