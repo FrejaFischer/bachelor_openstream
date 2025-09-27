@@ -1,4 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+# SPDX-License-Identifier: AGPL-3.0-only
 #!/bin/sh
+
 set -e
 
 # Wait for MinIO to be ready

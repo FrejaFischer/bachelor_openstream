@@ -618,8 +618,9 @@ async function submitMediaUpdate(event) {
     }
     // Create hashed filename to avoid duplicates
     const originalName = newFile.name;
-    const lastDotIndex = originalName.lastIndexOf('.');
-    const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+    const lastDotIndex = originalName.lastIndexOf(".");
+    const extension =
+      lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
     const hashedName = crypto.randomUUID() + extension;
     const hashedFile = new File([newFile], hashedName, { type: newFile.type });
     body.append("file", hashedFile);
@@ -675,11 +676,14 @@ async function submitMultipleMediaUpload(formFile, body) {
     const uploads = files.map(async (file) => {
       const form = formFile.form;
       const originalName = file.name;
-      const lastDotIndex = originalName.lastIndexOf('.');
-      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+      const lastDotIndex = originalName.lastIndexOf(".");
+      const extension =
+        lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
       const hashedName = crypto.randomUUID() + extension;
       const hashedFile = new File([file], hashedName, { type: file.type });
-      const fileName = originalName.substring(0, originalName.lastIndexOf(".")) || originalName;
+      const fileName =
+        originalName.substring(0, originalName.lastIndexOf(".")) ||
+        originalName;
       const uploadBody = new FormData();
       uploadBody.append("branch_id", body.get("branch_id"));
       const category = form.category.value;

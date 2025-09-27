@@ -3696,7 +3696,9 @@ class CustomFontAPIView(APIView):
                 if getattr(_dj_settings, "MEDIA_URL", "").startswith("http"):
                     font_url = _urljoin(_dj_settings.MEDIA_URL, saved_path)
                 else:
-                    font_url = request.build_absolute_uri(default_storage.url(saved_path))
+                    font_url = request.build_absolute_uri(
+                        default_storage.url(saved_path)
+                    )
                 data["font_url"] = font_url
                 # Default name to filename (without extension) if not provided
                 if not data.get("name"):
@@ -3800,7 +3802,9 @@ class CustomFontAPIView(APIView):
                 if getattr(_dj_settings, "MEDIA_URL", "").startswith("http"):
                     font_url = _urljoin(_dj_settings.MEDIA_URL, saved_path)
                 else:
-                    font_url = request.build_absolute_uri(default_storage.url(saved_path))
+                    font_url = request.build_absolute_uri(
+                        default_storage.url(saved_path)
+                    )
                 data["font_url"] = font_url
             except Exception as e:
                 logger.error(f"Failed to save uploaded font: {e}")

@@ -46,8 +46,12 @@ else:
 
 # New: support generic AWS_S3_* envs (used for MinIO/local S3)
 AWS_S3_KEY = os.environ.get("AWS_S3_KEY") or os.environ.get("AWS_ACCESS_KEY_ID")
-AWS_S3_SECRET = os.environ.get("AWS_S3_SECRET") or os.environ.get("AWS_SECRET_ACCESS_KEY")
-AWS_S3_BUCKET = os.environ.get("AWS_S3_BUCKET") or os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_SECRET = os.environ.get("AWS_S3_SECRET") or os.environ.get(
+    "AWS_SECRET_ACCESS_KEY"
+)
+AWS_S3_BUCKET = os.environ.get("AWS_S3_BUCKET") or os.environ.get(
+    "AWS_STORAGE_BUCKET_NAME"
+)
 AWS_S3_ENDPOINT_URL_ENV = os.environ.get("AWS_S3_ENDPOINT_URL")
 # Optional: internal endpoint for services running in the same compose network
 # e.g. set to 'http://minio:9000' so the backend container can reach MinIO
@@ -66,7 +70,7 @@ if AWS_S3_KEY and AWS_S3_SECRET and AWS_S3_BUCKET:
     AWS_ACCESS_KEY_ID = AWS_S3_KEY
     AWS_SECRET_ACCESS_KEY = AWS_S3_SECRET
     AWS_STORAGE_BUCKET_NAME = AWS_S3_BUCKET
-    
+
     # Choose internal endpoint for boto3 if provided (container network host)
     if AWS_S3_INTERNAL_ENDPOINT_URL:
         AWS_S3_ENDPOINT_URL = AWS_S3_INTERNAL_ENDPOINT_URL
@@ -79,26 +83,31 @@ if AWS_S3_KEY and AWS_S3_SECRET and AWS_S3_BUCKET:
     # 2. Check if the public URL is provided (for generating frontend-facing URLs)
     if MINIO_PUBLIC_URL_ENV:
         # 3. Construct MEDIA_URL using the PUBLIC URL
-        public_endpoint = MINIO_PUBLIC_URL_ENV.rstrip('/')
+        public_endpoint = MINIO_PUBLIC_URL_ENV.rstrip("/")
         MEDIA_URL = f"{public_endpoint}/{AWS_S3_BUCKET}/"
-    
+
     # 4. Fallback to the old logic if the public URL isn't set
     elif AWS_S3_ENDPOINT_URL_ENV and AWS_S3_ENDPOINT_URL_ENV.startswith("http"):
-        endpoint = AWS_S3_ENDPOINT_URL_ENV.rstrip('/')
+        endpoint = AWS_S3_ENDPOINT_URL_ENV.rstrip("/")
         MEDIA_URL = f"{endpoint}/{AWS_S3_BUCKET}/"
-        
+
     # --- END: MODIFIED LOGIC ---
 
     # Fallback custom domain logic (can be simplified, but kept for compatibility)
-    if 'MEDIA_URL' not in globals():
+    if "MEDIA_URL" not in globals():
         if AWS_S3_ENDPOINT_URL_ENV:
             try:
                 from urllib.parse import urlparse
+
                 parsed = urlparse(AWS_S3_ENDPOINT_URL_ENV)
                 netloc = parsed.netloc or parsed.path
                 AWS_S3_CUSTOM_DOMAIN = f"{netloc}/{AWS_S3_BUCKET}"
             except Exception:
-                stripped = AWS_S3_ENDPOINT_URL_ENV.replace("http://", "").replace("https://", "").rstrip('/')
+                stripped = (
+                    AWS_S3_ENDPOINT_URL_ENV.replace("http://", "")
+                    .replace("https://", "")
+                    .rstrip("/")
+                )
                 AWS_S3_CUSTOM_DOMAIN = f"{stripped}/{AWS_S3_BUCKET}"
         else:
             AWS_S3_CUSTOM_DOMAIN = f"{AWS_S3_BUCKET}.s3.amazonaws.com"
@@ -108,7 +117,7 @@ if AWS_S3_KEY and AWS_S3_SECRET and AWS_S3_BUCKET:
     # Force path-style addressing and use signature v4 which MinIO expects.
     # Also set a sensible default region if none provided. Use the effective
     # AWS_S3_ENDPOINT_URL (which may be the internal endpoint) to decide.
-    if 'AWS_S3_ENDPOINT_URL' in globals() and AWS_S3_ENDPOINT_URL:
+    if "AWS_S3_ENDPOINT_URL" in globals() and AWS_S3_ENDPOINT_URL:
         AWS_S3_ADDRESSING_STYLE = os.environ.get("AWS_S3_ADDRESSING_STYLE", "path")
         AWS_S3_SIGNATURE_VERSION = os.environ.get("AWS_S3_SIGNATURE_VERSION", "s3v4")
         AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "us-east-1")
@@ -124,7 +133,7 @@ if AWS_S3_KEY and AWS_S3_SECRET and AWS_S3_BUCKET:
             "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         },
     }
-    
+
 # If AWS_S3_* envs are not provided, fall back to filesystem storage below.
 else:
     STORAGES = {
@@ -180,7 +189,11 @@ MIDDLEWARE = [
 if os.environ.get("CORS_ALLOWED_ORIGINS"):
     CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
 else:
-    CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://localhost:4173", "http://localhost:4174"]
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:5173",
+        "http://localhost:4173",
+        "http://localhost:4174",
+    ]
 
 CORS_ALLOW_HEADERS = [
     "accept",

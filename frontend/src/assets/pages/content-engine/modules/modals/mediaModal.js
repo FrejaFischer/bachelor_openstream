@@ -679,8 +679,9 @@ async function submitMediaUpdate(event) {
     }
     // Create hashed filename to avoid duplicates (match manage-media-files)
     const originalName = newFile.name;
-    const lastDotIndex = originalName.lastIndexOf('.');
-    const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+    const lastDotIndex = originalName.lastIndexOf(".");
+    const extension =
+      lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
     const hashedName = crypto.randomUUID() + extension;
     const hashedFile = new File([newFile], hashedName, { type: newFile.type });
     body.append("file", hashedFile);
@@ -736,8 +737,9 @@ async function submitMultipleMediaUpload(formFile, body) {
       const fileTitle = extractExtensionFromFile(file.name, true);
       // Create hashed filename to avoid duplicates
       const originalName = file.name;
-      const lastDotIndex = originalName.lastIndexOf('.');
-      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
+      const lastDotIndex = originalName.lastIndexOf(".");
+      const extension =
+        lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
       const hashedName = crypto.randomUUID() + extension;
       const hashedFile = new File([file], hashedName, { type: file.type });
       // Create a fresh FormData per upload to avoid shared state between uploads
