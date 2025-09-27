@@ -677,8 +677,8 @@ async function submitMediaUpdate(event) {
       showToast(gettext("Please select a file to upload."), "Error");
       return;
     }
-  // Use original file name; backend will suffix with a content hash
-  body.append("file", newFile);
+    // Use original file name; backend will suffix with a content hash
+    body.append("file", newFile);
     method = "POST";
   } else {
     idParam = currentlyEditingMedia.id;
@@ -729,7 +729,7 @@ async function submitMultipleMediaUpload(formFile, body) {
     const uploads = Array.from(files).map(async (file) => {
       // Use filename (without extension) as title
       const fileTitle = extractExtensionFromFile(file.name, true);
-  // Use original file; backend will suffix with a content hash
+      // Use original file; backend will suffix with a content hash
       // Create a fresh FormData per upload to avoid shared state between uploads
       const uploadBody = new FormData();
       uploadBody.append("branch_id", body.get("branch_id"));
@@ -737,7 +737,7 @@ async function submitMultipleMediaUpload(formFile, body) {
       if (category) uploadBody.append("category", category);
       currentMediaTags.forEach((tag) => uploadBody.append("tags[]", tag));
       uploadBody.append("title", fileTitle);
-  uploadBody.append("file", file);
+      uploadBody.append("file", file);
       await genericFetch(
         `${BASE_URL}/api/documents/?branch_id=${selectedBranchID}&organisation_id=${parentOrgID}`,
         "POST",

@@ -818,9 +818,13 @@ class Document(models.Model):
                     if detected_type == self.FileType.MP4
                     else self.FileType.WEBM
                 )
-                logger.info(f"Video upload completed successfully for: {self.file.name}")
+                logger.info(
+                    f"Video upload completed successfully for: {self.file.name}"
+                )
             except Exception as e:
-                logger.error(f"Video upload failed for {getattr(self.file,'name',None)}: {str(e)}")
+                logger.error(
+                    f"Video upload failed for {getattr(self.file,'name',None)}: {str(e)}"
+                )
                 pass
 
         # For other file types (images, etc.) ensure we suffix the filename with its content hash

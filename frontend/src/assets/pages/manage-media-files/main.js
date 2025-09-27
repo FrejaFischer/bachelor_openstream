@@ -611,13 +611,13 @@ async function submitMediaUpdate(event) {
       return;
     }
 
-  const newFile = form.file.files[0];
+    const newFile = form.file.files[0];
     if (!newFile) {
       showToast(gettext("Please select a file to upload."), "Error");
       return;
     }
-  // Use original file name; backend will suffix with a content hash
-  body.append("file", newFile);
+    // Use original file name; backend will suffix with a content hash
+    body.append("file", newFile);
     method = "POST";
   } else {
     idParam = currentlyEditingMedia.id;
@@ -669,7 +669,7 @@ async function submitMultipleMediaUpload(formFile, body) {
   try {
     const uploads = files.map(async (file) => {
       const form = formFile.form;
-  const originalName = file.name;
+      const originalName = file.name;
       const fileName =
         originalName.substring(0, originalName.lastIndexOf(".")) ||
         originalName;
@@ -679,8 +679,8 @@ async function submitMultipleMediaUpload(formFile, body) {
       if (category) uploadBody.append("category", category);
       currentMediaTags.forEach((tag) => uploadBody.append("tags[]", tag));
       uploadBody.append("title", fileName);
-  // Use original file; backend will suffix with a content hash
-  uploadBody.append("file", file);
+      // Use original file; backend will suffix with a content hash
+      uploadBody.append("file", file);
       await genericFetch(
         `${BASE_URL}/api/documents/?branch_id=${selectedBranchID}`,
         "POST",

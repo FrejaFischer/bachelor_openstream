@@ -317,7 +317,7 @@ async function addFont() {
     return;
   }
 
-    try {
+  try {
     // Prepare body: use FormData if file present
     let body;
     let headers = undefined; // let genericFetch set Content-Type unless FormData
