@@ -611,19 +611,13 @@ async function submitMediaUpdate(event) {
       return;
     }
 
-    const newFile = form.file.files[0];
+  const newFile = form.file.files[0];
     if (!newFile) {
       showToast(gettext("Please select a file to upload."), "Error");
       return;
     }
-    // Create hashed filename to avoid duplicates
-    const originalName = newFile.name;
-    const lastDotIndex = originalName.lastIndexOf(".");
-    const extension =
-      lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
-    const hashedName = crypto.randomUUID() + extension;
-    const hashedFile = new File([newFile], hashedName, { type: newFile.type });
-    body.append("file", hashedFile);
+  // Use original file name; backend will suffix with a content hash
+  body.append("file", newFile);
     method = "POST";
   } else {
     idParam = currentlyEditingMedia.id;
@@ -675,12 +669,7 @@ async function submitMultipleMediaUpload(formFile, body) {
   try {
     const uploads = files.map(async (file) => {
       const form = formFile.form;
-      const originalName = file.name;
-      const lastDotIndex = originalName.lastIndexOf(".");
-      const extension =
-        lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
-      const hashedName = crypto.randomUUID() + extension;
-      const hashedFile = new File([file], hashedName, { type: file.type });
+  const originalName = file.name;
       const fileName =
         originalName.substring(0, originalName.lastIndexOf(".")) ||
         originalName;
@@ -690,7 +679,8 @@ async function submitMultipleMediaUpload(formFile, body) {
       if (category) uploadBody.append("category", category);
       currentMediaTags.forEach((tag) => uploadBody.append("tags[]", tag));
       uploadBody.append("title", fileName);
-      uploadBody.append("file", hashedFile);
+  // Use original file; backend will suffix with a content hash
+  uploadBody.append("file", file);
       await genericFetch(
         `${BASE_URL}/api/documents/?branch_id=${selectedBranchID}`,
         "POST",

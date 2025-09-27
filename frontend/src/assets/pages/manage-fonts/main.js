@@ -324,13 +324,8 @@ async function addFont() {
     if (file) {
       body = new FormData();
       body.append("name", name);
-      // Create hashed filename to avoid duplicates (same approach as media uploads)
-      const originalName = file.name;
-      const lastDotIndex = originalName.lastIndexOf(".");
-      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
-      const hashedName = crypto.randomUUID() + extension;
-      const hashedFile = new File([file], hashedName, { type: file.type });
-      body.append("file", hashedFile);
+      // Use original file name; backend will suffix with a content hash
+      body.append("file", file);
     } else {
       body = { name, font_url: addFontUrlInput.value.trim() };
     }
@@ -393,13 +388,8 @@ async function updateFont() {
     if (newFile) {
       body = new FormData();
       body.append("name", formData.name);
-      // Create hashed filename to avoid duplicates (same approach as media uploads)
-      const originalName = newFile.name;
-      const lastDotIndex = originalName.lastIndexOf(".");
-      const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : "";
-      const hashedName = crypto.randomUUID() + extension;
-      const hashedFile = new File([newFile], hashedName, { type: newFile.type });
-      body.append("file", hashedFile);
+      // Use original file name; backend will suffix with a content hash
+      body.append("file", newFile);
     } else {
       body = { name: formData.name };
     }

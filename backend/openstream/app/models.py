@@ -6,6 +6,7 @@ import tempfile
 import subprocess
 import logging
 from io import BytesIO
+import hashlib
 
 import fitz
 from django.conf import settings
@@ -755,43 +756,88 @@ class Document(models.Model):
         ext = self.clean()
         detected_type = self.VALID_EXTENSIONS[ext]
 
-        # If it's a PDF, convert before saving
+        # Helper to produce a filename suffixed with a short content hash
+        def _name_with_hash(filename, content_bytes):
+            base, extension = os.path.splitext(filename)
+            h = hashlib.sha256(content_bytes).hexdigest()[:12]
+            return f"{base}-{h}{extension}"
+
+        # If it's a PDF, convert before saving and use the converted image bytes for hashing
         if detected_type == self.FileType.PDF:
+            try:
+                # Read PDF bytes
+                try:
+                    self.file.seek(0)
+                except Exception:
+                    pass
+                pdf_bytes = self.file.read()
+            except Exception:
+                pdf_bytes = b""
+
             # Convert first page to image
-            doc = fitz.open(stream=self.file.read(), filetype="pdf")
+            doc = fitz.open(stream=pdf_bytes, filetype="pdf")
             page = doc.load_page(0)
             pix = page.get_pixmap()
             img_bytes = BytesIO(pix.tobytes("png"))
 
-            original_name = self.file.name
+            # Create a PNG filename based on original name with hash
+            original_png_name = os.path.splitext(self.file.name)[0] + ".png"
+            new_name = _name_with_hash(original_png_name, img_bytes.getvalue())
+            img_bytes.seek(0)
             self.file = InMemoryUploadedFile(
                 file=img_bytes,
                 field_name="file",
-                name=original_name,  # Keep the .pdf name!
-                content_type="image/png",  # True content type
+                name=new_name,
+                content_type="image/png",
                 size=img_bytes.getbuffer().nbytes,
                 charset=None,
             )
 
-        # If it's a video, just save it directly (no compression)
+        # If it's a video, just save it directly (no compression) but rename to include content hash
         elif detected_type in [self.FileType.MP4, self.FileType.WEBM]:
             try:
                 logger.info(f"Uploading video file directly: {self.file.name}")
-                self.file.seek(0)
-                # No compression, just keep the original file
-                # Optionally, you could copy to a new InMemoryUploadedFile if needed
-                # but here we just keep self.file as is
-                # Update file type to match the uploaded file
+                try:
+                    self.file.seek(0)
+                except Exception:
+                    pass
+                try:
+                    content_bytes = self.file.read()
+                    try:
+                        self.file.seek(0)
+                    except Exception:
+                        pass
+                    if content_bytes:
+                        self.file.name = _name_with_hash(self.file.name, content_bytes)
+                except Exception:
+                    # If reading fails, proceed without renaming
+                    pass
+
                 detected_type = (
                     self.FileType.MP4
                     if detected_type == self.FileType.MP4
                     else self.FileType.WEBM
                 )
-                logger.info(
-                    f"Video upload completed successfully for: {self.file.name}"
-                )
+                logger.info(f"Video upload completed successfully for: {self.file.name}")
             except Exception as e:
-                logger.error(f"Video upload failed for {self.file.name}: {str(e)}")
+                logger.error(f"Video upload failed for {getattr(self.file,'name',None)}: {str(e)}")
+                pass
+
+        # For other file types (images, etc.) ensure we suffix the filename with its content hash
+        else:
+            try:
+                try:
+                    self.file.seek(0)
+                except Exception:
+                    pass
+                content = self.file.read()
+                try:
+                    self.file.seek(0)
+                except Exception:
+                    pass
+                if content and getattr(self.file, "name", None):
+                    self.file.name = _name_with_hash(self.file.name, content)
+            except Exception:
                 pass
 
         self.file_type = detected_type
