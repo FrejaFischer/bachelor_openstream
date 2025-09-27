@@ -20,7 +20,7 @@ import {
   initSignOutButton,
 } from "../../utils/utils";
 import * as bootstrap from "bootstrap";
-import { BASE_URL, CONVERTER_BASE } from "../../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 import { gettext } from "../../utils/locales";
 
 // On page load
@@ -616,14 +616,12 @@ async function submitMediaUpdate(event) {
       showToast(gettext("Please select a file to upload."), "Error");
       return;
     }
-    // Compress the file first
-    const compressedFile = await compressFile(newFile);
     // Create hashed filename to avoid duplicates
-    const originalName = compressedFile.name;
+    const originalName = newFile.name;
     const lastDotIndex = originalName.lastIndexOf('.');
     const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
     const hashedName = crypto.randomUUID() + extension;
-    const hashedFile = new File([compressedFile], hashedName, { type: compressedFile.type });
+    const hashedFile = new File([newFile], hashedName, { type: newFile.type });
     body.append("file", hashedFile);
     method = "POST";
   } else {
@@ -675,14 +673,12 @@ async function submitMultipleMediaUpload(formFile, body) {
   showLoadingOverlay(true);
   try {
     const uploads = files.map(async (file) => {
-      // Compress the file first
-      const compressedFile = await compressFile(file);
       const form = formFile.form;
-      const originalName = compressedFile.name;
+      const originalName = file.name;
       const lastDotIndex = originalName.lastIndexOf('.');
       const extension = lastDotIndex !== -1 ? originalName.substring(lastDotIndex) : '';
       const hashedName = crypto.randomUUID() + extension;
-      const hashedFile = new File([compressedFile], hashedName, { type: compressedFile.type });
+      const hashedFile = new File([file], hashedName, { type: file.type });
       const fileName = originalName.substring(0, originalName.lastIndexOf(".")) || originalName;
       const uploadBody = new FormData();
       uploadBody.append("branch_id", body.get("branch_id"));
@@ -715,45 +711,6 @@ async function submitMultipleMediaUpload(formFile, body) {
 }
 
 // ============ HELPER FUNCTIONS ============
-
-// Compress file using the converter service
-async function compressFile(file) {
-  const fileType = file.type.split('/')[0]; // 'image' or 'video'
-  if (fileType !== 'image' && fileType !== 'video') {
-    return file; // Return original for non-media files
-  }
-
-  const endpoint = fileType === 'image' ? '/convert/image' : '/convert/video';
-  const formData = new FormData();
-  formData.append('file', file, file.name);
-
-  try {
-    const res = await fetch(CONVERTER_BASE + endpoint, {
-      method: 'POST',
-      body: formData
-    });
-
-    if (!res.ok) {
-      throw new Error(`Compression failed: ${res.status} ${await res.text()}`);
-    }
-
-    const blob = await res.blob();
-    // Determine new filename based on content type
-    const contentType = res.headers.get('content-type') || '';
-    let ext = '';
-    if (contentType.startsWith('image/')) {
-      ext = '.webp';
-    } else if (contentType.startsWith('video/')) {
-      ext = '.mp4';
-    }
-    const compressedFile = new File([blob], file.name.replace(/\.[^.]+$/, ext), { type: contentType });
-    return compressedFile;
-  } catch (err) {
-    console.error('Compression error:', err);
-    // Fall back to original file
-    return file;
-  }
-}
 
 function syncFileTitleAndInput() {
   const fileExtensionDisplay = document.querySelector("#fileExtensionDisplay");
