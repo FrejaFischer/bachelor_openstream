@@ -32,13 +32,6 @@
 
 
 /* Styling for Manage Fonts */
-#font-preview-container {
-  padding: 20px;
-  border: 1px solid $gray;
-  border-radius: 5px;
-  background-color: $lightest-gray;
-}
-
 .font-preview-text {
   display: block;
   background-color: transparent;
@@ -48,9 +41,8 @@
 
 /* Styling for Manage Color Scheme */
 .color-preview {
-  width: 42px;
-  height: 20px;
+  width: 2.5rem;
+  height: 1.3rem;
   border: 1px solid $light-gray;
   border-radius: 6px;
-  display: inline-block;
 }
