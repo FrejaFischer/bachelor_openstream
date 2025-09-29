@@ -5,7 +5,11 @@
 
 /* Styles for the Manage Fonts and Color Scheme page */
 .settings-layout {
-    padding: 4rem 5rem
+  padding: 4rem 5rem
+}
+
+.color-scheme-fonts-container {
+  height: 34rem;
 }
 
 .disabled {
@@ -13,11 +17,17 @@
   pointer-events: none;
 }
 
-/* Styling for Manage Fonts */
-.color-scheme-fonts-container {
-  height: 34rem;
+/* Table styles */
+.table td {
+  vertical-align: middle;
 }
 
+.table tbody tr:last-of-type {
+  border-color: transparent;
+}
+
+
+/* Styling for Manage Fonts */
 #font-preview-container {
   padding: 20px;
   border: 1px solid $gray;
@@ -32,12 +42,11 @@
   line-height: 1.4;
 }
 
-/* Table styles */
-
-.table td {
-  vertical-align: middle;
-}
-
-.table tbody tr:last-of-type {
-  border-color: transparent;
+/* Styling for Manage Color Scheme */
+.color-preview {
+  width: 42px;
+  height: 20px;
+  border: 1px solid $light-gray;
+  border-radius: 6px;
+  display: inline-block;
 }
