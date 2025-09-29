@@ -102,6 +102,7 @@ function renderColors() {
     previewTd.appendChild(previewDiv);
     // Actions
     const actionsTd = document.createElement("td");
+    actionsTd.className = "action-cell-td";
     // Edit
     const editBtn = document.createElement("button");
     editBtn.className = "btn btn-sm btn-outline-secondary-light me-2";

@@ -197,6 +197,7 @@ function renderFonts() {
 
     // Create actions cell
     const actionsCell = document.createElement("td");
+    actionsCell.className = "action-cell-td";
 
     // Only show edit/delete buttons if user is admin
     if (isAdmin) {
