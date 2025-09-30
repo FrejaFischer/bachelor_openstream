@@ -756,6 +756,26 @@ class Document(models.Model):
         ext = self.clean()
         detected_type = self.VALID_EXTENSIONS[ext]
 
+        # If this is an existing instance and the file attribute hasn't changed
+        # we should skip all file-processing and storage operations. This avoids
+        # unnecessary reads/writes to S3/MinIO which can mutate object ACLs.
+        if self.pk:
+            try:
+                orig = type(self).objects.get(pk=self.pk)
+                # If both original and current refer to the same storage name,
+                # assume no file update was intended and just persist metadata.
+                if (
+                    getattr(orig, "file", None)
+                    and getattr(self, "file", None)
+                    and orig.file.name == self.file.name
+                ):
+                    # Preserve file_type if already present, else use detected
+                    self.file_type = orig.file_type or detected_type
+                    return super().save(*args, **kwargs)
+            except type(self).DoesNotExist:
+                # New object race — continue with normal save flow
+                pass
+
         # Helper to produce a filename suffixed with a short content hash
         def _name_with_hash(filename, content_bytes):
             base, extension = os.path.splitext(filename)
