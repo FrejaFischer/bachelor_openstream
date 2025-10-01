@@ -40,3 +40,9 @@
   border: 1px solid $light-gray;
   border-radius: 6px;
 }
+
+.table-content-container {
+  /* This is some weird magic flexbox css, where overflow-scroll doesnt work properly on elements sized up with flex: 1 ,
+  for some reason it works if ANY height is set for the element together with the flex-grow: 1 */
+  height: 10px;
+}

@@ -15,24 +15,26 @@
                             <i class="material-symbols-outlined me-2">add</i>{% trans "Add Font" %}
                         </button>
                     </div>
-                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto flex-grow-1">
+                    <div class="card shadow-xl rounded-4 border-0 p-2 d-flex flex-column flex-grow-1">
                         <div class="text-center py-4 d-none" id="loading-spinner-fonts">
                             <div class="spinner-border" role="status">
                                 <span class="visually-hidden">{% trans "Loading..." %}</span>
                             </div>
                         </div>
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="fw-semibold">{% trans "Font Name" %}</th>
-                                    <th class="fw-semibold">{% trans "Example" %}</th>
-                                    <th class="fw-semibold">{% trans "Actions" %}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="fonts-table-body">
-                                <!-- Fonts will be populated here via JavaScript -->
-                            </tbody>
-                        </table>
+                        <div class="overflow-auto flex-grow-1 table-content-container">
+                            <table class="table table-hover mb-0">
+                                <thead class="sticky-top bg-white">
+                                    <tr>
+                                        <th class="fw-semibold">{% trans "Font Name" %}</th>
+                                        <th class="fw-semibold">{% trans "Example" %}</th>
+                                        <th class="fw-semibold">{% trans "Actions" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fonts-table-body">
+                                    <!-- Fonts will be populated here via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                         <div id="no-fonts-message" class="alert alert-info d-none">
                             {% trans "No custom fonts found. Add a new font to get started." %}
                         </div>
@@ -47,22 +49,24 @@
                             <span class="align-middle">{% trans "Add Color" %}</span>
                         </button>
                     </div>
-                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto flex-grow-1">
+                    <div class="card shadow-xl rounded-4 border-0 p-2 d-flex flex-column flex-grow-1">
                         <div id="loading-spinner-colors" class="spinner-border my-3" role="status">
                             <span class="visually-hidden">{% trans "Loading..." %}</span>
                         </div>
-                        <table id="colors-table" class="table table-hover mb-0 d-none">
-                            <thead>
-                                <tr>
-                                    <th class="fw-semibold">{% trans "Name" %}</th>
-                                    <th class="fw-semibold">{% trans "Preview" %}</th>
-                                    <th class="fw-semibold">{% trans "Type" %}</th>
-                                    <th class="fw-semibold">{% trans "Actions" %}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="colors-table-body">
-                            </tbody>
-                        </table>
+                        <div class="overflow-auto flex-grow-1 table-content-container">
+                            <table id="colors-table" class="table table-hover mb-0 d-none">
+                                <thead class="sticky-top bg-white">
+                                    <tr>
+                                        <th class="fw-semibold">{% trans "Name" %}</th>
+                                        <th class="fw-semibold">{% trans "Preview" %}</th>
+                                        <th class="fw-semibold">{% trans "Type" %}</th>
+                                        <th class="fw-semibold">{% trans "Actions" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="colors-table-body">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

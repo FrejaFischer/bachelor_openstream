@@ -34,7 +34,6 @@ import { initSelectedElementBackgroundColor } from "./modules/element_formatting
 import { initSelectedElementBorder } from "./modules/element_formatting/border.js";
 import { initBoxShadow } from "./modules/element_formatting/boxShadow.js";
 import { initBringToFrontBack } from "./modules/element_formatting/bringFrontBack.js";
-import { initBlur } from "./modules/element_formatting/blur.js";
 import { initSelectedElementOffset } from "./modules/element_formatting/offset.js";
 import { initOpacity } from "./modules/element_formatting/opacity.js";
 import { initSelectedElementPadding } from "./modules/element_formatting/padding.js";
@@ -101,7 +100,6 @@ const initCommonEditorFeatures = () => {
   initOpacity();
   initBringToFrontBack();
   initBoxShadow();
-  initBlur();
   initRotate();
   initDuplicateElement();
   initVirtualPreviewResolution();

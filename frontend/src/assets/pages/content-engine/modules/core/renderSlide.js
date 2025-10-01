@@ -18,7 +18,6 @@ import { _renderOpacity } from "../element_formatting/opacity.js";
 import { _renderPadding } from "../element_formatting/padding.js";
 import { _renderRotate } from "../element_formatting/rotate.js";
 import { _renderScale } from "../element_formatting/scale.js";
-import { _renderBlur } from "../element_formatting/blur.js";
 import { _renderEmbedWebsite } from "../elements/embedWebsiteElement.js";
 import { _renderHtmlElement } from "../elements/htmlElement.js";
 import { _renderIframe } from "../elements/iframeElement.js";
@@ -681,10 +680,6 @@ function _renderSlideElement(el, isInteractivePlayback, gridContainer) {
   }
   if (el.boxShadow) {
     _renderBoxShadow(container, el);
-  }
-
-  if (el.blur) {
-    _renderBlur(container, el);
   }
 
   if (el.zIndex) {
