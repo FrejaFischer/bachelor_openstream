@@ -81,7 +81,10 @@ function renderColors() {
     previewDiv.className = "color-preview";
     previewDiv.style.backgroundColor = color.hex_value || color.hexValue || "";
     previewTd.appendChild(previewDiv);
-    // Actions
+  // HEX value
+  const hexTd = document.createElement("td");
+  hexTd.textContent = color.hex_value || color.hexValue || "";
+  // Actions
     const actionsTd = document.createElement("td");
     actionsTd.className = "action-cell-td";
     // Edit
@@ -100,12 +103,13 @@ function renderColors() {
     delBtn.addEventListener("click", () => showDeleteConfirmation(color));
     actionsTd.appendChild(editBtn);
     actionsTd.appendChild(delBtn);
-    // Type column
+  // Type column
     const typeTd = document.createElement("td");
     typeTd.textContent = color.type;
     // Append
     row.appendChild(nameTd);
     row.appendChild(previewTd);
+  row.appendChild(hexTd);
     row.appendChild(typeTd);
     row.appendChild(actionsTd);
     colorsTableBody.appendChild(row);
