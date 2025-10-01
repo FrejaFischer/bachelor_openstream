@@ -26,6 +26,7 @@ const colorModal = new bootstrap.Modal(document.getElementById("colorModal"));
 const openModalBtn = document.getElementById("open-color-modal-btn");
 const modalNameInput = document.getElementById("modal-color-name");
 const modalHexInput = document.getElementById("modal-color-hex");
+const modalColorPicker = document.getElementById("modal-color-picker");
 const modalTypeSelect = document.getElementById("modal-color-type");
 const modalEditIdInput = document.getElementById("modal-edit-color-id");
 const modalSaveBtn = document.getElementById("modal-save-btn");
@@ -122,6 +123,7 @@ function openAddModal() {
   modalEditIdInput.value = "";
   modalNameInput.value = "";
   modalHexInput.value = "#000000";
+  modalColorPicker.value = "#000000";
   modalTypeSelect.value = "primary";
   document.getElementById("colorModalLabel").textContent = gettext("Add Color");
   modalSaveBtn.textContent = gettext("Save");
@@ -134,7 +136,9 @@ function openEditModal(color) {
   colorBeingEdited = color;
   modalEditIdInput.value = color.id;
   modalNameInput.value = color.name;
-  modalHexInput.value = color.hex_value || color.hexValue;
+  const hexValue = color.hex_value || color.hexValue;
+  modalHexInput.value = hexValue;
+  modalColorPicker.value = hexValue;
   modalTypeSelect.value = color.type;
   document.getElementById("colorModalLabel").textContent =
     gettext("Edit Color");
@@ -144,9 +148,17 @@ function openEditModal(color) {
 
 /** Handle modal save */
 async function handleModalSave() {
+  // Validate hex input before saving
+  const hexValue = modalHexInput.value;
+  if (!/^#[0-9A-Fa-f]{6}$/.test(hexValue)) {
+    modalHexInput.setCustomValidity(gettext("Please enter a valid hex color (e.g., #FF5733)"));
+    modalHexInput.reportValidity();
+    return;
+  }
+  
   const payload = {
     name: modalNameInput.value,
-    hexValue: modalHexInput.value,
+    hexValue: hexValue,
     type: modalTypeSelect.value,
   };
   try {
@@ -220,4 +232,29 @@ function setupEventListeners() {
   openModalBtn.addEventListener("click", openAddModal);
   modalSaveBtn.addEventListener("click", handleModalSave);
   confirmDeleteBtn.addEventListener("click", deleteColor);
+  
+  // Synchronize color picker and hex input
+  modalColorPicker.addEventListener("input", (e) => {
+    modalHexInput.value = e.target.value.toUpperCase();
+  });
+  
+  modalHexInput.addEventListener("input", (e) => {
+    const hexValue = e.target.value;
+    // Validate hex format
+    if (/^#[0-9A-Fa-f]{6}$/.test(hexValue)) {
+      modalColorPicker.value = hexValue;
+      e.target.setCustomValidity(""); // Clear any validation errors
+    } else if (hexValue === "") {
+      e.target.setCustomValidity(""); // Allow empty for now, required will handle it
+    } else {
+      e.target.setCustomValidity(gettext("Please enter a valid hex color (e.g., #FF5733)"));
+    }
+  });
+  
+  // Ensure hex input starts with # when user starts typing
+  modalHexInput.addEventListener("keydown", (e) => {
+    if (e.target.value === "" && e.key.match(/[0-9A-Fa-f]/)) {
+      e.target.value = "#";
+    }
+  });
 }
