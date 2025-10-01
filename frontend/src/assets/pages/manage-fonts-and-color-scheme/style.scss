@@ -3,11 +3,6 @@
 /* SPDX-License-Identifier: AGPL-3.0-only */
 @import "../../scss/main";
 
-/* Styles for the Manage Fonts and Color Scheme page */
-.settings-layout {
-  padding: 4rem 5rem
-}
-
 .color-scheme-fonts-container {
   height: 34rem;
 }
@@ -29,7 +24,6 @@
 .table .action-cell-td {
   min-width: 7rem;
 }
-
 
 /* Styling for Manage Fonts */
 .font-preview-text {

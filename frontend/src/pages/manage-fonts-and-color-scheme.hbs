@@ -3,11 +3,11 @@
 {{#> base/containers/html-container title="Manage Fonts and Color Scheme" script-src="/src/assets/pages/manage-fonts-and-color-scheme/main.js" }}
     {{> base/navbar/navbar_global_settings }}
     {{#> base/containers/main-container }}
-        <section class="settings-layout">
+        <section class="settings-layout p-5 d-flex flex-column h-100">
             <h1 class="mb-4">{% trans "Manage Fonts and Color Scheme" %}</h1>
             <p>{% trans "Manage custom fonts and colors for your organization. These will be available across all branches." %}</p>
-            <div class="d-flex flex-column flex-md-row justify-content-evenly gap-4 color-scheme-fonts-container">
-                <div class="w-100 d-flex flex-column gap-1">
+            <div class="d-flex flex-column flex-md-row justify-content-evenly gap-5 color-scheme-fonts-container flex-grow-1">
+                <div class="w-100 d-flex flex-column gap-2">
                     <div id="admin-required-message-fonts" class="alert alert-warning d-none" role="alert">{% trans "You must be an organization admin to add or modify fonts." %}</div>
                     <div class="d-flex justify-content-between align-items-center p-2">
                         <h3 class="m-0 text-secondary">{% trans "Custom Fonts" %}</h3>
@@ -15,7 +15,7 @@
                             <i class="material-symbols-outlined me-2">add</i>{% trans "Add Font" %}
                         </button>
                     </div>
-                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto">
+                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto flex-grow-1">
                         <div class="text-center py-4 d-none" id="loading-spinner-fonts">
                             <div class="spinner-border" role="status">
                                 <span class="visually-hidden">{% trans "Loading..." %}</span>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-100 d-flex flex-column gap-1">
+                <div class="w-100 d-flex flex-column gap-2">
                     <div id="admin-required-message-colors" class="alert alert-warning d-none">{% trans "You must be an organization admin to view or modify colors." %}</div>
                     <div class="d-flex justify-content-between align-items-center p-2">
                         <h3 class="m-0 text-secondary">{% trans "Custom Color Scheme" %}</h3>
@@ -47,7 +47,7 @@
                             <span class="align-middle">{% trans "Add Color" %}</span>
                         </button>
                     </div>
-                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto">
+                    <div class="card shadow-xl rounded-4 border-0 p-2 overflow-auto flex-grow-1">
                         <div id="loading-spinner-colors" class="spinner-border my-3" role="status">
                             <span class="visually-hidden">{% trans "Loading..." %}</span>
                         </div>

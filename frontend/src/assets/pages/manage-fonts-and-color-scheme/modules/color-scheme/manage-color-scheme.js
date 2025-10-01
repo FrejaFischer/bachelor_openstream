@@ -2,11 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as bootstrap from "bootstrap";
 import { gettext } from "../../../../utils/locales";
-import {
-  genericFetch,
-  showToast,
-  parentOrgID
-} from "../../../../utils/utils";
+import { genericFetch, showToast, parentOrgID } from "../../../../utils/utils";
 import { BASE_URL } from "../../../../utils/constants";
 
 let colors = [];
@@ -14,7 +10,9 @@ let colorBeingEdited = null;
 let deleteId = null;
 
 // DOM elements
-const adminRequiredMessage = document.getElementById("admin-required-message-colors");
+const adminRequiredMessage = document.getElementById(
+  "admin-required-message-colors",
+);
 const loadingSpinner = document.getElementById("loading-spinner-colors");
 const colorsTable = document.getElementById("colors-table");
 const colorsTableBody = document.getElementById("colors-table-body");
@@ -89,13 +87,15 @@ function renderColors() {
     // Edit
     const editBtn = document.createElement("button");
     editBtn.className = "btn btn-sm btn-outline-secondary-light me-2";
-    editBtn.innerHTML = '<span class="material-symbols-outlined text-secondary-hover">edit</span>';
+    editBtn.innerHTML =
+      '<span class="material-symbols-outlined text-secondary-hover">edit</span>';
     editBtn.title = gettext("Edit");
     editBtn.addEventListener("click", () => openEditModal(color));
     // Delete
     const delBtn = document.createElement("button");
     delBtn.className = "btn btn-sm btn-outline-secondary-light";
-    delBtn.innerHTML = '<span class="material-symbols-outlined text-secondary-hover">delete_forever</span>';
+    delBtn.innerHTML =
+      '<span class="material-symbols-outlined text-secondary-hover">delete_forever</span>';
     delBtn.title = gettext("Delete");
     delBtn.addEventListener("click", () => showDeleteConfirmation(color));
     actionsTd.appendChild(editBtn);
@@ -174,14 +174,14 @@ async function handleModalSave() {
   }
 }
 
-/** Show delete confirmation */ 
+/** Show delete confirmation */
 function showDeleteConfirmation(color) {
   deleteId = color.id;
   deleteNameEl.textContent = color.name;
   deleteModal.show();
 }
 
-/** Delete color */ 
+/** Delete color */
 async function deleteColor() {
   if (!deleteId) return;
   try {
