@@ -312,6 +312,41 @@ export function renderPersistentElements() {
   });
 }
 
+/**
+ * Update a single element by removing it and re-rendering it with updated data.
+ * This is more efficient than reloading the entire slide when only one element changes.
+ * 
+ * @param {Object} elementData - The updated element data object
+ */
+export function updateSlideElement(elementData) {
+  if (!elementData || !elementData.id) {
+    console.error('updateSlideElement: Invalid element data');
+    return;
+  }
+
+  // Find the grid container where this element should be rendered
+  const previewSlide = document.querySelector('.preview-slide');
+  if (!previewSlide) {
+    console.error('updateSlideElement: Preview slide not found');
+    return;
+  }
+
+  const gridContainer = previewSlide.querySelector('.zoom-wrapper .grid-container');
+  if (!gridContainer) {
+    console.error('updateSlideElement: Grid container not found');
+    return;
+  }
+
+  // Remove the old element DOM node if it exists
+  const oldElement = gridContainer.querySelector(`#el-${elementData.id}`);
+  if (oldElement) {
+    oldElement.remove();
+  }
+
+  // Re-render the element with updated data
+  _renderSlideElement(elementData, false, gridContainer);
+}
+
 export function scaleSlide(previewContainer) {
   const zoomInfo = getCurrentZoomInfo();
 
