@@ -169,10 +169,10 @@ export function renderSlideElementsSidebar() {
           <label class="visually-hidden">Name</label>
           <input id="el-name-${elData.id}" class="form-control form-control-sm p-0 m-0 border-0 bg-transparent fw-bold" type="text" value="${escapeHtml(displayName)}" aria-label="Element name" />
         </div>
-        <div class="text-muted small mb-1"><strong>Type:</strong> ${summary.type}</div>
-        <div class="text-muted small mb-1"><strong>Size:</strong> ${summary.size}</div>
-        <div class="text-muted small mb-1"><strong>Position:</strong> ${summary.pos}</div>
-        ${store.slideshowMode === "interactive" && queryParams.mode === "edit" ? `<div class="text-muted small mb-1"><strong>Link:</strong> <select id="link-select-${elData.id}" class="form-select form-select-sm">${getLinkOptions(elData)}</select></div>` : ''}
+        <div class="text-muted small mb-1"><strong>${gettext("Type")}:</strong> ${summary.type}</div>
+        <div class="text-muted small mb-1"><strong>${gettext("Size")}:</strong> ${summary.size}</div>
+        <div class="text-muted small mb-1"><strong>${gettext("Position")}:</strong> ${summary.pos}</div>
+        ${store.slideshowMode === "interactive" && queryParams.mode === "edit" ? `<div class="text-muted small mb-1"><strong>${gettext("Link")}:</strong> <select id="link-select-${elData.id}" class="form-select form-select-sm">${getLinkOptions(elData)}</select></div>` : ''}
       </div>
     `;
 
