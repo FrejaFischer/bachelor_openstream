@@ -2854,5 +2854,11 @@
   },
   "Branch Subpages": {
     "da": "Afdelingsundersider"
+  },
+  "Please enter a valid hex color (e.g., #FF5733)": {
+    "da": "Indtast en gyldig hex farve (f.eks., #FF5733)"
+  },
+  "Use the color picker or enter a hex value (e.g., #FF5733)": {
+    "da": "Brug farvevælgeren eller indtast en hex værdi (f.eks., #FF5733)"
   }
 }
