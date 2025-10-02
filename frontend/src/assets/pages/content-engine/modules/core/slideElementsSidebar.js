@@ -351,33 +351,55 @@ export function renderSlideElementsSidebar() {
         });
 
         const showPopover = () => {
-          // Position popover relative to the button
+          // Position popover relative to the button but clamp to viewport.
+          // We compute available space above and below the button and choose
+          // the side with more space. We also set maxHeight and overflow so
+          // tall popovers stay within the viewport and become scrollable.
+          const MARGIN = 8; // keep some breathing room from edges
           const btnRect = settingsBtn.getBoundingClientRect();
-          const popoverHeight = 450; // approximate height (increased for new fields)
-          const popoverWidth = 300; // slightly wider for better layout
 
-          // Calculate position (try to show below, but if not enough space, show above)
-          let top = btnRect.bottom + 4;
-          let left = btnRect.right - popoverWidth;
+          // Prefer a conservative popover width but allow it to shrink if near edges
+          const preferredWidth = 320;
+          const maxAllowedWidth = Math.min(preferredWidth, window.innerWidth - MARGIN * 2);
+          const popoverComputedWidth = Math.max(200, maxAllowedWidth);
 
-          // Check if popover would go off bottom of screen
-          if (top + popoverHeight > window.innerHeight) {
-            top = btnRect.top - popoverHeight - 4;
+          // Compute vertical space
+          const spaceAbove = btnRect.top - MARGIN;
+          const spaceBelow = window.innerHeight - btnRect.bottom - MARGIN;
+
+          // Choose whether to show below or above based on available space
+          const preferBelow = spaceBelow >= Math.min(300, spaceAbove);
+
+          // Compute top and maxHeight based on chosen side
+          let top;
+          let maxHeight;
+          const desiredHeight = 450; // UI desired size; used as guideline
+          if (preferBelow) {
+            top = btnRect.bottom + 6;
+            maxHeight = Math.max(80, spaceBelow - 6);
+            // If not enough space below, fallback to above positioning
+            if (maxHeight < Math.min(240, desiredHeight / 2) && spaceAbove > spaceBelow) {
+              top = Math.max(MARGIN, btnRect.top - Math.min(desiredHeight, spaceAbove) - 6);
+              maxHeight = Math.max(80, spaceAbove - 6);
+            }
+          } else {
+            // show above
+            const height = Math.min(desiredHeight, spaceAbove - 6);
+            top = Math.max(MARGIN, btnRect.top - height - 6);
+            maxHeight = Math.max(80, spaceAbove - 6);
           }
 
-          // Check if popover would go off left of screen
-          if (left < 8) {
-            left = 8;
-          }
-
-          // Check if popover would go off right of screen
-          if (left + popoverWidth > window.innerWidth - 8) {
-            left = window.innerWidth - popoverWidth - 8;
-          }
+          // Compute left and clamp into viewport
+          let left = btnRect.right - popoverComputedWidth;
+          if (left < MARGIN) left = MARGIN;
+          if (left + popoverComputedWidth > window.innerWidth - MARGIN) left = window.innerWidth - popoverComputedWidth - MARGIN;
 
           popover.style.position = 'fixed';
-          popover.style.top = `${top}px`;
-          popover.style.left = `${left}px`;
+          popover.style.top = `${Math.round(top)}px`;
+          popover.style.left = `${Math.round(left)}px`;
+          popover.style.width = `${Math.round(popoverComputedWidth)}px`;
+          popover.style.maxHeight = `${Math.round(maxHeight)}px`;
+          popover.style.overflow = 'auto';
           popover.style.display = 'block';
         };
       
@@ -1149,21 +1171,43 @@ export function renderSlideElementsSidebar() {
       const btnId = popoverId.replace('popover-', 'settings-btn-');
       const btn = document.getElementById(btnId);
       if (p && btn) {
-        // Use the same positioning helper defined earlier; if not available
-        // fallback to simple positioning.
         try {
-          // Trigger click handler style show: compute and set styles same as showPopover
+          // Compute position using same logic as showPopover
+          const MARGIN = 8;
           const btnRect = btn.getBoundingClientRect();
-          const popoverHeight = 450;
-          const popoverWidth = 300;
-          let top = btnRect.bottom + 4;
-          let left = btnRect.right - popoverWidth;
-          if (top + popoverHeight > window.innerHeight) top = btnRect.top - popoverHeight - 4;
-          if (left < 8) left = 8;
-          if (left + popoverWidth > window.innerWidth - 8) left = window.innerWidth - popoverWidth - 8;
+          const preferredWidth = 320;
+          const maxAllowedWidth = Math.min(preferredWidth, window.innerWidth - MARGIN * 2);
+          const popoverComputedWidth = Math.max(200, maxAllowedWidth);
+          const spaceAbove = btnRect.top - MARGIN;
+          const spaceBelow = window.innerHeight - btnRect.bottom - MARGIN;
+          const desiredHeight = 450;
+          const preferBelow = spaceBelow >= Math.min(300, spaceAbove);
+
+          let top;
+          let maxHeight;
+          if (preferBelow) {
+            top = btnRect.bottom + 6;
+            maxHeight = Math.max(80, spaceBelow - 6);
+            if (maxHeight < Math.min(240, desiredHeight / 2) && spaceAbove > spaceBelow) {
+              top = Math.max(MARGIN, btnRect.top - Math.min(desiredHeight, spaceAbove) - 6);
+              maxHeight = Math.max(80, spaceAbove - 6);
+            }
+          } else {
+            const height = Math.min(desiredHeight, spaceAbove - 6);
+            top = Math.max(MARGIN, btnRect.top - height - 6);
+            maxHeight = Math.max(80, spaceAbove - 6);
+          }
+
+          let left = btnRect.right - popoverComputedWidth;
+          if (left < MARGIN) left = MARGIN;
+          if (left + popoverComputedWidth > window.innerWidth - MARGIN) left = window.innerWidth - popoverComputedWidth - MARGIN;
+
           p.style.position = 'fixed';
-          p.style.top = `${top}px`;
-          p.style.left = `${left}px`;
+          p.style.top = `${Math.round(top)}px`;
+          p.style.left = `${Math.round(left)}px`;
+          p.style.width = `${Math.round(popoverComputedWidth)}px`;
+          p.style.maxHeight = `${Math.round(maxHeight)}px`;
+          p.style.overflow = 'auto';
           p.style.display = 'block';
         } catch (err) {}
       }
