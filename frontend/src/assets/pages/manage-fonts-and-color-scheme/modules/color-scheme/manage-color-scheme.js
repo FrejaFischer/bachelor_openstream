@@ -80,11 +80,11 @@ function renderColors() {
     const previewTd = document.createElement("td");
     const previewDiv = document.createElement("div");
     previewDiv.className = "color-preview";
-    previewDiv.style.backgroundColor = color.hex_value || color.hexValue || "";
+    previewDiv.style.backgroundColor = color.hexValue;
     previewTd.appendChild(previewDiv);
   // HEX value
   const hexTd = document.createElement("td");
-  hexTd.textContent = color.hex_value || color.hexValue || "";
+  hexTd.textContent = color.hexValue;
   // Actions
     const actionsTd = document.createElement("td");
     actionsTd.className = "action-cell-td";
@@ -136,7 +136,7 @@ function openEditModal(color) {
   colorBeingEdited = color;
   modalEditIdInput.value = color.id;
   modalNameInput.value = color.name;
-  const hexValue = color.hex_value || color.hexValue;
+  const hexValue = color.hexValue;
   modalHexInput.value = hexValue;
   modalColorPicker.value = hexValue;
   modalTypeSelect.value = color.type;
