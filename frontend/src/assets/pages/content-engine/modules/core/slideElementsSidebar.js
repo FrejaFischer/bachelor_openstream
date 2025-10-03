@@ -175,7 +175,7 @@ export function renderSlideElementsSidebar() {
     
     // Build active icons display (only show icons for enabled settings)
     const activeIcons = [];
-    if (elData.isPersistent) activeIcons.push(`<span class="active-setting-icon" title="${gettext("Pinned")}"><i class="material-symbols-outlined">push_pin</i></span>`);
+    if (elData.isPersistent && queryParams.mode !== "template_editor") activeIcons.push(`<span class="active-setting-icon" title="${gettext("Pinned")}"><i class="material-symbols-outlined">push_pin</i></span>`);
     if (elData.isLocked) activeIcons.push(`<span class="active-setting-icon" title="${gettext("Locked")}"><i class="material-symbols-outlined">lock</i></span>`);
     if (elData.isSelectionBlocked) activeIcons.push(`<span class="active-setting-icon" title="${gettext("Selection blocked")}"><i class="material-symbols-outlined">block</i></span>`);
     if (elData.isAlwaysOnTop) activeIcons.push(`<span class="active-setting-icon" title="${gettext("Always on top")}"><i class="material-symbols-outlined">vertical_align_top</i></span>`);
@@ -244,6 +244,7 @@ export function renderSlideElementsSidebar() {
           
           <hr class="my-3">
           
+          ${queryParams.mode !== "template_editor" ? `
           <div class="setting-item mb-3">
             <div class="d-flex align-items-start">
               <input type="checkbox" id="pin-checkbox-${elData.id}" class="form-check-input me-2 mt-1" ${elData.isPersistent ? "checked" : ""}>
@@ -256,6 +257,7 @@ export function renderSlideElementsSidebar() {
               </div>
             </div>
           </div>
+          ` : ''}
           
           <div class="setting-item mb-3">
             <div class="d-flex align-items-start">
@@ -564,8 +566,8 @@ export function renderSlideElementsSidebar() {
       }
     });
     
-    // Wire up pin checkbox behavior (now from popover)
-    const pinCheckbox = popover ? popover.querySelector(`#pin-checkbox-${elData.id}`) : null;
+    // Wire up pin checkbox behavior (now from popover) - only if not in template editor mode
+    const pinCheckbox = (queryParams.mode !== "template_editor" && popover) ? popover.querySelector(`#pin-checkbox-${elData.id}`) : null;
 
     if (pinCheckbox) {
       // prevent checkbox clicks from selecting the row
