@@ -378,7 +378,7 @@ export function promptDelete(
   let deleteModalEl = document.querySelector("#deleteConfirmModal");
   if (!deleteModalEl) {
     // Dynamically insert a modal if it's not already found. This way the function can be used anywhere
-    document.querySelector("#main-content")?.insertAdjacentHTML(
+    document.querySelector("#main-container")?.insertAdjacentHTML(
       "beforeend",
       `
             <div class="modal fade"
@@ -413,7 +413,7 @@ export function promptDelete(
     deleteModalEl = document.querySelector("#deleteConfirmModal");
     if (!deleteModalEl)
       return console.error(
-        gettext("Unable to insert the delete modal. #main-content not found"),
+        "Unable to insert the delete modal. #main-content not found"
       );
   } else {
     deleteModalEl = cloneAndReplaceNode(deleteModalEl); // clean any previous events
