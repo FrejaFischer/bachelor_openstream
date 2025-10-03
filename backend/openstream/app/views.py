@@ -4911,25 +4911,21 @@ def fetch_weather_data(location):
 
         def get_precipitation_text(precip):
             if precip < 0.1:
-                return "Ingen regn"
-            elif precip < 1:
-                return "Let regn"
+                return ""
             elif precip < 5:
-                return "Regn"
-            elif precip < 10:
-                return "Kraftig regn"
+                return "💦"
             else:
-                return "Meget kraftig regn"
+                return ""
 
         def get_cloud_cover_text(cloud_cover):
             if cloud_cover < 10:
-                return "Klar himmel"
+                return "☀️"
             elif cloud_cover < 50:
-                return "Let skyet"
+                return "⛅"
             elif cloud_cover < 80:
-                return "Skyet"
+                return "☁️"
             else:
-                return "Overskyet"
+                return ""
 
         cached_weather_data[location] = {
             "temperature": temperature,
