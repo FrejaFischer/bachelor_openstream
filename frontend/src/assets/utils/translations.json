@@ -2860,5 +2860,83 @@
   },
   "Use the color picker or enter a hex value (e.g., #FF5733)": {
     "da": "Brug farvevælgeren eller indtast en hex værdi (f.eks., #FF5733)"
+  },
+  "Blur": {
+    "da": "Sløring"
+  },
+  "Elements": {
+    "da": "Elementer"
+  },
+  "Hide Icons": {
+    "da": "Skjul Ikoner"
+  },
+  "HTML": {
+    "da": "HTML"
+  },
+  "CSS": {
+    "da": "CSS"
+  },
+  "JavaScript": {
+    "da": "JavaScript"
+  },
+  " Add Blur To Selected Element": {
+    "da": "Tilføj Sløring Til Valgte Element"
+  },
+  "Prevent moving or resizing this element": {
+    "da": "Forhindrer flytning eller ændring af størrelse på dette element"
+  },
+  "Block selection": {
+    "da": "Bloker Markering"
+  },
+  "Element cannot be selected on the canvas": {
+    "da": "Element kan ikke vælges på lærredet"
+  },
+  "Always on top": {
+    "da": "Altid Øverst"
+  },
+  "Element stays above all other elements": {
+    "da": "Element forbliver over alle andre elementer"
+  },
+  "Lock element settings for template users": {
+    "da": "Lås elementindstillinger for skabelonbrugere"
+  },
+  "Prevent template users from changing element settings": {
+    "da": "Forhindrer skabelonbrugere i at ændre elementindstillinger"
+  },
+  "Delete element": {
+    "da": "Slet Element"
+  },
+  "Element settings": {
+    "da": "Elementindstillinger"
+  },
+  "Element Settings": {
+    "da": "Elementindstillinger"
+  },
+  "Element name": {
+    "da": "Elementnavn"
+  },
+  "Position & Size": {
+    "da": "Position & Størrelse"
+  },
+  "X Position": {
+    "da": "X Position"
+  },
+  "Y Position": {
+    "da": "Y Position"
+  },
+  "Width": {
+    "da": "Bredde"
+  },
+  "Height": {
+    "da": "Højde"
+  },
+  "Pin element": {
+    "da": "Fastgør Element"
+  },
+  "Element appears on all slides": {
+    "da": "Element vises på alle slides"
+  },
+  "Lock position & size": {
+    "da": "Lås Position & Størrelse"
   }
 }

@@ -57,14 +57,17 @@ export function gettext(key) {
   if (lang === "en") return key;
 
   if (!translations[key]) {
-    //console.error(`Translation not found for key: "${key}"`);
+    console.error(`Translation not found for key: "${key}"`);
     return key;
   }
   const translated = translations[key][lang];
   if (!translated) {
-    /*console.error(
-      `Translation not found for key: "${key}" in language: "${lang}"`,
-    );*/
+    // don't log errors for keys that are just numbers
+    if (!/^\s*\d+\s*$/.test(String(key))) {
+      console.error(
+        `Translation not found for key: "${key}" in language: "${lang}"`
+      );
+    }
     return key;
   }
   return translated;
