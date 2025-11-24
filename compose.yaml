@@ -41,6 +41,7 @@ services:
       - ./dev-environment/backend/fixtures:/app/fixtures:Z
     depends_on:
       - db
+      - redis
 
   db:
     container_name: openstream-db
@@ -137,3 +138,11 @@ services:
     command: -c "/scripts/minio-init.sh"
     volumes:
       - ./minio-init.sh:/scripts/minio-init.sh:Z
+
+  # Redis service for WebSockets
+  redis:
+    container_name: redis
+    image: redis:7
+    networks: *common-networks
+    ports:
+      - "6379:6379"
