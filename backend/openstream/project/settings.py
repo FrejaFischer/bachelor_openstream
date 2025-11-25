@@ -229,7 +229,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "project.wsgi.application"
+
+###############################################################################
+# ASGI and Django Channels Configuration
+###############################################################################
+
 ASGI_APPLICATION = "project.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)], ## The Redis service name from our Docker compose
+        },
+    },
+}
 
 ###############################################################################
 # Database Configuration
