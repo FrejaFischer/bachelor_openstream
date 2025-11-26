@@ -11,7 +11,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   chatSocket.onmessage = function (e) {
     console.log("onMessage", e);
     const data = JSON.parse(e.data);
-    document.querySelector("#chat-log").value += data.message + "\n";
+    console.log(data);
+    if (data.message) {
+      document.querySelector("#chat-log").value += data.message + "\n";
+    }
+    if (data.data) {
+      const data_ready = JSON.stringify(data.data);
+      document.querySelector("#chat-log").value += data_ready + "\n";
+    }
   };
 
   chatSocket.onclose = function (e) {
@@ -29,9 +36,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector("#chat-message-submit").onclick = function (e) {
     const messageInputDom = document.querySelector("#chat-message-input");
     const message = messageInputDom.value;
+    const updated_slideshow_data = { name: "my new name" };
     chatSocket.send(
       JSON.stringify({
         message: message,
+        data: updated_slideshow_data,
       })
     );
     messageInputDom.value = "";
