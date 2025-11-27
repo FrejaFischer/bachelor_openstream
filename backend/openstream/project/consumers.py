@@ -21,13 +21,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Join room group
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
-        # Get current slideshow data by id
-        self.slideshow = await get_slideshow(self, 2)
-        # print("Connect", self.slideshow["slideshow_data"]["slides"][0]["name"])
-        print("consumer has the data: ", self.slideshow)
-
         # Accept the WebSocket connection (if the user needs to be authenticated, then it should happen before this, so the connection can be rejected)
         await self.accept()
+
+        # Get current slideshow data by id
+        self.slideshow = await get_slideshow(self, 2)
+        print("consumer has the data: ", self.slideshow)
+        # Send current slideshow data to the user
+        await self.send(text_data=json.dumps({"current_slideshow": self.slideshow}))
+
 
     async def disconnect(self, close_code):
         # Leave room group
