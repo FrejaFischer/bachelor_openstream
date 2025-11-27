@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       const data_ready = JSON.stringify(data.data);
       document.querySelector("#chat-log").value += data_ready + "\n";
     }
+    if (data.current_slideshow) {
+      const current_slideshow = JSON.stringify(data.current_slideshow);
+      document.querySelector("#chat-log").value += current_slideshow + "\n";
+    }
   };
 
   chatSocket.onclose = function (e) {
