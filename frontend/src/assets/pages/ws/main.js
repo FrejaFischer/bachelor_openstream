@@ -8,6 +8,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ${BASE_URL}/ws/chat/{roomName}/ (BASE_URL = http://) - TO DO: Make WS BASE_URL version?
   // ws://localhost:8000/ws/chat/{roomName}/
 
+  // Test if user can send anything without sending token (will get rejected by backend)
+  // chatSocket.onopen = () => {
+  //   console.log("trying to send");
+  //   chatSocket.send(
+  //     JSON.stringify({
+  //       type: "message",
+  //       message: "hello!!",
+  //     })
+  //   );
+  //   console.log("send complete");
+  // };
+
+  // Send token to WS
+  if (localStorage.getItem("accessToken")) {
+    chatSocket.onopen = () => {
+      chatSocket.send(
+        JSON.stringify({
+          type: "authenticate",
+          token: localStorage.getItem("accessToken"),
+        })
+      );
+      console.log("middle");
+      chatSocket.send(
+        JSON.stringify({
+          type: "message",
+          message: "hello!!",
+        })
+      );
+    };
+  }
+
   chatSocket.onmessage = function (e) {
     console.log("onMessage", e);
     const data = JSON.parse(e.data);
@@ -40,13 +71,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector("#chat-message-submit").onclick = function (e) {
     const messageInputDom = document.querySelector("#chat-message-input");
     const message = messageInputDom.value;
-    const updated_slideshow_data = { name: "my new name" };
+    //const updated_slideshow_data = { name: "my new name" };
     chatSocket.send(
       JSON.stringify({
+        type: "message",
         message: message,
-        data: updated_slideshow_data,
       })
     );
+    // chatSocket.send(
+    //   JSON.stringify({
+    //     type: "update",
+    //     message: message,
+    //     data: updated_slideshow_data,
+    //   })
+    // );
     messageInputDom.value = "";
   };
 });
