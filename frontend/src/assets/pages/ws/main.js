@@ -31,13 +31,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           token: localStorage.getItem("accessToken"),
         })
       );
-      console.log("middle");
-      chatSocket.send(
-        JSON.stringify({
-          type: "message",
-          message: "hello!!",
-        })
-      );
+      // console.log("middle");
+      // chatSocket.send(
+      //   JSON.stringify({
+      //     type: "message",
+      //     message: "hello!!",
+      //   })
+      // );
     };
   }
 
@@ -55,6 +55,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (data.current_slideshow) {
       const current_slideshow = JSON.stringify(data.current_slideshow);
       document.querySelector("#chat-log").value += current_slideshow + "\n";
+    }
+    if (data.error) {
+      const error = JSON.stringify(data.error);
+      document.querySelector("#chat-log").value += "ERROR: " + error + "\n";
     }
   };
 
