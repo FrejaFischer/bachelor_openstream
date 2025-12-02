@@ -118,7 +118,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             except json.JSONDecodeError:
                 await self.close(code=4005)  # 4005 = invalid JSON
             except Exception as e:
-                print(e)
                 await self.close(code=4006)  # 4006 = generic error
 
             return
@@ -176,13 +175,11 @@ def get_user_from_token(token_str):
     :param token_str: The token from the user
     """
     try:
-        print("get_user_from_token starting")
         token = AccessToken(token_str)
         user_id = token["user_id"]
-        print("get_user_from_token - Token: ",token, "user_id", user_id)
-        return User.objects.get(id=user_id) # this fails
+        user = User.objects.get(id=user_id)
+        return user
     except Exception:
-        print("get_user_from_token - Exception")
         return None
 
 @database_sync_to_async
