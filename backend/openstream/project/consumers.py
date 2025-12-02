@@ -30,26 +30,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.user = AnonymousUser()
         self.authenticated = False
 
-        # Get the room name
-        self.room_name = self.scope["url_route"]["kwargs"]["room_name"] # Scope contains (among other things) the url witht the room name parameter in it
-        self.room_group_name = f"chat_{self.room_name}" # Sets the group name for the consumer
-        # OBS: Group names may only contain alphanumerics (a-z, 0-9), hyphens, underscores, or periods.
-        # The group name is also limited to a maximum length of 100
+        # # Get the room name
+        # self.room_name = self.scope["url_route"]["kwargs"]["room_name"] # Scope contains (among other things) the url witht the room name parameter in it
+        # self.room_group_name = f"chat_{self.room_name}" # Sets the group name for the consumer
+        # # OBS: Group names may only contain alphanumerics (a-z, 0-9), hyphens, underscores, or periods.
+        # # The group name is also limited to a maximum length of 100
 
-        # Join room group
-        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+        # # Join room group
+        # await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         # Accept the WebSocket connection
         await self.accept()
 
         # Start a timer to disconnect if authentication is not received in time
         self.auth_timer = asyncio.create_task(self.disconnect_if_not_authenticated())
-
-        # Get current slideshow data by id
-        # self.slideshow = await get_slideshow(self, 2)
-        # print("consumer has the data: ", self.slideshow)
-        # # Send current slideshow data to the user
-        # await self.send(text_data=json.dumps({"current_slideshow": self.slideshow}))
 
     async def disconnect_if_not_authenticated(self):
         await asyncio.sleep(self.AUTH_TIMEOUT)
@@ -95,6 +89,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                 # Send mesage to client about succesfull authentication
                 await self.send(json.dumps({"type": "authenticated"}))
+
+                # Get the room name
+                self.room_name = self.scope["url_route"]["kwargs"]["room_name"] # Scope contains (among other things) the url witht the room name parameter in it (should maybe get the slideshow id)
+                self.room_group_name = f"chat_{self.room_name}" # Sets the group name for the consumer
+                # OBS: Group names may only contain alphanumerics (a-z, 0-9), hyphens, underscores, or periods.
+                # The group name is also limited to a maximum length of 100
+
+                # Join room group
+                await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+
+                # Get slideshows current data by id
+                # slideshow_id = self.scope["url_route"]["kwargs"]["slideshow_id"])
+                slideshow_id = 2 # Test - will be coming from the scope in future
+                results = await get_slideshow(self, slideshow_id)
+                
+                # Check if slideshow was succesfully fetched
+                if results.get("type") == "error":
+                    print("error happen", results.get("error_message"))
+                    await self.send(text_data=json.dumps({"error": results["error_message"]}))
+                    return
+                
+                # Send slideshow current data to the user
+                self.slideshow = results
+                await self.send(text_data=json.dumps({"current_slideshow": self.slideshow}))
 
             except json.JSONDecodeError:
                 await self.close(code=4005)  # 4005 = invalid JSON
