@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2025 Freja Fischer Nielsen <https://github.com/FrejaFischer/bachelor_openstream>
+# SPDX-License-Identifier: AGPL-3.0-only
 import json
 import asyncio
 
