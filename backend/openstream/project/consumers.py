@@ -12,9 +12,11 @@ from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
+from django.http import Http404
 
 from app.models import Slideshow
 from app.serializers import SlideshowSerializer
+from app.permissions import get_branch_for_user
 
 User = get_user_model()
 # This is my first consumer, which handles a basic chat WS connection
@@ -165,50 +167,68 @@ def get_user_from_token(token_str):
         return None
 
 @database_sync_to_async
-def get_slideshow(self, id):
+def get_slideshow(self, slideshow_id):
     """
     Get slideshow by id from database, with Slideshow data included
 
-    :param id: The id of the current slideshow
+    :param self: The consumers self
+    :param slideshow_id: The id of the slideshow
     """
-    print("getting slideshow")
 
     # Close old DB connections before making new ORM operations
     close_old_connections()
 
+    # Check branch exists and if user has access to it
     try:
-        # branch = get_branch_from_request(request)
-        branch = 15 # Test - will be coming from the request in future
+        # branch_id = self.scope["url_route"]["kwargs"]["branch_id"]) # maybe not the correct way of getting query params (?branch_id=x)
+        branch_id = 15 # Test - will be coming from the scope in future
+        branch = get_branch_for_user(self.user, branch_id)
+    except Http404 as e:
+        print("404 exception happen in get_slideshow", e)
+        return {"type":"error", "error_message": str(e)} 
     except ValueError as e:
-            return {"detail": str(e)} 
+        # Catch Error from get_branch_for_user
+        return {"type":"error", "error_message": str(e)} 
 
-    slideshow_id = id
     context = {"include_slideshow_data": "true"}
 
-    ss = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
+    # Find Slideshow object
+    try:
+        ss = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
+    except Http404:
+        return {"type": "error", "error_message": "Slideshow not found"}
+    
     ser = SlideshowSerializer(ss, context=context)
     return ser.data
 
 @database_sync_to_async
-def patch_slideshow(self, data, id):
+def patch_slideshow(self, data, slideshow_id):
     """
     Patch / update slideshow by id
 
     :param data: The data to update
-    :param id: The id of the current slideshow
+    :param slideshow_id: The id of the slideshow
     """
     print("updating slideshow")
 
     # Close old DB connections before making new ORM operations
     close_old_connections()
 
+    # Check branch exists and if user has access to it
     try:
-        # branch = get_branch_from_request(request)
-        branch = 15 # Test - will be coming from the request in future
+        # branch_id = self.scope["url_route"]["kwargs"]["branch_id"])
+        branch_id = 15 # Test - will be coming from the scope in future
+        branch = get_branch_for_user(self.user, branch_id)
     except ValueError as e:
-        return {"detail": str(e)}
+            # Catch Error from get_branch_for_user
+            return {"type":"error", "error_message": str(e)} 
 
-    slideshow = get_object_or_404(Slideshow, pk=id, branch=branch)
+    # Find Slideshow object
+    try:
+        slideshow = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
+    except Http404:
+        return {"type": "error", "error_message": "Slideshow not found"}
+    
     serializer = SlideshowSerializer(slideshow, data=data, partial=True)
     if serializer.is_valid():
         updated = serializer.save()
