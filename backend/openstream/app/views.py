@@ -97,6 +97,7 @@ from app.serializers import (
 )
 from django.conf import settings
 from project.settings import FRONTDESK_API_KEY
+from app.permissions import (user_is_super_admin, get_branch_for_user)
 
 logger = logging.getLogger(__name__)
 
@@ -165,42 +166,11 @@ def user_can_manage_suborg(user, suborg):
 def get_branch_from_request(request):
     """
     Checks for 'branch_id' in request.data or request.query_params,
-    then verifies the user is org_admin of the branch's org, or
-    suborg_admin of the branch's suborg, or branch_admin / employee
-    for that exact branch, or super_admin.
+    then calls helper function for verifying branch and users access permission to branch
     """
     branch_id = request.data.get("branch_id") or request.query_params.get("branch_id")
-    if not branch_id:
-        raise ValueError("branch_id is required.")
 
-    branch = get_object_or_404(Branch, id=branch_id)
-
-    # super_admin can access everything
-    if user_is_super_admin(request.user):
-        return branch
-
-    # org_admin
-    if OrganisationMembership.objects.filter(
-        user=request.user,
-        organisation=branch.suborganisation.organisation,
-        role="org_admin",
-    ).exists():
-        return branch
-
-    # suborg_admin
-    if OrganisationMembership.objects.filter(
-        user=request.user, suborganisation=branch.suborganisation, role="suborg_admin"
-    ).exists():
-        return branch
-
-    # branch_admin or employee for that branch
-    if OrganisationMembership.objects.filter(user=request.user, branch=branch).exists():
-        return branch
-
-    raise ValueError(
-        f"User '{request.user.username}' does not have permission to access branch_id={branch_id}."
-    )
-
+    return get_branch_for_user(request.user, branch_id)
 
 def user_can_access_branch(user, branch):
     """
@@ -228,11 +198,6 @@ def user_can_access_branch(user, branch):
         return True
 
     return False
-
-
-def user_is_super_admin(user):
-    """Check if user has super_admin role"""
-    return OrganisationMembership.objects.filter(user=user, role="super_admin").exists()
 
 
 def user_is_org_admin(user):
