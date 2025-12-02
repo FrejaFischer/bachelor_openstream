@@ -49,6 +49,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await asyncio.sleep(self.AUTH_TIMEOUT)
         if not self.authenticated:
             print("self closing")
+            await self.send(text_data=json.dumps({"error": "User not authenticated - Socket is closing"}))
             await self.close(code=4001)  # 4001 = custom code for auth timeout
 
 
