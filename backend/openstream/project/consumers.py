@@ -49,9 +49,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.close(code=4001)  # 4001 = custom code for auth timeout
 
     async def disconnect(self, close_code):
-        # Leave room group
         print("disconnecting", close_code)
-        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        # Only leave group if room_group_name exists
+        if hasattr(self, "room_group_name") and self.room_group_name:
+            await self.channel_layer.group_discard(
+                self.room_group_name,
+                self.channel_name
+            )
 
     # Receive message from the WebSocket (message sent from the user)
     async def receive(self, text_data):
