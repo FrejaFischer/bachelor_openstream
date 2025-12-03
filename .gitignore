@@ -5,3 +5,4 @@
 **/compose.override.yaml
 dev-environment/minio/data/**
 .DS_Store
+.venv
