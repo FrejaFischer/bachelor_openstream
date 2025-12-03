@@ -20,6 +20,7 @@ from app.permissions import get_branch_for_user
 
 User = get_user_model()
 
+
 class ChatConsumer(AsyncWebsocketConsumer):
 
     # Timeout for authentication (seconds)
@@ -40,9 +41,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await asyncio.sleep(self.AUTH_TIMEOUT)
         if not self.authenticated:
             print("self closing")
-            await self.send(text_data=json.dumps({"error": "User not authenticated - Socket is closing"}))
+            await self.send(
+                text_data=json.dumps(
+                    {"error": "User not authenticated - Socket is closing"}
+                )
+            )
             await self.close(code=4001)  # 4001 = custom code for auth timeout
-
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -72,7 +76,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     print("exception 4004 - user: ", user)
                     await self.close(code=4004)  # 4004 = invalid token
                     return
-                
+
                 # Authentication successfull
                 self.user = user
                 self.authenticated = True
@@ -83,28 +87,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 await self.send(json.dumps({"type": "authenticated"}))
 
                 # Get the room name
-                self.room_name = self.scope["url_route"]["kwargs"]["room_name"] # Scope contains (among other things) the url witht the room name parameter in it (should maybe get the slideshow id)
-                self.room_group_name = f"chat_{self.room_name}" # Sets the group name for the consumer
+                self.room_name = self.scope["url_route"]["kwargs"][
+                    "room_name"
+                ]  # Scope contains (among other things) the url witht the room name parameter in it (should maybe get the slideshow id)
+                self.room_group_name = (
+                    f"chat_{self.room_name}"  # Sets the group name for the consumer
+                )
                 # OBS: Group names may only contain alphanumerics (a-z, 0-9), hyphens, underscores, or periods.
                 # The group name is also limited to a maximum length of 100
 
                 # Join room group
-                await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+                await self.channel_layer.group_add(
+                    self.room_group_name, self.channel_name
+                )
 
                 # Get slideshows current data by id
                 # slideshow_id = self.scope["url_route"]["kwargs"]["slideshow_id"])
-                slideshow_id = 2 # Test - will be coming from the scope in future
+                slideshow_id = 2  # Test - will be coming from the scope in future
                 results = await get_slideshow(self, slideshow_id)
-                
+
                 # Check if slideshow was succesfully fetched
                 if results.get("type") == "error":
                     print("error happen", results.get("error_message"))
-                    await self.send(text_data=json.dumps({"error": results["error_message"]}))
+                    await self.send(
+                        text_data=json.dumps({"error": results["error_message"]})
+                    )
                     return
-                
+
                 # Send slideshow current data to the user
                 self.slideshow = results
-                await self.send(text_data=json.dumps({"current_slideshow": self.slideshow}))
+                await self.send(
+                    text_data=json.dumps({"current_slideshow": self.slideshow})
+                )
 
             except json.JSONDecodeError:
                 await self.close(code=4005)  # 4005 = invalid JSON
@@ -112,10 +126,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 await self.close(code=4006)  # 4006 = generic error
 
             return
-        
+
         # If already authenticated, then handle normal messages
         await self.handle_authenticated_message(text_data)
-        
+
     async def handle_authenticated_message(self, text_data):
         """
         Handle messages from authenticated users.
@@ -125,7 +139,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if text_data_json["type"] == "message":
             message = text_data_json["message"]
             # Send message to the whole room group
-            await self.channel_layer.group_send(self.room_group_name, {"type": "chat.message", "message": message})
+            await self.channel_layer.group_send(
+                self.room_group_name, {"type": "chat.message", "message": message}
+            )
             # type indicates which method should be used to receive the event. type: chat.message can be received with chat_message (dot . is being replaced with _)
 
         if text_data_json["type"] == "update":
@@ -135,8 +151,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
             updated_slideshow = await patch_slideshow(self, updated_slideshow_data, 2)
             print("updated_slideshow", updated_slideshow)
             # send new slideshow data to the whole room group
-            await self.channel_layer.group_send(self.room_group_name, {"type": "chat.slideshow", "data": updated_slideshow})
-    
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {"type": "chat.slideshow", "data": updated_slideshow},
+            )
+
     # Receive message from the room group (messages from other users in the room)
     async def chat_message(self, event):
         print("chat_message", event)
@@ -157,6 +176,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 # Database helper functions using Decorators
 ###############################################################################
 
+
 @database_sync_to_async
 def get_user_from_token(token_str):
     """
@@ -173,6 +193,7 @@ def get_user_from_token(token_str):
     except Exception:
         return None
 
+
 @database_sync_to_async
 def get_slideshow(self, slideshow_id):
     """
@@ -188,14 +209,14 @@ def get_slideshow(self, slideshow_id):
     # Check branch exists and if user has access to it
     try:
         # branch_id = self.scope["url_route"]["kwargs"]["branch_id"]) # maybe not the correct way of getting query params (?branch_id=x)
-        branch_id = 15 # Test - will be coming from the scope in future
+        branch_id = 15  # Test - will be coming from the scope in future
         branch = get_branch_for_user(self.user, branch_id)
     except Http404 as e:
         print("404 exception happen in get_slideshow", e)
-        return {"type":"error", "error_message": str(e)} 
+        return {"type": "error", "error_message": str(e)}
     except ValueError as e:
         # Catch Error from get_branch_for_user
-        return {"type":"error", "error_message": str(e)} 
+        return {"type": "error", "error_message": str(e)}
 
     context = {"include_slideshow_data": "true"}
 
@@ -204,9 +225,10 @@ def get_slideshow(self, slideshow_id):
         ss = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
         return {"type": "error", "error_message": "Slideshow not found"}
-    
+
     ser = SlideshowSerializer(ss, context=context)
     return ser.data
+
 
 @database_sync_to_async
 def patch_slideshow(self, data, slideshow_id):
@@ -224,18 +246,18 @@ def patch_slideshow(self, data, slideshow_id):
     # Check branch exists and if user has access to it
     try:
         # branch_id = self.scope["url_route"]["kwargs"]["branch_id"])
-        branch_id = 15 # Test - will be coming from the scope in future
+        branch_id = 15  # Test - will be coming from the scope in future
         branch = get_branch_for_user(self.user, branch_id)
     except ValueError as e:
-            # Catch Error from get_branch_for_user
-            return {"type":"error", "error_message": str(e)} 
+        # Catch Error from get_branch_for_user
+        return {"type": "error", "error_message": str(e)}
 
     # Find Slideshow object
     try:
         slideshow = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
         return {"type": "error", "error_message": "Slideshow not found"}
-    
+
     serializer = SlideshowSerializer(slideshow, data=data, partial=True)
     if serializer.is_valid():
         updated = serializer.save()

@@ -1,11 +1,13 @@
 # SPDX-FileCopyrightText: 2025 Freja Fischer Nielsen <https://github.com/FrejaFischer/bachelor_openstream>
 # SPDX-License-Identifier: AGPL-3.0-only
 from django.shortcuts import get_object_or_404
-from app.models import (OrganisationMembership, Branch)
+from app.models import OrganisationMembership, Branch
+
 
 def user_is_super_admin(user):
     """Check if user has super_admin role"""
     return OrganisationMembership.objects.filter(user=user, role="super_admin").exists()
+
 
 def get_branch_for_user(user, branch_id):
     """
@@ -14,7 +16,7 @@ def get_branch_for_user(user, branch_id):
     - suborg_admin of the branch's suborg
     - branch_admin / employee for that exact branch
     - super_admin.
-    
+
     Raises ValueError otherwise.
     """
     if not branch_id:
