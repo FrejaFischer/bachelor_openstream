@@ -27,12 +27,14 @@ from project.routing import websocket_urlpatterns
 
 # ASGI can support multiple protocols - ex. Normal HTTP and WebSockets
 # First the ProtocolTypeRouter check which kind of request is being made
-application = ProtocolTypeRouter({
-    "http": django_asgi_app,
-    "websocket": AllowedHostsOriginValidator(
+application = ProtocolTypeRouter(
+    {
+        "http": django_asgi_app,
+        "websocket": AllowedHostsOriginValidator(
             AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
         ),
-})
+    }
+)
 # If it is a WS protocol (ws:// or wss://), then it check if its an allowed host, who is the origin (set to accept all currently in the openstream.env)
 # AuthMiddlewareStack will make the connection’s scope with a reference to the currently authenticated user (?)
 # URLRouter will route it to a particular consumer, based on the provided url patterns

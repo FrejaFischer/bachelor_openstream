@@ -97,7 +97,7 @@ from app.serializers import (
 )
 from django.conf import settings
 from project.settings import FRONTDESK_API_KEY
-from app.permissions import (user_is_super_admin, get_branch_for_user)
+from app.permissions import user_is_super_admin, get_branch_for_user
 
 logger = logging.getLogger(__name__)
 
@@ -171,6 +171,7 @@ def get_branch_from_request(request):
     branch_id = request.data.get("branch_id") or request.query_params.get("branch_id")
 
     return get_branch_for_user(request.user, branch_id)
+
 
 def user_can_access_branch(user, branch):
     """
