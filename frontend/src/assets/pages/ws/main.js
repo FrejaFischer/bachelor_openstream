@@ -5,8 +5,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
   //   const roomName = JSON.parse(document.getElementById("room-name").textContent);
   const roomName = "room1";
+  const slideshow_id = 2;
 
-  const chatSocket = new WebSocket("ws://localhost:8000" + "/ws/chat/" + roomName + "/");
+  const chatSocket = new WebSocket("ws://localhost:8000" + "/ws/slideshows/" + slideshow_id + "/?branch=15");
+  // const chatSocket = new WebSocket("ws://localhost:8000" + "/ws/chat/" + roomName + "/");
   // ${BASE_URL}/ws/chat/{roomName}/ (BASE_URL = http://) - TO DO: Make WS BASE_URL version?
   // ws://localhost:8000/ws/chat/{roomName}/
 
