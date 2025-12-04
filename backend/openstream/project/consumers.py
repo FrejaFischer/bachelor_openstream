@@ -68,9 +68,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if not self.authenticated:
             print("self closing")
             await self.send(
-                text_data=json.dumps(
-                    {"error": "User not authenticated - Socket is closing"}
-                )
+                json.dumps({"error": "User not authenticated - Socket is closing"})
             )
             await self.close(code=4001)  # 4001 = custom code for auth timeout
 
@@ -122,13 +120,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     await self.close(code=4004)  # 4004 = user not found
                     return
 
-                # Authentication successfull
+                # Authentication successful
                 self.user = user
                 self.authenticated = True
                 # Cancel the auth timeout task
                 self.auth_timer.cancel()
 
-                # Send mesage to client about succesfull authentication
+                # Send mesage to client about successful authentication
                 await self.send(json.dumps({"type": "authenticated"}))
 
                 # Get the room name
@@ -151,19 +149,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 slideshow_id = 2  # Test - will be coming from the scope in future
                 results = await get_slideshow(self, slideshow_id)
 
-                # Check if slideshow was succesfully fetched
+                # Check if slideshow was successfully fetched
                 if results.get("type") == "error":
                     print("error happen", results.get("error_message"))
-                    await self.send(
-                        text_data=json.dumps({"error": results["error_message"]})
-                    )
+                    await self.send(json.dumps({"error": results["error_message"]}))
                     return
 
                 # Send slideshow current data to the user
                 self.slideshow = results
-                await self.send(
-                    text_data=json.dumps({"current_slideshow": self.slideshow})
-                )
+                await self.send(json.dumps({"current_slideshow": self.slideshow}))
 
             except json.JSONDecodeError:
                 await self.close(code=4005)  # 4005 = invalid JSON
@@ -183,7 +177,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             text_data_json = json.loads(text_data)
         except json.JSONDecodeError:
             print("exception 4005 - Invalid JSON")
-            await self.send(text_data=json.dumps({"error": "Invalid JSON data"}))
+            await self.send(json.dumps({"error": "Invalid JSON data"}))
             return
 
         if text_data_json["type"] == "message":
@@ -212,18 +206,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
 
         # Send message to the WebSocket
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(json.dumps({"message": message}))
 
     # Receive data from the room group (data from other users in the room)
     async def chat_slideshow(self, event):
         print("chat_slideshow", event)
         data = event["data"]
 
-        await self.send(text_data=json.dumps({"data": data}))
+        await self.send(json.dumps({"data": data}))
 
 
 ###############################################################################
-# Database helper functions using Decorators
+# Database helper functions
 ###############################################################################
 
 
