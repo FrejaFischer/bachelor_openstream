@@ -23,17 +23,116 @@ from app.permissions import get_branch_for_user
 User = get_user_model()
 
 
-class SlideshowConsumer(AsyncWebsocketConsumer):
+###############################################################################
+# Base Authentication Consumer
+###############################################################################
+
+
+class AuthenticatedConsumer(AsyncWebsocketConsumer):
+    async def authenticate_user(self, data):
+        """
+        Authentication of the user client.
+
+        Returns true and sends a message to client if authentication is successful.
+
+        Returns false, sends an error message to client and closes connection if authentication fails.
+
+        :param self: The consumers self.
+        :param data: The data receive from the client.
+        """
+        # Check if the message is of authenticate type (stop users from sending before being authenticated)
+        if data.get("type") != "authenticate":
+            await self.close_with_auth_error(4002)  # 4002 = Invalid first message
+            return False
+        # Authenticate user
+        token_str = data.get("token")
+        if not token_str:
+            await self.close_with_auth_error(4004)  # 4004 = Token not found
+            return False
+
+        try:
+            user = await get_user_from_token(token_str)
+        except TokenError:
+            # Invalid or expired token
+            await self.close_with_auth_error(4001)  # 4001 = User unauthenticated
+            return False
+        except User.DoesNotExist:
+            # No user exists
+            await self.close_with_auth_error(4004)  # 4004 = User not found
+            return False
+
+        # Success
+        self.user = user
+        self.authenticated = True
+
+        # Check if self has an auth_timer - Cancel the task
+        if hasattr(self, "auth_timer"):
+            self.auth_timer.cancel()
+
+        # Send mesage to client about successful authentication
+        await self.send(json.dumps({"type": "authenticated"}))
+        return True
+
+    async def close_with_auth_error(self, code):
+        await self.send(json.dumps({"error": "Missing authentication"}))
+        await self.close(code=code)
+
+
+###############################################################################
+# Consumers
+###############################################################################
+
+
+class SlideshowConsumer(AuthenticatedConsumer):
+
+    # Timeout for authentication (in seconds)
+    AUTH_TIMEOUT = 5
+
     async def connect(self):
-        print("connect method")
+        # Sets the user to be anonymous and not authenticated to start with
+        self.user = AnonymousUser()
+        self.authenticated = False
+
         # Accept the WebSocket connection
         await self.accept()
-    
+
+        # Start a timer to disconnect if authentication is not received in time
+        self.auth_timer = asyncio.create_task(self.disconnect_if_not_authenticated())
+
+    async def disconnect_if_not_authenticated(self):
+        await asyncio.sleep(self.AUTH_TIMEOUT)
+        if not self.authenticated:
+            print("User is not authenticated - self closing")
+            await self.send(
+                json.dumps({"error": "User not authenticated - Socket is closing"})
+            )
+            await self.close(code=4001)  # 4001 = User unauthenticated
+
     async def disconnect(self, close_code):
         print("disconnecting", close_code)
-    
-    async def receive(self, text_data = None):
-        print("receive", text_data)
+
+    async def receive(self, text_data):
+        print("receive")
+        # Messages received when user is not authenticated
+        if not self.authenticated:
+            try:
+                data = json.loads(text_data)
+                # Authenticate user
+                success = await self.authenticate_user(data)
+                if not success:
+                    print("Authentication failed")
+            except json.JSONDecodeError:
+                await self.close(code=4005)  # 4005 = Invalid JSON
+            except Exception as e:
+                await self.close(code=4006)  # 4006 = Generic error
+
+            return
+
+        # If user is authenticated, then handle normal messages
+        await self.handle_authenticated_message(text_data)
+
+    async def handle_authenticated_message(self, text_data):
+        print("Authenticated messages")
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
