@@ -47,15 +47,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.authenticated = False
 
         # Testing how to get url arguments and query parameters
-        self.slideshow_id = self.scope["url_route"]["kwargs"]["slideshow_id"]
-        print(self.slideshow_id)
-        print(self.scope["query_string"])
-        query_params = parse_qs(
-            self.scope["query_string"].decode()
-        )  # scope['query_string'] is bytes, so decode first
-        print(query_params)
-        branch_id = query_params.get("branch", [None])[0]
-        print(branch_id)
+        # self.slideshow_id = self.scope["url_route"]["kwargs"]["slideshow_id"]
+        # print(self.slideshow_id)
+        # print(self.scope["query_string"])
+        # query_params = parse_qs(
+        #     self.scope["query_string"].decode()
+        # )  # scope['query_string'] is bytes, so decode first
+        # print(query_params)
+        # branch_id = query_params.get("branch", [None])[0]
+        # print(branch_id)
 
         # Accept the WebSocket connection
         await self.accept()
