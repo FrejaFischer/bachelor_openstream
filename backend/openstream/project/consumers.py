@@ -131,20 +131,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 # Send mesage to client about succesfull authentication
                 await self.send(json.dumps({"type": "authenticated"}))
 
-                # # Get the room name
-                # self.room_name = self.scope["url_route"]["kwargs"][
-                #     "room_name"
-                # ]  # Scope contains (among other things) the url witht the room name parameter in it (should maybe get the slideshow id)
-                # self.room_group_name = (
-                #     f"chat_{self.room_name}"  # Sets the group name for the consumer
-                # )
+                # Get the room name
+                self.room_name = self.scope["url_route"]["kwargs"][
+                    "room_name"
+                ]  # Scope contains (among other things) the url witht the room name parameter in it (should maybe get the slideshow id)
+                self.room_group_name = (
+                    f"chat_{self.room_name}"  # Sets the group name for the consumer
+                )
                 # OBS: Group names may only contain alphanumerics (a-z, 0-9), hyphens, underscores, or periods.
                 # The group name is also limited to a maximum length of 100
 
                 # Join room group
-                # await self.channel_layer.group_add(
-                #     self.room_group_name, self.channel_name
-                # )
+                await self.channel_layer.group_add(
+                    self.room_group_name, self.channel_name
+                )
 
                 # Get slideshows current data by id
                 # slideshow_id = self.scope["url_route"]["kwargs"]["slideshow_id"])
@@ -189,9 +189,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if text_data_json["type"] == "message":
             message = text_data_json["message"]
             # Send message to the whole room group
-            # await self.channel_layer.group_send(
-            #     self.room_group_name, {"type": "chat.message", "message": message}
-            # )
+            await self.channel_layer.group_send(
+                self.room_group_name, {"type": "chat.message", "message": message}
+            )
             # type indicates which method should be used to receive the event. type: chat.message can be received with chat_message (dot . is being replaced with _)
 
         if text_data_json["type"] == "update":
@@ -201,10 +201,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             updated_slideshow = await patch_slideshow(self, updated_slideshow_data, 2)
             print("updated_slideshow", updated_slideshow)
             # send new slideshow data to the whole room group
-            # await self.channel_layer.group_send(
-            #     self.room_group_name,
-            #     {"type": "chat.slideshow", "data": updated_slideshow},
-            # )
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {"type": "chat.slideshow", "data": updated_slideshow},
+            )
 
     # Receive message from the room group (messages from other users in the room)
     async def chat_message(self, event):
