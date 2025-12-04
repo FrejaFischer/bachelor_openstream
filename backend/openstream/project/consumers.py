@@ -23,6 +23,19 @@ from app.permissions import get_branch_for_user
 User = get_user_model()
 
 
+class SlideshowConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        print("connect method")
+        # Accept the WebSocket connection
+        await self.accept()
+    
+    async def disconnect(self, close_code):
+        print("disconnecting", close_code)
+    
+    async def receive(self, text_data = None):
+        print("receive", text_data)
+
+
 class ChatConsumer(AsyncWebsocketConsumer):
 
     # Timeout for authentication (seconds)
