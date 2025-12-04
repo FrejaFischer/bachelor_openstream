@@ -24,13 +24,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   //   console.log("send complete");
   // };
   // chatSocket.onopen = () => {
-  //   console.log("trying to send");
-  //   chatSocket.send(
-  //     JSON.stringify({
-  //       type: "message",
-  //       message: "hello!!",
-  //     })
-  //   );
+  //   console.log("trying to send message");
+  //   chatSocket.send(JSON.stringify({ type: "message", message: "hello!!" }));
+
+  //   const token = localStorage.getItem("accessToken");
+  //   if (token) {
+  //     console.log("sending token");
+  //     chatSocket.send(JSON.stringify({ type: "authenticate", token }));
+  //   }
+
   //   console.log("send complete");
   // };
 
@@ -43,13 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           token: localStorage.getItem("accessToken"),
         })
       );
-      // console.log("middle");
-      // chatSocket.send(
-      //   JSON.stringify({
-      //     type: "message",
-      //     message: "hello!!",
-      //   })
-      // );
     };
   }
 
