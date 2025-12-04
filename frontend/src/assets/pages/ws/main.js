@@ -15,6 +15,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   //   console.log("trying to send");
   //   chatSocket.send(
   //     JSON.stringify({
+  //       type: "authenticate",
+  //       message: "hello!!",
+  //     })
+  //   );
+  //   console.log("send complete");
+  // };
+  // chatSocket.onopen = () => {
+  //   console.log("trying to send");
+  //   chatSocket.send(
+  //     JSON.stringify({
   //       type: "message",
   //       message: "hello!!",
   //     })
