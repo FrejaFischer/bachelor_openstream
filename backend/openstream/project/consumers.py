@@ -323,8 +323,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 @database_sync_to_async
 def get_user_from_token(token_str):
     """
-    Uses SimpleJWT AccessToken to validate token and return User.
-    Returns None if token is invalid or expired.
+    Uses SimpleJWT AccessToken to validate token and getting user.
+
+    Returns user.
+
+    Raises Exceptions if token is invalid or expired, and if user do not exists.
 
     :param token_str: The token from the user
     """
