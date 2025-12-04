@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 from django.http import Http404
 
 from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.exceptions import TokenError
 
 from app.models import Slideshow
 from app.serializers import SlideshowSerializer
@@ -65,20 +66,36 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if not self.authenticated:
             try:
                 data = json.loads(text_data)
-                # check if the message is of authenticate type (stop users from sending before being authenticated)
+                # Check if the message is of authenticate type (stop users from sending before being authenticated)
                 if data.get("type") != "authenticate":
                     await self.close(code=4002)  # 4002 = invalid first message
                     return
 
+                # Authenticate user
                 token_str = data.get("token")
                 if not token_str:
-                    await self.close(code=4003)  # 4003 = missing token
+                    await self.close(code=4004)  # 4004 = token not found
                     return
 
-                user = await get_user_from_token(token_str)
-                if user is None or not user.is_authenticated:
-                    print("exception 4004 - user: ", user)
-                    await self.close(code=4004)  # 4004 = invalid token
+                try:
+                    user = await get_user_from_token(token_str)
+
+                    # Token was valid, and user exists — check authentication state
+                    if not user.is_authenticated:
+                        print("exception 4001 - user not authenticated: ", user)
+                        await self.close(code=4001) # 4001 = user unauthenticated
+                        return
+
+                except TokenError as e:
+                    # Invalid or expired token
+                    print("exception 4001:", str(e))
+                    await self.close(code=4001) # 4001 = user unauthenticated
+                    return
+
+                except User.DoesNotExist as e:
+                    # No user exists
+                    print("exception 4004 - user not found:", str(e))
+                    await self.close(code=4004) # 4004 = user not found
                     return
 
                 # Authentication successfull
@@ -138,7 +155,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """
         Handle messages from authenticated users.
         """
-        text_data_json = json.loads(text_data)
+        try:
+            text_data_json = json.loads(text_data)
+        except json.JSONDecodeError:
+            print("exception 4005 - Invalid JSON")
+            await self.send(
+                text_data=json.dumps({"error": "Invalid JSON data"})
+            )
+            return
 
         if text_data_json["type"] == "message":
             message = text_data_json["message"]
@@ -189,13 +213,18 @@ def get_user_from_token(token_str):
 
     :param token_str: The token from the user
     """
+    # Validate token
     try:
         token = AccessToken(token_str)
-        user_id = token["user_id"]
-        user = User.objects.get(id=user_id)
-        return user
     except Exception:
-        return None
+        # Any token parsing or validation error
+        raise TokenError("Token invalid")
+    # Find user
+    try:
+        user_id = token.get("user_id")
+        return User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        raise User.DoesNotExist("User not found")
 
 
 @database_sync_to_async
