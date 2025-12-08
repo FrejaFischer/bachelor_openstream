@@ -6,10 +6,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   //   const roomName = JSON.parse(document.getElementById("room-name").textContent);
   const roomName = "room1";
   const slideshow_id = 2;
+  let current_slideshow;
 
-  const chatSocket = new WebSocket(
-    "ws://localhost:8000" + "/ws/slideshows/" + slideshow_id + "/?branch=15",
-  );
+  const chatSocket = new WebSocket("ws://localhost:8000" + "/ws/slideshows/" + slideshow_id + "/?branch=15");
   // const chatSocket = new WebSocket("ws://localhost:8000" + "/ws/chat/" + roomName + "/");
   // ${BASE_URL}/ws/chat/{roomName}/ (BASE_URL = http://) - TO DO: Make WS BASE_URL version?
   // ws://localhost:8000/ws/chat/{roomName}/
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         JSON.stringify({
           type: "authenticate",
           token: localStorage.getItem("accessToken"),
-        }),
+        })
       );
     };
   }
@@ -59,12 +58,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     if (data.data) {
       const data_ready = JSON.stringify(data.data);
-      document.querySelector("#chat-log").value += data_ready + "\n";
+      const current = JSON.stringify(current_slideshow);
+      // Check if data has changed
+      if (data_ready === current) {
+        console.log("the same");
+      } else {
+        document.querySelector("#chat-log").value += data_ready + "\n";
+      }
     }
-    if (data.current_slideshow) {
-      const current_slideshow = JSON.stringify(data.current_slideshow);
-      document.querySelector("#chat-log").value += current_slideshow + "\n";
-    }
+    // if (data.current_slideshow) {
+    //   const current_slideshow = JSON.stringify(data.current_slideshow);
+    //   document.querySelector("#chat-log").value += current_slideshow + "\n";
+    // }
     if (data.error) {
       const error = JSON.stringify(data.error);
       document.querySelector("#chat-log").value += "ERROR: " + error + "\n";
@@ -125,8 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 gridHeight: 35,
                 lineHeight: "1.2",
                 isPersistent: false,
-                tiptapContent:
-                  '<p><span style="font-size: 2.58cqw; line-height: 1.2; color: rgb(0, 0, 0); font-family: Roboto;">Double click to edit text</span></p>',
+                tiptapContent: '<p><span style="font-size: 2.58cqw; line-height: 1.2; color: rgb(0, 0, 0); font-family: Roboto;">Double click to edit text</span></p>',
                 backgroundColor: "transparent",
                 originSlideIndex: 0,
               },
@@ -149,8 +153,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       JSON.stringify({
         type: "update",
         data: updated_slideshow_data,
-      }),
+      })
     );
+    current_slideshow = updated_slideshow_data;
     // chatSocket.send(
     //   JSON.stringify({
     //     type: "update",
