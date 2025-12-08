@@ -159,7 +159,39 @@ class SlideshowConsumer(AuthenticatedConsumer):
         await self.handle_authenticated_message(text_data)
 
     async def handle_authenticated_message(self, text_data):
-        print("Authenticated messages")
+        """
+        Handle messages from authenticated users.
+        """
+        try:
+            text_data_object = json.loads(text_data)
+        except json.JSONDecodeError:
+            print("exception 4005 - Invalid JSON")
+            await self.send(json.dumps({"error": "Invalid JSON data"}))
+            return
+
+        if text_data_object["type"] == "update":
+            data = text_data_object.get("data")
+            if isinstance(data, dict) and data:
+                # Update the database with data from the user
+                results = await patch_slideshow(self, data)
+            else:
+                await self.send(json.dumps({"error": "Missing or invalid data"}))
+                return
+
+            # Check if slideshow was successfully updated
+            if results.get("type") == "error":
+                print("error happen", results.get("error_message"))
+                await self.send(json.dumps({"error": results["error_message"]}))
+                return
+
+            self.slideshow = results
+            await self.send(json.dumps({"message": "Slideshow updated"}))
+
+            # send new slideshow data to the whole room group
+            # await self.channel_layer.group_send(
+            #     self.room_group_name,
+            #     {"type": "chat.slideshow", "data": updated_slideshow},
+            # )
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -416,35 +448,47 @@ def get_slideshow(self):
 
 
 @database_sync_to_async
-def patch_slideshow(self, data, slideshow_id):
+def patch_slideshow(self, data):
     """
     Patch / update slideshow by id
 
-    :param data: The data to update
-    :param slideshow_id: The id of the slideshow
+    :param data: The slideshow data to update
     """
-    print("updating slideshow")
 
     # Close old DB connections before making new ORM operations
     close_old_connections()
 
-    # Check branch exists and if user has access to it
+    # Check if branch exists and if user has access to it
     try:
-        # branch_id = self.scope["url_route"]["kwargs"]["branch_id"])
-        branch_id = 15  # Test - will be coming from the scope in future
+        branch_id = getattr(self, "branch_id", None)
+        if branch_id is None:
+            return {"type": "error", "error_message": "Branch id not found"}
+
         branch = get_branch_for_user(self.user, branch_id)
+    except Http404 as e:
+        print("404 exception happen in get_slideshow", e)
+        return {
+            "type": "error",
+            "error_message": "No branch matches with that branch id",
+        }
     except ValueError as e:
-        # Catch Error from get_branch_for_user
         return {"type": "error", "error_message": str(e)}
 
     # Find Slideshow object
     try:
+        slideshow_id = getattr(self, "slideshow_id", None)
+        if slideshow_id is None:
+            return {"type": "error", "error_message": "Slideshow id not found"}
         slideshow = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
         return {"type": "error", "error_message": "Slideshow not found"}
 
+    # Update slideshow object
     serializer = SlideshowSerializer(slideshow, data=data, partial=True)
     if serializer.is_valid():
         updated = serializer.save()
         return SlideshowSerializer(updated).data
-    return serializer.errors
+    return {
+        "type": "error",
+        "error_message": "Slideshow not updated. Reason: " + str(serializer.errors),
+    }
