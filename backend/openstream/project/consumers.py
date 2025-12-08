@@ -148,6 +148,16 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 self.slideshow = results
                 await self.send(json.dumps({"data": self.slideshow}))
 
+                # Create group name with slideshow id included
+                self.slideshow_group_name = (
+                    f"slideshow_{self.slideshow_id}"
+                )
+
+                # Add user to Channel group
+                await self.channel_layer.group_add(
+                    self.slideshow_group_name, self.channel_name
+                )
+
             except json.JSONDecodeError:
                 await self.close(code=4005)  # 4005 = Invalid JSON
             except Exception as e:
