@@ -124,6 +124,30 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 success = await self.authenticate_user(data)
                 if not success:
                     print("Authentication failed")
+                    return
+
+                # Get slideshow id from url
+                self.slideshow_id = self.scope["url_route"]["kwargs"]["slideshow_id"]
+
+                # Get branch id from query params
+                query_params = parse_qs(
+                    self.scope["query_string"].decode()
+                )  # scope['query_string'] is bytes, so decode first
+                self.branch_id = query_params.get("branch", [None])[0]
+
+                # Get slideshows current data by id
+                results = await get_slideshow(self)
+
+                # Check if slideshow was successfully fetched
+                if results.get("type") == "error":
+                    print("error happen", results.get("error_message"))
+                    await self.send(json.dumps({"error": results["error_message"]}))
+                    return
+
+                # Send current slideshow data to the user
+                self.slideshow = results
+                await self.send(json.dumps({"data": self.slideshow}))
+
             except json.JSONDecodeError:
                 await self.close(code=4005)  # 4005 = Invalid JSON
             except Exception as e:
@@ -349,7 +373,7 @@ def get_user_from_token(token_str):
 
 
 @database_sync_to_async
-def get_slideshow(self, slideshow_id):
+def get_slideshow(self):
     """
     Get slideshow by id from database, with Slideshow data included
 
@@ -360,22 +384,29 @@ def get_slideshow(self, slideshow_id):
     # Close old DB connections before making new ORM operations
     close_old_connections()
 
-    # Check branch exists and if user has access to it
+    # Check if branch exists and if user has access to it
     try:
-        # branch_id = self.scope["url_route"]["kwargs"]["branch_id"]) # maybe not the correct way of getting query params (?branch_id=x)
-        branch_id = 15  # Test - will be coming from the scope in future
-        branch = get_branch_for_user(self.user, branch_id)
+        branch_id = getattr(self, "branch_id", None)
+        if branch_id is None:
+            return {"type": "error", "error_message": "Branch id not found"}
+
+        branch = get_branch_for_user(self.user, self.branch_id)
     except Http404 as e:
         print("404 exception happen in get_slideshow", e)
-        return {"type": "error", "error_message": str(e)}
+        return {
+            "type": "error",
+            "error_message": "No branch matches with that branch id",
+        }
     except ValueError as e:
-        # Catch Error from get_branch_for_user
         return {"type": "error", "error_message": str(e)}
 
     context = {"include_slideshow_data": "true"}
 
     # Find Slideshow object
     try:
+        slideshow_id = getattr(self, "slideshow_id", None)
+        if slideshow_id is None:
+            return {"type": "error", "error_message": "Slideshow id not found"}
         ss = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
         return {"type": "error", "error_message": "Slideshow not found"}
