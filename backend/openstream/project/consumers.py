@@ -120,7 +120,6 @@ class SlideshowConsumer(AuthenticatedConsumer):
             )
 
     async def receive(self, text_data):
-        print("receive")
         # Messages received when user is not authenticated
         if not self.authenticated:
             try:
@@ -209,7 +208,6 @@ class SlideshowConsumer(AuthenticatedConsumer):
     # Receive updated slideshow data from group in channel layer
     async def receive_slideshow_update(self, event):
         data = event["data"]
-        print("receive_slideshow_update", data)
         # Send updated slideshow data to user
         await self.send(json.dumps({"data": data}))
 
