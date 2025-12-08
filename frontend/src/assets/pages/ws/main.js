@@ -15,10 +15,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Test if user can send anything without sending token (will get rejected by backend)
   // chatSocket.onopen = () => {
   //   console.log("trying to send");
+  //   const token123 = "1234notatoken";
   //   chatSocket.send(
   //     JSON.stringify({
   //       type: "authenticate",
-  //       message: "hello!!",
+  //       token: token123,
   //     })
   //   );
   //   console.log("send complete");
