@@ -113,6 +113,11 @@ class SlideshowConsumer(AuthenticatedConsumer):
 
     async def disconnect(self, close_code):
         print("disconnecting", close_code)
+        # Only leave group if group name exists
+        if hasattr(self, "slideshow_group_name") and self.slideshow_group_name:
+            await self.channel_layer.group_discard(
+                self.slideshow_group_name, self.channel_name
+            )
 
     async def receive(self, text_data):
         print("receive")
