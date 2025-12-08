@@ -390,7 +390,7 @@ def get_slideshow(self):
         if branch_id is None:
             return {"type": "error", "error_message": "Branch id not found"}
 
-        branch = get_branch_for_user(self.user, self.branch_id)
+        branch = get_branch_for_user(self.user, branch_id)
     except Http404 as e:
         print("404 exception happen in get_slideshow", e)
         return {
