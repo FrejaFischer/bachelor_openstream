@@ -103,10 +103,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
         await asyncio.sleep(self.AUTH_TIMEOUT)
         if not self.authenticated:
             print("User is not authenticated - self closing")
-            await self.send(
-                json.dumps({"error": "User not authenticated - Socket is closing"})
-            )
-            await self.close(code=4001)  # 4001 = User unauthenticated
+            await self.close_with_auth_error(4001)
 
     async def disconnect(self, close_code):
         print("disconnecting", close_code)
