@@ -33,12 +33,13 @@ class AuthenticatedConsumer(AsyncWebsocketConsumer):
         """
         Authentication of the user client.
 
-        Returns true and sends a message to client if authentication is successful.
+        ## If authentication is successful:
+        Returns true and sends a message to client.
 
-        Returns false, sends an error message to client and closes connection if authentication fails.
+        ## If authentication fails:
+        Returns false, sends an error message to client and closes connection.
 
-        :param self: The consumers self.
-        :param data: The data receive from the client.
+        :param data: The data received from the client.
         """
         # Check if the message is of authenticate type (stop users from sending before being authenticated)
         if data.get("type") != "authenticate":
@@ -69,11 +70,16 @@ class AuthenticatedConsumer(AsyncWebsocketConsumer):
         if hasattr(self, "auth_timer"):
             self.auth_timer.cancel()
 
-        # Send mesage to client about successful authentication
+        # Send message to client about successful authentication
         await self.send(json.dumps({"type": "authenticated"}))
         return True
 
     async def close_with_auth_error(self, code):
+        """
+        Closing connection with authentication error message.
+
+        :param code: Closing code to close connection with
+        """
         await self.send(json.dumps({"error": "Missing authentication"}))
         await self.close(code=code)
 
@@ -89,7 +95,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
     AUTH_TIMEOUT = 5
 
     async def connect(self):
-        # Sets the user to be anonymous and not authenticated to start with
+        # Sets the user to be anonymous and not authenticated to begin with
         self.user = AnonymousUser()
         self.authenticated = False
 
