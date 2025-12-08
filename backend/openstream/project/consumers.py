@@ -154,9 +154,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 await self.send(json.dumps({"data": self.slideshow}))
 
                 # Create group name with slideshow id included
-                self.slideshow_group_name = (
-                    f"slideshow_{self.slideshow_id}"
-                )
+                self.slideshow_group_name = f"slideshow_{self.slideshow_id}"
 
                 # Add user to Channel group
                 await self.channel_layer.group_add(
