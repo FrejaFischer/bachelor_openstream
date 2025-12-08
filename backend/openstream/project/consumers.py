@@ -202,11 +202,18 @@ class SlideshowConsumer(AuthenticatedConsumer):
             self.slideshow = results
             await self.send(json.dumps({"message": "Slideshow updated"}))
 
-            # send new slideshow data to the whole room group
-            # await self.channel_layer.group_send(
-            #     self.room_group_name,
-            #     {"type": "chat.slideshow", "data": updated_slideshow},
-            # )
+            # Send updated slideshow data to group in channel layer
+            await self.channel_layer.group_send(
+                self.slideshow_group_name,
+                {"type": "receive.slideshow.update", "data": self.slideshow},
+            )
+
+    # Receive updated slideshow data from group in channel layer
+    async def receive_slideshow_update(self, event):
+        data = event["data"]
+        print("receive_slideshow_update", data)
+        # Send updated slideshow data to user
+        await self.send(json.dumps({"data": data}))
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
