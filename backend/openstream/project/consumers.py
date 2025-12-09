@@ -80,7 +80,7 @@ class AuthenticatedConsumer(AsyncWebsocketConsumer):
 
         :param code: Closing code to close connection with
         """
-        await self.send(json.dumps({"error": "Missing authentication"}))
+        await self.send(json.dumps({"error": "Missing authentication", "code": code}))
         await self.close(code=code)
 
 
@@ -145,7 +145,11 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 # Check if slideshow was successfully fetched
                 if results.get("type") == "error":
                     print("error happen", results.get("error_message"))
-                    await self.send(json.dumps({"error": results["error_message"]}))
+                    if hasattr(results, "code"):
+                        error_code = results["code"]
+                    else:
+                        error_code = 4006
+                    await self.send(json.dumps({"error": results["error_message"], "code": error_code}))
                     return
 
                 # Send current slideshow data to the user
@@ -161,8 +165,11 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 )
 
             except json.JSONDecodeError:
+                await self.send(json.dumps({"error": "Invalid JSON", "code": 4005}))
                 await self.close(code=4005)  # 4005 = Invalid JSON
             except Exception as e:
+                print("Generic error: ", e)
+                await self.send(json.dumps({"error": "An error occurred", "code": 4006}))
                 await self.close(code=4006)  # 4006 = Generic error
 
             return
@@ -178,7 +185,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
             text_data_object = json.loads(text_data)
         except json.JSONDecodeError:
             print("exception 4005 - Invalid JSON")
-            await self.send(json.dumps({"error": "Invalid JSON data"}))
+            await self.send(json.dumps({"error": "Invalid JSON data", "code": 4005}))
             return
 
         if text_data_object["type"] == "update":
@@ -187,13 +194,17 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 # Update the database with data from the user
                 results = await patch_slideshow(self, data)
             else:
-                await self.send(json.dumps({"error": "Missing or invalid data"}))
+                await self.send(json.dumps({"error": "Missing or invalid data", "code": 4004}))
                 return
 
             # Check if slideshow was successfully updated
             if results.get("type") == "error":
                 print("error happen", results.get("error_message"))
-                await self.send(json.dumps({"error": results["error_message"]}))
+                if hasattr(results, "code"):
+                    error_code = results["code"]
+                else:
+                    error_code = 4006
+                await self.send(json.dumps({"error": results["error_message"], "code": error_code}))
                 return
 
             self.slideshow = results
@@ -438,7 +449,7 @@ def get_slideshow(self):
     try:
         branch_id = getattr(self, "branch_id", None)
         if branch_id is None:
-            return {"type": "error", "error_message": "Branch id not found"}
+            return {"type": "error", "error_message": "Branch id not found", "code": 4004}
 
         branch = get_branch_for_user(self.user, branch_id)
     except Http404 as e:
@@ -446,9 +457,10 @@ def get_slideshow(self):
         return {
             "type": "error",
             "error_message": "No branch matches with that branch id",
+            "code": 4004,
         }
     except ValueError as e:
-        return {"type": "error", "error_message": str(e)}
+        return {"type": "error", "error_message": str(e), "code": 4001}
 
     context = {"include_slideshow_data": "true"}
 
@@ -456,10 +468,10 @@ def get_slideshow(self):
     try:
         slideshow_id = getattr(self, "slideshow_id", None)
         if slideshow_id is None:
-            return {"type": "error", "error_message": "Slideshow id not found"}
+            return {"type": "error", "error_message": "Slideshow id not found", "code": 4004}
         ss = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
-        return {"type": "error", "error_message": "Slideshow not found"}
+        return {"type": "error", "error_message": "Slideshow not found", "code": 4004}
 
     ser = SlideshowSerializer(ss, context=context)
     return ser.data
@@ -480,33 +492,37 @@ def patch_slideshow(self, data):
     try:
         branch_id = getattr(self, "branch_id", None)
         if branch_id is None:
-            return {"type": "error", "error_message": "Branch id not found"}
+            return {"type": "error", "error_message": "Branch id not found", "code": 4004}
 
         branch = get_branch_for_user(self.user, branch_id)
     except Http404 as e:
-        print("404 exception happen in get_slideshow", e)
+        print("404 exception happen in patch_slideshow", e)
         return {
             "type": "error",
             "error_message": "No branch matches with that branch id",
+            "code": 4004,
         }
     except ValueError as e:
-        return {"type": "error", "error_message": str(e)}
+        return {"type": "error", "error_message": str(e), "code": 4001}
 
     # Find Slideshow object
     try:
         slideshow_id = getattr(self, "slideshow_id", None)
         if slideshow_id is None:
-            return {"type": "error", "error_message": "Slideshow id not found"}
+            return {"type": "error", "error_message": "Slideshow id not found", "code": 4004}
         slideshow = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
-        return {"type": "error", "error_message": "Slideshow not found"}
+        return {"type": "error", "error_message": "Slideshow not found", "code": 4004}
 
     # Update slideshow object
     serializer = SlideshowSerializer(slideshow, data=data, partial=True)
     if serializer.is_valid():
         updated = serializer.save()
         return SlideshowSerializer(updated).data
+
+    print("Updating slideshow failed: ", str(serializer.errors))
     return {
         "type": "error",
-        "error_message": "Slideshow not updated. Reason: " + str(serializer.errors),
+        "error_message": "Slideshow could not be updated due to invalid data.",
+        "code": 4006
     }
