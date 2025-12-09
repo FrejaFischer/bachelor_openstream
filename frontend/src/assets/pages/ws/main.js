@@ -75,7 +75,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // }
     if (data.error) {
       const error = JSON.stringify(data.error);
-      document.querySelector("#chat-log").value += "ERROR: " + error + "\n";
+      const error_code = data.code ? JSON.stringify(data.code) : "";
+      document.querySelector("#chat-log").value += "ERROR: " + error + " - Code: " + error_code + "\n";
     }
   };
 
