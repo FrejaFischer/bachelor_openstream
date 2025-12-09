@@ -176,11 +176,13 @@ if (queryParams.mode === "edit") {
   } catch (e) {
     console.warn("exitPlayerMode failed or no player state:", e);
   }
+  // xxxxxxx Here should there be made a WS connection (instead?)
   await fetchSlideshow(queryParams.id)
     .then(() => {
       initAutoSave(queryParams.id);
     })
     .catch((err) => console.error(err));
+  // xxxxxxx
   initAddSlide();
   // init slide elements sidebar UI
   initSlideElementsSidebar();
