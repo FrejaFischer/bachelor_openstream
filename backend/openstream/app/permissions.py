@@ -17,7 +17,9 @@ def get_branch_for_user(user, branch_id):
     - branch_admin / employee for that exact branch
     - super_admin.
 
-    Raises ValueError otherwise.
+    ## Exceptions:
+    - Raises Http404 exception if branch object is not found.
+    - Raises ValueError otherwise.
     """
     if not branch_id:
         raise ValueError("branch_id is required.")
