@@ -149,7 +149,11 @@ class SlideshowConsumer(AuthenticatedConsumer):
                         error_code = results["code"]
                     else:
                         error_code = 4006
-                    await self.send(json.dumps({"error": results["error_message"], "code": error_code}))
+                    await self.send(
+                        json.dumps(
+                            {"error": results["error_message"], "code": error_code}
+                        )
+                    )
                     return
 
                 # Send current slideshow data to the user
@@ -169,7 +173,9 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 await self.close(code=4005)  # 4005 = Invalid JSON
             except Exception as e:
                 print("Generic error: ", e)
-                await self.send(json.dumps({"error": "An error occurred", "code": 4006}))
+                await self.send(
+                    json.dumps({"error": "An error occurred", "code": 4006})
+                )
                 await self.close(code=4006)  # 4006 = Generic error
 
             return
@@ -194,7 +200,9 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 # Update the database with data from the user
                 results = await patch_slideshow(self, data)
             else:
-                await self.send(json.dumps({"error": "Missing or invalid data", "code": 4004}))
+                await self.send(
+                    json.dumps({"error": "Missing or invalid data", "code": 4004})
+                )
                 return
 
             # Check if slideshow was successfully updated
@@ -204,7 +212,9 @@ class SlideshowConsumer(AuthenticatedConsumer):
                     error_code = results["code"]
                 else:
                     error_code = 4006
-                await self.send(json.dumps({"error": results["error_message"], "code": error_code}))
+                await self.send(
+                    json.dumps({"error": results["error_message"], "code": error_code})
+                )
                 return
 
             self.slideshow = results
@@ -449,7 +459,11 @@ def get_slideshow(self):
     try:
         branch_id = getattr(self, "branch_id", None)
         if branch_id is None:
-            return {"type": "error", "error_message": "Branch id not found", "code": 4004}
+            return {
+                "type": "error",
+                "error_message": "Branch id not found",
+                "code": 4004,
+            }
 
         branch = get_branch_for_user(self.user, branch_id)
     except Http404 as e:
@@ -468,7 +482,11 @@ def get_slideshow(self):
     try:
         slideshow_id = getattr(self, "slideshow_id", None)
         if slideshow_id is None:
-            return {"type": "error", "error_message": "Slideshow id not found", "code": 4004}
+            return {
+                "type": "error",
+                "error_message": "Slideshow id not found",
+                "code": 4004,
+            }
         ss = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
         return {"type": "error", "error_message": "Slideshow not found", "code": 4004}
@@ -492,7 +510,11 @@ def patch_slideshow(self, data):
     try:
         branch_id = getattr(self, "branch_id", None)
         if branch_id is None:
-            return {"type": "error", "error_message": "Branch id not found", "code": 4004}
+            return {
+                "type": "error",
+                "error_message": "Branch id not found",
+                "code": 4004,
+            }
 
         branch = get_branch_for_user(self.user, branch_id)
     except Http404 as e:
@@ -509,7 +531,11 @@ def patch_slideshow(self, data):
     try:
         slideshow_id = getattr(self, "slideshow_id", None)
         if slideshow_id is None:
-            return {"type": "error", "error_message": "Slideshow id not found", "code": 4004}
+            return {
+                "type": "error",
+                "error_message": "Slideshow id not found",
+                "code": 4004,
+            }
         slideshow = get_object_or_404(Slideshow, pk=slideshow_id, branch=branch)
     except Http404:
         return {"type": "error", "error_message": "Slideshow not found", "code": 4004}
@@ -524,5 +550,5 @@ def patch_slideshow(self, data):
     return {
         "type": "error",
         "error_message": "Slideshow could not be updated due to invalid data.",
-        "code": 4006
+        "code": 4006,
     }
