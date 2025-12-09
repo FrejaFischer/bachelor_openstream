@@ -8,16 +8,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const slideshow_id = 2;
   let current_slideshow;
 
-  const chatSocket = new WebSocket("ws://localhost:8000" + "/ws/slideshows/" + slideshow_id + "/?branch=15");
+  const slideshowSocket = new WebSocket("ws://localhost:8000" + "/ws/slideshows/" + slideshow_id + "/?branch=15");
   // const chatSocket = new WebSocket("ws://localhost:8000" + "/ws/chat/" + roomName + "/");
   // ${BASE_URL}/ws/chat/{roomName}/ (BASE_URL = http://) - TO DO: Make WS BASE_URL version?
   // ws://localhost:8000/ws/chat/{roomName}/
 
   // Test if user can send anything without sending token (will get rejected by backend)
-  // chatSocket.onopen = () => {
+  // slideshowSocket.onopen = () => {
   //   console.log("trying to send");
   //   const token123 = "1234notatoken";
-  //   chatSocket.send(
+  //   slideshowSocket.send(
   //     JSON.stringify({
   //       type: "authenticate",
   //       token: token123,
@@ -25,23 +25,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   //   );
   //   console.log("send complete");
   // };
-  // chatSocket.onopen = () => {
+  // slideshowSocket.onopen = () => {
   //   console.log("trying to send message");
-  //   chatSocket.send(JSON.stringify({ type: "message", message: "hello!!" }));
+  //   slideshowSocket.send(JSON.stringify({ type: "message", message: "hello!!" }));
 
   //   const token = localStorage.getItem("accessToken");
   //   if (token) {
   //     console.log("sending token");
-  //     chatSocket.send(JSON.stringify({ type: "authenticate", token }));
+  //     slideshowSocket.send(JSON.stringify({ type: "authenticate", token }));
   //   }
 
   //   console.log("send complete");
   // };
 
+  // slideshowSocket.onopen = () => {
+  //   slideshowSocket.send("hej");
+  // };
   // Send token to WS
   if (localStorage.getItem("accessToken")) {
-    chatSocket.onopen = () => {
-      chatSocket.send(
+    slideshowSocket.onopen = () => {
+      slideshowSocket.send(
         JSON.stringify({
           type: "authenticate",
           token: localStorage.getItem("accessToken"),
@@ -50,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
   }
 
-  chatSocket.onmessage = function (e) {
+  slideshowSocket.onmessage = function (e) {
     console.log("onMessage", e);
     const data = JSON.parse(e.data);
     if (data.message) {
@@ -76,8 +79,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
-  chatSocket.onclose = function (e) {
-    console.error("Chat socket closed unexpectedly");
+  slideshowSocket.onclose = (event) => {
+    console.log("WebSocket closed:");
+    console.log("Code:", event.code); // ← Close code (e.g., 4001, 4004)
   };
 
   document.querySelector("#chat-message-input").focus();
@@ -148,15 +152,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
     // const updated_slideshow_data = "hej";
 
-    // chatSocket.send(updated_slideshow_data); // Invalid json send
-    chatSocket.send(
+    // slideshowSocket.send(updated_slideshow_data); // Invalid json send
+    slideshowSocket.send(
       JSON.stringify({
         type: "update",
         data: updated_slideshow_data,
       })
     );
     current_slideshow = updated_slideshow_data;
-    // chatSocket.send(
+    // slideshowSocket.send(
     //   JSON.stringify({
     //     type: "update",
     //     message: message,
