@@ -15,6 +15,7 @@ import { gettext } from "../../../../utils/locales.js";
 
 let autosaveTimer = null;
 
+// Fetching slideshow with slideshowID from function params and selectedBranchID from utils file (get it from query params)
 export async function fetchSlideshow(slideshowId) {
   try {
     const resp = await fetch(
@@ -33,11 +34,11 @@ export async function fetchSlideshow(slideshowId) {
       );
     }
     const data = await resp.json();
+    // Set store.sldieshowMode to data.mode?
     store.slideshowMode = data.mode;
-    document.querySelector("#contentEngineTitle").innerHTML = autoHyphenate(
-      data.name,
-    );
-
+    // Sets the title of the slideshow element to be data.name
+    document.querySelector("#contentEngineTitle").innerHTML = autoHyphenate(data.name);
+    // Sets text for slideshow mode in text element
     if (store.slideshowMode === "interactive") {
       document.getElementById("slideshow-mode-text").innerText =
         gettext("Interactive Mode");
@@ -48,22 +49,21 @@ export async function fetchSlideshow(slideshowId) {
         gettext("Slideshow Mode");
     }
 
-    // Set preview dimensions if they exist in the data (regardless of slides)
+    // Set preview dimensions if they exist in the data (regardless of slides) ???
     if (data.previewHeight && data.previewWidth) {
       store.emulatedWidth = data.previewWidth;
       store.emulatedHeight = data.previewHeight;
     }
-
-    if (
-      data.slideshow_data &&
-      data.slideshow_data.slides &&
-      data.slideshow_data.slides.length > 0
-    ) {
+    // Check if data contains slideshow_data, and there is slides inside and there is more than zero slides
+    console.log("This is the data:", data);
+    if (data.slideshow_data && data.slideshow_data.slides && data.slideshow_data.slides.length > 0) {
+      // Handle the slides:
       store.slides.length = 0;
+      // Add them to store slides
       data.slideshow_data.slides.forEach((s) => store.slides.push(s));
 
       store.slides.forEach((s) => {
-        if (!s.undoStack) s.undoStack = [];
+        if (!s.undoStack) s.undoStack = []; // ??? What is undoStack and redoStack? And why do we do the same on lines 54+55 and 59+60?
         if (!s.redoStack) s.redoStack = [];
       });
 
@@ -71,6 +71,7 @@ export async function fetchSlideshow(slideshowId) {
         if (!s.undoStack) s.undoStack = [];
         if (!s.redoStack) s.redoStack = [];
 
+        // set data about activation (slide activating setting feature) to be included in the slide (it is not set in the creating of a slide)
         // --> ADDED: Default activation properties <--
         if (typeof s.activationEnabled === "undefined") {
           s.activationEnabled = false;
@@ -82,7 +83,8 @@ export async function fetchSlideshow(slideshowId) {
           s.deactivationDate = null;
         }
       });
-
+      // ??? - Here it checks how many elements each slide have, so it knows what the next element id number should be??
+      // Does it loop over the slides again? Why does it not do this in the loop before (line 58?)
       for (const slide of store.slides) {
         slide.elements.forEach((element) => {
           if (element.id >= store.elementIdCounter) {
@@ -112,7 +114,7 @@ export async function fetchSlideshow(slideshowId) {
           }
         });
       });
-
+      // HER NÅET JEG TIL XXXX
       store.lastSlidesStr = JSON.stringify(store.slides);
       store.currentSlideIndex = 0;
 
