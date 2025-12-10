@@ -145,7 +145,9 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 # Check if slideshow was successfully fetched
                 if results.get("type") == "error":
                     print("error happen", results.get("error_message"))
-                    if hasattr(results, "code"):
+                    print("results: ", results)
+                    if "code" in results:
+                        print("has")
                         error_code = results["code"]
                     else:
                         error_code = 4006
@@ -208,7 +210,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
             # Check if slideshow was successfully updated
             if results.get("type") == "error":
                 print("error happen", results.get("error_message"))
-                if hasattr(results, "code"):
+                if "code" in results:
                     error_code = results["code"]
                 else:
                     error_code = 4006
