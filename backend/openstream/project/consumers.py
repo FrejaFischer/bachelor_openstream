@@ -94,6 +94,9 @@ class SlideshowConsumer(AuthenticatedConsumer):
     # Timeout for authentication (in seconds)
     AUTH_TIMEOUT = 5
 
+    # Is this consumer the same for all users? Can we make an object containing all the connected users?
+    # can we save the user in Redis
+
     async def connect(self):
         # Sets the user to be anonymous and not authenticated to begin with
         self.user = AnonymousUser()
