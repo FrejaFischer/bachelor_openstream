@@ -192,6 +192,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
         """
         Handle messages from authenticated users.
         """
+        print("handle_authenticated_message")
         try:
             text_data_object = json.loads(text_data)
         except json.JSONDecodeError:
