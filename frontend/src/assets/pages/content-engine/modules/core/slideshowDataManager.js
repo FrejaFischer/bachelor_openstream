@@ -3,148 +3,151 @@
 import { store } from "./slideStore.js";
 import { loadSlide, scaleAllSlides } from "./renderSlide.js";
 import { updateSlideSelector } from "./slideSelector.js";
-import {
-  autoHyphenate,
-  showToast,
-  token,
-  selectedBranchID,
-} from "../../../../utils/utils.js";
+import { autoHyphenate, showToast, token, selectedBranchID } from "../../../../utils/utils.js";
 import { openAddSlideModal } from "./addSlide.js";
 import { BASE_URL } from "../../../../utils/constants.js";
 import { gettext } from "../../../../utils/locales.js";
 
 let autosaveTimer = null;
+let slideshowSocket = null;
 
-// Fetching slideshow with slideshowID from function params and selectedBranchID from utils file (get it from query params)
 export async function fetchSlideshow(slideshowId) {
   try {
-    const resp = await fetch(
-      `${BASE_URL}/api/manage_content/?id=${slideshowId}&includeSlideshowData=true&branch_id=${selectedBranchID}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+    const resp = await fetch(`${BASE_URL}/api/manage_content/?id=${slideshowId}&includeSlideshowData=true&branch_id=${selectedBranchID}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    );
+    });
     if (!resp.ok) {
-      throw new Error(
-        `Failed to load slideshow (ID = ${slideshowId}). Status: ${resp.status}`,
-      );
+      throw new Error(`Failed to load slideshow (ID = ${slideshowId}). Status: ${resp.status}`);
     }
     const data = await resp.json();
-    // Set store.slidieshowMode to data.mode
-    store.slideshowMode = data.mode;
-    // Sets the title element of the slideshow to be data.name
-    document.querySelector("#contentEngineTitle").innerHTML = autoHyphenate(data.name);
-    // Sets text for slideshow mode in text element
-    if (store.slideshowMode === "interactive") {
-      document.getElementById("slideshow-mode-text").innerText =
-        gettext("Interactive Mode");
+    handleSlideshowData(data);
+
+    // Open websocket subscription for real-time updates
+    // We make a normal HTTP fetch call to ensure the user gets the ss data, even if the ws fails. then it would work normally
+    try {
+      connectToSlideshow(slideshowId);
+    } catch (e) {
+      console.warn("Failed to init slideshow socket", e);
     }
 
-    if (store.slideshowMode === "slideshow") {
-      document.getElementById("slideshow-mode-text").innerText =
-        gettext("Slideshow Mode");
-    }
+    // Old code I am keeping commented for now (if(true) is not part of code):
+    // if (true) {
+    //   // // Set store.slidieshowMode to data.mode
+    //   // store.slideshowMode = data.mode;
+    //   // // Sets the title element of the slideshow to be data.name
+    //   // document.querySelector("#contentEngineTitle").innerHTML = autoHyphenate(data.name);
+    //   // // Sets text for slideshow mode in text element
+    //   // if (store.slideshowMode === "interactive") {
+    //   //   document.getElementById("slideshow-mode-text").innerText =
+    //   //     gettext("Interactive Mode");
+    //   // }
 
-    // Set preview dimensions if they exist in the data. preview height and width is set to be the selected aspect ratio width/height when slideshow is being created
-    if (data.previewHeight && data.previewWidth) {
-      store.emulatedWidth = data.previewWidth;
-      store.emulatedHeight = data.previewHeight;
-    }
-    // Check if data contains slideshow_data, and there is slides inside and there is more than zero slides
-    console.log("This is the data:", data);
-    if (data.slideshow_data && data.slideshow_data.slides && data.slideshow_data.slides.length > 0) {
-      // Handle the slides - Set the store slides to be empty (start from scratch)
-      store.slides.length = 0;
-      // Add them to store slides
-      data.slideshow_data.slides.forEach((s) => store.slides.push(s));
+    //   // if (store.slideshowMode === "slideshow") {
+    //   //   document.getElementById("slideshow-mode-text").innerText =
+    //   //     gettext("Slideshow Mode");
+    //   // }
 
-      store.slides.forEach((s) => {
-        if (!s.undoStack) s.undoStack = []; // ??? What is undoStack and redoStack? And why do we do the same on lines 54+55 and 59+60?
-        if (!s.redoStack) s.redoStack = [];
-      });
+    //   // // Set preview dimensions if they exist in the data. preview height and width is set to be the selected aspect ratio width/height when slideshow is being created
+    //   // if (data.previewHeight && data.previewWidth) {
+    //   //   store.emulatedWidth = data.previewWidth;
+    //   //   store.emulatedHeight = data.previewHeight;
+    //   // }
+    //   // // Check if data contains slideshow_data, and there is slides inside and there is more than zero slides
+    //   // console.log("This is the data:", data);
+    //   // if (data.slideshow_data && data.slideshow_data.slides && data.slideshow_data.slides.length > 0) {
+    //   //   // Handle the slides - Set the store slides to be empty (start from scratch)
+    //   //   store.slides.length = 0;
+    //   //   // Add them to store slides
+    //   //   data.slideshow_data.slides.forEach((s) => store.slides.push(s));
 
-      store.slides.forEach((s) => {
-        if (!s.undoStack) s.undoStack = [];
-        if (!s.redoStack) s.redoStack = [];
+    //   //   store.slides.forEach((s) => {
+    //   //     if (!s.undoStack) s.undoStack = []; // ??? What is undoStack and redoStack? And why do we do the same on lines 54+55 and 59+60?
+    //   //     if (!s.redoStack) s.redoStack = [];
+    //   //   });
 
-        // set data about activation (slide activating setting feature) to be included in the slide (it is not set in the creating of a slide)
-        // --> ADDED: Default activation properties <--
-        if (typeof s.activationEnabled === "undefined") {
-          s.activationEnabled = false;
-        }
-        if (typeof s.activationDate === "undefined") {
-          s.activationDate = null;
-        }
-        if (typeof s.deactivationDate === "undefined") {
-          s.deactivationDate = null;
-        }
-      });
-      // Here it checks how many elements each slide have, so it knows what the next element id number should be
-      for (const slide of store.slides) {
-        slide.elements.forEach((element) => {
-          if (element.id >= store.elementIdCounter) {
-            store.elementIdCounter = element.id + 1;
-          }
-        });
-      }
+    //   //   store.slides.forEach((s) => {
+    //   //     if (!s.undoStack) s.undoStack = [];
+    //   //     if (!s.redoStack) s.redoStack = [];
 
-      // Restore html, css, js fields for HTML elements from the combined content
-      store.slides.forEach((slide) => {
-        slide.elements.forEach((element) => {
-          if (element.type === "html" && element.content) {
-            try {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(element.content, "text/html");
-              element.html = doc.body.innerHTML.trim();
-              const styleEl = doc.querySelector("style");
-              element.css = styleEl ? styleEl.textContent : "";
-              const scriptEl = doc.querySelector("script");
-              element.js = scriptEl ? scriptEl.textContent : "";
-            } catch (e) {
-              console.error("Failed to parse HTML element content", e);
-              element.html = element.html || "";
-              element.css = element.css || "";
-              element.js = element.js || "";
-            }
-          }
-        });
-      });
-      // Store what the current slides contains in a string, called lastSlidesStr in store. This is used later to compare the slides to check for changes
-      store.lastSlidesStr = JSON.stringify(store.slides);
-      store.currentSlideIndex = 0; // It is the index of the slide which are being shown in the editor. We set it here to be the first slide (starts with 0)
+    //   //     // set data about activation (slide activating setting feature) to be included in the slide (it is not set in the creating of a slide)
+    //   //     // --> ADDED: Default activation properties <--
+    //   //     if (typeof s.activationEnabled === "undefined") {
+    //   //       s.activationEnabled = false;
+    //   //     }
+    //   //     if (typeof s.activationDate === "undefined") {
+    //   //       s.activationDate = null;
+    //   //     }
+    //   //     if (typeof s.deactivationDate === "undefined") {
+    //   //       s.deactivationDate = null;
+    //   //     }
+    //   //   });
+    //   //   // Here it checks how many elements each slide have, so it knows what the next element id number should be
+    //   //   for (const slide of store.slides) {
+    //   //     slide.elements.forEach((element) => {
+    //   //       if (element.id >= store.elementIdCounter) {
+    //   //         store.elementIdCounter = element.id + 1;
+    //   //       }
+    //   //     });
+    //   //   }
 
-      if (store.currentSlideIndex > -1) {
-        loadSlide(store.slides[store.currentSlideIndex]); // Load the slide which are being shown (the first one)
-      }
-      scaleAllSlides(); // Scale the slides (the view of the slides in the editor)
-    } else {
-      // If there is no slides (the slideshow is empty)
-      // Instead of creating a blank slide, open the add slide modal
-      // so users can choose to add a blank slide or use a template
-      store.slides = [];
-      store.lastSlidesStr = JSON.stringify(store.slides);
-      store.currentSlideIndex = -1;
+    //   //   // Restore html, css, js fields for HTML elements from the combined content
+    //   //   store.slides.forEach((slide) => {
+    //   //     slide.elements.forEach((element) => {
+    //   //       if (element.type === "html" && element.content) {
+    //   //         try {
+    //   //           const parser = new DOMParser();
+    //   //           const doc = parser.parseFromString(element.content, "text/html");
+    //   //           element.html = doc.body.innerHTML.trim();
+    //   //           const styleEl = doc.querySelector("style");
+    //   //           element.css = styleEl ? styleEl.textContent : "";
+    //   //           const scriptEl = doc.querySelector("script");
+    //   //           element.js = scriptEl ? scriptEl.textContent : "";
+    //   //         } catch (e) {
+    //   //           console.error("Failed to parse HTML element content", e);
+    //   //           element.html = element.html || "";
+    //   //           element.css = element.css || "";
+    //   //           element.js = element.js || "";
+    //   //         }
+    //   //       }
+    //   //     });
+    //   //   });
+    //   //   // Store what the current slides contains in a string, called lastSlidesStr in store. This is used later to compare the slides to check for changes
+    //   //   store.lastSlidesStr = JSON.stringify(store.slides);
+    //   //   store.currentSlideIndex = 0; // It is the index of the slide which are being shown in the editor. We set it here to be the first slide (starts with 0)
 
-      // Clear the preview area and show placeholder
-      const previewSlide = document.querySelector(".preview-slide");
-      if (previewSlide) {
-        previewSlide.innerHTML =
-          '<p class="text-center text-muted mt-5 no-content-placeholder">' +
-          gettext("No slides available. Please add a slide to get started.") +
-          "</p>";
-      }
+    //   //   if (store.currentSlideIndex > -1) {
+    //   //     loadSlide(store.slides[store.currentSlideIndex]); // Load the slide which are being shown (the first one)
+    //   //   }
+    //   //   scaleAllSlides(); // Scale the slides (the view of the slides in the editor)
+    //   // } else {
+    //   //   // If there is no slides (the slideshow is empty)
+    //   //   // Instead of creating a blank slide, open the add slide modal
+    //   //   // so users can choose to add a blank slide or use a template
+    //   //   store.slides = [];
+    //   //   store.lastSlidesStr = JSON.stringify(store.slides);
+    //   //   store.currentSlideIndex = -1;
 
-      // Open the add slide modal
-      setTimeout(() => {
-        openAddSlideModal();
-      }, 100); // Small delay to ensure DOM is ready
-    }
+    //   //   // Clear the preview area and show placeholder
+    //   //   const previewSlide = document.querySelector(".preview-slide");
+    //   //   if (previewSlide) {
+    //   //     previewSlide.innerHTML =
+    //   //       '<p class="text-center text-muted mt-5 no-content-placeholder">' +
+    //   //       gettext("No slides available. Please add a slide to get started.") +
+    //   //       "</p>";
+    //   //   }
 
-    updateSlideSelector(); // All functionality from the slide selector / overview of the left
+    //   //   // Open the add slide modal
+    //   //   setTimeout(() => {
+    //   //     openAddSlideModal();
+    //   //   }, 100); // Small delay to ensure DOM is ready
+    //   // }
+
+    //   // updateSlideSelector(); // All functionality from the slide selector / overview of the left
+    // }
   } catch (err) {
     console.error("Error fetching slideshow data:", err);
     showToast(`Failed to load slideshow: ${err.message}`, "Error");
@@ -152,13 +155,24 @@ export async function fetchSlideshow(slideshowId) {
 }
 
 export function connectToSlideshow(slideshowId) {
+  // Close previous socket if any (TO DO is this nessesary??)
+  if (slideshowSocket) {
+    try {
+      slideshowSocket.close();
+    } catch (e) {
+      console.warn("Error closing previous slideshow socket", e);
+    }
+    slideshowSocket = null;
+  }
+
   try {
-    const slideshowWS = new WebSocket(`ws://localhost:8000/ws/slideshows/${slideshowId}/?branch=${selectedBranchID}`);
+    slideshowSocket = new WebSocket(`ws://localhost:8000/ws/slideshows/${slideshowId}/?branch=${selectedBranchID}`);
     // ${BASE_URL}/ws/slideshows (BASE_URL = http://) - TO DO: Make WS BASE_URL version?
 
+    // TO DO: Get token from token import instead of getting it from localstorage self
     if (localStorage.getItem("accessToken")) {
-      slideshowWS.onopen = () => {
-        slideshowWS.send(
+      slideshowSocket.onopen = () => {
+        slideshowSocket.send(
           JSON.stringify({
             type: "authenticate",
             token: localStorage.getItem("accessToken"),
@@ -170,32 +184,45 @@ export function connectToSlideshow(slideshowId) {
       showToast("Failed to load slideshow: Authentication failed", "Error");
     }
 
-    slideshowWS.onclose = (e) => {
-      console.log("WebSocket closed:");
-      console.log("Code:", e.code); // Show which closing code the socket closed with
+    slideshowSocket.onclose = (e) => {
+      console.log("Slideshow socket closed", e.code);
+      slideshowSocket = null;
+      // set interval from saving to null? is this nessecary?
+      autosaveTimer = null;
     };
 
-    slideshowWS.onmessage = (e) => {
-      const data = JSON.parse(e.data);
+    slideshowSocket.onmessage = (e) => {
+      const msg = JSON.parse(e.data);
 
       // Catch slideshow data coming from WS
-      if (data.data) {
-        // TO DO: Check if incoming data is different from current slideshow data?
-        // if ( {how the slideshow is now} !== {the slideshow being sent}) {
-        //   // render the slideshow again
-        //   console.log("I am handling it");
-        //   handleSlideshowData(data.data);
-        // }
-        console.log("This is received data: ", data.data);
-        handleSlideshowData(data.data);
+      if (msg.data) {
+        const incomingStr = JSON.stringify(msg.data.slideshow_data?.slides ?? []);
+
+        // Only apply if different from last saved local state
+        if (incomingStr !== store.lastSlidesStr) {
+          console.log("Incoming WS update is different — applying update");
+
+          handleSlideshowData(msg.data);
+
+          // Force UI to rebuild the currently visible slide
+          if (store.currentSlideIndex > -1) {
+            const activeSlide = store.slides[store.currentSlideIndex];
+            loadSlide(activeSlide, ".preview-slide", true, true);
+          }
+        }
       }
 
-      // Catch errors coming from WS
-      if (data.error) {
-        const error = JSON.stringify(data.error);
-        const error_code = data.code ? JSON.stringify(data.code) : "";
-        console.error(`WS Error: ${error}, ${error_code}`);
-        showToast(`Error: ${error}`, "Error");
+      // Catch errors coming from socket
+      if (msg.error) {
+        const errorMsg = msg.error || "WebSocket error";
+        const code = msg.code ? ` (code ${msg.code})` : "";
+        showToast(`Socket error: ${errorMsg}${code}`, "Error");
+        return;
+      }
+
+      // Handle simple messages
+      if (msg.message) {
+        console.log("Socket message:", msg.message);
       }
     };
   } catch (err) {
@@ -206,29 +233,30 @@ export function connectToSlideshow(slideshowId) {
 
 function handleSlideshowData(data) {
   try {
-    // Set store.slidieshowMode to data.mode
     store.slideshowMode = data.mode;
-    // Sets the title element of the slideshow to be data.name
-    document.querySelector("#contentEngineTitle").innerHTML = autoHyphenate(data.name);
-    // Sets text for slideshow mode in text element
+    if (data.name) {
+      const titleEl = document.querySelector("#contentEngineTitle");
+      if (titleEl) titleEl.innerHTML = autoHyphenate(data.name);
+    }
+
     if (store.slideshowMode === "interactive") {
-      document.getElementById("slideshow-mode-text").innerText = gettext("Interactive Mode");
+      const el = document.getElementById("slideshow-mode-text");
+      if (el) el.innerText = gettext("Interactive Mode");
     }
 
     if (store.slideshowMode === "slideshow") {
-      document.getElementById("slideshow-mode-text").innerText = gettext("Slideshow Mode");
+      const el = document.getElementById("slideshow-mode-text");
+      if (el) el.innerText = gettext("Slideshow Mode");
     }
 
-    // Set preview dimensions if they exist in the data. preview height and width is set to be the selected aspect ratio width/height when slideshow is being created
+    // Set preview dimensions if they exist in the data (regardless of slides)
     if (data.previewHeight && data.previewWidth) {
       store.emulatedWidth = data.previewWidth;
       store.emulatedHeight = data.previewHeight;
     }
-    // Check if data contains slideshow_data, and there is slides inside and there is more than zero slides
+
     if (data.slideshow_data && data.slideshow_data.slides && data.slideshow_data.slides.length > 0) {
-      // Handle the slides - Set the store slides to be empty (start from scratch)
       store.slides.length = 0;
-      // Add them to store slides
       data.slideshow_data.slides.forEach((s) => store.slides.push(s));
 
       store.slides.forEach((s) => {
@@ -240,17 +268,9 @@ function handleSlideshowData(data) {
         if (!s.undoStack) s.undoStack = [];
         if (!s.redoStack) s.redoStack = [];
 
-        // set data about activation (slide activating setting feature) to be included in the slide (it is not set in the creating of a slide)
-        // --> ADDED: Default activation properties <--
-        if (typeof s.activationEnabled === "undefined") {
-          s.activationEnabled = false;
-        }
-        if (typeof s.activationDate === "undefined") {
-          s.activationDate = null;
-        }
-        if (typeof s.deactivationDate === "undefined") {
-          s.deactivationDate = null;
-        }
+        if (typeof s.activationEnabled === "undefined") s.activationEnabled = false;
+        if (typeof s.activationDate === "undefined") s.activationDate = null;
+        if (typeof s.deactivationDate === "undefined") s.deactivationDate = null;
       });
 
       for (const slide of store.slides) {
@@ -282,23 +302,25 @@ function handleSlideshowData(data) {
           }
         });
       });
-      // Store what the current slides contains in a string, called lastSlidesStr in store. This is used later to compare the slides to check for changes
+
       store.lastSlidesStr = JSON.stringify(store.slides);
-      store.currentSlideIndex = 0; // It is the index of the slide which are being shown in the editor. We set it here to be the first slide (starts with 0)
+      // If should not change to the first slide, so take the currentSlideIndex if it is set? TO DO
+      // if (store.currentSlideIndex < 0) {
+      //   store.currentSlideIndex = 0;
+      // }
+      
+      store.currentSlideIndex = 0;
 
       if (store.currentSlideIndex > -1) {
-        loadSlide(store.slides[store.currentSlideIndex]); // Load the slide which are being shown (the first one)
+        loadSlide(store.slides[store.currentSlideIndex], ".preview-slide", true, true);
       }
-      scaleAllSlides(); // Scale the slides (the view of the slides in the editor)
+      scaleAllSlides();
     } else {
-      // If there is no slides (the slideshow is empty)
-      // Instead of creating a blank slide, open the add slide modal
-      // so users can choose to add a blank slide or use a template
+      // No slides — clear store and show UI placeholder
       store.slides = [];
       store.lastSlidesStr = JSON.stringify(store.slides);
       store.currentSlideIndex = -1;
 
-      // Clear the preview area and show placeholder
       const previewSlide = document.querySelector(".preview-slide");
       if (previewSlide) {
         previewSlide.innerHTML = '<p class="text-center text-muted mt-5 no-content-placeholder">' + gettext("No slides available. Please add a slide to get started.") + "</p>";
@@ -310,22 +332,52 @@ function handleSlideshowData(data) {
       }, 100); // Small delay to ensure DOM is ready
     }
 
-    updateSlideSelector(); // All functionality from the slide selector / overview of the left
+    updateSlideSelector();
   } catch (err) {
-    console.error("Error showing slideshow data:", err);
-    showToast(`Failed to show slideshow: ${err.message}`, "Error");
+    console.error("Error applying slideshow payload:", err);
+  }
+}
+
+function isSocketReady() {
+  return slideshowSocket && slideshowSocket.readyState === WebSocket.OPEN;
+}
+
+function sendUpdateThroughSocket(payload) {
+  if (!isSocketReady()) {
+    return false;
+  }
+  try {
+    console.log("trying to send update to socket");
+    slideshowSocket.send(
+      JSON.stringify({
+        type: "update",
+        data: payload,
+      })
+    );
+    console.log("update sent to socket successfully");
+    return true;
+  } catch (err) {
+    console.error("Failed to send slideshow update via socket", err);
+    return false;
   }
 }
 
 export function initAutoSave(slideshowId) {
+  console.log("I am in initAutoSave");
+  //activeSlideshowId = slideshowId;
+
   if (autosaveTimer) {
+    console.log("There was a autosaveTimer. I am clearing it");
     clearInterval(autosaveTimer);
     autosaveTimer = null;
   }
 
   autosaveTimer = setInterval(() => {
+    console.log("Interval running");
     const currentStateStr = JSON.stringify(store.slides);
+
     if (currentStateStr !== store.lastSlidesStr) {
+      console.log("Changes detected - Calling saveSlideshow");
       // Update lastSlidesStr before saving to prevent duplicate triggers
       store.lastSlidesStr = currentStateStr;
       saveSlideshow(slideshowId)
@@ -347,6 +399,14 @@ export async function saveSlideshow(slideshowId) {
     slideshow_data: { slides: store.slides },
   };
 
+  // Try to real-time update via WebSocket first
+  const sentViaSocket = sendUpdateThroughSocket(payload);
+  if (sentViaSocket) {
+    console.log("Send via socket");
+    return { via: "socket" };
+  }
+
+  // Else update via HTTP PATCH if socket is not available
   const url = `${BASE_URL}/api/manage_content/${slideshowId}/?branch_id=${selectedBranchID}`;
   const resp = await fetch(url, {
     method: "PATCH",
@@ -358,12 +418,11 @@ export async function saveSlideshow(slideshowId) {
   });
   if (!resp.ok) {
     const errTxt = await resp.text();
-    throw new Error(
-      gettext("Auto-save failed. Status: ") + `${resp.status}: ${errTxt}`,
-    );
+    throw new Error(gettext("Auto-save failed. Status: ") + `${resp.status}: ${errTxt}`);
   }
 
   const updated = await resp.json();
+  console.log("HTTP update happened");
   return updated;
 }
 
