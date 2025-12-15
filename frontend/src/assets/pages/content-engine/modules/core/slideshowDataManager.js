@@ -456,3 +456,28 @@ export function showSavingStatus() {
     `;
   }, 500);
 }
+
+/**
+ * Function for fetching slideshow data with HTTP request.
+ * @param {*} slideshowId The slideshow to fetch
+ */
+export async function fetchSlideshow(slideshowId) {
+  try {
+    const resp = await fetch(`${BASE_URL}/api/manage_content/?id=${slideshowId}&includeSlideshowData=true&branch_id=${selectedBranchID}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!resp.ok) {
+      throw new Error(`Failed to load slideshow (ID = ${slideshowId}). Status: ${resp.status}`);
+    }
+    const data = await resp.json();
+    
+    handleSlideshowData(data);
+  } catch (err) {
+    console.error("Error fetching slideshow data:", err);
+    showToast(`Failed to load slideshow: ${err.message}`, "Error");
+  }
+}
