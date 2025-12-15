@@ -29,7 +29,7 @@ function buildWsUrl(slideshowId) {
  * @param {*} slideshowId Sldieshow to create WS connection for
  */
 export function connectToSlideshow(slideshowId) {
-  // Close previous socket if any (TO DO is this nessesary??)
+  // Close previous socket if any
   if (slideshowSocket) {
     try {
       slideshowSocket.close();
@@ -173,6 +173,7 @@ function handleSlideshowData(data) {
         });
       });
 
+      // Set current slides to be lastSlidesStr to check for changes later
       store.lastSlidesStr = JSON.stringify(store.slides);
 
       // If currentSlideIndex is not set (first load), then set to the first slide
@@ -226,14 +227,12 @@ function sendUpdateThroughSocket(payload) {
     return false;
   }
   try {
-    console.log("trying to send update to socket");
     slideshowSocket.send(
       JSON.stringify({
         type: "update",
         data: payload,
       })
     );
-    console.log("update sent to socket successfully");
     return true;
   } catch (err) {
     console.error("Failed to send slideshow update via socket", err);
@@ -247,21 +246,18 @@ function sendUpdateThroughSocket(payload) {
  * @param {*} slideshowId The slideshow ID
  */
 export function initAutoSave(slideshowId) {
-  console.log("I am in initAutoSave");
-  //activeSlideshowId = slideshowId;
 
+  // Clear autosaveTimer is it alreadyt exists
   if (autosaveTimer) {
-    console.log("There was a autosaveTimer. I am clearing it");
     clearInterval(autosaveTimer);
     autosaveTimer = null;
   }
 
+  // Create autosaveTimer with interval
   autosaveTimer = setInterval(() => {
-    console.log("Interval running");
     const currentStateStr = JSON.stringify(store.slides);
 
     if (currentStateStr !== store.lastSlidesStr) {
-      console.log("Changes detected - Calling saveSlideshow");
       // Update lastSlidesStr before saving to prevent duplicate triggers
       store.lastSlidesStr = currentStateStr;
       saveSlideshow(slideshowId)
