@@ -10,6 +10,7 @@ import { gettext } from "../../../../utils/locales.js";
 
 let autosaveTimer = null;
 let slideshowSocket = null;
+let collaboratorPresence = []; // List of active users in slideshow
 
 /**
  * Helper function for creating URL to backends WebSocket endpoint
@@ -39,6 +40,8 @@ export function connectToSlideshow(slideshowId) {
     slideshowSocket = null;
   }
 
+  // TO DO - empty active users element in UI
+
   try {
     const wsUrl = buildWsUrl(slideshowId);
     slideshowSocket = new WebSocket(wsUrl);
@@ -64,8 +67,8 @@ export function connectToSlideshow(slideshowId) {
     slideshowSocket.onclose = (e) => {
       console.log("Slideshow socket closed", e.code);
       slideshowSocket = null;
-      // set interval from saving to null? is this nessecary?
       autosaveTimer = null;
+      // TO DO - Update UI showing active users to be empty
     };
 
     slideshowSocket.onmessage = (e) => {
@@ -94,6 +97,13 @@ export function connectToSlideshow(slideshowId) {
       // Handle simple messages
       if (msg.message) {
         console.log("Socket message:", msg.message);
+      }
+      
+      // Handle active users messages
+      if (msg.presence) {
+        console.log("Active users:", msg.presence);
+        // TO DO - Receive active users list
+        // TO DO - Call a function that handles showing active users in UI
       }
     };
   } catch (err) {
