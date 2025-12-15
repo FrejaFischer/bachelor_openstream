@@ -174,14 +174,14 @@ function handleSlideshowData(data) {
       });
 
       store.lastSlidesStr = JSON.stringify(store.slides);
-      // If should not change to the first slide, so take the currentSlideIndex if it is set? TO DO
-      // if (store.currentSlideIndex < 0) {
-      //   store.currentSlideIndex = 0;
-      // }
-      
-      store.currentSlideIndex = 0;
+
+      // If currentSlideIndex is not set (first load), then set to the first slide
+      if (store.currentSlideIndex < 0) {
+        store.currentSlideIndex = 0;
+      }
 
       if (store.currentSlideIndex > -1) {
+        // Load current slide being viewed - with force complete reload - to ensure changes is shown
         loadSlide(store.slides[store.currentSlideIndex], ".preview-slide", true, true);
       }
       scaleAllSlides();
