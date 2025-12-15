@@ -94,9 +94,6 @@ class SlideshowConsumer(AuthenticatedConsumer):
     # Timeout for authentication (in seconds)
     AUTH_TIMEOUT = 5
 
-    # Is this consumer the same for all users? Can we make an object containing all the connected users?
-    # can we save the user in Redis
-
     async def connect(self):
         # Sets the user to be anonymous and not authenticated to begin with
         self.user = AnonymousUser()
@@ -148,9 +145,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 # Check if slideshow was successfully fetched
                 if results.get("type") == "error":
                     print("error happen", results.get("error_message"))
-                    print("results: ", results)
                     if "code" in results:
-                        print("has")
                         error_code = results["code"]
                     else:
                         error_code = 4006
@@ -192,7 +187,6 @@ class SlideshowConsumer(AuthenticatedConsumer):
         """
         Handle messages from authenticated users.
         """
-        print("handle_authenticated_message")
         try:
             text_data_object = json.loads(text_data)
         except json.JSONDecodeError:
