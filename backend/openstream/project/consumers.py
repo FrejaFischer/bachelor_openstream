@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 import json
 import asyncio
+import os
 from urllib.parse import parse_qs
+import redis.asyncio as aioredis # TO DO - få warning til at forsvinde
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
@@ -21,6 +23,11 @@ from app.serializers import SlideshowSerializer
 from app.permissions import get_branch_for_user
 
 User = get_user_model()
+
+# TO DO - Skal det komme fra env? Eller hvordan skal det her virke?
+# Async Redis client for explicit per-slideshow user tracking
+REDIS_URL = os.environ.get("REDIS_URL", "redis://redis:6379/0")
+redis_client = aioredis.from_url(REDIS_URL, decode_responses=True)
 
 
 ###############################################################################
@@ -118,6 +125,19 @@ class SlideshowConsumer(AuthenticatedConsumer):
             await self.channel_layer.group_discard(
                 self.slideshow_group_name, self.channel_name
             )
+        
+        # Remove user from Redis set that tracks active users for this slideshow
+        try:
+            if getattr(self, "user", None) and getattr(self.user, "is_authenticated", False) and hasattr(self, "slideshow_id"):
+                key = f"slideshow:{self.slideshow_id}:users"
+                await redis_client.srem(key, str(getattr(self.user, "id", self.channel_name)))
+                members = await redis_client.smembers(key)
+                print(f"Slideshow {self.slideshow_id} connected users after disconnect: {sorted(members)}")
+                await self.broadcast_presence()
+                # TO DO - does consumer have time to send message about their presense leaving in disconnetion? What if client leaves the browser quickly?
+        except Exception as e:
+            print("Redis SREM error:", e)
+            # TO DO - send error message to client if removing from redis set fails?
 
     async def receive(self, text_data):
         # Messages received when user is not authenticated
@@ -167,6 +187,20 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 await self.channel_layer.group_add(
                     self.slideshow_group_name, self.channel_name
                 )
+
+                # Add authenticated user to Redis set that tracks active users in slideshow
+                try:
+                    if getattr(self, "user", None) and getattr(self.user, "is_authenticated", False):
+                        key = f"slideshow:{self.slideshow_id}:users" # Create key string for slideshow
+                        await redis_client.sadd(key, str(getattr(self.user, "id", self.channel_name))) # Add user to redis set
+                        members = await redis_client.smembers(key) # Get members of redis set
+                        print(
+                            f"Slideshow {self.slideshow_id} connected users after connect: {sorted(members)}"
+                        )
+                        await self.broadcast_presence()
+                except Exception as e:
+                    print("Redis SADD error:", e)
+                    # TO DO - send error message to client if redis set fails?
 
             except json.JSONDecodeError:
                 await self.send(json.dumps({"error": "Invalid JSON", "code": 4005}))
@@ -231,6 +265,36 @@ class SlideshowConsumer(AuthenticatedConsumer):
         data = event["data"]
         # Send updated slideshow data to user
         await self.send(json.dumps({"data": data}))
+    
+    # Receive updates on acitve users from group in channel layer
+    async def receive_slideshow_presence(self, event):
+        users = event.get("users", [])
+        await self.send(json.dumps({"presence": users}))
+
+    # Find active users and send update to channel group
+    async def broadcast_presence(self):
+        if not hasattr(self, "slideshow_id"):
+            return
+        key = f"slideshow:{self.slideshow_id}:users" # Create key string for current slideshow
+        try:
+            # Append all the members ids to list
+            member_ids = await redis_client.smembers(key)
+            user_ids = []
+            for member in member_ids:
+                if str(member).isdigit():
+                    user_ids.append(int(member))
+            # Find all users in db
+            users = await get_presence_users(user_ids)
+            # Send message with all active users
+            group_name = getattr(self, "slideshow_group_name", None)
+            if group_name:
+                await self.channel_layer.group_send(
+                    group_name,
+                    {"type": "receive.slideshow.presence", "users": users},
+                )
+        except Exception as exc:
+            print("Presence broadcast error:", exc)
+            # TO DO - send error message to client if redis set fails?
 
 
 ###############################################################################
@@ -372,3 +436,36 @@ def patch_slideshow(self, data):
         "error_message": "Slideshow could not be updated due to invalid data.",
         "code": 4006,
     }
+
+
+@database_sync_to_async
+def get_presence_users(user_ids):
+    if not user_ids:
+        return []
+    # TO DO - Return error instead?
+    # return {
+    #     "type": "error",
+    #     "error_message": "User ids not found",
+    #     "code": 4004,
+    # }
+
+    qs = User.objects.filter(id__in=user_ids)
+    payload = []
+    for user in qs:
+        full_name = user.get_full_name().strip()
+        display = full_name or user.username or user.email or f"User {user.id}" # why all these or's?
+        initials_source = full_name or user.username or display
+        initials_parts = [part[0] for part in initials_source.split() if part]
+        initials = "".join(initials_parts[:2]).upper()
+        if not initials:
+            initials = display[:2].upper()
+        payload.append(
+            {
+                "id": str(user.id),
+                "display_name": display,
+                "initials": initials,
+            }
+        )
+
+    payload.sort(key=lambda item: item["display_name"].lower())
+    return payload
