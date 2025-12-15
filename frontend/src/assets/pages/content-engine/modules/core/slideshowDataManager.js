@@ -40,22 +40,25 @@ export function connectToSlideshow(slideshowId) {
   }
 
   try {
-    slideshowSocket = new WebSocket(`ws://localhost:8000/ws/slideshows/${slideshowId}/?branch=${selectedBranchID}`);
-    // ${BASE_URL}/ws/slideshows (BASE_URL = http://) - TO DO: Make WS BASE_URL version?
+    const wsUrl = buildWsUrl(slideshowId);
+    slideshowSocket = new WebSocket(wsUrl);
 
-    // TO DO: Get token from token import instead of getting it from localstorage self
-    if (localStorage.getItem("accessToken")) {
-      slideshowSocket.onopen = () => {
+    // Initialize auto saving
+    initAutoSave(slideshowId);
+
+    // First send authentication message (WS consumer expects this as first message)
+    slideshowSocket.onopen = () => {
+      if (token) {
         slideshowSocket.send(
           JSON.stringify({
             type: "authenticate",
-            token: localStorage.getItem("accessToken"),
+            token: token,
           })
         );
-      };
-    } else {
-      console.error("Error making WS connection to slideshow: Missing Access token");
-      showToast("Failed to load slideshow: Authentication failed", "Error");
+      } else {
+        console.error("Error making WS connection to slideshow: Missing Access token");
+        showToast("Failed to connect to realtime view of slideshow: Authentication failed", "Error");
+      }
     }
 
     slideshowSocket.onclose = (e) => {
