@@ -231,6 +231,10 @@ export function connectToSlideshow(slideshowId) {
   }
 }
 
+/**
+ * Handles slideshow data by updating local store object and callig loadSlide to render the DOM
+ * @param {*} data Slideshow data to handle
+ */
 function handleSlideshowData(data) {
   try {
     store.slideshowMode = data.mode;
@@ -338,10 +342,19 @@ function handleSlideshowData(data) {
   }
 }
 
+/**
+ * Checks if socket exists and is open
+ * @returns true if socket is available, or false if not
+ */
 function isSocketReady() {
   return slideshowSocket && slideshowSocket.readyState === WebSocket.OPEN;
 }
 
+/**
+ * Sends slideshow update through WebSocket connection if any
+ * @param {*} payload The slideshow update
+ * @returns true if update is succesfully send, false if not
+ */
 function sendUpdateThroughSocket(payload) {
   if (!isSocketReady()) {
     return false;
@@ -362,6 +375,11 @@ function sendUpdateThroughSocket(payload) {
   }
 }
 
+/**
+ * Initialize auto saving slideshow
+ * Checks for changes in an interval, and calls saveSlideshow if changes is detected
+ * @param {*} slideshowId The slideshow ID
+ */
 export function initAutoSave(slideshowId) {
   console.log("I am in initAutoSave");
   //activeSlideshowId = slideshowId;
@@ -392,6 +410,11 @@ export function initAutoSave(slideshowId) {
   }, 500);
 }
 
+/**
+ * Saves slideshow by Id. First tries to save through websocket, else makes HTTP PATCH request
+ * @param {*} slideshowId Slideshow to save
+ * @returns object with socket confirmation if sent through websocket, else returns response from HTTP request
+ */
 export async function saveSlideshow(slideshowId) {
   const payload = {
     ...(store.emulatedHeight && { previewHeight: store.emulatedHeight }),
@@ -426,6 +449,10 @@ export async function saveSlideshow(slideshowId) {
   return updated;
 }
 
+/**
+ * Updates saving status in UI after last save
+ * @returns if no auto save element found in UI
+ */
 export function showSavingStatus() {
   const autosaveInfo = document.querySelector(".autosave-info");
   if (!autosaveInfo) return;
