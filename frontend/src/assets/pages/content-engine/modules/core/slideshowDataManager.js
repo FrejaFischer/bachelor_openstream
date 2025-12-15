@@ -137,11 +137,6 @@ function handleSlideshowData(data) {
       store.slides.forEach((s) => {
         if (!s.undoStack) s.undoStack = [];
         if (!s.redoStack) s.redoStack = [];
-      });
-
-      store.slides.forEach((s) => {
-        if (!s.undoStack) s.undoStack = [];
-        if (!s.redoStack) s.redoStack = [];
 
         if (typeof s.activationEnabled === "undefined") s.activationEnabled = false;
         if (typeof s.activationDate === "undefined") s.activationDate = null;
