@@ -26,10 +26,7 @@ import {
   initSlideshowPlayerMode,
   scaleAllSlides,
 } from "./modules/core/renderSlide.js";
-import {
-  fetchSlideshow,
-  initAutoSave,
-} from "./modules/core/slideshowDataManager.js";
+import { connectToSlideshow } from "./modules/core/slideshowDataManager.js";
 import { initTemplateEditor } from "./modules/core/templateDataManager.js";
 import { initUndoRedo } from "./modules/core/undoRedo.js";
 import { initVirtualPreviewResolution } from "./modules/core/virutalPreviewResolution.js";
@@ -176,16 +173,10 @@ if (queryParams.mode === "edit") {
   } catch (e) {
     console.warn("exitPlayerMode failed or no player state:", e);
   }
-  // xxxxxxx Here should there be made a WS connection (instead?)
-  await fetchSlideshow(queryParams.id)
-    .then(() => {
-      initAutoSave(queryParams.id);
-    })
-    .catch((err) => console.error(err));
 
-  // connectToSlideshow(queryParams.id)
-  // initAutoSave(queryParams.id);
-  // xxxxxxx
+  // Fetch slideshow data and create WebSocket connection
+  connectToSlideshow(queryParams.id)
+  
   initAddSlide();
   // init slide elements sidebar UI
   initSlideElementsSidebar();
