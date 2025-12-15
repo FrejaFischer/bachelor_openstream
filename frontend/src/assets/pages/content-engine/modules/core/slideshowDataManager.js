@@ -80,12 +80,6 @@ export function connectToSlideshow(slideshowId) {
           console.log("Incoming WS update is different — applying update");
 
           handleSlideshowData(msg.data);
-
-          // Force UI to rebuild the currently visible slide
-          if (store.currentSlideIndex > -1) {
-            const activeSlide = store.slides[store.currentSlideIndex];
-            loadSlide(activeSlide, ".preview-slide", true, true);
-          }
         }
       }
 
