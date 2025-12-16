@@ -4,7 +4,13 @@
 import { store } from "./slideStore.js";
 import { loadSlide, scaleAllSlides } from "./renderSlide.js";
 import { updateSlideSelector } from "./slideSelector.js";
-import { autoHyphenate, showToast, token, selectedBranchID, escapeHtml } from "../../../../utils/utils.js";
+import {
+  autoHyphenate,
+  showToast,
+  token,
+  selectedBranchID,
+  escapeHtml,
+} from "../../../../utils/utils.js";
 import { openAddSlideModal } from "./addSlide.js";
 import { BASE_URL } from "../../../../utils/constants.js";
 import { gettext } from "../../../../utils/locales.js";
@@ -15,8 +21,8 @@ let collaboratorPresence = []; // List of active users in slideshow
 
 /**
  * Helper function for creating URL to backends WebSocket endpoint
- * @param {*} slideshowId Slideshow to connect to
- * @returns 
+ * @param slideshowId Slideshow to connect to
+ * @returns
  */
 function buildWsUrl(slideshowId) {
   const parsed = new URL(BASE_URL);
@@ -28,7 +34,7 @@ function buildWsUrl(slideshowId) {
  * Connecting client to the slideshow through a WebSocket,
  * gets the current slideshow data after connection is open
  * and handle receiving messages / slideshow updates from socket
- * @param {*} slideshowId Sldieshow to create WS connection for
+ * @param slideshowId Sldieshow to create WS connection for
  */
 export function connectToSlideshow(slideshowId) {
   // Close previous socket if any
@@ -57,13 +63,18 @@ export function connectToSlideshow(slideshowId) {
           JSON.stringify({
             type: "authenticate",
             token: token,
-          })
+          }),
         );
       } else {
-        console.error("Error making WS connection to slideshow: Missing Access token");
-        showToast("Failed to connect to realtime view of slideshow: Authentication failed", "Error");
+        console.error(
+          "Error making WS connection to slideshow: Missing Access token",
+        );
+        showToast(
+          "Failed to connect to realtime view of slideshow: Authentication failed",
+          "Error",
+        );
       }
-    }
+    };
 
     slideshowSocket.onclose = (e) => {
       console.log("Slideshow socket closed", e.code);
@@ -77,7 +88,9 @@ export function connectToSlideshow(slideshowId) {
 
       // Catch slideshow data coming from WS
       if (msg.data) {
-        const incomingStr = JSON.stringify(msg.data.slideshow_data?.slides ?? []);
+        const incomingStr = JSON.stringify(
+          msg.data.slideshow_data?.slides ?? [],
+        );
 
         // Only apply if different from last saved local state
         if (incomingStr !== store.lastSlidesStr) {
@@ -99,7 +112,7 @@ export function connectToSlideshow(slideshowId) {
       if (msg.message) {
         console.log("Socket message:", msg.message);
       }
-      
+
       // Handle active users messages
       if (msg.presence) {
         collaboratorPresence = Array.isArray(msg.presence) ? msg.presence : [];
@@ -114,7 +127,7 @@ export function connectToSlideshow(slideshowId) {
 
 /**
  * Handles slideshow data by updating local store object and callig loadSlide to render the DOM
- * @param {*} data Slideshow data to handle
+ * @param data Slideshow data to handle
  */
 function handleSlideshowData(data) {
   try {
@@ -140,7 +153,11 @@ function handleSlideshowData(data) {
       store.emulatedHeight = data.previewHeight;
     }
 
-    if (data.slideshow_data && data.slideshow_data.slides && data.slideshow_data.slides.length > 0) {
+    if (
+      data.slideshow_data &&
+      data.slideshow_data.slides &&
+      data.slideshow_data.slides.length > 0
+    ) {
       store.slides.length = 0;
       data.slideshow_data.slides.forEach((s) => store.slides.push(s));
 
@@ -148,9 +165,11 @@ function handleSlideshowData(data) {
         if (!s.undoStack) s.undoStack = [];
         if (!s.redoStack) s.redoStack = [];
 
-        if (typeof s.activationEnabled === "undefined") s.activationEnabled = false;
+        if (typeof s.activationEnabled === "undefined")
+          s.activationEnabled = false;
         if (typeof s.activationDate === "undefined") s.activationDate = null;
-        if (typeof s.deactivationDate === "undefined") s.deactivationDate = null;
+        if (typeof s.deactivationDate === "undefined")
+          s.deactivationDate = null;
       });
 
       for (const slide of store.slides) {
@@ -193,7 +212,12 @@ function handleSlideshowData(data) {
 
       if (store.currentSlideIndex > -1) {
         // Load current slide being viewed - with force complete reload - to ensure changes is shown
-        loadSlide(store.slides[store.currentSlideIndex], ".preview-slide", true, true);
+        loadSlide(
+          store.slides[store.currentSlideIndex],
+          ".preview-slide",
+          true,
+          true,
+        );
       }
       scaleAllSlides();
     } else {
@@ -204,7 +228,10 @@ function handleSlideshowData(data) {
 
       const previewSlide = document.querySelector(".preview-slide");
       if (previewSlide) {
-        previewSlide.innerHTML = '<p class="text-center text-muted mt-5 no-content-placeholder">' + gettext("No slides available. Please add a slide to get started.") + "</p>";
+        previewSlide.innerHTML =
+          '<p class="text-center text-muted mt-5 no-content-placeholder">' +
+          gettext("No slides available. Please add a slide to get started.") +
+          "</p>";
       }
 
       // Open the add slide modal
@@ -229,7 +256,7 @@ function isSocketReady() {
 
 /**
  * Sends slideshow update through WebSocket connection if any
- * @param {*} payload The slideshow update
+ * @param payload The slideshow update
  * @returns true if update is succesfully send, false if not
  */
 function sendUpdateThroughSocket(payload) {
@@ -241,7 +268,7 @@ function sendUpdateThroughSocket(payload) {
       JSON.stringify({
         type: "update",
         data: payload,
-      })
+      }),
     );
     return true;
   } catch (err) {
@@ -253,10 +280,9 @@ function sendUpdateThroughSocket(payload) {
 /**
  * Initialize auto saving slideshow
  * Checks for changes in an interval, and calls saveSlideshow if changes is detected
- * @param {*} slideshowId The slideshow ID
+ * @param slideshowId The slideshow ID
  */
 export function initAutoSave(slideshowId) {
-
   // Clear autosaveTimer is it alreadyt exists
   if (autosaveTimer) {
     clearInterval(autosaveTimer);
@@ -284,7 +310,7 @@ export function initAutoSave(slideshowId) {
 
 /**
  * Saves slideshow by Id. First tries to save through websocket, else makes HTTP PATCH request
- * @param {*} slideshowId Slideshow to save
+ * @param slideshowId Slideshow to save
  * @returns object with socket confirmation if sent through websocket, else returns response from HTTP request
  */
 export async function saveSlideshow(slideshowId) {
@@ -313,7 +339,9 @@ export async function saveSlideshow(slideshowId) {
   });
   if (!resp.ok) {
     const errTxt = await resp.text();
-    throw new Error(gettext("Auto-save failed. Status: ") + `${resp.status}: ${errTxt}`);
+    throw new Error(
+      gettext("Auto-save failed. Status: ") + `${resp.status}: ${errTxt}`,
+    );
   }
 
   const updated = await resp.json();
@@ -394,14 +422,15 @@ function renderCollaboratorPresence() {
 
 /**
  * Formatting collaborators label with their initials
- * @param {*} user to format
+ * @param user to format
  * @returns String with paragraph element containing initials of user
  */
 function formatCollaboratorLabel(user) {
   // Check if the user is the current user
   const username_ls = localStorage.getItem("username");
-  const isSelf = username_ls && user && String(user.display_name) === String(username_ls);
-  
+  const isSelf =
+    username_ls && user && String(user.display_name) === String(username_ls);
+
   const initials = user?.initials || gettext("Unknown user");
   const initials_escaped = escapeHtml(initials);
   return `<p class="m-0">${initials_escaped}${isSelf ? ` (${gettext("You")})` : ""}</p>`;
@@ -409,22 +438,27 @@ function formatCollaboratorLabel(user) {
 
 /**
  * Function for fetching slideshow data with HTTP request.
- * @param {*} slideshowId The slideshow to fetch
+ * @param slideshowId The slideshow to fetch
  */
 export async function fetchSlideshow(slideshowId) {
   try {
-    const resp = await fetch(`${BASE_URL}/api/manage_content/?id=${slideshowId}&includeSlideshowData=true&branch_id=${selectedBranchID}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+    const resp = await fetch(
+      `${BASE_URL}/api/manage_content/?id=${slideshowId}&includeSlideshowData=true&branch_id=${selectedBranchID}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
     if (!resp.ok) {
-      throw new Error(`Failed to load slideshow (ID = ${slideshowId}). Status: ${resp.status}`);
+      throw new Error(
+        `Failed to load slideshow (ID = ${slideshowId}). Status: ${resp.status}`,
+      );
     }
     const data = await resp.json();
-    
+
     handleSlideshowData(data);
   } catch (err) {
     console.error("Error fetching slideshow data:", err);
