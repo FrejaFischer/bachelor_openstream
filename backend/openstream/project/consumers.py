@@ -358,9 +358,6 @@ def get_user_from_token(token_str):
 def get_slideshow(self):
     """
     Get slideshow by id from database, with Slideshow data included
-
-    :param self: The consumers self
-    :param slideshow_id: The id of the slideshow
     """
 
     # Close old DB connections before making new ORM operations
