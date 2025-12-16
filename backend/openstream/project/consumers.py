@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: 2025 Freja Fischer Nielsen <https://github.com/FrejaFischer/bachelor_openstream>
 # SPDX-License-Identifier: AGPL-3.0-only
 import json
-import asyncio
 import os
+import asyncio
+import redis.asyncio as aioredis
 from urllib.parse import parse_qs
-import redis.asyncio as aioredis # TO DO - få warning til at forsvinde
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
