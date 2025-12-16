@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2025 Magenta ApS <https://magenta.dk>
+// SPDX-FileCopyrightText: 2025 Freja Fischer Nielsen <https://github.com/FrejaFischer/bachelor_openstream>
 // SPDX-License-Identifier: AGPL-3.0-only
 import MiniSearch from "minisearch";
 import * as bootstrap from "bootstrap";
@@ -21,6 +22,16 @@ export const selectedSubOrgID = queryParams.suborgId || "";
 export const selectedBranchID = queryParams.branchId || "";
 
 export const myUserId = localStorage.getItem("myUserId") || "";
+
+/**
+ * Helper function for escaping HTML
+ * @param text The text to escape
+ */
+export function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
 
 export async function validateToken() {
   if (queryParams.mode !== "slideshow-player") {
