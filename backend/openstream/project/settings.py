@@ -188,6 +188,7 @@ MIDDLEWARE = [
 ###############################################################################
 # CORS Settings
 ###############################################################################
+from corsheaders.defaults import default_headers
 
 if os.environ.get("CORS_ALLOWED_ORIGINS"):
     CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
@@ -196,18 +197,11 @@ else:
         "http://localhost:5173",
         "http://localhost:4173",
         "http://localhost:4174",
+        "http://192.168.0.107:5173",
     ]
 
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
+CORS_ALLOW_HEADERS = list(default_headers) + [
     "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
     "x-api-key",
 ]
 
