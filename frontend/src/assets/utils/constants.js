@@ -40,6 +40,7 @@ function deriveBaseFromHostname() {
 export const BASE_URL =
   import.meta.env.VITE_BASE_URL ||
   deriveBaseFromHostname() ||
+  `http://${window.location.hostname}:8000` ||
   "http://localhost:8000";
 
 // Converter service base URL (same derivation pattern, default port 8001)
