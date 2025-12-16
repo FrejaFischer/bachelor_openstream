@@ -123,19 +123,21 @@ class SlideshowConsumer(AuthenticatedConsumer):
             await self.channel_layer.group_discard(
                 self.slideshow_group_name, self.channel_name
             )
-        
+
         # Remove user from Redis set that tracks active users for this slideshow
         try:
-            if getattr(self, "user", None) and getattr(self.user, "is_authenticated", False) and hasattr(self, "slideshow_id"):
-                key = f"slideshow:{self.slideshow_id}:users"
-                await redis_client.srem(key, str(getattr(self.user, "id", self.channel_name)))
-                members = await redis_client.smembers(key)
-                print(f"Slideshow {self.slideshow_id} connected users after disconnect: {sorted(members)}")
-                await self.broadcast_presence()
-                # TO DO - does consumer have time to send message about their presense leaving in disconnetion? What if client leaves the browser quickly?
+            if (
+                getattr(self, "user", None)
+                and getattr(self.user, "is_authenticated", False)
+                and hasattr(self, "slideshow_id")
+            ):
+                key = f"slideshow:{self.slideshow_id}:users"  # Create key string for slideshow
+                await redis_client.srem(
+                    key, str(getattr(self.user, "id", self.channel_name))
+                )
+                await self.broadcast_presence("disconnect")
         except Exception as e:
-            print("Redis SREM error:", e)
-            # TO DO - send error message to client if removing from redis set fails?
+            print("Redis error - SREM failed:", e)
 
     async def receive(self, text_data):
         # Messages received when user is not authenticated
@@ -186,19 +188,26 @@ class SlideshowConsumer(AuthenticatedConsumer):
                     self.slideshow_group_name, self.channel_name
                 )
 
-                # Add authenticated user to Redis set that tracks active users in slideshow
+                # Add authenticated user to Redis set that tracks active users in this slideshow
                 try:
-                    if getattr(self, "user", None) and getattr(self.user, "is_authenticated", False):
-                        key = f"slideshow:{self.slideshow_id}:users" # Create key string for slideshow
-                        await redis_client.sadd(key, str(getattr(self.user, "id", self.channel_name))) # Add user to redis set
-                        members = await redis_client.smembers(key) # Get members of redis set
-                        print(
-                            f"Slideshow {self.slideshow_id} connected users after connect: {sorted(members)}"
+                    if getattr(self, "user", None) and getattr(
+                        self.user, "is_authenticated", False
+                    ):
+                        key = f"slideshow:{self.slideshow_id}:users"  # Create key string for slideshow
+                        await redis_client.sadd(
+                            key, str(getattr(self.user, "id", self.channel_name))
                         )
-                        await self.broadcast_presence()
+                        await self.broadcast_presence("connect")
                 except Exception as e:
                     print("Redis SADD error:", e)
-                    # TO DO - send error message to client if redis set fails?
+                    await self.send(
+                        json.dumps(
+                            {
+                                "error": "User could not be added to list of active users",
+                                "code": 4007,
+                            }
+                        )
+                    )  # 4007 = Redis error
 
             except json.JSONDecodeError:
                 await self.send(json.dumps({"error": "Invalid JSON", "code": 4005}))
@@ -263,36 +272,56 @@ class SlideshowConsumer(AuthenticatedConsumer):
         data = event["data"]
         # Send updated slideshow data to user
         await self.send(json.dumps({"data": data}))
-    
+
     # Receive updates on acitve users from group in channel layer
     async def receive_slideshow_presence(self, event):
         users = event.get("users", [])
         await self.send(json.dumps({"presence": users}))
 
-    # Find active users and send update to channel group
-    async def broadcast_presence(self):
+    async def broadcast_presence(self, action):
+        """
+        Method for broadcasting all active users in this slideshow to Channel Layer group.
+        Finds users by id in DB and sends list to Channel Layer.
+
+        :param action: After which event the broadcasting is triggered from
+        """
         if not hasattr(self, "slideshow_id"):
+            print("Presence broadcast error: Missing slideshow id")
+            await self.send(
+                json.dumps(
+                    {"error": "Could not broadcast list of active users", "code": 4004}
+                )
+            )
             return
-        key = f"slideshow:{self.slideshow_id}:users" # Create key string for current slideshow
+
+        key = f"slideshow:{self.slideshow_id}:users"  # Create key string for current slideshow
         try:
-            # Append all the members ids to list
+            # Find and print members of set
             member_ids = await redis_client.smembers(key)
+            print(
+                f"Slideshow {self.slideshow_id} connected users after {action}: {sorted(member_ids)}"
+            )
+            # Append all the members ids to list
             user_ids = []
             for member in member_ids:
                 if str(member).isdigit():
                     user_ids.append(int(member))
+
             # Find all users in db
-            users = await get_presence_users(user_ids)
+            results = await get_presence_users(user_ids)
+
             # Send message with all active users
-            group_name = getattr(self, "slideshow_group_name", None)
-            if group_name:
-                await self.channel_layer.group_send(
-                    group_name,
-                    {"type": "receive.slideshow.presence", "users": users},
+            await self.channel_layer.group_send(
+                self.slideshow_group_name,
+                {"type": "receive.slideshow.presence", "users": results},
+            )
+        except Exception as e:
+            print("Presence broadcast error:", e)
+            await self.send(
+                json.dumps(
+                    {"error": "Could not broadcast list of active users", "code": 4007}
                 )
-        except Exception as exc:
-            print("Presence broadcast error:", exc)
-            # TO DO - send error message to client if redis set fails?
+            )  # 4007 = Redis error
 
 
 ###############################################################################
@@ -438,20 +467,21 @@ def patch_slideshow(self, data):
 
 @database_sync_to_async
 def get_presence_users(user_ids):
+    """
+    Search for users in DB with the user_ids, and returns list of active users display_name and initials.
+
+    :param user_ids: user ids of active users in this slideshow
+    """
     if not user_ids:
         return []
-    # TO DO - Return error instead?
-    # return {
-    #     "type": "error",
-    #     "error_message": "User ids not found",
-    #     "code": 4004,
-    # }
 
     qs = User.objects.filter(id__in=user_ids)
     payload = []
     for user in qs:
         full_name = user.get_full_name().strip()
-        display = full_name or user.username or user.email or f"User {user.id}" # why all these or's?
+        display = (
+            full_name or user.username or user.email or f"User {user.id}"
+        )  # Fallback chain for setting the users display name
         initials_source = full_name or user.username or display
         initials_parts = [part[0] for part in initials_source.split() if part]
         initials = "".join(initials_parts[:2]).upper()
