@@ -476,18 +476,16 @@ def get_presence_users(user_ids):
     payload = []
     for user in qs:
         full_name = user.get_full_name().strip()
-        display = (
-            full_name or user.username or user.email or f"User {user.id}"
-        )  # Fallback chain for setting the users display name
-        initials_source = full_name or user.username or display
+        display_name = user.username
+        initials_source = full_name or display_name or user.email or f"User {user.id}"
         initials_parts = [part[0] for part in initials_source.split() if part]
         initials = "".join(initials_parts[:2]).upper()
         if not initials:
-            initials = display[:2].upper()
+            initials = display_name[:2].upper()
         payload.append(
             {
                 "id": str(user.id),
-                "display_name": display,
+                "display_name": display_name,
                 "initials": initials,
             }
         )
