@@ -4,7 +4,7 @@
 import { store } from "./slideStore.js";
 import { loadSlide, scaleAllSlides } from "./renderSlide.js";
 import { updateSlideSelector } from "./slideSelector.js";
-import { autoHyphenate, showToast, token, selectedBranchID } from "../../../../utils/utils.js";
+import { autoHyphenate, showToast, token, selectedBranchID, escapeHtml } from "../../../../utils/utils.js";
 import { openAddSlideModal } from "./addSlide.js";
 import { BASE_URL } from "../../../../utils/constants.js";
 import { gettext } from "../../../../utils/locales.js";
@@ -41,7 +41,7 @@ export function connectToSlideshow(slideshowId) {
     slideshowSocket = null;
   }
 
-  // TO DO - empty active users element in UI
+  collaboratorPresence = []; // Reset list of active users
 
   try {
     const wsUrl = buildWsUrl(slideshowId);
@@ -69,7 +69,7 @@ export function connectToSlideshow(slideshowId) {
       console.log("Slideshow socket closed", e.code);
       slideshowSocket = null;
       autosaveTimer = null;
-      // TO DO - Update UI showing active users to be empty
+      collaboratorPresence = [];
     };
 
     slideshowSocket.onmessage = (e) => {
@@ -102,9 +102,8 @@ export function connectToSlideshow(slideshowId) {
       
       // Handle active users messages
       if (msg.presence) {
-        console.log("Active users:", msg.presence);
-        // TO DO - Receive active users list
-        // TO DO - Call a function that handles showing active users in UI
+        collaboratorPresence = Array.isArray(msg.presence) ? msg.presence : [];
+        renderCollaboratorPresence();
       }
     };
   } catch (err) {
@@ -355,6 +354,57 @@ export function showSavingStatus() {
       </span>
     `;
   }, 500);
+}
+
+/**
+ * Render active users (collaborators) in UI
+ */
+function renderCollaboratorPresence() {
+  let container = document.getElementById("slideshowCollaborators");
+  if (!container) return;
+
+  if (!collaboratorPresence.length) {
+    container.classList.add("d-none");
+    container.innerHTML = "";
+    return;
+  }
+
+  container.classList.remove("d-none");
+  const badges = collaboratorPresence
+    .map((user) => {
+      const label = formatCollaboratorLabel(user);
+      return `
+        <span 
+          class="badge bg-primary-subtle text-primary-emphasis collaborator-badge" 
+          data-user-id="${escapeHtml(user.id)}"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="${escapeHtml(user.display_name)}"
+        >
+          ${label}
+        </span>`;
+    })
+    .join("");
+
+  container.innerHTML = `
+    <span class="text-muted small fw-semibold">${gettext("Active users")}:</span>
+    <div class="d-flex flex-wrap gap-2">${badges}</div>
+  `;
+}
+
+/**
+ * Formatting collaborators label with their initials
+ * @param {*} user to format
+ * @returns String with paragraph element containing initials of user
+ */
+function formatCollaboratorLabel(user) {
+  // Check if the user is the current user
+  const username_ls = localStorage.getItem("username");
+  const isSelf = username_ls && user && String(user.display_name) === String(username_ls);
+  
+  const initials = user?.initials || gettext("Unknown user");
+  const initials_escaped = escapeHtml(initials);
+  return `<p class="m-0">${initials_escaped}${isSelf ? ` (${gettext("You")})` : ""}</p>`;
 }
 
 /**
