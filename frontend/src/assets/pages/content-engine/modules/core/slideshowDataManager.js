@@ -15,9 +15,13 @@ import { openAddSlideModal } from "./addSlide.js";
 import { BASE_URL } from "../../../../utils/constants.js";
 import { gettext } from "../../../../utils/locales.js";
 
+let currentSlideshowId = null;
 let autosaveTimer = null;
 let slideshowSocket = null;
 let collaboratorPresence = []; // List of active users in slideshow
+// Variables for reconnection attempts
+let reconnectAttempts = 0; 
+const MAX_RECONNECT_ATTEMPTS = 5;
 
 /**
  * Helper function for creating URL to backends WebSocket endpoint
@@ -33,7 +37,7 @@ function buildWsUrl(slideshowId) {
  * Connecting client to the slideshow through a WebSocket,
  * gets the current slideshow data after connection is open
  * and handle receiving messages / slideshow updates from socket
- * @param slideshowId Sldieshow to create WS connection for
+ * @param slideshowId Slideshow to create WS connection for
  */
 export function connectToSlideshow(slideshowId) {
   // Close previous socket if any
@@ -46,6 +50,7 @@ export function connectToSlideshow(slideshowId) {
     slideshowSocket = null;
   }
 
+  currentSlideshowId = slideshowId;
   collaboratorPresence = []; // Reset list of active users
 
   try {
@@ -64,6 +69,7 @@ export function connectToSlideshow(slideshowId) {
             token: token,
           }),
         );
+        reconnectAttempts = 0; // reset reconnect counter
       } else {
         console.error(
           "Error making WS connection to slideshow: Missing Access token",
@@ -75,17 +81,7 @@ export function connectToSlideshow(slideshowId) {
       }
     };
 
-    slideshowSocket.onclose = (e) => {
-      // Reset global variables
-      slideshowSocket = null;
-      autosaveTimer = null;
-      collaboratorPresence = [];
-      // Show message
-      const closeMsg = e.error || "Unknown";
-      const code = e.code ? ` (code ${e.code})` : "";
-      console.error("Slideshow socket closed: ", closeMsg, code);
-      showToast(`Socket connection to slideshow closed: ${closeMsg}${code}`, "Error");
-    };
+    slideshowSocket.onclose = handleSocketClosing;
 
     slideshowSocket.onmessage = (e) => {
       const msg = JSON.parse(e.data);
@@ -124,9 +120,49 @@ export function connectToSlideshow(slideshowId) {
         renderCollaboratorPresence();
       }
     };
+
+    slideshowSocket.onerror = (e) => {
+      console.error("Slideshow socket error:", e);
+    };
   } catch (err) {
     console.error("Error fetching slideshow data:", err);
     showToast(`Failed to load slideshow: ${err.message}`, "Error");
+  }
+}
+
+/**
+ * Handles websocket connection closing.
+ * Tries to reconnect x times if it's not normal closure.
+ */
+function handleSocketClosing(e) {
+  // Reset global variables
+  slideshowSocket = null;
+  autosaveTimer = null;
+  collaboratorPresence = [];
+
+  // Send message to client
+  const code = e.code ? ` (code ${e.code})` : "";
+  console.error("Slideshow socket closed:", code);
+  showToast(`Socket connection closed ${code}`, "Error");
+
+  // Check if it's a normal closure (do not reconnect)
+  if (e.code === 1000) {
+    return;
+  }
+
+  // Try to reconnect
+  if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+    // Make delay longer after each attempt
+    const delay = Math.min(1000 * 2 ** reconnectAttempts, 10000);
+
+    reconnectAttempts++;
+    console.log(`Try to reconnect in ${delay}ms (attempt no. ${reconnectAttempts})`);
+
+    setTimeout(() => {
+      connectToSlideshow(currentSlideshowId);
+    }, delay);
+  } else {
+    showToast("Unable to reconnect to slideshow. Please refresh the page.", "Error");
   }
 }
 
