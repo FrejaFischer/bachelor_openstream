@@ -369,8 +369,7 @@ export function showSavingStatus() {
   if (!autosaveSpan) return;
 
   autosaveSpan.innerHTML = `
-    <i class="material-symbols-outlined text-secondary me-1 saving-icon" 
-        >sync</i>
+    <i class="material-symbols-outlined text-secondary me-1 saving-icon">sync</i>
     ${gettext("Saving...")}
   `;
 
@@ -382,11 +381,9 @@ export function showSavingStatus() {
       hour12: false,
     });
     autosaveSpan.innerHTML = `
-      <i class="material-symbols-outlined text-secondary me-1" 
-        >sync</i>
-        
-          <i class="material-symbols-outlined text-secondary me-1" >save</i>
-        <strong>${timeStr}</strong>
+      <i class="material-symbols-outlined text-secondary me-1">sync</i>
+      <i class="material-symbols-outlined text-secondary me-1">save</i>
+      <strong>${timeStr}</strong>
     `;
   }, 500);
 }
