@@ -12,6 +12,7 @@ Running the docker compose file will start 5 containers:
 * `openstream-cron` - CRON container, based on the backend docker-image
 * `openstream-keycloak` - Keycloak development instance
 * `openstream-db` - Postgres db server with databases for the backend & keycloak
+* `redis` - Used for Django Channel layers to handle communication between clients Websocket connections to slideshows
 
 Configurations / environment variables for each container can be found in the folder `dev-environment/`.
 
@@ -74,6 +75,16 @@ The project have a `justfile`, with some helper commands. Ex. to
 ```shell
 just run
 ```
+
+## WebSocket connection
+OpenStream will handle WebSocket connections (ws:// + wss://) with Django Channels. We have implemented these custom closing codes:
+* `4001` - Unauthorized / unathenticated
+* `4002` - Invalid first message / missing authentication message
+* `4003` - Forbidden - user has no access
+* `4004` - data missing (ex. token missing)
+* `4005` - Invalid JSON
+* `4006` - Generic error
+* `4007` - Redis error
 
 ## STATIC files
 
