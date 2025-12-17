@@ -288,6 +288,18 @@ export function initAutoSave(slideshowId) {
     autosaveTimer = null;
   }
 
+  // Initialize eventlistener for saving button (So user can save outside of autosave)
+  document.getElementById("save_span").addEventListener("click", () => {
+    saveSlideshow(slideshowId)
+      .then(() => {
+        showSavingStatus();
+      })
+      .catch((err) => {
+        console.error("Auto-save failed:", err);
+        showToast(gettext("Auto-save error: ") + err.message, "Error");
+      });
+  })
+
   // Create autosaveTimer with interval
   autosaveTimer = setInterval(() => {
     const currentStateStr = JSON.stringify(store.slides);
@@ -353,15 +365,13 @@ export async function saveSlideshow(slideshowId) {
  * @returns if no auto save element found in UI
  */
 export function showSavingStatus() {
-  const autosaveInfo = document.querySelector(".autosave-info");
-  if (!autosaveInfo) return;
+  const autosaveSpan = document.querySelector("#save_span");
+  if (!autosaveSpan) return;
 
-  autosaveInfo.innerHTML = `
-    <span>
-      <i class="material-symbols-outlined text-secondary me-1 saving-icon" 
-         >sync</i>
-      ${gettext("Saving...")}
-    </span>
+  autosaveSpan.innerHTML = `
+    <i class="material-symbols-outlined text-secondary me-1 saving-icon" 
+        >sync</i>
+    ${gettext("Saving...")}
   `;
 
   setTimeout(() => {
@@ -371,14 +381,12 @@ export function showSavingStatus() {
       minute: "2-digit",
       hour12: false,
     });
-    autosaveInfo.innerHTML = `
-      <span class="text-muted small">
-        <i class="material-symbols-outlined text-secondary me-1" 
-          >sync</i>
-          
-           <i class="material-symbols-outlined text-secondary me-1" >save</i>
-         <strong>${timeStr}</strong>
-      </span>
+    autosaveSpan.innerHTML = `
+      <i class="material-symbols-outlined text-secondary me-1" 
+        >sync</i>
+        
+          <i class="material-symbols-outlined text-secondary me-1" >save</i>
+        <strong>${timeStr}</strong>
     `;
   }, 500);
 }
