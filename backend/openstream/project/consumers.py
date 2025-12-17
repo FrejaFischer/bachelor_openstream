@@ -183,7 +183,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 # Create group name with slideshow id included
                 self.slideshow_group_name = f"slideshow_{self.slideshow_id}"
 
-                # Add user to Channel group
+                # Add user to channel group
                 await self.channel_layer.group_add(
                     self.slideshow_group_name, self.channel_name
                 )
@@ -273,15 +273,15 @@ class SlideshowConsumer(AuthenticatedConsumer):
         # Send updated slideshow data to user
         await self.send(json.dumps({"data": data}))
 
-    # Receive updates on acitve users from group in channel layer
+    # Receive updates on active users from group in channel layer
     async def receive_slideshow_presence(self, event):
         users = event.get("users", [])
         await self.send(json.dumps({"presence": users}))
 
     async def broadcast_presence(self, action):
         """
-        Method for broadcasting all active users in this slideshow to Channel Layer group.
-        Finds users by id in DB and sends list to Channel Layer.
+        Method for broadcasting all active users in this slideshow to channel Layer group.
+        Finds users by id in DB and sends list to channel Layer.
 
         :param action: After which event the broadcasting is triggered from
         """
