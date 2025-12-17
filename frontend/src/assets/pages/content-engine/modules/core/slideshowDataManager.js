@@ -22,7 +22,6 @@ let collaboratorPresence = []; // List of active users in slideshow
 /**
  * Helper function for creating URL to backends WebSocket endpoint
  * @param slideshowId Slideshow to connect to
- * @returns
  */
 function buildWsUrl(slideshowId) {
   const parsed = new URL(BASE_URL);
