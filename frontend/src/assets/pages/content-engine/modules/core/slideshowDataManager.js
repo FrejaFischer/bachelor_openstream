@@ -76,10 +76,15 @@ export function connectToSlideshow(slideshowId) {
     };
 
     slideshowSocket.onclose = (e) => {
-      console.log("Slideshow socket closed", e.code);
+      // Reset global variables
       slideshowSocket = null;
       autosaveTimer = null;
       collaboratorPresence = [];
+      // Show message
+      const closeMsg = e.error || "Unknown";
+      const code = e.code ? ` (code ${e.code})` : "";
+      console.error("Slideshow socket closed: ", closeMsg, code);
+      showToast(`Socket connection to slideshow closed: ${closeMsg}${code}`, "Error");
     };
 
     slideshowSocket.onmessage = (e) => {
@@ -103,6 +108,7 @@ export function connectToSlideshow(slideshowId) {
       if (msg.error) {
         const errorMsg = msg.error || "WebSocket error";
         const code = msg.code ? ` (code ${msg.code})` : "";
+        console.error("Slideshow socket error: ", errorMsg, code);
         showToast(`Socket error: ${errorMsg}${code}`, "Error");
         return;
       }
