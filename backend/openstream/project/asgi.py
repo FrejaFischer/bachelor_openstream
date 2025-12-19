@@ -38,5 +38,5 @@ application = ProtocolTypeRouter(
 )
 # If it is a WS protocol (ws:// or wss://):
 # - OriginValidator checks if the origin is allowed based on env variable (same used as HTTP CORS rules)
-# - AuthMiddlewareStack will make the connection’s scope with a reference to the currently authenticated user (?)
+# - AuthMiddlewareStack will make the connection’s scope with a reference to the clients user
 # - URLRouter will route it to a particular consumer, based on the provided url patterns
