@@ -78,4 +78,30 @@ Here is a list of every file, that has been changed or added by this project:
 - `top-menu.hbs`
 
 
-The original OpenStream, which this project is build upon, is developed by Magenta Aps (https://www.magenta.dk).
+## Quick guide to run the application
+This is a quick guide for OpenStream, which shows the nessesary steps to be able to test my solution.
+
+To run this application, you'll need Docker. Then run the command: `docker compose up --build` to start the whole application (both frontend, backend, database etc.).
+There will be created some test data and one user, which is a superadmin user:
+
+**Username:** superadmin
+
+**Password:** superadmin
+
+With this user, you'll have access to three organisations, which all have some branches to test with. In this guide we use Lyngby-Taarbæk as an example.
+
+### Setting up the slideshow data
+To create a slideshow to test my solution on, you'll need to follow these steps:
+1. First create a global template for the organisation, which can be done in the `Global Settings` inside the Lyngby Taarbæk organisation (http://localhost:5173/manage-templates?mode=template_editor&orgId=1&suborgId=8&branchId=30). You can just make a blank canvas.
+2. Then you'll need to create a sub organisation template, to for example Bibliotekerne (http://localhost:5173/manage-templates?mode=suborg_templates&orgId=1&suborgId=1&branchId=39). Again you can just leave the template blank.
+3. After setting up the nessesary templates, you can then select a branch, for example Lundtofte Bibliotek, where you can create a new slideshow by clicking on `+ Add Content` on http://localhost:5173/manage-content?orgId=1&suborgId=1&branchId=15.
+4. Open the slideshow and add a slide. This is where my solution takes place. By opening a slideshow you will create a WebSocket connection to the backend (http://localhost:8000/admin/), which will make real-time updates between different users.
+
+### Creating a new user
+To create a new user for testing multiple users editing a slideshow, follow these steps:
+1. Go to http://localhost:5173/select-sub-org?orgId=1 (the overview page for Lyngby Taarbæk organisation).
+2. Click on `Manage Users` and then on `Add User`.
+3. Select a role (any role have access to editing slideshows), and fill out all inputs.
+4. Then login with the new user in a new browser.
+
+***The original OpenStream, which this project is build upon, is developed by Magenta Aps (https://www.magenta.dk).***
