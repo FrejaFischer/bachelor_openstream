@@ -92,8 +92,8 @@ With this user, you'll have access to three organisations, which all have some b
 
 ### Setting up the slideshow data
 To create a slideshow to test my solution on, you'll need to follow these steps:
-1. First create a global template for the organisation, which can be done in the `Global Settings` inside the Lyngby Taarbæk organisation (http://localhost:5173/manage-templates?mode=template_editor&orgId=1&suborgId=8&branchId=30). You can just make a blank canvas.
-2. Then you'll need to create a sub organisation template, to for example Bibliotekerne (http://localhost:5173/manage-templates?mode=suborg_templates&orgId=1&suborgId=1&branchId=39). Again you can just leave the template blank.
+1. First create a global template for the organisation, which can be done in the `Global Settings` inside the Lyngby Taarbæk organisation (http://localhost:5173/manage-templates?mode=template_editor&orgId=1&suborgId=8&branchId=30). You can just make a blank template by clicking on the `+ Add Template` button.
+2. Then you'll need to create a sub organisation template, to for example Bibliotekerne (http://localhost:5173/manage-templates?mode=suborg_templates&orgId=1&suborgId=1&branchId=39). Again click on the `+ Add Template` button and choose the global template you made before. You can leave this template blank again.
 3. After setting up the nessesary templates, you can then select a branch, for example Lundtofte Bibliotek, where you can create a new slideshow by clicking on `+ Add Content` on http://localhost:5173/manage-content?orgId=1&suborgId=1&branchId=15.
 4. Open the slideshow and add a slide. This is where my solution takes place. By opening a slideshow you will create a WebSocket connection to the backend (http://localhost:8000/admin/), which will make real-time updates between different users.
 
@@ -102,6 +102,6 @@ To create a new user for testing multiple users editing a slideshow, follow thes
 1. Go to http://localhost:5173/select-sub-org?orgId=1 (the overview page for Lyngby Taarbæk organisation).
 2. Click on `Manage Users` and then on `Add User`.
 3. Select a role (any role have access to editing slideshows), and fill out all inputs.
-4. Then login with the new user in a new browser.
+4. Then login with the new user in a new browser and access a slideshow in a branch.
 
 ***The original OpenStream, which this project is build upon, is developed by Magenta Aps (https://www.magenta.dk).***
