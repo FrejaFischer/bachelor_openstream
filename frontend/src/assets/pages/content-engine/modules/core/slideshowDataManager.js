@@ -167,7 +167,7 @@ function handleSocketClosing(e) {
 }
 
 /**
- * Handles slideshow data by updating local store object and callig loadSlide to render the DOM
+ * Handles slideshow data by updating local store object and calling loadSlide to render the DOM
  * @param data Slideshow data to handle
  */
 function handleSlideshowData(data) {
@@ -324,7 +324,7 @@ function sendUpdateThroughSocket(payload) {
  * @param slideshowId The slideshow ID
  */
 export function initAutoSave(slideshowId) {
-  // Clear autosaveTimer is it alreadyt exists
+  // Clear autosaveTimer is it already exists
   if (autosaveTimer) {
     clearInterval(autosaveTimer);
     autosaveTimer = null;
