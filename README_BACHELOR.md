@@ -95,7 +95,7 @@ To create a slideshow to test my solution on, you'll need to follow these steps:
 1. First create a global template for the organisation, which can be done in the `Global Settings` inside the Lyngby Taarbæk organisation (http://localhost:5173/manage-templates?mode=template_editor&orgId=1&suborgId=8&branchId=30). You can just make a blank template by clicking on the `+ Add Template` button.
 2. Then you'll need to create a sub organisation template, to for example Bibliotekerne (http://localhost:5173/manage-templates?mode=suborg_templates&orgId=1&suborgId=1&branchId=39). Again click on the `+ Add Template` button and choose the global template you made before. You can leave this template blank again.
 3. After setting up the nessesary templates, you can then select a branch, for example Lundtofte Bibliotek, where you can create a new slideshow by clicking on `+ Add Content` on http://localhost:5173/manage-content?orgId=1&suborgId=1&branchId=15.
-4. Open the slideshow and add a slide. This is where my solution takes place. By opening a slideshow you will create a WebSocket connection to the backend (http://localhost:8000/admin/), which will make real-time updates between different users.
+4. Open the slideshow and add a slide on http://localhost:5173/edit-content?id=1&mode=edit&orgId=1&suborgId=1&branchId=15. This is where my solution takes place. By opening a slideshow you will create a WebSocket connection to the backend (http://localhost:8000/admin/), which will make real-time updates between different users.
 
 ### Creating a new user
 To create a new user for testing multiple users editing a slideshow, follow these steps:
