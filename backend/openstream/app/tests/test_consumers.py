@@ -8,5 +8,5 @@ from django.test import TestCase
 
 class SmokeTest(TestCase):
     def test_smoke(self):
-        print("This test ran!")
+        print("This test also ran!")
         self.assertTrue(True)
