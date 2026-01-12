@@ -1,0 +1,2525 @@
+[
+{
+  "model": "auth.user",
+  "pk": 32,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$B9pUvoK8vsvVKae55YrZet$xlBLCj/q+YJRqdkWeZKLUJIUTmyPGrG/hWzlWVPBsgI=",
+    "last_login": "2025-09-27T19:10:34.589Z",
+    "is_superuser": true,
+    "username": "superadmin",
+    "first_name": "Super",
+    "last_name": "Admin",
+    "email": "superadmin@app.dk",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-07-02T10:52:42.645Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 33,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$zgxFcS3ZL95SsuxwJAqyeS$yvTyXWsfGH+air12mrGKZQuz/4xVrdsi+Lk3/TyxTP4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "tets",
+    "first_name": "test",
+    "last_name": "test",
+    "email": "test@openstream.dk",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-09T11:37:26.221Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "075xg8ncazrn3nacc4pxyewz5lzleio3",
+  "fields": {
+    "session_data": ".eJxVzMEOwiAQBNB_4WzIQgkrHr37DQRYVqoGktKejP8uTXrQ68ybeQsftrX4refFzyQuQonTbxZDeua6F_QI9d5kanVd5ih3Io-2y1uj_Loe9u-ghF7G2iQNaNkRRwYVGV00COzU5BKqiOQ0E01TtpDQqAENGQ10HkIZC-LzBejuN3w:1tsdxt:oN_UUyCd3OazyR5BYdktIBg4nXLjdHp70JrU9AY4PWg",
+    "expire_date": "2025-03-27T08:30:53.199Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "27h3rcp9kv5k4kzztv0m7fclc4s47mdw",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pB2GARcuu8ZmpkBbNVAUtqV8e7apAvd_vfef6mRtnUat5aWcY7qogyo0-_IJI9UdhLvVG5VSy3rMrPeFX3Qpoca0_N6uH8HE7XpW1sMhCEKu56DZYedQM7gPIn3uYsZbQSL3nF_FqYEiJ21PRhBMgBBvT8IvTei:1v2aJW:DCD2Jf53aE7Y_mAXATZKILIWlhZB7sm3C_7RynBGWg0",
+    "expire_date": "2025-10-11T19:10:34.593Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "3ejqxmvvvbeqc3nt2qui456mtcqpz1ta",
+  "fields": {
+    "session_data": ".eJxVzMEOwiAQBNB_4WzIQgkrHr37DQRYVqoGktKejP8uTXrQ68ybeQsftrX4refFzyQuQonTbxZDeua6F_QI9d5kanVd5ih3Io-2y1uj_Loe9u-ghF7G2iQNaNkRRwYVGV00COzU5BKqiOQ0E01TtpDQqAENGQ10HkIZC-LzBejuN3w:1tsena:9AAcC6hYCRbiJTki8YVmncBKsmYCzonLnclIZ2umEVU",
+    "expire_date": "2025-03-27T09:24:18.567Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "3gz232hcr2p1i9kgwoffixc12eghndhn",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pB2GARcuu8ZmpkBbNVAUtqV8e7apAvd_vfef6mRtnUat5aWcY7qogyo0-_IJI9UdhLvVG5VSy3rMrPeFX3Qpoca0_N6uH8HE7XpW1sMhCEKu56DZYedQM7gPIn3uYsZbQSL3nF_FqYEiJ21PRhBMgBBvT8IvTei:1uonMf:yDgVp3YdZyPY9pLTACry3S6JQDZuEz_5HCQgvc5lwD4",
+    "expire_date": "2025-09-03T18:16:49.967Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5n1h9m9j9qk14cco4olmpzzgs90yap8z",
+  "fields": {
+    "session_data": ".eJxVjDsOwyAQBe9CHSG-BlKm9xnQwi7BSYQlY1dR7h4huUjaNzPvzSIce41Hpy0uyK5MssvvliA_qQ2AD2j3lee17duS-FD4STufV6TX7XT_Dir0OmoCAZkmoZUnFFp7k0FJQgcSAqoQDCpvZVbFFnC6IKSsJid8AlOsZZ8v_cs4gA:1uBqYV:XvxwiNlriMbYSBrix33ISTGOTpoiNDewDtX2lv6ptG8",
+    "expire_date": "2025-05-19T07:48:03.192Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7158o1n3chiveis57skw94azgr9bwsa8",
+  "fields": {
+    "session_data": ".eJxVjDsOwyAQBe9CHSG-BlKm9xnQwi7BSYQlY1dR7h4huUjaNzPvzSIce41Hpy0uyK5MssvvliA_qQ2AD2j3lee17duS-FD4STufV6TX7XT_Dir0OmoCAZkmoZUnFFp7k0FJQgcSAqoQDCpvZVbFFnC6IKSsJid8AlOsZZ8v_cs4gA:1uWv3l:R7fY6SfVrwfnkfebAY7rdtlz1wXRwo_aKER3qTUJjng",
+    "expire_date": "2025-07-16T10:51:25.356Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7txce5qb610lwz1w3wvl3hpm2uugxxta",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pB2GARcuu8ZmpkBbNVAUtqV8e7apAvd_vfef6mRtnUat5aWcY7qogyo0-_IJI9UdhLvVG5VSy3rMrPeFX3Qpoca0_N6uH8HE7XpW1sMhCEKu56DZYedQM7gPIn3uYsZbQSL3nF_FqYEiJ21PRhBMgBBvT8IvTei:1up4Ea:Wy65Xug4oVo6_PeCQ72N9b9TtJYGxGIGrq5o84Ebr8U",
+    "expire_date": "2025-09-04T12:17:36.925Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "e0a2wv63i4lc6lg2fe8pvvze7igg4ucq",
+  "fields": {
+    "session_data": ".eJxVzMEOwiAQBNB_4WzIQgkrHr37DQRYVqoGktKejP8uTXrQ68ybeQsftrX4refFzyQuQonTbxZDeua6F_QI9d5kanVd5ih3Io-2y1uj_Loe9u-ghF7G2iQNaNkRRwYVGV00COzU5BKqiOQ0E01TtpDQqAENGQ10HkIZC-LzBejuN3w:1u7ZA4:lNrxivljSFKfLqHFwtTyOm6EPn1iSxDi6zuTFbYXPo4",
+    "expire_date": "2025-05-07T12:25:08.860Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "frd6pzsobuhuza2m9x65ppzr5pjzilgl",
+  "fields": {
+    "session_data": ".eJxVzMEOwiAQBNB_4WzIQgkrHr37DQRYVqoGktKejP8uTXrQ68ybeQsftrX4refFzyQuQonTbxZDeua6F_QI9d5kanVd5ih3Io-2y1uj_Loe9u-ghF7G2iQNaNkRRwYVGV00COzU5BKqiOQ0E01TtpDQqAENGQ10HkIZC-LzBejuN3w:1tppJV:M6hmhfOvsgXHfQtdVkoWgoNhFdq-VjWTYv23jRPy3Vw",
+    "expire_date": "2025-03-19T14:01:33.255Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jfir4d981l4kf6x2iazfeacpw8zexxer",
+  "fields": {
+    "session_data": ".eJxVzMEOwiAQBNB_4WzIQgkrHr37DQRYVqoGktKejP8uTXrQ68ybeQsftrX4refFzyQuQonTbxZDeua6F_QI9d5kanVd5ih3Io-2y1uj_Loe9u-ghF7G2iQNaNkRRwYVGV00COzU5BKqiOQ0E01TtpDQqAENGQ10HkIZC-LzBejuN3w:1u9kdY:4Gsy0oQPTXkHcKdNDfkFUnx5ojPj1WBcqmrosOq58aQ",
+    "expire_date": "2025-05-13T13:04:36.880Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qz0d83y20d480hsxt7g7wh6pmb1zjtb6",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pB2GARcuu8ZmpkBbNVAUtqV8e7apAvd_vfef6mRtnUat5aWcY7qogyo0-_IJI9UdhLvVG5VSy3rMrPeFX3Qpoca0_N6uH8HE7XpW1sMhCEKu56DZYedQM7gPIn3uYsZbQSL3nF_FqYEiJ21PRhBMgBBvT8IvTei:1uwJj6:eyke2XMvR9sTuW50kEGWzb1NIcTcQHVazroq_pgOeS8",
+    "expire_date": "2025-09-24T12:15:04.577Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "r5cw9fhq2v1g36b3znj4vwsfh6dn1cy9",
+  "fields": {
+    "session_data": ".eJxVzMEOwiAQBNB_4WzIQgkrHr37DQRYVqoGktKejP8uTXrQ68ybeQsftrX4refFzyQuQonTbxZDeua6F_QI9d5kanVd5ih3Io-2y1uj_Loe9u-ghF7G2iQNaNkRRwYVGV00COzU5BKqiOQ0E01TtpDQqAENGQ10HkIZC-LzBejuN3w:1treFY:En7WyiQ1i8cEtgh8JU0S2Cz5-hx1P9p5SbB5806vYi8",
+    "expire_date": "2025-03-24T14:37:00.657Z"
+  }
+},
+{
+  "model": "app.userextended",
+  "pk": 28,
+  "fields": {
+    "user": 32,
+    "language_preference": "en"
+  }
+},
+{
+  "model": "app.userextended",
+  "pk": 29,
+  "fields": {
+    "user": 33,
+    "language_preference": "en"
+  }
+},
+{
+  "model": "app.organisation",
+  "pk": 1,
+  "fields": {
+    "name": "Lyngby-Taarbæk"
+  }
+},
+{
+  "model": "app.organisation",
+  "pk": 3,
+  "fields": {
+    "name": "Brøndby"
+  }
+},
+{
+  "model": "app.organisation",
+  "pk": 4,
+  "fields": {
+    "name": "Test Organisation"
+  }
+},
+{
+  "model": "app.organisationapiaccess",
+  "pk": 1,
+  "fields": {
+    "organisation": 1,
+    "api_name": "winkas",
+    "is_active": true,
+    "created_at": "2025-09-10T12:15:17.919Z",
+    "updated_at": "2025-09-10T12:15:17.919Z"
+  }
+},
+{
+  "model": "app.organisationapiaccess",
+  "pk": 2,
+  "fields": {
+    "organisation": 1,
+    "api_name": "kmd",
+    "is_active": true,
+    "created_at": "2025-09-10T12:15:21.423Z",
+    "updated_at": "2025-09-10T12:15:21.423Z"
+  }
+},
+{
+  "model": "app.organisationapiaccess",
+  "pk": 3,
+  "fields": {
+    "organisation": 1,
+    "api_name": "speedadmin",
+    "is_active": true,
+    "created_at": "2025-09-10T12:15:24.195Z",
+    "updated_at": "2025-09-10T12:15:24.195Z"
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 1,
+  "fields": {
+    "name": "Bibliotekerne",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 2,
+  "fields": {
+    "name": "Borgerservice",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 3,
+  "fields": {
+    "name": "Plejecentre",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 4,
+  "fields": {
+    "name": "Idrætsfaciliteter",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 8,
+  "fields": {
+    "name": "Global",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 9,
+  "fields": {
+    "name": "Global",
+    "organisation": 3
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 10,
+  "fields": {
+    "name": "Global",
+    "organisation": 4
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 13,
+  "fields": {
+    "name": "Demo Suborg",
+    "organisation": 4
+  }
+},
+{
+  "model": "app.suborganisation",
+  "pk": 15,
+  "fields": {
+    "name": "Bibliotekerne",
+    "organisation": 3
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 9,
+  "fields": {
+    "name": "Engelsborghallen",
+    "suborganisation": 4
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 10,
+  "fields": {
+    "name": "Lundtoftehallen",
+    "suborganisation": 4
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 11,
+  "fields": {
+    "name": "Lyngby Idrætsby",
+    "suborganisation": 4
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 12,
+  "fields": {
+    "name": "Virumhallerne",
+    "suborganisation": 4
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 13,
+  "fields": {
+    "name": "Virum Svømmehal",
+    "suborganisation": 4
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 14,
+  "fields": {
+    "name": "Stadsbiblioteket",
+    "suborganisation": 1
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 15,
+  "fields": {
+    "name": "Lundtofte Bibliotek",
+    "suborganisation": 1
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 16,
+  "fields": {
+    "name": "Taarbæk Bibliotek",
+    "suborganisation": 1
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 17,
+  "fields": {
+    "name": "Virum Bibliotek",
+    "suborganisation": 1
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 18,
+  "fields": {
+    "name": "Lyngby-Taarbæk Borgerservice",
+    "suborganisation": 2
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 19,
+  "fields": {
+    "name": "Plejecenter Baunehøj",
+    "suborganisation": 3
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 20,
+  "fields": {
+    "name": "Plejecenter Bredebo",
+    "suborganisation": 3
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 22,
+  "fields": {
+    "name": "Plejecenter Solgården",
+    "suborganisation": 3
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 23,
+  "fields": {
+    "name": "Plejecenter Virumgård",
+    "suborganisation": 3
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 30,
+  "fields": {
+    "name": "Global",
+    "suborganisation": 8
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 32,
+  "fields": {
+    "name": "Global",
+    "suborganisation": 10
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 35,
+  "fields": {
+    "name": "Demo Branch",
+    "suborganisation": 13
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 36,
+  "fields": {
+    "name": "Global",
+    "suborganisation": 9
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 37,
+  "fields": {
+    "name": "Biblioteket i Kilden",
+    "suborganisation": 15
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 38,
+  "fields": {
+    "name": "Biblioteket i Brønden",
+    "suborganisation": 15
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 39,
+  "fields": {
+    "name": "suborg_templates",
+    "suborganisation": 1
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 40,
+  "fields": {
+    "name": "suborg_templates",
+    "suborganisation": 13
+  }
+},
+{
+  "model": "app.branch",
+  "pk": 41,
+  "fields": {
+    "name": "suborg_templates",
+    "suborganisation": 15
+  }
+},
+{
+  "model": "app.organisationmembership",
+  "pk": 31,
+  "fields": {
+    "user": 32,
+    "organisation": null,
+    "suborganisation": null,
+    "branch": null,
+    "role": "super_admin"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 1,
+  "fields": {
+    "name": "Test",
+    "organisation": null
+  }
+},
+{
+  "model": "app.category",
+  "pk": 2,
+  "fields": {
+    "name": "LoL",
+    "organisation": null
+  }
+},
+{
+  "model": "app.category",
+  "pk": 3,
+  "fields": {
+    "name": "Lol LOL",
+    "organisation": null
+  }
+},
+{
+  "model": "app.category",
+  "pk": 4,
+  "fields": {
+    "name": "Demo",
+    "organisation": null
+  }
+},
+{
+  "model": "app.category",
+  "pk": 5,
+  "fields": {
+    "name": "Ældre Pleje Touch",
+    "organisation": null
+  }
+},
+{
+  "model": "app.category",
+  "pk": 7,
+  "fields": {
+    "name": "Åbningstider",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 1,
+  "fields": {
+    "name": "LOL",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 2,
+  "fields": {
+    "name": "TEST",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 3,
+  "fields": {
+    "name": "more",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 4,
+  "fields": {
+    "name": "tttt",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 5,
+  "fields": {
+    "name": "Spaghetti",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 6,
+  "fields": {
+    "name": "Demo",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 7,
+  "fields": {
+    "name": "Interactive",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 8,
+  "fields": {
+    "name": "Slideshow",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 9,
+  "fields": {
+    "name": "Example Tag",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 10,
+  "fields": {
+    "name": "Webview",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 11,
+  "fields": {
+    "name": "Udlån Statistik",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 12,
+  "fields": {
+    "name": "UX-Workshop",
+    "organisation": null
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 13,
+  "fields": {
+    "name": "Åbningstider",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 14,
+  "fields": {
+    "name": "Tabel",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.tag",
+  "pk": 15,
+  "fields": {
+    "name": "General",
+    "organisation": 1
+  }
+},
+{
+  "model": "app.slideshowplaylist",
+  "pk": 2,
+  "fields": {
+    "name": "Test",
+    "branch": 15,
+    "created_by": 32,
+    "updated_at": "2025-08-23T06:43:51.413Z"
+  }
+},
+{
+  "model": "app.displaywebsitegroup",
+  "pk": 1,
+  "fields": {
+    "name": "Crazy time",
+    "branch": 15,
+    "default_slideshow": null,
+    "default_playlist": null
+  }
+},
+{
+  "model": "app.displaywebsitegroup",
+  "pk": 2,
+  "fields": {
+    "name": "group 2",
+    "branch": 15,
+    "default_slideshow": null,
+    "default_playlist": null
+  }
+},
+{
+  "model": "app.displaywebsite",
+  "pk": 1,
+  "fields": {
+    "name": "SCR1",
+    "display_website_group": 1,
+    "branch": 15
+  }
+},
+{
+  "model": "app.displaywebsite",
+  "pk": 2,
+  "fields": {
+    "name": "SCR2",
+    "display_website_group": 2,
+    "branch": 15
+  }
+},
+{
+  "model": "app.document",
+  "pk": 4,
+  "fields": {
+    "file_type": "jpeg",
+    "title": "1600px_colourbox64593484",
+    "file": "uploads/1600px_colourbox64593484-093596c13ede.jpg",
+    "uploaded_at": "2025-10-03T08:53:55.872Z",
+    "category": null,
+    "branch": 15,
+    "tags": []
+  }
+},
+{
+  "model": "app.document",
+  "pk": 9,
+  "fields": {
+    "file_type": "png",
+    "title": "LTK_Logo_VE-neg",
+    "file": "uploads/LTK_Logo_VE-neg-5c2a712ace02.png",
+    "uploaded_at": "2025-10-03T11:47:16.894Z",
+    "category": null,
+    "branch": 15,
+    "tags": []
+  }
+},
+{
+  "model": "app.document",
+  "pk": 14,
+  "fields": {
+    "file_type": "mp4",
+    "title": "beach",
+    "file": "uploads/13394724_2160_3840_25fps-0983518d86dd.mp4",
+    "uploaded_at": "2025-10-09T11:59:30.215Z",
+    "category": null,
+    "branch": 36,
+    "tags": []
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 5,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo guld – 900",
+    "hexValue": "#AE9361",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 6,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo guld – 700",
+    "hexValue": "#D5B376",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 7,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo guld – 500",
+    "hexValue": "#E5D1AE",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 8,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo guld – 300",
+    "hexValue": "F7F0E1",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 9,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo rød – 1300",
+    "hexValue": "#8f0d0f",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 10,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo rød – 1100",
+    "hexValue": "#A60F11",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 11,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo rød – 900",
+    "hexValue": "#D51317",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 12,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo rød – 700",
+    "hexValue": "EC2F32",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 13,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo rød – 500",
+    "hexValue": "#F4A2A0",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 14,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo rød – 300",
+    "hexValue": "#FBDDDC",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 15,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo blå – 1300",
+    "hexValue": "#e01b24",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 16,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo blå – 1100",
+    "hexValue": "#30638a",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 17,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo blå – 900",
+    "hexValue": "#3b7baa",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 18,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo blå – 700",
+    "hexValue": "#4b96d2",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 19,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo blå – 500",
+    "hexValue": "#ABCDEB",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 20,
+  "fields": {
+    "organisation": 1,
+    "name": "Logo blå – 300",
+    "hexValue": "#E4EFF9",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 21,
+  "fields": {
+    "organisation": 1,
+    "name": "Gul – 1300",
+    "hexValue": "#806B00",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 22,
+  "fields": {
+    "organisation": 1,
+    "name": "Gul – 1100",
+    "hexValue": "#B39500",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 23,
+  "fields": {
+    "organisation": 1,
+    "name": "Gul – 900",
+    "hexValue": "#E6C000",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 24,
+  "fields": {
+    "organisation": 1,
+    "name": "Gul – 700",
+    "hexValue": "#FFD500",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 25,
+  "fields": {
+    "organisation": 1,
+    "name": "Gul – 500",
+    "hexValue": "#FFEF9E",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 26,
+  "fields": {
+    "organisation": 1,
+    "name": "Gul – 300",
+    "hexValue": "#FEF7DA",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 27,
+  "fields": {
+    "organisation": 1,
+    "name": "Grøn – 1300",
+    "hexValue": "#005500",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 28,
+  "fields": {
+    "organisation": 1,
+    "name": "Grøn – 1100",
+    "hexValue": "#008000",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 29,
+  "fields": {
+    "organisation": 1,
+    "name": "Grøn – 900",
+    "hexValue": "#69B02D",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 30,
+  "fields": {
+    "organisation": 1,
+    "name": "Grøn – 700",
+    "hexValue": "#82CF41",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 31,
+  "fields": {
+    "organisation": 1,
+    "name": "Grøn – 500",
+    "hexValue": "#C8DEA8",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 32,
+  "fields": {
+    "organisation": 1,
+    "name": "Grøn – 300",
+    "hexValue": "#EAF2DE",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 33,
+  "fields": {
+    "organisation": 1,
+    "name": "Petroleum – 1300",
+    "hexValue": "#005f68",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 34,
+  "fields": {
+    "organisation": 1,
+    "name": "Petroleum – 1100",
+    "hexValue": "#007681",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 35,
+  "fields": {
+    "organisation": 1,
+    "name": "Petroleum – 900",
+    "hexValue": "#008D9B",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 36,
+  "fields": {
+    "organisation": 1,
+    "name": "Petroleum – 700",
+    "hexValue": "#4DA0AC",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 37,
+  "fields": {
+    "organisation": 1,
+    "name": "Petroleum – 500",
+    "hexValue": "#AACFD5",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 38,
+  "fields": {
+    "organisation": 1,
+    "name": "Petroleum – 300",
+    "hexValue": "#D9E9EC",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 39,
+  "fields": {
+    "organisation": 1,
+    "name": "Lilla – 1300",
+    "hexValue": "#592387",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 40,
+  "fields": {
+    "organisation": 1,
+    "name": "Lilla – 1100",
+    "hexValue": "#742DB0",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 41,
+  "fields": {
+    "organisation": 1,
+    "name": "Lilla – 900",
+    "hexValue": "#9A55D4",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 42,
+  "fields": {
+    "organisation": 1,
+    "name": "Lilla – 700",
+    "hexValue": "#B27EDE",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 43,
+  "fields": {
+    "organisation": 1,
+    "name": "Lilla – 500",
+    "hexValue": "#D4C2E0",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 44,
+  "fields": {
+    "organisation": 1,
+    "name": "Lilla – 300",
+    "hexValue": "#F3ECF6",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 45,
+  "fields": {
+    "organisation": 1,
+    "name": "Grå – 1300",
+    "hexValue": "#383A3D",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 46,
+  "fields": {
+    "organisation": 1,
+    "name": "Grå – 1100",
+    "hexValue": "#44474A",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 47,
+  "fields": {
+    "organisation": 1,
+    "name": "Grå – 900",
+    "hexValue": "#5C6065",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 48,
+  "fields": {
+    "organisation": 1,
+    "name": "Grå – 700",
+    "hexValue": "#72767D",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 49,
+  "fields": {
+    "organisation": 1,
+    "name": "Grå – 500",
+    "hexValue": "#C4C5C7",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 50,
+  "fields": {
+    "organisation": 1,
+    "name": "Grå – 300",
+    "hexValue": "#ECEDEF",
+    "type": "secondary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 51,
+  "fields": {
+    "organisation": 4,
+    "name": "Cold purple",
+    "hexValue": "#8853d3",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 52,
+  "fields": {
+    "organisation": 4,
+    "name": "Cold purple light",
+    "hexValue": "#dbcbf2",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 53,
+  "fields": {
+    "organisation": 4,
+    "name": "Dark-gray",
+    "hexValue": "#989ea1",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 54,
+  "fields": {
+    "organisation": 4,
+    "name": "Darker-gray",
+    "hexValue": "#72787b",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 55,
+  "fields": {
+    "organisation": 4,
+    "name": "Darkest-gray",
+    "hexValue": "#363839",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 56,
+  "fields": {
+    "organisation": 4,
+    "name": "Error-red",
+    "hexValue": "#b30021",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 57,
+  "fields": {
+    "organisation": 4,
+    "name": "Error-red light",
+    "hexValue": "#e8b2bc",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 58,
+  "fields": {
+    "organisation": 4,
+    "name": "Gray",
+    "hexValue": "#cbd3d8",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 59,
+  "fields": {
+    "organisation": 4,
+    "name": "Light-gray",
+    "hexValue": "#d2dbdf",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 60,
+  "fields": {
+    "organisation": 4,
+    "name": "Lighter-gray",
+    "hexValue": "#ebf0f2",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 61,
+  "fields": {
+    "organisation": 4,
+    "name": "Lightest gray",
+    "hexValue": "#fafafa",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 62,
+  "fields": {
+    "organisation": 4,
+    "name": "Neutral-blue",
+    "hexValue": "#0057d7",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 63,
+  "fields": {
+    "organisation": 4,
+    "name": "Neutral-blue light",
+    "hexValue": "#b2cdf3",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 64,
+  "fields": {
+    "organisation": 4,
+    "name": "Orange",
+    "hexValue": "#d35d08",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 65,
+  "fields": {
+    "organisation": 4,
+    "name": "Orange light",
+    "hexValue": "#f2ceb5",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 66,
+  "fields": {
+    "organisation": 4,
+    "name": "Primary-Hover",
+    "hexValue": "#a2006f",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 67,
+  "fields": {
+    "organisation": 4,
+    "name": "Primær⁨",
+    "hexValue": "#e00099",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 68,
+  "fields": {
+    "organisation": 4,
+    "name": "Purple",
+    "hexValue": "#9700b9",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 69,
+  "fields": {
+    "organisation": 4,
+    "name": "Purple light",
+    "hexValue": "#e0b2ea",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 70,
+  "fields": {
+    "organisation": 4,
+    "name": "Secondary",
+    "hexValue": "#2c285a",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 71,
+  "fields": {
+    "organisation": 4,
+    "name": "Secondary-accent",
+    "hexValue": "#e6f6ff",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 72,
+  "fields": {
+    "organisation": 4,
+    "name": "Secondary-accent-hover",
+    "hexValue": "#c8dfec",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 73,
+  "fields": {
+    "organisation": 4,
+    "name": "Secondary-accent-light",
+    "hexValue": "#e6f6ff",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 74,
+  "fields": {
+    "organisation": 4,
+    "name": "Secondary-accent-lighter",
+    "hexValue": "#bf4040",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 75,
+  "fields": {
+    "organisation": 4,
+    "name": "Secondary-hover",
+    "hexValue": "#4a467f",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 76,
+  "fields": {
+    "organisation": 4,
+    "name": "#4a467f",
+    "hexValue": "#bab8dd",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 77,
+  "fields": {
+    "organisation": 4,
+    "name": "Secondary-tab",
+    "hexValue": "#3e3a65",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 78,
+  "fields": {
+    "organisation": 4,
+    "name": "#3e3a65",
+    "hexValue": "#007f51",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 79,
+  "fields": {
+    "organisation": 4,
+    "name": "Success-green light",
+    "hexValue": "#b2d9cb",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 80,
+  "fields": {
+    "organisation": 4,
+    "name": "Turqouise light",
+    "hexValue": "#bf4040",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 81,
+  "fields": {
+    "organisation": 4,
+    "name": "Turquoise",
+    "hexValue": "#00cca7",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 82,
+  "fields": {
+    "organisation": 4,
+    "name": "Warning-yellow",
+    "hexValue": "#ffc008",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customcolor",
+  "pk": 83,
+  "fields": {
+    "organisation": 1,
+    "name": "Special Red",
+    "hexValue": "#d1506c",
+    "type": "primary"
+  }
+},
+{
+  "model": "app.customfont",
+  "pk": 9,
+  "fields": {
+    "organisation": 4,
+    "name": "Figtree",
+    "font_url": "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+  }
+},
+{
+  "model": "app.customfont",
+  "pk": 13,
+  "fields": {
+    "organisation": 3,
+    "name": "WorkSans",
+    "font_url": "http://localhost:9000/infoscreen/uploads/fonts/3/WorkSans-VariableFont_wght-70e7eb1d903f.ttf"
+  }
+},
+{
+  "model": "app.slidetemplate",
+  "pk": 26,
+  "fields": {
+    "organisation": 1,
+    "suborganisation": null,
+    "parent_template": null,
+    "name": "Global Template",
+    "slideData": {
+      "name": "Global template", 
+      "duration": 5, 
+      "elements": [], 
+      "redoStack": [], 
+      "undoStack": [], 
+      "backgroundColor": "#ffffff"
+    },
+    "category": null,
+    "aspect_ratio": "16:9",
+    "tags": []
+  }
+},
+{
+  "model": "app.slidetemplate",
+  "pk": 27,
+  "fields": {
+    "organisation": 1,
+    "suborganisation": 1,
+    "parent_template": 26,
+    "name": "Suborg Template",
+    "slideData": {
+      "name": "Suborg template", 
+      "duration": 5, 
+      "elements": [], 
+      "redoStack": [], 
+      "undoStack": [], 
+      "backgroundColor": "#ffffff"
+    },
+    "category": null,
+    "aspect_ratio": "16:9",
+    "tags": []
+  }
+},
+{
+  "model": "app.slideshow",
+  "pk": 1,
+  "fields": {
+    "mode": "Slideshow",
+    "branch": 15,
+    "created_by": 32,
+    "name": "Test Slideshow",
+    "slideshow_data": {
+      "slides": [{
+        "id": 1, 
+        "name": "First slide", 
+        "duration": 5, 
+        "elements": [], 
+        "redoStack": [], 
+        "undoStack": [], 
+        "backgroundColor": "#ffffff"
+        }]
+      },
+    "category": null,
+    "tags": [],
+    "updated_at": "2025-08-23T06:43:51.413Z"
+  }
+},
+{
+  "model": "app.slidetemplate",
+  "pk": 25,
+  "fields": {
+    "organisation": 3,
+    "suborganisation": null,
+    "parent_template": null,
+    "name": "Demo Template",
+    "slideData": {
+      "name": "Demo Template",
+      "duration": 5,
+      "elements": [
+        {
+          "id": 1,
+          "type": "video",
+          "gridX": 0,
+          "gridY": 0,
+          "muted": true,
+          "zIndex": 1,
+          "content": 14,
+          "isHidden": false,
+          "isLocked": false,
+          "gridWidth": 200,
+          "gridHeight": 200,
+          "objectPosition": "center center",
+          "backgroundColor": "transparent",
+          "originSlideIndex": 0
+        },
+        {
+          "id": 2,
+          "text": "<div>Velkommen</div>",
+          "type": "textbox",
+          "gridX": 14,
+          "gridY": 54,
+          "border": false,
+          "zIndex": 2,
+          "fontSize": "35",
+          "isHidden": false,
+          "isLocked": false,
+          "fontStyle": "normal",
+          "gridWidth": 181,
+          "textAlign": "left",
+          "textColor": "#FFFFFF",
+          "fontFamily": "WorkSans",
+          "fontWeight": "800",
+          "gridHeight": 60,
+          "lineHeight": "1.3",
+          "letterSpacing": "0.2",
+          "textDirection": "horizontal",
+          "textDecoration": "none",
+          "backgroundColor": "transparent",
+          "isSimpleTextMode": true,
+          "originSlideIndex": 0
+        },
+        {
+          "id": 3,
+          "text": "<div>openstream.dk</div>",
+          "type": "textbox",
+          "gridX": 76,
+          "gridY": 161,
+          "border": false,
+          "zIndex": 3,
+          "fontSize": "23",
+          "isHidden": false,
+          "isLocked": false,
+          "fontStyle": "normal",
+          "gridWidth": 110,
+          "textAlign": "right",
+          "textColor": "#000000",
+          "fontFamily": "WorkSans",
+          "fontWeight": "300",
+          "gridHeight": 35,
+          "lineHeight": "1.2",
+          "letterSpacing": "normal",
+          "textDirection": "horizontal",
+          "verticalAlign": "flex-end",
+          "textDecoration": "none",
+          "backgroundColor": "transparent",
+          "isSimpleTextMode": true,
+          "originSlideIndex": 0
+        }
+      ],
+      "redoStack": [],
+      "undoStack": [
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 6,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "37",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 5,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "37",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 5,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "37",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.05",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 6,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "37",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.05",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 5,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "37",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.05",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 5,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "32",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.2",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 6,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "32",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.2",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 10,
+            "gridY": 5,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "35",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.2",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 15,
+            "gridY": 52,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "35",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.2",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "type": "video",
+            "gridX": 0,
+            "gridY": 0,
+            "muted": true,
+            "zIndex": 1,
+            "content": 14,
+            "isHidden": false,
+            "isLocked": false,
+            "gridWidth": 200,
+            "gridHeight": 200,
+            "objectPosition": "center center",
+            "backgroundColor": "transparent",
+            "originSlideIndex": 0
+          },
+          {
+            "id": 2,
+            "text": "<div>Velkommen</div>",
+            "type": "textbox",
+            "gridX": 14,
+            "gridY": 54,
+            "border": false,
+            "zIndex": 2,
+            "fontSize": "35",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 181,
+            "textAlign": "left",
+            "textColor": "#FFFFFF",
+            "fontFamily": "WorkSans",
+            "fontWeight": "800",
+            "gridHeight": 60,
+            "lineHeight": "1.3",
+            "letterSpacing": "0.2",
+            "textDirection": "horizontal",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          },
+          {
+            "id": 3,
+            "text": "<div>openstream.dk</div>",
+            "type": "textbox",
+            "gridX": 76,
+            "gridY": 161,
+            "border": false,
+            "zIndex": 3,
+            "fontSize": "23",
+            "isHidden": false,
+            "isLocked": false,
+            "fontStyle": "normal",
+            "gridWidth": 110,
+            "textAlign": "right",
+            "textColor": "#000000",
+            "fontFamily": "WorkSans",
+            "fontWeight": "300",
+            "gridHeight": 35,
+            "lineHeight": "1.2",
+            "letterSpacing": "normal",
+            "textDirection": "horizontal",
+            "verticalAlign": "flex-end",
+            "textDecoration": "none",
+            "backgroundColor": "transparent",
+            "isSimpleTextMode": true,
+            "originSlideIndex": 0
+          }
+        ]
+      ],
+      "activationDate": null,
+      "backgroundColor": "#ffffff",
+      "deactivationDate": null,
+      "activationEnabled": false
+    },
+    "category": null,
+    "aspect_ratio": "9:16",
+    "tags": []
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 1,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 1,
+    "name": "DDB Events API",
+    "description": null,
+    "created_at": "2025-09-10T12:15:32.307Z",
+    "updated_at": "2025-09-10T12:15:32.307Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 2,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 3,
+    "name": "Newsfeed with Image",
+    "description": null,
+    "created_at": "2025-09-10T12:15:35.352Z",
+    "updated_at": "2025-09-10T12:15:35.352Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 3,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 4,
+    "name": "Dreambroker",
+    "description": null,
+    "created_at": "2025-09-10T12:15:37.824Z",
+    "updated_at": "2025-09-10T12:15:37.824Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 4,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 5,
+    "name": "Newsticker",
+    "description": null,
+    "created_at": "2025-09-10T12:15:40.661Z",
+    "updated_at": "2025-09-10T12:15:40.661Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 5,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 6,
+    "name": "Speed Admin",
+    "description": null,
+    "created_at": "2025-09-10T12:15:44.323Z",
+    "updated_at": "2025-09-10T12:15:44.323Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 6,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 7,
+    "name": "Clock",
+    "description": null,
+    "created_at": "2025-09-10T12:15:48.454Z",
+    "updated_at": "2025-09-10T12:15:48.454Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 7,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 8,
+    "name": "DR Streams",
+    "description": null,
+    "created_at": "2025-09-10T12:15:51.133Z",
+    "updated_at": "2025-09-10T12:15:51.133Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 8,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 9,
+    "name": "KMD Foreningsportalen",
+    "description": null,
+    "created_at": "2025-09-10T12:15:58.557Z",
+    "updated_at": "2025-09-10T12:15:58.557Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 9,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 10,
+    "name": "Frontdesk LTK Borgerservice",
+    "description": null,
+    "created_at": "2025-09-10T12:16:06.262Z",
+    "updated_at": "2025-09-10T12:16:06.262Z"
+  }
+},
+{
+  "model": "app.registeredslidetypes",
+  "pk": 10,
+  "fields": {
+    "organisation": 1,
+    "slide_type_id": 11,
+    "name": "WinKAS",
+    "description": null,
+    "created_at": "2025-09-10T12:16:11.298Z",
+    "updated_at": "2025-09-10T12:16:11.298Z"
+  }
+}
+]
