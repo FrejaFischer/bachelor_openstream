@@ -48,6 +48,33 @@ class WSSlideshowBase(TransactionTestCase):
 
         return data["access"]
 
+    async def _get_authenticated_communicator(self):
+        """
+        Helper: Logs in the superadmin user and returns a connected WebsocketCommunicator.
+        """
+        # Login
+        token = await self._user_login()
+
+        # Setup communicator
+        self.communicator = WebsocketCommunicator(
+            application,
+            "/ws/slideshows/1/?branch=15",
+            headers=[(b"origin", b"http://localhost:5173")],
+        )
+
+        # Connect
+        connected, _ = await self.communicator.connect()
+        self.assertTrue(connected, "Connection did NOT equal to true as expected")
+
+        # Authenticate
+        await self.communicator.send_json_to({"type": "authenticate", "token": token})
+        response = await self.communicator.receive_json_from()
+        self.assertEqual(
+            response, {"type": "authenticated"}, "WS Authentication failed"
+        )
+
+        return self.communicator
+
     def tearDown(self):
         """
         Disconnect communicators and database after test has ended.
