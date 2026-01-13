@@ -74,7 +74,6 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         """
         Testing creating a WebSocket connection to the slideshows WS endpoint
         """
-        print("### Connection to WS slideshow test begins")
         communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
@@ -82,9 +81,8 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         )
         connected, _ = await communicator.connect()
 
-        self.assertTrue(connected)
+        self.assertTrue(connected, "Connection did NOT equal to true as expected")
         await communicator.disconnect()
-        print("### Connection to WS slideshow successful")
 
     async def test_send_token(self):
         """
@@ -92,7 +90,6 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
 
         The token is received by making an HTTP POST request to login an user.
         """
-        print("### Send token test begins")
         token = await self._user_login()
 
         self.communicator = WebsocketCommunicator(
