@@ -86,7 +86,7 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
 
     async def test_send_token(self):
         """
-        Testing getting authenticated in the WS connection, by creating a WS connection and sending a valid token.
+        Testing getting authenticated in the WS connection, by sending a valid token.
 
         The token is received by making an HTTP POST request to login an user.
         """
@@ -137,7 +137,7 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
 
     async def test_missing_token(self):
         """
-        Testing getting authenticated in the WS connection, but token is missing (not send).
+        Testing token is missing when getting authenticated in the WS connection (token not send).
         """
         token = ""
 
@@ -150,6 +150,7 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         assert connected
 
         await self.communicator.send_json_to({"type": "authenticate", "token": token})
+
         response = await self.communicator.receive_json_from()
 
         # Test if authentication is failing (as expected)
