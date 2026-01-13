@@ -131,7 +131,28 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         response = await self.communicator.receive_json_from()
 
         # Test if user has been authenticated
-        self.assertEqual(response, {"type": "authenticated"}, "Authentication failed - Missing autheticated type in response")
+        self.assertEqual(
+            response, {"type": "authenticated"}, "WS Authentication failed"
+        )
+
+        await self.communicator.disconnect()
+
+    async def test_receive_slideshow_data(self):
+        """
+        Testing receiving slideshow data after connection and authentication.
+        """
+        self.communicator = await self._get_authenticated_communicator()
+
+        response = await self.communicator.receive_json_from()
+
+        self.assertIn(
+            "data", response, "Response JSON did not contain 'data' key as expected"
+        )
+        self.assertIn(
+            "slideshow_data",
+            response["data"],
+            "Data object in response did not contain 'slideshow_data' key as expected",
+        )
 
         await self.communicator.disconnect()
 
