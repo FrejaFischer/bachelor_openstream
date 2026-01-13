@@ -21,7 +21,7 @@ class WSSlideshowBase(TransactionTestCase):
 
     async def _user_login(self):
         """
-        Sends HTTP request to login an user (superadmin).
+        Helper: Sends HTTP request to login an user (superadmin).
 
         :return: user token (JSON WebToken)
         """
@@ -156,6 +156,7 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
 
         await self.communicator.disconnect()
 
+
 class WSSlideshowNegativeTests(WSSlideshowBase):
     """
     Test class for negative tests for WebSocket Slideshow
@@ -173,12 +174,18 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         connected, _ = await self.communicator.connect()
         assert connected
 
-        await self.communicator.send_json_to({"type": "message", "data": "Wrong first message"})
+        await self.communicator.send_json_to(
+            {"type": "message", "data": "Wrong first message"}
+        )
         response = await self.communicator.receive_json_from()
 
         # Test if authentication is failing (as expected)
-        self.assertIn("error", response, "Response JSON did not contain 'error' key as expected")
-        self.assertIn("code", response, "Response JSON did not contain 'code' key as expected")
+        self.assertIn(
+            "error", response, "Response JSON did not contain 'error' key as expected"
+        )
+        self.assertIn(
+            "code", response, "Response JSON did not contain 'code' key as expected"
+        )
         self.assertEqual(response["code"], 4002, f"WS response code don't match")
 
         await self.communicator.disconnect()
@@ -202,8 +209,12 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         response = await self.communicator.receive_json_from()
 
         # Test if authentication is failing (as expected)
-        self.assertIn("error", response, "Response JSON did not contain 'error' key as expected")
-        self.assertIn("code", response, "Response JSON did not contain 'code' key as expected")
+        self.assertIn(
+            "error", response, "Response JSON did not contain 'error' key as expected"
+        )
+        self.assertIn(
+            "code", response, "Response JSON did not contain 'code' key as expected"
+        )
         self.assertEqual(response["code"], 4004, f"WS response code don't match")
 
         await self.communicator.disconnect()
@@ -222,13 +233,19 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         connected, _ = await self.communicator.connect()
         assert connected
 
-        await self.communicator.send_json_to({"type": "authenticate", "token": invalid_token})
+        await self.communicator.send_json_to(
+            {"type": "authenticate", "token": invalid_token}
+        )
 
         response = await self.communicator.receive_json_from()
 
         # Test if authentication is failing (as expected)
-        self.assertIn("error", response, "Response JSON did not contain 'error' key as expected")
-        self.assertIn("code", response, "Response JSON did not contain 'code' key as expected")
+        self.assertIn(
+            "error", response, "Response JSON did not contain 'error' key as expected"
+        )
+        self.assertIn(
+            "code", response, "Response JSON did not contain 'code' key as expected"
+        )
         self.assertEqual(response["code"], 4001, f"WS response code don't match")
 
         await self.communicator.disconnect()
