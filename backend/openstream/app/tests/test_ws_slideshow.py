@@ -79,7 +79,6 @@ class WSSlideshowBase(TransactionTestCase):
         """
         Disconnect communicators and database after test has ended.
         """
-        print("Running tearDown")
         if hasattr(self, "communicator"):
             async_to_sync(self.communicator.disconnect)()
 
@@ -87,7 +86,6 @@ class WSSlideshowBase(TransactionTestCase):
         super().tearDown()
 
     def close_db_connections(self):
-        print("Closing DB connections")
         for conn in connections.all():
             conn.close()
 
