@@ -8,10 +8,14 @@ from django.test import override_settings, TransactionTestCase
 from channels.testing import WebsocketCommunicator, HttpCommunicator
 
 
+@override_settings(
+    CHANNEL_LAYERS={"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+)
 class WSSlideshowBase(TransactionTestCase):
     """
     Base class for WebSocket Slideshow test classes
     """
+
     # Insert test data into test database
     fixtures = ["/app/fixtures/app/data_ws_test.json"]
 
@@ -61,9 +65,6 @@ class WSSlideshowBase(TransactionTestCase):
             conn.close()
 
 
-@override_settings(
-    CHANNEL_LAYERS={"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
-)
 class WSSlideshowPositiveTests(WSSlideshowBase):
     """
     Test class containing positive tests for WebSocket Slideshow
