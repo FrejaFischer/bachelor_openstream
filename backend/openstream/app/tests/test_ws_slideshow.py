@@ -158,3 +158,28 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         self.assertEqual(response["code"], 4004, f"WS response code don't match")
 
         await self.communicator.disconnect()
+
+    async def test_invalid_token(self):
+        """
+        Testing token being invalid when getting authenticated in the WS connection
+        """
+        invalid_token = "notavalidtoken"
+
+        self.communicator = WebsocketCommunicator(
+            application,
+            "/ws/slideshows/1/?branch=15",
+            headers=[(b"origin", b"http://localhost:5173")],
+        )
+        connected, _ = await self.communicator.connect()
+        assert connected
+
+        await self.communicator.send_json_to({"type": "authenticate", "token": invalid_token})
+
+        response = await self.communicator.receive_json_from()
+
+        # Test if authentication is failing (as expected)
+        self.assertIn("error", response, "Response JSON did not contain 'error' key as expected")
+        self.assertIn("code", response, "Response JSON did not contain 'code' key as expected")
+        self.assertEqual(response["code"], 4001, f"WS response code don't match")
+
+        await self.communicator.disconnect()
