@@ -90,12 +90,19 @@ class WSSlideshowBase(TransactionTestCase):
         
         while (asyncio.get_event_loop().time() - start_time) < timeout:
             try:
-                message = await communicator.receive_json_from(timeout=1)
-                if message.get(expected_key) == expected_value:
-                    return message
-            except asyncio.TimeoutError:
-                continue
+                event = await communicator.receive_output(timeout=1)
+            
+                # Check if connection is not closed before checking for receiving messages
+                if event["type"] == "websocket.close":
+                    self.fail(f"WebSocket closed unexpectedly with code {event.get('code')} "
+                            f"while waiting for {expected_key}={expected_value}")
                 
+                if event["type"] == "websocket.send":
+                    message = json.loads(event["text"])
+                    if message.get(expected_key) == expected_value:
+                        return message
+            except asyncio.TimeoutError:      
+                continue
         self.fail(f"Timed out waiting for message {expected_key}={expected_value}")
 
 
