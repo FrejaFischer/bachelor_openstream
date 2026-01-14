@@ -135,25 +135,25 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         """
         token = await self._user_login()
 
-        self.communicator = WebsocketCommunicator(
+        communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
-        connected, _ = await self.communicator.connect()
+        connected, _ = await communicator.connect()
 
         try:
             assert connected
 
-            await self.communicator.send_json_to({"type": "authenticate", "token": token})
-            response = await self.communicator.receive_json_from(timeout=10)
+            await communicator.send_json_to({"type": "authenticate", "token": token})
+            response = await communicator.receive_json_from(timeout=10)
 
             # Test if user has been authenticated
             self.assertEqual(
                 response, {"type": "authenticated"}, "WS Authentication failed"
             )
         finally:
-            await self.communicator.disconnect()
+            await communicator.disconnect()
 
     async def test_receive_slideshow_data(self):
         """
