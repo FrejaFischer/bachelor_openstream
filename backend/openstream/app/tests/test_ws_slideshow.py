@@ -103,15 +103,17 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         """
         Testing creating a WebSocket connection to the slideshows WS endpoint
         """
-        communicator = WebsocketCommunicator(
+        self.communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
-        connected, _ = await communicator.connect()
+        connected, _ = await self.communicator.connect()
 
-        self.assertTrue(connected, "Connection did NOT equal to true as expected")
-        await communicator.disconnect()
+        try:
+            self.assertTrue(connected, "Connection did NOT equal to true as expected")
+        finally:
+            await self.communicator.disconnect()
 
     async def test_send_token(self):
         """
@@ -127,36 +129,39 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
             headers=[(b"origin", b"http://localhost:5173")],
         )
         connected, _ = await self.communicator.connect()
-        assert connected
 
-        await self.communicator.send_json_to({"type": "authenticate", "token": token})
-        response = await self.communicator.receive_json_from()
+        try:
+            assert connected
 
-        # Test if user has been authenticated
-        self.assertEqual(
-            response, {"type": "authenticated"}, "WS Authentication failed"
-        )
+            await self.communicator.send_json_to({"type": "authenticate", "token": token})
+            response = await self.communicator.receive_json_from(timeout=10)
 
-        await self.communicator.disconnect()
+            # Test if user has been authenticated
+            self.assertEqual(
+                response, {"type": "authenticated"}, "WS Authentication failed"
+            )
+        finally:
+            await self.communicator.disconnect()
 
     async def test_receive_slideshow_data(self):
         """
         Testing receiving slideshow data after connection and authentication.
         """
-        self.communicator = await self._get_authenticated_communicator()
+        communicator = await self._get_authenticated_communicator()
 
-        response = await self.communicator.receive_json_from()
+        try:
+            response = await communicator.receive_json_from(timeout=10)
 
-        self.assertIn(
-            "data", response, "Response JSON did not contain 'data' key as expected"
-        )
-        self.assertIn(
-            "slideshow_data",
-            response["data"],
-            "Data object in response did not contain 'slideshow_data' key as expected",
-        )
-
-        await self.communicator.disconnect()
+            self.assertIn(
+                "data", response, "Response JSON did not contain 'data' key as expected"
+            )
+            self.assertIn(
+                "slideshow_data",
+                response["data"],
+                "Data object in response did not contain 'slideshow_data' key as expected",
+            )
+        finally:
+            await communicator.disconnect()
 
 
 class WSSlideshowNegativeTests(WSSlideshowBase):
@@ -174,23 +179,25 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
             headers=[(b"origin", b"http://localhost:5173")],
         )
         connected, _ = await self.communicator.connect()
-        assert connected
 
-        await self.communicator.send_json_to(
-            {"type": "message", "data": "Wrong first message"}
-        )
-        response = await self.communicator.receive_json_from()
+        try:
+            assert connected
 
-        # Test if authentication is failing (as expected)
-        self.assertIn(
-            "error", response, "Response JSON did not contain 'error' key as expected"
-        )
-        self.assertIn(
-            "code", response, "Response JSON did not contain 'code' key as expected"
-        )
-        self.assertEqual(response["code"], 4002, f"WS response code don't match")
+            await self.communicator.send_json_to(
+                {"type": "message", "data": "Wrong first message"}
+            )
+            response = await self.communicator.receive_json_from(timeout=10)
 
-        await self.communicator.disconnect()
+            # Test if authentication is failing (as expected)
+            self.assertIn(
+                "error", response, "Response JSON did not contain 'error' key as expected"
+            )
+            self.assertIn(
+                "code", response, "Response JSON did not contain 'code' key as expected"
+            )
+            self.assertEqual(response["code"], 4002, f"WS response code don't match")
+        finally:
+            await self.communicator.disconnect()
 
     async def test_missing_token(self):
         """
@@ -204,22 +211,24 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
             headers=[(b"origin", b"http://localhost:5173")],
         )
         connected, _ = await self.communicator.connect()
-        assert connected
 
-        await self.communicator.send_json_to({"type": "authenticate", "token": token})
+        try:
+            assert connected
 
-        response = await self.communicator.receive_json_from()
+            await self.communicator.send_json_to({"type": "authenticate", "token": token})
 
-        # Test if authentication is failing (as expected)
-        self.assertIn(
-            "error", response, "Response JSON did not contain 'error' key as expected"
-        )
-        self.assertIn(
-            "code", response, "Response JSON did not contain 'code' key as expected"
-        )
-        self.assertEqual(response["code"], 4004, f"WS response code don't match")
+            response = await self.communicator.receive_json_from(timeout=10)
 
-        await self.communicator.disconnect()
+            # Test if authentication is failing (as expected)
+            self.assertIn(
+                "error", response, "Response JSON did not contain 'error' key as expected"
+            )
+            self.assertIn(
+                "code", response, "Response JSON did not contain 'code' key as expected"
+            )
+            self.assertEqual(response["code"], 4004, f"WS response code don't match")
+        finally:
+            await self.communicator.disconnect()
 
     async def test_invalid_token(self):
         """
@@ -233,24 +242,26 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
             headers=[(b"origin", b"http://localhost:5173")],
         )
         connected, _ = await self.communicator.connect()
-        assert connected
 
-        await self.communicator.send_json_to(
-            {"type": "authenticate", "token": invalid_token}
-        )
+        try:
+            assert connected
 
-        response = await self.communicator.receive_json_from()
+            await self.communicator.send_json_to(
+                {"type": "authenticate", "token": invalid_token}
+            )
 
-        # Test if authentication is failing (as expected)
-        self.assertIn(
-            "error", response, "Response JSON did not contain 'error' key as expected"
-        )
-        self.assertIn(
-            "code", response, "Response JSON did not contain 'code' key as expected"
-        )
-        self.assertEqual(response["code"], 4001, f"WS response code don't match")
+            response = await self.communicator.receive_json_from(timeout=10)
 
-        await self.communicator.disconnect()
+            # Test if authentication is failing (as expected)
+            self.assertIn(
+                "error", response, "Response JSON did not contain 'error' key as expected"
+            )
+            self.assertIn(
+                "code", response, "Response JSON did not contain 'code' key as expected"
+            )
+            self.assertEqual(response["code"], 4001, f"WS response code don't match")
+        finally:
+            await self.communicator.disconnect()
 
     async def test_auth_timeout(self):
         """
@@ -263,17 +274,19 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
             headers=[(b"origin", b"http://localhost:5173")],
         )
         connected, _ = await self.communicator.connect()
-        assert connected
 
-        # Expect error response after WS consumers 5 second timeout
-        response = await self.communicator.receive_json_from(timeout=6)
+        try:
+            assert connected
 
-        self.assertEqual(response["error"], "Missing authentication")
-        self.assertEqual(response["code"], 4001)
+            # Expect error response after WS consumers 5 second timeout
+            response = await self.communicator.receive_json_from(timeout=6)
 
-        # Expect the next output to be the consumer closing the connection
-        final_output = await self.communicator.receive_output()
-        self.assertEqual(final_output["type"], "websocket.close")
-        self.assertEqual(final_output["code"], 4001)
+            self.assertEqual(response["error"], "Missing authentication")
+            self.assertEqual(response["code"], 4001)
 
-        await self.communicator.disconnect()
+            # Expect the next output to be the consumer closing the connection
+            final_output = await self.communicator.receive_output()
+            self.assertEqual(final_output["type"], "websocket.close")
+            self.assertEqual(final_output["code"], 4001)
+        finally:
+            await self.communicator.disconnect()
