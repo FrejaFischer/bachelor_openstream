@@ -24,10 +24,6 @@ from app.permissions import get_branch_for_user
 
 User = get_user_model()
 
-# Create Redis client, with string response
-REDIS_URL = os.environ.get("REDIS_URL", "redis://redis:6379/0")
-redis_client = aioredis.from_url(REDIS_URL, decode_responses=True)
-
 ###############################################################################
 # Base Authentication Consumer
 ###############################################################################
@@ -129,15 +125,18 @@ class SlideshowConsumer(AuthenticatedConsumer):
             if (
                 getattr(self, "user", None)
                 and getattr(self.user, "is_authenticated", False)
-                and hasattr(self, "slideshow_id")
+                and getattr(self, "slideshow_id", None)
+                and getattr(self, "redis_client", None)
             ):
                 key = f"slideshow:{self.slideshow_id}:users"  # Create key string for slideshow
-                await redis_client.srem(
-                    key, str(getattr(self.user, "id", self.channel_name))
-                )
+                await self.redis_client.srem(key, str(self.user.id))
                 await self.broadcast_presence("disconnect")
         except Exception as e:
             print("Redis error - SREM failed:", e)
+
+        # Close the Redis connection pool
+        if hasattr(self, "redis_client") and self.redis_client:
+            await self.redis_client.close()
 
     async def receive(self, text_data):
         # Messages received when user is not authenticated
@@ -188,26 +187,8 @@ class SlideshowConsumer(AuthenticatedConsumer):
                     self.slideshow_group_name, self.channel_name
                 )
 
-                # Add authenticated user to Redis set that tracks active users in this slideshow
-                try:
-                    if getattr(self, "user", None) and getattr(
-                        self.user, "is_authenticated", False
-                    ):
-                        key = f"slideshow:{self.slideshow_id}:users"  # Create key string for slideshow
-                        await redis_client.sadd(
-                            key, str(getattr(self.user, "id", self.channel_name))
-                        )
-                        await self.broadcast_presence("connect")
-                except Exception as e:
-                    print("Redis SADD error:", e)
-                    await self.send(
-                        json.dumps(
-                            {
-                                "error": "User could not be added to list of active users",
-                                "code": 4007,
-                            }
-                        )
-                    )  # 4007 = Redis error
+                # Setup Redis for tracking of active users
+                await self.setup_redis()
 
             except json.JSONDecodeError:
                 await self.send(json.dumps({"error": "Invalid JSON", "code": 4005}))
@@ -297,7 +278,7 @@ class SlideshowConsumer(AuthenticatedConsumer):
         key = f"slideshow:{self.slideshow_id}:users"  # Create key string for current slideshow
         try:
             # Find and print members of set
-            member_ids = await redis_client.smembers(key)
+            member_ids = await self.redis_client.smembers(key)
             print(
                 f"Slideshow {self.slideshow_id} connected users after {action}: {sorted(member_ids)}"
             )
@@ -320,6 +301,31 @@ class SlideshowConsumer(AuthenticatedConsumer):
             await self.send(
                 json.dumps(
                     {"error": "Could not broadcast list of active users", "code": 4007}
+                )
+            )  # 4007 = Redis error
+
+    async def setup_redis(self):
+        """
+        Add authenticated user to Redis set that tracks active users in this slideshow
+        """
+        try:
+            # Create Redis client, with string response
+            REDIS_URL = os.environ.get("REDIS_URL", "redis://redis:6379/0")
+            self.redis_client = aioredis.from_url(REDIS_URL, decode_responses=True)
+
+            if self.user.is_authenticated:
+                key = f"slideshow:{self.slideshow_id}:users"
+                await self.redis_client.sadd(key, str(self.user.id))
+
+                await self.broadcast_presence("connect")
+        except Exception as e:
+            print(f"Redis Setup Error: {e}")
+            await self.send(
+                json.dumps(
+                    {
+                        "error": "User could not be added to list of active users",
+                        "code": 4007,
+                    }
                 )
             )  # 4007 = Redis error
 
