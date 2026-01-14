@@ -248,14 +248,18 @@ class SlideshowConsumer(AuthenticatedConsumer):
                 {"type": "receive.slideshow.update", "data": self.slideshow},
             )
 
-    # Receive updated slideshow data from group in channel layer
     async def receive_slideshow_update(self, event):
+        """
+        Receive updated slideshow data from group in channel layer
+        """
         data = event["data"]
         # Send updated slideshow data to user
         await self.send(json.dumps({"data": data}))
 
-    # Receive updates on active users from group in channel layer
     async def receive_slideshow_presence(self, event):
+        """
+        Receive updates on active users from group in channel layer
+        """
         users = event.get("users", [])
         await self.send(json.dumps({"presence": users}))
 
