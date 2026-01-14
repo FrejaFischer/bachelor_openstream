@@ -1,10 +1,13 @@
 import json
+import asyncio
 from asgiref.sync import async_to_sync
 from project.asgi import application
+from app.models import Slideshow
 
 from django.test import override_settings, TransactionTestCase
 
 from channels.testing import WebsocketCommunicator, HttpCommunicator
+from channels.db import database_sync_to_async
 
 
 @override_settings(
@@ -77,6 +80,23 @@ class WSSlideshowBase(TransactionTestCase):
             # Close connection if authentication or assertions fails
             await communicator.disconnect()
             raise  # Re-raise the error so the test using this method shows as "Failed"
+    
+    async def _assert_message_received(self, communicator, expected_key, expected_value, timeout=5):
+        """
+        Continually receives messages until a specific key/value pair is found.
+        Fails if the timeout is reached first.
+        """
+        start_time = asyncio.get_event_loop().time()
+        
+        while (asyncio.get_event_loop().time() - start_time) < timeout:
+            try:
+                message = await communicator.receive_json_from(timeout=1)
+                if message.get(expected_key) == expected_value:
+                    return message
+            except asyncio.TimeoutError:
+                continue
+                
+        self.fail(f"Timed out waiting for message {expected_key}={expected_value}")
 
 
 class WSSlideshowPositiveTests(WSSlideshowBase):
@@ -148,6 +168,29 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         finally:
             await communicator.disconnect()
 
+    async def test_send_slideshow_update(self):
+        """
+        Testing sending updated slideshow data
+        """
+        data = {
+            "type": "update",
+            "data": {"slideshow_data": {"slides": [{"name": "New slide name"}]}}
+        }
+
+        communicator = await self._get_authenticated_communicator()
+
+        try:
+            # Send the update
+            await communicator.send_json_to(data)
+
+            await self._assert_message_received(communicator, "message", "Slideshow updated")
+
+            # Check if data has actually been changed in the db
+            updated_slideshow = await database_sync_to_async(Slideshow.objects.get)(id=1)
+            self.assertEqual(updated_slideshow.slideshow_data["slides"][0]["name"], "New slide name")
+
+        finally:
+            await communicator.disconnect()
 
 class WSSlideshowNegativeTests(WSSlideshowBase):
     """
