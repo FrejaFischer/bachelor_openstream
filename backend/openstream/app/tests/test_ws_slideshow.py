@@ -1,6 +1,6 @@
 import json
 import asyncio
-from asgiref.sync import async_to_sync
+
 from project.asgi import application
 from app.models import Slideshow
 
