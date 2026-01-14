@@ -35,10 +35,10 @@ class WSSlideshowBase(TransactionTestCase):
             (b"origin", b"http://localhost:5173"),
         ]
 
-        self.communicator = HttpCommunicator(
+        http_comm = HttpCommunicator(
             application, "POST", "/api/token/", body=body, headers=headers
         )
-        response = await self.communicator.get_response()
+        response = await http_comm.get_response()
 
         # Test response from HTTP POST
         self.assertIn("body", response, "Response JSON did not contain 'body' key")
@@ -50,44 +50,48 @@ class WSSlideshowBase(TransactionTestCase):
 
     async def _get_authenticated_communicator(self):
         """
-        Helper: Logs in the superadmin user and returns a connected WebsocketCommunicator.
+        Helper: Logs in the superadmin user and returns a connected, authenticated WebsocketCommunicator.
         """
         # Login
         token = await self._user_login()
 
         # Setup communicator
-        self.communicator = WebsocketCommunicator(
+        communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
+        connected, _ = await communicator.connect()
 
-        # Connect
-        connected, _ = await self.communicator.connect()
-        self.assertTrue(connected, "Connection did NOT equal to true as expected")
+        try:
+            self.assertTrue(connected, "Connection did NOT equal to true as expected")
 
-        # Authenticate
-        await self.communicator.send_json_to({"type": "authenticate", "token": token})
-        response = await self.communicator.receive_json_from()
-        self.assertEqual(
-            response, {"type": "authenticated"}, "WS Authentication failed"
-        )
+            # Authenticate
+            await communicator.send_json_to({"type": "authenticate", "token": token})
+            response = await communicator.receive_json_from(timeout=10)
+            self.assertEqual(
+                response, {"type": "authenticated"}, "WS Authentication failed"
+            )
 
-        return self.communicator
+            return communicator
+        except Exception:
+            # Close connection if authentication or assertions fails
+            await communicator.disconnect()
+            raise  # Re-raise the error so the test using this method shows as "Failed"
 
-    def tearDown(self):
-        """
-        Disconnect communicators and database after test has ended.
-        """
-        if hasattr(self, "communicator"):
-            async_to_sync(self.communicator.disconnect)()
+    # def tearDown(self):
+    #     """
+    #     Disconnect communicators and database after test has ended.
+    #     """
+    #     if hasattr(self, "communicator"):
+    #         async_to_sync(self.communicator.disconnect)()
 
-        self.close_db_connections()
-        super().tearDown()
+    #     self.close_db_connections()
+    #     super().tearDown()
 
-    def close_db_connections(self):
-        for conn in connections.all():
-            conn.close()
+    # def close_db_connections(self):
+    #     for conn in connections.all():
+    #         conn.close()
 
 
 class WSSlideshowPositiveTests(WSSlideshowBase):
