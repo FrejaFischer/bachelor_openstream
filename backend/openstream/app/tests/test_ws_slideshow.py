@@ -208,31 +208,31 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         """
         Testing what happens if the first messages send through the socket is not for authentication
         """
-        self.communicator = WebsocketCommunicator(
+        communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
-        connected, _ = await self.communicator.connect()
+        connected, _ = await communicator.connect()
 
         try:
             assert connected
 
-            await self.communicator.send_json_to(
+            await communicator.send_json_to(
                 {"type": "message", "data": "Wrong first message"}
             )
-            response = await self.communicator.receive_json_from(timeout=10)
+            # Check for expected error message
+            response = await self._assert_message_received(communicator, "error", "Missing authentication")
 
-            # Test if authentication is failing (as expected)
-            self.assertIn(
-                "error", response, "Response JSON did not contain 'error' key as expected"
-            )
-            self.assertIn(
-                "code", response, "Response JSON did not contain 'code' key as expected"
-            )
-            self.assertEqual(response["code"], 4002, f"WS response code don't match")
+            # Check for expected closing code in message
+            self.assertEqual(response.get("code"), 4002, "Closing code is not as expected")
+
+            # Check if connection closed after that message
+            final_event = await communicator.receive_output()
+            self.assertEqual(final_event["type"], "websocket.close", "WebSocket connection did not close as expected")
+            self.assertEqual(final_event["code"], 4002, "Closing code is not as expected")
         finally:
-            await self.communicator.disconnect()
+            await communicator.disconnect()
 
     async def test_missing_token(self):
         """
@@ -240,30 +240,30 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         """
         token = ""
 
-        self.communicator = WebsocketCommunicator(
+        communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
-        connected, _ = await self.communicator.connect()
+        connected, _ = await communicator.connect()
 
         try:
             assert connected
 
-            await self.communicator.send_json_to({"type": "authenticate", "token": token})
+            await communicator.send_json_to({"type": "authenticate", "token": token})
 
-            response = await self.communicator.receive_json_from(timeout=10)
+            # Check for expected error message
+            response = await self._assert_message_received(communicator, "error", "Missing authentication")
 
-            # Test if authentication is failing (as expected)
-            self.assertIn(
-                "error", response, "Response JSON did not contain 'error' key as expected"
-            )
-            self.assertIn(
-                "code", response, "Response JSON did not contain 'code' key as expected"
-            )
-            self.assertEqual(response["code"], 4004, f"WS response code don't match")
+            # Check for expected closing code in message
+            self.assertEqual(response.get("code"), 4004, "Closing code is not as expected")
+
+            # Check if connection closed after that message
+            final_event = await communicator.receive_output()
+            self.assertEqual(final_event["type"], "websocket.close", "WebSocket connection did not close as expected")
+            self.assertEqual(final_event["code"], 4004, "Closing code is not as expected")
         finally:
-            await self.communicator.disconnect()
+            await communicator.disconnect()
 
     async def test_invalid_token(self):
         """
@@ -271,32 +271,32 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         """
         invalid_token = "notavalidtoken"
 
-        self.communicator = WebsocketCommunicator(
+        communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
-        connected, _ = await self.communicator.connect()
+        connected, _ = await communicator.connect()
 
         try:
             assert connected
 
-            await self.communicator.send_json_to(
+            await communicator.send_json_to(
                 {"type": "authenticate", "token": invalid_token}
             )
 
-            response = await self.communicator.receive_json_from(timeout=10)
+            # Check for expected error message
+            response = await self._assert_message_received(communicator, "error", "Missing authentication")
 
-            # Test if authentication is failing (as expected)
-            self.assertIn(
-                "error", response, "Response JSON did not contain 'error' key as expected"
-            )
-            self.assertIn(
-                "code", response, "Response JSON did not contain 'code' key as expected"
-            )
-            self.assertEqual(response["code"], 4001, f"WS response code don't match")
+            # Check for expected closing code in message
+            self.assertEqual(response.get("code"), 4001, "Closing code is not as expected")
+
+            # Check if connection closed after that message
+            final_event = await communicator.receive_output()
+            self.assertEqual(final_event["type"], "websocket.close", "WebSocket connection did not close as expected")
+            self.assertEqual(final_event["code"], 4001, "Closing code is not as expected")
         finally:
-            await self.communicator.disconnect()
+            await communicator.disconnect()
 
     async def test_auth_timeout(self):
         """
