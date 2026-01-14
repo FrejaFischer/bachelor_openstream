@@ -115,17 +115,17 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         """
         Testing creating a WebSocket connection to the slideshows WS endpoint
         """
-        self.communicator = WebsocketCommunicator(
+        communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
-        connected, _ = await self.communicator.connect()
+        connected, _ = await communicator.connect()
 
         try:
-            self.assertTrue(connected, "Connection did NOT equal to true as expected")
+            self.assertTrue(connected, "Connection did connect as expected")
         finally:
-            await self.communicator.disconnect()
+            await communicator.disconnect()
 
     async def test_send_token(self):
         """
