@@ -2,7 +2,6 @@ import json
 from asgiref.sync import async_to_sync
 from project.asgi import application
 
-from django.db import connections
 from django.test import override_settings, TransactionTestCase
 
 from channels.testing import WebsocketCommunicator, HttpCommunicator
@@ -78,20 +77,6 @@ class WSSlideshowBase(TransactionTestCase):
             # Close connection if authentication or assertions fails
             await communicator.disconnect()
             raise  # Re-raise the error so the test using this method shows as "Failed"
-
-    # def tearDown(self):
-    #     """
-    #     Disconnect communicators and database after test has ended.
-    #     """
-    #     if hasattr(self, "communicator"):
-    #         async_to_sync(self.communicator.disconnect)()
-
-    #     self.close_db_connections()
-    #     super().tearDown()
-
-    # def close_db_connections(self):
-    #     for conn in connections.all():
-    #         conn.close()
 
 
 class WSSlideshowPositiveTests(WSSlideshowBase):
