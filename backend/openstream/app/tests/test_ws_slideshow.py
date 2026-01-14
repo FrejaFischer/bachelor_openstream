@@ -80,28 +80,32 @@ class WSSlideshowBase(TransactionTestCase):
             # Close connection if authentication or assertions fails
             await communicator.disconnect()
             raise  # Re-raise the error so the test using this method shows as "Failed"
-    
-    async def _assert_message_received(self, communicator, expected_key, expected_value, timeout=5):
+
+    async def _assert_message_received(
+        self, communicator, expected_key, expected_value, timeout=5
+    ):
         """
         Continually receives messages until a specific key/value pair is found.
         Fails if the timeout is reached first.
         """
         start_time = asyncio.get_event_loop().time()
-        
+
         while (asyncio.get_event_loop().time() - start_time) < timeout:
             try:
                 event = await communicator.receive_output(timeout=1)
-            
+
                 # Check if connection is not closed before checking for receiving messages
                 if event["type"] == "websocket.close":
-                    self.fail(f"WebSocket closed unexpectedly with code {event.get('code')} "
-                            f"while waiting for {expected_key}={expected_value}")
-                
+                    self.fail(
+                        f"WebSocket closed unexpectedly with code {event.get('code')} "
+                        f"while waiting for {expected_key}={expected_value}"
+                    )
+
                 if event["type"] == "websocket.send":
                     message = json.loads(event["text"])
                     if message.get(expected_key) == expected_value:
                         return message
-            except asyncio.TimeoutError:      
+            except asyncio.TimeoutError:
                 continue
         self.fail(f"Timed out waiting for message {expected_key}={expected_value}")
 
@@ -181,7 +185,7 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
         """
         data = {
             "type": "update",
-            "data": {"slideshow_data": {"slides": [{"name": "New slide name"}]}}
+            "data": {"slideshow_data": {"slides": [{"name": "New slide name"}]}},
         }
 
         communicator = await self._get_authenticated_communicator()
@@ -190,14 +194,23 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
             # Send the update
             await communicator.send_json_to(data)
 
-            await self._assert_message_received(communicator, "message", "Slideshow updated")
+            await self._assert_message_received(
+                communicator, "message", "Slideshow updated"
+            )
 
             # Check if data has actually been changed in the db
-            updated_slideshow = await database_sync_to_async(Slideshow.objects.get)(id=1)
-            self.assertEqual(updated_slideshow.slideshow_data["slides"][0]["name"], "New slide name", "Updated data was not found")
+            updated_slideshow = await database_sync_to_async(Slideshow.objects.get)(
+                id=1
+            )
+            self.assertEqual(
+                updated_slideshow.slideshow_data["slides"][0]["name"],
+                "New slide name",
+                "Updated data was not found",
+            )
 
         finally:
             await communicator.disconnect()
+
 
 class WSSlideshowNegativeTests(WSSlideshowBase):
     """
@@ -222,15 +235,25 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
                 {"type": "message", "data": "Wrong first message"}
             )
             # Check for expected error message
-            response = await self._assert_message_received(communicator, "error", "Missing authentication")
+            response = await self._assert_message_received(
+                communicator, "error", "Missing authentication"
+            )
 
             # Check for expected closing code in message
-            self.assertEqual(response.get("code"), 4002, "Closing code is not as expected")
+            self.assertEqual(
+                response.get("code"), 4002, "Closing code is not as expected"
+            )
 
             # Check if connection closed after that message
             final_event = await communicator.receive_output()
-            self.assertEqual(final_event["type"], "websocket.close", "WebSocket connection did not close as expected")
-            self.assertEqual(final_event["code"], 4002, "Closing code is not as expected")
+            self.assertEqual(
+                final_event["type"],
+                "websocket.close",
+                "WebSocket connection did not close as expected",
+            )
+            self.assertEqual(
+                final_event["code"], 4002, "Closing code is not as expected"
+            )
         finally:
             await communicator.disconnect()
 
@@ -253,15 +276,25 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
             await communicator.send_json_to({"type": "authenticate", "token": token})
 
             # Check for expected error message
-            response = await self._assert_message_received(communicator, "error", "Missing authentication")
+            response = await self._assert_message_received(
+                communicator, "error", "Missing authentication"
+            )
 
             # Check for expected closing code in message
-            self.assertEqual(response.get("code"), 4004, "Closing code is not as expected")
+            self.assertEqual(
+                response.get("code"), 4004, "Closing code is not as expected"
+            )
 
             # Check if connection closed after that message
             final_event = await communicator.receive_output()
-            self.assertEqual(final_event["type"], "websocket.close", "WebSocket connection did not close as expected")
-            self.assertEqual(final_event["code"], 4004, "Closing code is not as expected")
+            self.assertEqual(
+                final_event["type"],
+                "websocket.close",
+                "WebSocket connection did not close as expected",
+            )
+            self.assertEqual(
+                final_event["code"], 4004, "Closing code is not as expected"
+            )
         finally:
             await communicator.disconnect()
 
@@ -286,15 +319,25 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
             )
 
             # Check for expected error message
-            response = await self._assert_message_received(communicator, "error", "Missing authentication")
+            response = await self._assert_message_received(
+                communicator, "error", "Missing authentication"
+            )
 
             # Check for expected closing code in message
-            self.assertEqual(response.get("code"), 4001, "Closing code is not as expected")
+            self.assertEqual(
+                response.get("code"), 4001, "Closing code is not as expected"
+            )
 
             # Check if connection closed after that message
             final_event = await communicator.receive_output()
-            self.assertEqual(final_event["type"], "websocket.close", "WebSocket connection did not close as expected")
-            self.assertEqual(final_event["code"], 4001, "Closing code is not as expected")
+            self.assertEqual(
+                final_event["type"],
+                "websocket.close",
+                "WebSocket connection did not close as expected",
+            )
+            self.assertEqual(
+                final_event["code"], 4001, "Closing code is not as expected"
+            )
         finally:
             await communicator.disconnect()
 
@@ -319,11 +362,19 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
             msg_event = await communicator.receive_output()
             response = json.loads(msg_event["text"])
             self.assertEqual(response["error"], "Missing authentication")
-            self.assertEqual(response.get("code"), 4001, "Closing code is not as expected")
+            self.assertEqual(
+                response.get("code"), 4001, "Closing code is not as expected"
+            )
 
             # Check for the close event
             close_event = await communicator.receive_output()
-            self.assertEqual(close_event["type"], "websocket.close", "WebSocket connection did not close as expected")
-            self.assertEqual(close_event["code"], 4001, "Closing code is not as expected")
+            self.assertEqual(
+                close_event["type"],
+                "websocket.close",
+                "WebSocket connection did not close as expected",
+            )
+            self.assertEqual(
+                close_event["code"], 4001, "Closing code is not as expected"
+            )
         finally:
             await communicator.disconnect()
