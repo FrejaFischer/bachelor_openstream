@@ -194,7 +194,7 @@ class WSSlideshowPositiveTests(WSSlideshowBase):
 
             # Check if data has actually been changed in the db
             updated_slideshow = await database_sync_to_async(Slideshow.objects.get)(id=1)
-            self.assertEqual(updated_slideshow.slideshow_data["slides"][0]["name"], "New slide name")
+            self.assertEqual(updated_slideshow.slideshow_data["slides"][0]["name"], "New slide name", "Updated data was not found")
 
         finally:
             await communicator.disconnect()
