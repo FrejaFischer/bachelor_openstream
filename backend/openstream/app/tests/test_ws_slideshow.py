@@ -303,25 +303,27 @@ class WSSlideshowNegativeTests(WSSlideshowBase):
         Testing if the timeout works, and disconnect if no authentication has happened.
         """
 
-        self.communicator = WebsocketCommunicator(
+        communicator = WebsocketCommunicator(
             application,
             "/ws/slideshows/1/?branch=15",
             headers=[(b"origin", b"http://localhost:5173")],
         )
-        connected, _ = await self.communicator.connect()
+        connected, _ = await communicator.connect()
 
         try:
             assert connected
 
-            # Expect error response after WS consumers 5 second timeout
-            response = await self.communicator.receive_json_from(timeout=6)
+            await asyncio.sleep(5.5)
 
+            # Check for error message
+            msg_event = await communicator.receive_output()
+            response = json.loads(msg_event["text"])
             self.assertEqual(response["error"], "Missing authentication")
-            self.assertEqual(response["code"], 4001)
+            self.assertEqual(response.get("code"), 4001, "Closing code is not as expected")
 
-            # Expect the next output to be the consumer closing the connection
-            final_output = await self.communicator.receive_output()
-            self.assertEqual(final_output["type"], "websocket.close")
-            self.assertEqual(final_output["code"], 4001)
+            # Check for the close event
+            close_event = await communicator.receive_output()
+            self.assertEqual(close_event["type"], "websocket.close", "WebSocket connection did not close as expected")
+            self.assertEqual(close_event["code"], 4001, "Closing code is not as expected")
         finally:
-            await self.communicator.disconnect()
+            await communicator.disconnect()
